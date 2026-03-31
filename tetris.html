@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>テトリス</title>
+
+<style>
+body { background:#0f0f1a; color:white; text-align:center; }
+canvas { background:black; }
+</style>
+</head>
+<body>
+
+<h1>テトリス</h1>
+<canvas id="game" width="200" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const grid = 20;
+let piece = {x:4,y:0};
+
+function draw(){
+  ctx.clearRect(0,0,200,400);
+  ctx.fillStyle="cyan";
+  ctx.fillRect(piece.x*grid,piece.y*grid,grid,grid);
+}
+
+function update(){
+  piece.y++;
+  if(piece.y>19) piece.y=0;
+  draw();
+}
+
+setInterval(update,500);
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowLeft") piece.x--;
+  if(e.key==="ArrowRight") piece.x++;
+});
+</script>
+
+</body>
+</html>
