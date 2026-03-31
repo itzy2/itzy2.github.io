@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html>
-<body style="background:#0f0f1a;color:white;text-align:center;">
+<head>
+<meta charset="UTF-8">
+</head>
+<body style="background:#111;color:white;text-align:center;">
+<h2 id="welcome"></h2>
 
-<h1>Speacil Login</h1>
+<script>
+const name = localStorage.getItem("username");
 
+if(name){
+  document.getElementById("welcome").textContent =
+    "ようこそ " + name + " さん";
+}
+</script>
+<h1>ログイン</h1>
+
+<input id="user" placeholder="ユーザー名"><br><br>
 <input id="pass" type="password" placeholder="パスワード"><br><br>
+
 <button onclick="login()">ログイン</button>
 
 <script>
+// 👇 複数ユーザー
+const users = [
+  {user:"tajima, pass:"gifu3300"},
+  {user:"itazu", pass:"5024"},
+  {user:"user", pass:"3331"}
+];
+
 function login(){
-  if(pass.value === "samurai"){
-    localStorage.setItem("login","ok");
-    location.href = "browser.html"; // 👈ここがポイント
+  const u = user.value;
+  const p = pass.value;
+
+  const found = users.find(acc => acc.user===u && acc.pass===p);
+
+  if(found){
+    // 名前保存
+    localStorage.setItem("username", found.user);
+
+    location.href = "project.html";
   } else {
-    alert("違う");
+    alert("ユーザー名かパスワードが違う");
   }
 }
 </script>
