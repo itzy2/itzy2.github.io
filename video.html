@@ -1,33 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" href="style.css">
-</head>
+<body style="background:black">
 
-<body>
+<h1 style="color:white">テスト</h1>
 
-<script>
-if(localStorage.getItem("login") !== "ok"){
-  location.href="login.html";
-}
-</script>
+<iframe
+  width="100%"
+  height="400"
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  allowfullscreen>
+</iframe>
 
-<header>
-  <h2>Speacil Video</h2>
-  <input id="search" placeholder="検索">
-  <button onclick="logout()">ログアウト</button>
-</header>
-
-<div class="player">
-  <iframe id="player"></iframe>
-</div>
-
-<h3>動画一覧</h3>
-<div id="list" class="grid"></div>
-
-<h3>⭐ お気に入り</h3>
-<div id="fav" class="grid"></div>
-
-<script src="script.js"></script>
 </body>
 </html>
