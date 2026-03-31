@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>サイト公開しました</title>
+
+<style>
+body {
+  background:#0f0f1a;
+  color:white;
+  font-family:Arial;
+  margin:0;
+}
+
+/* 全体 */
+.container {
+  max-width:800px;
+  margin:auto;
+  padding:20px;
+}
+
+/* 画像 */
+img {
+  width:100%;
+  border-radius:10px;
+}
+
+/* タイトル */
+h1 {
+  margin-top:20px;
+}
+
+/* 日付 */
+.date {
+  color:#aaa;
+  font-size:14px;
+}
+
+/* 戻る */
+a {
+  color:#6c63ff;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+  <img src="https://picsum.photos/800/300?1">
+
+  <h1>サイト公開しました</h1>
+  <p class="date">2026/03/31</p>
+
+  <p>
+    ついに自分のサイトを公開しました！<br><br>
+    このサイトではゲームやツールを追加していきます。<br><br>
+    現在はオセロやテトリスが遊べます。<br><br>
+    これからもどんどん進化させていく予定です。
+  </p>
+
+  <br>
+  <a href="blog.html">← ブログに戻る</a>
+
+</div>
+
+</body>
+</html>
