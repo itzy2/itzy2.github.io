@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+  background:#0f0f0f;
+  color:white;
+  font-family:sans-serif;
+  text-align:center;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+.card {
+  background:#202020;
+  padding:20px;
+  border-radius:10px;
+}
+
+button {
+  padding:10px;
+  margin-top:10px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🚀 プロジェクト一覧</h1>
+
+<div class="grid">
+
+  <!-- 🎬 動画サイト -->
+  <div class="card">
+    <h2>Speacil Video</h2>
+    <p>動画サービス</p>
+    <a href="video.html">
+      <button>開く</button>
+    </a>
+  </div>
+
+  <!-- 🌐 ブラウザ -->
+  <div class="card">
+    <h2>Speacil Browser</h2>
+    <p>自作ブラウザ</p>
+    <a href="browser.html">
+      <button>開く</button>
+    </a>
+  </div>
+
+  <!-- 🧠 ラズパイ -->
+  <div class="card">
+    <h2>ラズパイ作品</h2>
+    <p>外から操作できる</p>
+    <a href="https://xxxxx.trycloudflare.com" target="_blank">
+      <button>触る</button>
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>
