@@ -15,15 +15,18 @@ if(localStorage.getItem("login") !== "ok"){
 
 <header>
   <h2>Speacil Video</h2>
+
   <input id="search" placeholder="検索">
+  <button onclick="doSearch()">検索</button>
+
   <button onclick="logout()">ログアウト</button>
 </header>
 
 <!-- 🎬 プレイヤー -->
 <div class="player">
   <iframe id="player"
-    src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1&rel=0&modestbranding=1&playsinline=1"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1&rel=0&modestbranding=1"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen>
   </iframe>
 </div>
