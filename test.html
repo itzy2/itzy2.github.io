@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>ログインテスト</h2>
+
+<input id="user" placeholder="ユーザー名"><br>
+<input id="pass" placeholder="パスワード"><br>
+
+<button onclick="login()">ログイン</button>
+
+<script>
+function login(){
+  const u = document.getElementById("user").value;
+  const p = document.getElementById("pass").value;
+
+  if(u === "test" && p === "1234"){
+    alert("成功");
+  }else{
+    alert("失敗");
+  }
+}
+</script>
+
+</body>
+</html>
