@@ -2,18 +2,18 @@
 <html>
 <body style="background:#0f0f1a;color:white;text-align:center;">
 
-<h1>ログイン</h1>
+<h1>Speacil Login</h1>
 
 <input id="pass" type="password" placeholder="パスワード"><br><br>
 <button onclick="login()">ログイン</button>
 
 <script>
 function login(){
-  if(pass.value === "1234"){
+  if(pass.value === "samurai"){
     localStorage.setItem("login","ok");
-    location.href="video.html";
+    location.href = "browser.html"; // 👈ここがポイント
   } else {
-    alert("違います");
+    alert("違う");
   }
 }
 </script>
