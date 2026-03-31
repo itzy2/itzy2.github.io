@@ -1,66 +1,80 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>お問い合わせ</title>
+<div style="
+  max-width:900px;
+  margin:30px auto;
+  text-align:center;
+">
 
-<style>
-body {
-  background: #0f0f1a;
-  color: white;
-  text-align: center;
-  font-family: Arial;
-}
+  <!-- メール -->
+  <div style="
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+  ">
+    <div onclick="copyMail()" style="
+      background:linear-gradient(90deg,#7b5cff,#00d4ff);
+      padding:12px 20px;
+      border-radius:12px;
+      color:white;
+      cursor:pointer;
+      font-weight:bold;
+    ">
+      📧 itzy.customer@gmail.com
+    </div>
 
-input, textarea {
-  width: 80%;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  border: none;
-}
+    <button onclick="copyMail()" style="
+      padding:10px 15px;
+      border-radius:10px;
+      border:none;
+      background:#2a2a3f;
+      color:white;
+      cursor:pointer;
+    ">
+      アドレスをコピー
+    </button>
+  </div>
 
-button {
-  padding: 10px;
-  border-radius: 10px;
-  background: #6c63ff;
-  color: white;
-  border: none;
-}
-</style>
+  <!-- 説明カード -->
+  <div style="
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+  ">
 
-</head>
-<body>
+    <div style="
+      background:#1e1e2f;
+      padding:20px;
+      border-radius:15px;
+      color:white;
+    ">
+      <h3>対応について</h3>
+      <p>
+        本サイトは個人で開発・運営しているため、<br>
+        ご対応までにお時間をいただく場合があります。
+      </p>
+    </div>
 
-<h1>お問い合わせ</h1>
+    <div style="
+      background:#1e1e2f;
+      padding:20px;
+      border-radius:15px;
+      color:white;
+    ">
+      <h3>お問い合わせについて</h3>
+      <p>
+        不具合の報告や気になる点など、<br>
+        お気軽にご連絡いただけると助かります。
+      </p>
+    </div>
 
-<!-- 入力欄 -->
-<input type="text" id="name" placeholder="ニックネーム"><br>
-<input type="email" id="email" placeholder="メール"><br>
-<textarea id="msg" placeholder="内容"></textarea><br>
+  </div>
 
-<!-- 送信ボタン -->
-<button onclick="sendMail()">送信</button>
-
-<p id="info"></p>
+</div>
 
 <script>
-function sendMail() {
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const msg = document.getElementById("msg").value;
-
-  // メールアプリを開く
-  location.href =
-    "mailto:itzy.Custom@gmail.com?subject=お問い合わせ&body=" +
-    "ニックネーム: " + nickname + "%0D%0A" +
-    "メール: " + email + "%0D%0A" +
-    "内容: " + msg;
+function copyMail(){
+  navigator.clipboard.writeText("itzy.customer@gmail.com");
+  alert("メールアドレスをコピーしました");
 }
 </script>
-
-<br>
-<a href="index.html">戻る</a>
-
-</body>
-</html>
