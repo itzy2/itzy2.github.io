@@ -2,46 +2,57 @@
 <html>
 <head>
 <meta charset="UTF-8">
-</head>
-<body style="background:#111;color:white;text-align:center;">
-<h2 id="welcome"></h2>
-
-<script>
-const name = localStorage.getItem("username");
-
-if(name){
-  document.getElementById("welcome").textContent =
-    "ようこそ " + name + " さん";
+<title>ログイン</title>
+<style>
+body{
+  background:#111;
+  color:white;
+  text-align:center;
+  font-family:sans-serif;
+  padding-top:50px;
 }
-</script>
+input{
+  padding:10px;
+  margin:10px;
+  width:200px;
+}
+button{
+  padding:10px 20px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
 <h1>ログイン</h1>
 
-<input id="user" placeholder="ユーザー名"><br><br>
-<input id="pass" type="password" placeholder="パスワード"><br><br>
+<input id="user" placeholder="ユーザー名"><br>
+<input id="pass" type="password" placeholder="パスワード"><br>
 
 <button onclick="login()">ログイン</button>
 
 <script>
-// 👇 複数ユーザー
+// 👇 ユーザー一覧
 const users = [
-  {user:"tajima, pass:"gifu3300"},
+  {user:"tajima", pass:"gifu3300"},
   {user:"itazu", pass:"5024"},
   {user:"user", pass:"3331"}
 ];
-  function login(){
+
+function login(){
   const u = document.getElementById("user").value;
   const p = document.getElementById("pass").value;
 
-  const found = users.find(acc => acc.user===u && acc.pass===p);
+  const found = users.find(acc => acc.user === u && acc.pass === p);
 
   if(found){
     localStorage.setItem("username", found.user);
     location.href = "project.html";
   } else {
     alert("ユーザー名かパスワードが違う");
- 　 }
   }
-
+}
 </script>
 
 </body>
