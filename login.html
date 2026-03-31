@@ -28,22 +28,20 @@ const users = [
   {user:"itazu", pass:"5024"},
   {user:"user", pass:"3331"}
 ];
-
-function login(){
-  const u = user.value;
-  const p = pass.value;
+  function login(){
+  const u = document.getElementById("user").value;
+  const p = document.getElementById("pass").value;
 
   const found = users.find(acc => acc.user===u && acc.pass===p);
 
   if(found){
-    // 名前保存
     localStorage.setItem("username", found.user);
-
     location.href = "project.html";
   } else {
     alert("ユーザー名かパスワードが違う");
+ 　 }
   }
-}
+
 </script>
 
 </body>
