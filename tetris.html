@@ -1,47 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+  margin: 0;
+  background: #0f0f0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+canvas {
+  background: black;
+  border: 3px solid #555;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="game" width="240" height="400"></canvas>
+
 <script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const grid = 20;
+let piece = {x:4, y:0};
+
 const colors = ["cyan","blue","orange","yellow","green","purple","red"];
-let currentColor = colors[Math.floor(Math.random()*colors.length)];
+let color = colors[Math.floor(Math.random()*colors.length)];
 
-function drawBlock(x, y){
-  const cell = document.createElement("div");
-  cell.style.width = "30px";
-  cell.style.height = "30px";
-  cell.style.background = currentColor;
-  document.body.appendChild(cell);
+function draw(){
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle = color;
+  ctx.fillRect(piece.x*grid, piece.y*grid, grid, grid);
 }
 
-// 仮の関数（あなたの既存に合わせてOK）
 function drop(){
-  console.log("落下");
+  piece.y++;
+  draw();
 }
+
 function rotate(){
-  console.log("回転");
+  piece.x = (piece.x + 1) % 10;
+  draw();
 }
 
----
-
-# 🔥 操作
+// 自動落下
+setInterval(drop, 800);
 
 // Enterで落下
-document.addEventListener("keydown", e => {
-  if(e.key === "Enter"){
-    drop();
-  }
+document.addEventListener("keydown", e=>{
+  if(e.key === "Enter") drop();
 });
 
-// タップで落下（PCクリックもOK）
-document.addEventListener("click", () => {
-  drop();
-});
+// クリックで落下
+document.addEventListener("click", drop);
 
-// ダブルタップで回転（タブレット）
+// ダブルタップで回転
 let lastTap = 0;
-
-document.addEventListener("touchstart", () => {
+document.addEventListener("touchstart", ()=>{
   let now = Date.now();
   if(now - lastTap < 300){
     rotate();
   }
   lastTap = now;
 });
+
+draw();
 </script>
+
+</body>
+</html>
