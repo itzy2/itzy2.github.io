@@ -4,74 +4,158 @@
 <meta charset="UTF-8">
 <style>
 body {
-  margin: 0;
-  background: #0f0f0f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  margin:0;
+  background:#0f0f0f;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-
 canvas {
-  background: black;
-  border: 3px solid #555;
+  background:black;
+  border:3px solid #555;
 }
 </style>
 </head>
 
 <body>
-
 <canvas id="game" width="240" height="400"></canvas>
 
 <script>
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-
 const grid = 20;
-let piece = {x:4, y:0};
+const cols = 12;
+const rows = 20;
 
-const colors = ["cyan","blue","orange","yellow","green","purple","red"];
-let color = colors[Math.floor(Math.random()*colors.length)];
+let board = Array.from({length:rows},()=>Array(cols).fill(0));
+
+const shapes = [
+  [[1,1,1,1]],             // I
+  [[1,1],[1,1]],           // O
+  [[0,1,0],[1,1,1]],       // T
+  [[1,0,0],[1,1,1]],       // J
+  [[0,0,1],[1,1,1]],       // L
+  [[1,1,0],[0,1,1]],       // S
+  [[0,1,1],[1,1,0]]        // Z
+];
+
+const colors = ["cyan","yellow","purple","blue","orange","green","red"];
+
+let piece;
+
+function newPiece(){
+  const i = Math.floor(Math.random()*shapes.length);
+  piece = {
+    shape: shapes[i],
+    color: colors[i],
+    x: 4,
+    y: 0
+  };
+}
 
 function draw(){
-  ctx.fillStyle = "black";
+  ctx.fillStyle="black";
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
-  ctx.fillStyle = color;
-  ctx.fillRect(piece.x*grid, piece.y*grid, grid, grid);
+  // board
+  board.forEach((row,y)=>{
+    row.forEach((v,x)=>{
+      if(v){
+        ctx.fillStyle=v;
+        ctx.fillRect(x*grid,y*grid,grid,grid);
+      }
+    });
+  });
+
+  // piece
+  piece.shape.forEach((row,y)=>{
+    row.forEach((v,x)=>{
+      if(v){
+        ctx.fillStyle=piece.color;
+        ctx.fillRect((piece.x+x)*grid,(piece.y+y)*grid,grid,grid);
+      }
+    });
+  });
+}
+
+function collide(){
+  return piece.shape.some((row,y)=>
+    row.some((v,x)=>{
+      if(!v) return false;
+      let nx = piece.x+x;
+      let ny = piece.y+y;
+      return ny>=rows || nx<0 || nx>=cols || board[ny][nx];
+    })
+  );
+}
+
+function merge(){
+  piece.shape.forEach((row,y)=>{
+    row.forEach((v,x)=>{
+      if(v){
+        board[piece.y+y][piece.x+x]=piece.color;
+      }
+    });
+  });
+}
+
+function clearLines(){
+  board = board.filter(row=>row.some(v=>!v));
+  while(board.length < rows){
+    board.unshift(Array(cols).fill(0));
+  }
 }
 
 function drop(){
   piece.y++;
-  draw();
+  if(collide()){
+    piece.y--;
+    merge();
+    clearLines();
+    newPiece();
+  }
+}
+
+function move(dx){
+  piece.x += dx;
+  if(collide()) piece.x -= dx;
 }
 
 function rotate(){
-  piece.x = (piece.x + 1) % 10;
-  draw();
+  const old = piece.shape;
+  piece.shape = piece.shape[0].map((_,i)=>old.map(r=>r[i]).reverse());
+  if(collide()) piece.shape = old;
 }
 
-// 自動落下
-setInterval(drop, 800);
-
-// Enterで落下
+// 操作
 document.addEventListener("keydown", e=>{
-  if(e.key === "Enter") drop();
+  if(e.key==="ArrowLeft") move(-1);
+  if(e.key==="ArrowRight") move(1);
+  if(e.key==="ArrowDown") drop();
+  if(e.key==="Enter") drop();
+  if(e.key===" ") rotate();
 });
 
-// クリックで落下
+// タップで落下
 document.addEventListener("click", drop);
 
 // ダブルタップで回転
-let lastTap = 0;
+let lastTap=0;
 document.addEventListener("touchstart", ()=>{
-  let now = Date.now();
-  if(now - lastTap < 300){
-    rotate();
-  }
-  lastTap = now;
+  let now=Date.now();
+  if(now-lastTap<300) rotate();
+  else drop();
+  lastTap=now;
 });
 
+// ループ
+setInterval(()=>{
+  drop();
+  draw();
+}, 500);
+
+newPiece();
 draw();
 </script>
 
