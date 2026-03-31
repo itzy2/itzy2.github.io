@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body{
+  background:#0f0f1a;
+  color:white;
+  font-family:sans-serif;
+  text-align:center;
+}
+.box{
+  background:#1e1e2f;
+  padding:20px;
+  border-radius:15px;
+  margin:20px auto;
+  max-width:600px;
+}
+</style>
+</head>
 
+<body>
+
+<h2 id="welcome"></h2>
+
+<!-- 📅 予定 -->
+<div class="box">
+  <h3>📅 予定</h3>
+  <input id="todo" placeholder="予定を書く">
+  <button onclick="addTodo()">追加</button>
+  <ul id="list"></ul>
+</div>
+
+<!-- 💬 SpeacilTalk -->
+<div class="box">
+  <h3>💬 SpeacilTalk</h3>
+  <div id="chat" style="height:200px;overflow:auto;background:#111;margin-bottom:10px;"></div>
+
+  <input id="msg" placeholder="メッセージ">
+  <button onclick="send()">送信</button>
+</div>
+
+<script>
+// 名前
+const name = localStorage.getItem("username");
+
+if(!name){
+  location.href = "login.html"; // 未ログイン防止
+}else{
+  document.getElementById("welcome").textContent =
+    "ようこそ " + name + " さん";
+}
+
+// 予定
+function addTodo(){
+  const text = todo.value;
+  if(!text) return;
+
+  const li = document.createElement("li");
+  li.textContent = text;
+  list.appendChild(li);
+
+  todo.value="";
+}
+
+// チャット
+function send(){
+  const text = msg.value;
+  if(!text) return;
+
+  const div = document.createElement("div");
+  div.textContent = name + ": " + text;
+
+  chat.appendChild(div);
+  msg.value="";
+}
+</script>
+
+</body>
+</html>
