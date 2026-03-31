@@ -2,22 +2,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ログイン</title>
 <style>
 body{
-  background:#111;
+  margin:0;
+  background:#0f0f1a;
   color:white;
-  text-align:center;
   font-family:sans-serif;
-  padding-top:50px;
+  text-align:center;
 }
+
+.box{
+  background:#1e1e2f;
+  padding:20px;
+  border-radius:15px;
+  margin:20px auto;
+  max-width:600px;
+}
+
 input{
   padding:10px;
-  margin:10px;
-  width:200px;
+  margin:5px;
 }
+
 button{
-  padding:10px 20px;
+  padding:10px;
   cursor:pointer;
 }
 </style>
@@ -27,32 +35,111 @@ button{
 
 <h1>ログイン</h1>
 
-<input id="user" placeholder="ユーザー名"><br>
-<input id="pass" type="password" placeholder="パスワード"><br>
+<div id="loginBox">
+  <input id="user" placeholder="ユーザー名"><br>
+  <input id="pass" type="password" placeholder="パスワード"><br>
+  <button onclick="login()">ログイン</button>
+</div>
 
-<button onclick="login()">ログイン</button>
+<div id="main" style="display:none;">
+
+  <h2 id="welcome"></h2>
+
+  <!-- 💬 SpeacilTalk -->
+  <div class="box">
+    <h3>💬 SpeacilTalk（DM）</h3>
+
+    <input id="target" placeholder="相手の名前"><br>
+
+    <div id="chat" style="
+      height:200px;
+      overflow:auto;
+      background:#111;
+      margin:10px 0;
+      padding:10px;
+    "></div>
+
+    <input id="msg" placeholder="メッセージ">
+    <button onclick="send()">送信</button>
+  </div>
+
+</div>
 
 <script>
-// 👇 ユーザー一覧
+// ユーザー
 const users = [
   {user:"tajima", pass:"gifu3300"},
   {user:"itazu", pass:"5024"},
   {user:"user", pass:"3331"}
 ];
 
+// ログイン
 function login(){
   const u = document.getElementById("user").value;
   const p = document.getElementById("pass").value;
 
-  const found = users.find(acc => acc.user === u && acc.pass === p);
+  const found = users.find(acc => acc.user===u && acc.pass===p);
 
   if(found){
     localStorage.setItem("username", found.user);
-    location.href = "member.html";
-  } else {
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("main").style.display = "block";
+
+    start();
+  }else{
     alert("ユーザー名かパスワードが違う");
   }
 }
+
+// 開始
+function start(){
+  const name = localStorage.getItem("username");
+  document.getElementById("welcome").textContent =
+    "ようこそ " + name + " さん";
+}
+
+// 送信
+function send(){
+  const text = document.getElementById("msg").value;
+  const target = document.getElementById("target").value;
+  const name = localStorage.getItem("username");
+
+  if(!text || !target) return;
+
+  const key = "chat_" + name + "_" + target;
+
+  let chats = JSON.parse(localStorage.getItem(key) || "[]");
+  chats.push(name + ": " + text);
+  localStorage.setItem(key, JSON.stringify(chats));
+
+  document.getElementById("msg").value="";
+  loadChat();
+}
+
+// 読み込み
+function loadChat(){
+  const target = document.getElementById("target").value;
+  const name = localStorage.getItem("username");
+
+  if(!target) return;
+
+  const key = "chat_" + name + "_" + target;
+
+  const chats = JSON.parse(localStorage.getItem(key) || "[]");
+
+  const chat = document.getElementById("chat");
+  chat.innerHTML = "";
+
+  chats.forEach(c=>{
+    const div = document.createElement("div");
+    div.textContent = c;
+    chat.appendChild(div);
+  });
+}
+
+// 相手入力で読み込み
+document.getElementById("target").addEventListener("input", loadChat);
 </script>
 
 </body>
