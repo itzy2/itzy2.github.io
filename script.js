@@ -26,7 +26,7 @@ function render(data){
     `;
 
     div.onclick = ()=>{
-      player.src = `https://youtube.com/embed/${v.id}`;
+      player.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
     };
 
     list.appendChild(div);
