@@ -16,17 +16,29 @@ body{
   padding:20px;
   border-radius:15px;
   margin:20px auto;
-  max-width:600px;
+  max-width:800px;
 }
 
-input{
-  padding:10px;
-  margin:5px;
+#calendar{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:5px;
 }
 
-button{
+.day{
+  background:#2a2a3f;
   padding:10px;
+  border-radius:10px;
+  min-height:80px;
   cursor:pointer;
+  font-size:12px;
+}
+
+.header{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  align-items:center;
 }
 </style>
 </head>
@@ -45,22 +57,16 @@ button{
 
   <h2 id="welcome"></h2>
 
-  <!-- 💬 SpeacilTalk -->
   <div class="box">
-    <h3>💬 SpeacilTalk（DM）</h3>
 
-    <input id="target" placeholder="相手の名前"><br>
+    <div class="header">
+      <button onclick="prev()">←</button>
+      <h2 id="title"></h2>
+      <button onclick="next()">→</button>
+    </div>
 
-    <div id="chat" style="
-      height:200px;
-      overflow:auto;
-      background:#111;
-      margin:10px 0;
-      padding:10px;
-    "></div>
+    <div id="calendar"></div>
 
-    <input id="msg" placeholder="メッセージ">
-    <button onclick="send()">送信</button>
   </div>
 
 </div>
@@ -69,77 +75,82 @@ button{
 // ユーザー
 const users = [
   {user:"tajima", pass:"gifu3300"},
-  {user:"itazu", pass:"5024"},
-  {user:"user", pass:"3331"}
+  {user:"itazu", pass:"5024"}
 ];
 
 // ログイン
 function login(){
-  const u = document.getElementById("user").value;
-  const p = document.getElementById("pass").value;
+  const u = user.value;
+  const p = pass.value;
 
-  const found = users.find(acc => acc.user===u && acc.pass===p);
+  const found = users.find(a=>a.user===u && a.pass===p);
 
   if(found){
-    localStorage.setItem("username", found.user);
-
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("main").style.display = "block";
-
+    localStorage.setItem("username", u);
+    loginBox.style.display="none";
+    main.style.display="block";
     start();
   }else{
-    alert("ユーザー名かパスワードが違う");
+    alert("違う");
   }
 }
 
 // 開始
 function start(){
   const name = localStorage.getItem("username");
-  document.getElementById("welcome").textContent =
-    "ようこそ " + name + " さん";
+  welcome.textContent = "ようこそ " + name + " さん";
+  draw();
 }
 
-// 送信
-function send(){
-  const text = document.getElementById("msg").value;
-  const target = document.getElementById("target").value;
-  const name = localStorage.getItem("username");
+// カレンダー
+let date = new Date();
 
-  if(!text || !target) return;
+function draw(){
+  const cal = document.getElementById("calendar");
+  cal.innerHTML="";
 
-  const key = "chat_" + name + "_" + target;
+  const y = date.getFullYear();
+  const m = date.getMonth();
 
-  let chats = JSON.parse(localStorage.getItem(key) || "[]");
-  chats.push(name + ": " + text);
-  localStorage.setItem(key, JSON.stringify(chats));
+  title.textContent = y + "年 " + (m+1) + "月";
 
-  document.getElementById("msg").value="";
-  loadChat();
+  const first = new Date(y,m,1).getDay();
+  const last = new Date(y,m+1,0).getDate();
+
+  const key = "cal_"+localStorage.getItem("username")+"_"+y+"_"+m;
+  const data = JSON.parse(localStorage.getItem(key)||"{}");
+
+  for(let i=0;i<first;i++){
+    cal.innerHTML += "<div></div>";
+  }
+
+  for(let i=1;i<=last;i++){
+    const d = document.createElement("div");
+    d.className="day";
+    d.innerHTML = i + "<br>" + (data[i]||"");
+
+    d.onclick = ()=>{
+      const text = prompt("予定入力", data[i]||"");
+      if(text!==null){
+        data[i]=text;
+        localStorage.setItem(key, JSON.stringify(data));
+        draw();
+      }
+    };
+
+    cal.appendChild(d);
+  }
 }
 
-// 読み込み
-function loadChat(){
-  const target = document.getElementById("target").value;
-  const name = localStorage.getItem("username");
-
-  if(!target) return;
-
-  const key = "chat_" + name + "_" + target;
-
-  const chats = JSON.parse(localStorage.getItem(key) || "[]");
-
-  const chat = document.getElementById("chat");
-  chat.innerHTML = "";
-
-  chats.forEach(c=>{
-    const div = document.createElement("div");
-    div.textContent = c;
-    chat.appendChild(div);
-  });
+// 月移動
+function prev(){
+  date.setMonth(date.getMonth()-1);
+  draw();
 }
-
-// 相手入力で読み込み
-document.getElementById("target").addEventListener("input", loadChat);
+function next(){
+  date.setMonth(date.getMonth()+1);
+  draw();
+}
 </script>
 
 </body>
