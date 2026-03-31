@@ -16,13 +16,14 @@ h1 {
   text-align: center;
   margin: 20px;
 }
-
 .container {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  flex-wrap: wrap;
+  max-width: 700px;
+  margin: auto;
 }
+
 
 .card {
   background: #1f1f3a;
