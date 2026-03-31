@@ -1,165 +1,47 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>V2.0 テトリス</title>
-
-<style>
-body { background:#0f0f1a; color:white; text-align:center; }
-canvas { background:black; margin-top:10px; }
-</style>
-</head>
-<body>
-
-<h1>テトリス</h1>
-<p>スコア: <span id="score">0</span></p>
-
-<canvas id="game" width="200" height="400"></canvas>
-
 <script>
-const COL = 10;
-const ROW = 20;
-const SIZE = 20;
+const colors = ["cyan","blue","orange","yellow","green","purple","red"];
+let currentColor = colors[Math.floor(Math.random()*colors.length)];
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-
-let board = Array.from({length:ROW},()=>Array(COL).fill(0));
-let score = 0;
-let dropSpeed = 500;
-
-const pieces = [
-[[1,1,1,1]], // I
-[[1,1],[1,1]], // O
-[[0,1,0],[1,1,1]], // T
-[[1,0,0],[1,1,1]], // J
-[[0,0,1],[1,1,1]], // L
-[[1,1,0],[0,1,1]], // S
-[[0,1,1],[1,1,0]]  // Z
-];
-
-let piece;
-
-function newPiece(){
-  piece = {
-    shape: pieces[Math.floor(Math.random()*pieces.length)],
-    x: 3,
-    y: 0
-  };
+function drawBlock(x, y){
+  const cell = document.createElement("div");
+  cell.style.width = "30px";
+  cell.style.height = "30px";
+  cell.style.background = currentColor;
+  document.body.appendChild(cell);
 }
 
-function draw(){
-  ctx.clearRect(0,0,200,400);
-
-  for(let y=0;y<ROW;y++){
-    for(let x=0;x<COL;x++){
-      if(board[y][x]){
-        ctx.fillStyle="cyan";
-        ctx.fillRect(x*SIZE,y*SIZE,SIZE,SIZE);
-      }
-    }
-  }
-
-  piece.shape.forEach((row,dy)=>{
-    row.forEach((v,dx)=>{
-      if(v){
-        ctx.fillRect((piece.x+dx)*SIZE,(piece.y+dy)*SIZE,SIZE,SIZE);
-      }
-    });
-  });
+// 仮の関数（あなたの既存に合わせてOK）
+function drop(){
+  console.log("落下");
 }
-
-function collide(){
-  return piece.shape.some((row,dy)=>
-    row.some((v,dx)=>{
-      let x = piece.x+dx;
-      let y = piece.y+dy;
-      return v && (x<0 || x>=COL || y>=ROW || board[y]?.[x]);
-    })
-  );
-}
-
-function merge(){
-  piece.shape.forEach((row,dy)=>{
-    row.forEach((v,dx)=>{
-      if(v){
-        board[piece.y+dy][piece.x+dx]=1;
-      }
-    });
-  });
-}
-
-function clearLines(){
-  let lines = 0;
-
-  for(let y=ROW-1;y>=0;y--){
-    if(board[y].every(v=>v)){
-      board.splice(y,1);
-      board.unshift(Array(COL).fill(0));
-      lines++;
-    }
-  }
-
-  if(lines>0){
-    score += lines * 100;
-    document.getElementById("score").innerText = score;
-
-    dropSpeed = Math.max(100, dropSpeed - 20);
-  }
-}
-
 function rotate(){
-  const newShape = piece.shape[0].map((_,i)=>
-    piece.shape.map(r=>r[i]).reverse()
-  );
-
-  const old = piece.shape;
-  piece.shape = newShape;
-
-  if(collide()) piece.shape = old;
+  console.log("回転");
 }
 
-function update(){
-  piece.y++;
+---
 
-  if(collide()){
-    piece.y--;
-    merge();
-    clearLines();
-    newPiece();
+# 🔥 操作
 
-    if(collide()){
-      alert("ゲームオーバー");
-      location.reload();
-    }
+// Enterで落下
+document.addEventListener("keydown", e => {
+  if(e.key === "Enter"){
+    drop();
   }
-
-  draw();
-}
-
-function loop(){
-  update();
-  setTimeout(loop, dropSpeed);
-}
-
-document.addEventListener("keydown",e=>{
-  if(e.key==="ArrowLeft") piece.x--;
-  if(e.key==="ArrowRight") piece.x++;
-  if(e.key==="ArrowDown") piece.y++;
-  if(e.key==="ArrowUp") rotate();
-
-  if(collide()){
-    if(e.key==="ArrowLeft") piece.x++;
-    if(e.key==="ArrowRight") piece.x--;
-    if(e.key==="ArrowDown") piece.y--;
-  }
-
-  draw();
 });
 
-newPiece();
-loop();
-</script>
+// タップで落下（PCクリックもOK）
+document.addEventListener("click", () => {
+  drop();
+});
 
-</body>
-</html>
+// ダブルタップで回転（タブレット）
+let lastTap = 0;
+
+document.addEventListener("touchstart", () => {
+  let now = Date.now();
+  if(now - lastTap < 300){
+    rotate();
+  }
+  lastTap = now;
+});
+</script>
