@@ -19,10 +19,16 @@ body {
   justify-content:center;
 }
 
-.cell { width:50px; height:50px; background:green; cursor:pointer; }
+.cell {
+  width:50px;
+  height:50px;
+  background:green;
+  cursor:pointer;
+}
 
 .black,.white {
-  width:40px; height:40px;
+  width:40px;
+  height:40px;
   border-radius:50%;
   margin:auto;
 }
@@ -34,12 +40,13 @@ body {
 .active { display:block; }
 
 button {
-  padding:10px 20px;
-  margin:10px;
+  padding:10px;
+  margin:5px;
   border:none;
   border-radius:10px;
   background:#6c63ff;
   color:white;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -50,14 +57,9 @@ button {
   <h1>オセロ</h1>
   <p>レベルを選択</p>
 
-  <select id="level">
-    <option>1</option><option>2</option><option>3</option>
-    <option>4</option><option>5</option><option>6</option>
-    <option>7</option><option>8</option><option>9</option>
-    <option selected>10</option>
-  </select>
+  <div id="levelButtons"></div>
+  <p id="selected">選択: 10</p>
 
-  <br>
   <button onclick="startGame()">スタート</button>
 </div>
 
@@ -74,13 +76,31 @@ button {
 let board, turn=1, level=10;
 const dirs = [-1,1,-8,8,-9,-7,7,9];
 
+// レベルボタン生成
+const container = document.getElementById("levelButtons");
+
+for(let i=1;i<=10;i++){
+  const btn = document.createElement("button");
+  btn.innerText = i;
+
+  btn.onclick = () => {
+    level = i;
+    document.getElementById("selected").innerText = "選択: " + i;
+
+    document.querySelectorAll("#levelButtons button").forEach(b=>{
+      b.style.background="#6c63ff";
+    });
+
+    btn.style.background="red";
+  };
+
+  container.appendChild(btn);
+}
+
 // スタート
 function startGame(){
-  level = Number(document.getElementById("level").value);
-
   document.getElementById("start").classList.remove("active");
   document.getElementById("game").classList.add("active");
-
   init();
 }
 
@@ -119,12 +139,18 @@ function draw(){
 // 有効判定
 function validMove(i,p){
   if(board[i]!==0) return false;
+
   for(let d of dirs){
     let j=i+d, found=false;
+
     while(j>=0 && j<64){
-      if(board[j]===3-p) found=true;
-      else if(board[j]===p && found) return true;
-      else break;
+      if(board[j]===3-p){
+        found=true;
+      } else if(board[j]===p && found){
+        return true;
+      } else {
+        break;
+      }
       j+=d;
     }
   }
@@ -135,12 +161,16 @@ function validMove(i,p){
 function flip(i,p){
   for(let d of dirs){
     let j=i+d, list=[];
+
     while(j>=0 && j<64){
-      if(board[j]===3-p) list.push(j);
-      else if(board[j]===p){
+      if(board[j]===3-p){
+        list.push(j);
+      } else if(board[j]===p){
         list.forEach(x=>board[x]=p);
         break;
-      } else break;
+      } else {
+        break;
+      }
       j+=d;
     }
   }
@@ -149,15 +179,18 @@ function flip(i,p){
 // プレイヤー
 function playerMove(i){
   if(!validMove(i,1)) return;
+
   board[i]=1;
   flip(i,1);
   draw();
+
   setTimeout(cpuMove,300);
 }
 
 // CPU
 function cpuMove(){
   let moves=[];
+
   board.forEach((v,i)=>{
     if(validMove(i,2)) moves.push(i);
   });
@@ -175,23 +208,28 @@ function cpuMove(){
   board[move]=2;
   flip(move,2);
   draw();
+
   checkEnd();
 }
 
 // 評価
 function score(i){
-  let x=i%8, y=Math.floor(i/8);
+  let x=i%8;
+  let y=Math.floor(i/8);
   let val=0;
+
   if((x===0||x===7)&&(y===0||y===7)) val+=100;
   if(x===0||x===7||y===0||y===7) val+=10;
+
   return val;
 }
 
-// 終了
+// 終了判定
 function checkEnd(){
   if(!board.includes(0)){
     let b=board.filter(x=>x===1).length;
     let w=board.filter(x=>x===2).length;
+
     document.getElementById("status").innerText =
       "終了 黒:"+b+" 白:"+w;
   }
