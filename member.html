@@ -3,13 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <title>会員ページ</title>
+
+<style>
+body {
+  background: #0f0f1a;
+  color: white;
+  text-align: center;
+  font-family: Arial;
+}
+
+button {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #6c63ff;
+  color: white;
+}
+
+.box {
+  background: #1f1f3a;
+  padding: 20px;
+  margin: 20px auto;
+  width: 300px;
+  border-radius: 15px;
+}
+</style>
+
 </head>
 <body>
 
-<h1>会員専用ページ</h1>
-<p>ここはログインした人だけ見れる</p>
+<h1>会員ページ</h1>
+
+<!-- 🔢 ポイント -->
+<div class="box">
+  <h2>ポイント</h2>
+  <p id="point">0</p>
+  <button onclick="addPoint()">ポイントGET</button>
+</div>
+
+<!-- 🎲 ランダム -->
+<div class="box">
+  <h2>今日の運勢</h2>
+  <p id="luck">？</p>
+  <button onclick="randomLuck()">引く</button>
+</div>
+
+<!-- 🎮 ゲーム -->
+<div class="box">
+  <h2>数当てゲーム</h2>
+  <p>1〜10を当てて！</p>
+  <input type="number" id="guess">
+  <br>
+  <button onclick="game()">判定</button>
+  <p id="result"></p>
+</div>
 
 <a href="index.html">戻る</a>
+
+<script>
+// 🔢 ポイント
+let point = localStorage.getItem("point") || 0;
+document.getElementById("point").innerText = point;
+
+function addPoint() {
+  point++;
+  localStorage.setItem("point", point);
+  document.getElementById("point").innerText = point;
+}
+
+// 🎲 ランダム
+function randomLuck() {
+  const list = ["大吉", "中吉", "小吉", "凶"];
+  const r = Math.floor(Math.random() * list.length);
+  document.getElementById("luck").innerText = list[r];
+}
+
+// 🎮 ゲーム
+let answer = Math.floor(Math.random() * 10) + 1;
+
+function game() {
+  const g = document.getElementById("guess").value;
+  if (g == answer) {
+    document.getElementById("result").innerText = "正解！+10ポイント";
+    point = Number(point) + 10;
+    localStorage.setItem("point", point);
+    document.getElementById("point").innerText = point;
+    answer = Math.floor(Math.random() * 10) + 1;
+  } else {
+    document.getElementById("result").innerText = "はずれ！";
+  }
+}
+</script>
 
 </body>
 </html>
