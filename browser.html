@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { margin:0; background:#111; color:white; }
+
+.bar {
+  background:#222;
+  padding:10px;
+  display:flex;
+  gap:5px;
+}
+
+input {
+  flex:1;
+  padding:5px;
+}
+
+iframe {
+  width:100%;
+  height:90vh;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+if(localStorage.getItem("login") !== "ok"){
+  location.href="login.html";
+}
+</script>
+
+<div class="bar">
+  <button onclick="back()">←</button>
+  <button onclick="forward()">→</button>
+  <button onclick="reload()">⟳</button>
+
+  <input id="url" placeholder="URL or 検索">
+
+  <button onclick="go()">移動</button>
+  <button onclick="youtube()">YouTube</button>
+</div>
+
+<iframe id="view"></iframe>
+
+<script>
+const view = document.getElementById("view");
+
+// ページ移動
+function go(){
+  let u = url.value;
+
+  if(!u.startsWith("http")){
+    u = "https://www.google.com/search?q=" + u;
+  }
+
+  view.src = u;
+}
+
+// YouTubeボタン
+function youtube(){
+  view.src = "https://www.youtube.com";
+}
+
+// 戻る・進む
+function back(){
+  view.contentWindow.history.back();
+}
+
+function forward(){
+  view.contentWindow.history.forward();
+}
+
+function reload(){
+  view.contentWindow.location.reload();
+}
+</script>
+
+</body>
+</html>
