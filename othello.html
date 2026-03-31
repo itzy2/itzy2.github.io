@@ -5,44 +5,94 @@
 <title>オセロ</title>
 
 <style>
-body { background:#0f0f1a; color:white; text-align:center; font-family:Arial; }
+body {
+  background:#0f0f1a;
+  color:white;
+  text-align:center;
+  font-family:Arial;
+}
+
 .board {
   display:grid;
   grid-template-columns:repeat(8,50px);
   gap:3px;
   justify-content:center;
 }
+
 .cell { width:50px; height:50px; background:green; cursor:pointer; }
+
 .black,.white {
-  width:40px; height:40px; border-radius:50%; margin:auto;
+  width:40px; height:40px;
+  border-radius:50%;
+  margin:auto;
 }
-.black{background:black;} .white{background:white;}
+
+.black{background:black;}
+.white{background:white;}
+
+.screen { display:none; }
+.active { display:block; }
+
+button {
+  padding:10px 20px;
+  margin:10px;
+  border:none;
+  border-radius:10px;
+  background:#6c63ff;
+  color:white;
+}
 </style>
 </head>
 <body>
 
-<h1>オセロ（本物）</h1>
+<!-- スタート画面 -->
+<div id="start" class="screen active">
+  <h1>オセロ</h1>
+  <p>レベルを選択</p>
 
-レベル:
-<select id="level">
-  <option>1</option><option>2</option><option>3</option>
-  <option>4</option><option>5</option><option>6</option>
-  <option>7</option><option>8</option><option>9</option>
-  <option selected>10</option>
-</select>
+  <select id="level">
+    <option>1</option><option>2</option><option>3</option>
+    <option>4</option><option>5</option><option>6</option>
+    <option>7</option><option>8</option><option>9</option>
+    <option selected>10</option>
+  </select>
 
-<p id="status"></p>
+  <br>
+  <button onclick="startGame()">スタート</button>
+</div>
 
-<div class="board" id="board"></div>
+<!-- ゲーム画面 -->
+<div id="game" class="screen">
+  <h1>オセロ</h1>
+  <p id="status"></p>
+  <div class="board" id="board"></div>
+  <br>
+  <button onclick="location.reload()">もう一度</button>
+</div>
 
 <script>
-let board = Array(64).fill(0);
-board[27]=2; board[28]=1; board[35]=1; board[36]=2;
-
-let turn = 1; //1黒（プレイヤー）2白（CPU）
-
+let board, turn=1, level=10;
 const dirs = [-1,1,-8,8,-9,-7,7,9];
 
+// スタート
+function startGame(){
+  level = Number(document.getElementById("level").value);
+
+  document.getElementById("start").classList.remove("active");
+  document.getElementById("game").classList.add("active");
+
+  init();
+}
+
+// 初期化
+function init(){
+  board = Array(64).fill(0);
+  board[27]=2; board[28]=1;
+  board[35]=1; board[36]=2;
+  draw();
+}
+
+// 描画
 function draw(){
   const b=document.getElementById("board");
   b.innerHTML="";
@@ -50,19 +100,30 @@ function draw(){
     let d=document.createElement("div");
     d.className="cell";
     d.onclick=()=>playerMove(i);
-    if(c===1){let p=document.createElement("div");p.className="black";d.appendChild(p);}
-    if(c===2){let p=document.createElement("div");p.className="white";d.appendChild(p);}
+
+    if(c===1){
+      let p=document.createElement("div");
+      p.className="black";
+      d.appendChild(p);
+    }
+    if(c===2){
+      let p=document.createElement("div");
+      p.className="white";
+      d.appendChild(p);
+    }
+
     b.appendChild(d);
   });
 }
 
-function validMove(i,player){
+// 有効判定
+function validMove(i,p){
   if(board[i]!==0) return false;
   for(let d of dirs){
     let j=i+d, found=false;
     while(j>=0 && j<64){
-      if(board[j]===3-player){found=true;}
-      else if(board[j]===player && found){return true;}
+      if(board[j]===3-p) found=true;
+      else if(board[j]===p && found) return true;
       else break;
       j+=d;
     }
@@ -70,13 +131,14 @@ function validMove(i,player){
   return false;
 }
 
-function flip(i,player){
+// ひっくり返す
+function flip(i,p){
   for(let d of dirs){
     let j=i+d, list=[];
     while(j>=0 && j<64){
-      if(board[j]===3-player){list.push(j);}
-      else if(board[j]===player){
-        list.forEach(x=>board[x]=player);
+      if(board[j]===3-p) list.push(j);
+      else if(board[j]===p){
+        list.forEach(x=>board[x]=p);
         break;
       } else break;
       j+=d;
@@ -84,6 +146,7 @@ function flip(i,player){
   }
 }
 
+// プレイヤー
 function playerMove(i){
   if(!validMove(i,1)) return;
   board[i]=1;
@@ -92,10 +155,9 @@ function playerMove(i){
   setTimeout(cpuMove,300);
 }
 
+// CPU
 function cpuMove(){
-  let level = Number(document.getElementById("level").value);
-  let moves = [];
-
+  let moves=[];
   board.forEach((v,i)=>{
     if(validMove(i,2)) moves.push(i);
   });
@@ -116,24 +178,24 @@ function cpuMove(){
   checkEnd();
 }
 
+// 評価
 function score(i){
   let x=i%8, y=Math.floor(i/8);
   let val=0;
-  if((x===0||x===7)&&(y===0||y===7)) val+=100; //角
-  if(x===0||x===7||y===0||y===7) val+=10; //端
+  if((x===0||x===7)&&(y===0||y===7)) val+=100;
+  if(x===0||x===7||y===0||y===7) val+=10;
   return val;
 }
 
+// 終了
 function checkEnd(){
   if(!board.includes(0)){
-    let black = board.filter(x=>x===1).length;
-    let white = board.filter(x=>x===2).length;
+    let b=board.filter(x=>x===1).length;
+    let w=board.filter(x=>x===2).length;
     document.getElementById("status").innerText =
-      "終了 黒:"+black+" 白:"+white;
+      "終了 黒:"+b+" 白:"+w;
   }
 }
-
-draw();
 </script>
 
 </body>
