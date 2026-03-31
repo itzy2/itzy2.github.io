@@ -1,54 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
+<title>作品</title>
+
 <style>
 body {
-  background:#0f0f0f;
-  color:white;
-  font-family:sans-serif;
-  text-align:center;
-}
-
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
-  padding:20px;
+  background: #0f0f1a;
+  color: white;
+  text-align: center;
+  font-family: Arial;
 }
 
 .card {
-  background:#202020;
-  padding:20px;
-  border-radius:10px;
+  background: #1f1f3a;
+  padding: 30px;
+  margin: 50px auto;
+  width: 300px;
+  border-radius: 15px;
 }
 
 button {
-  padding:10px;
-  margin-top:10px;
-  cursor:pointer;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #6c63ff;
+  color: white;
+  cursor: pointer;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<h1>🚀 プロジェクト一覧</h1>
+<h1>作品</h1>
 
-<div class="grid">
-
-    
-
-  <!-- 🧠 ラズパイ -->
-  <div class="card">
-    <h2>ラズパイ作品</h2>
-    <p>外から操作できる</p>
-    <a href="https://xxxxx.trycloudflare.com" target="_blank">
-      <button>触る</button>
-    </a>
-  </div>
-
+<div class="card">
+  <h2>オセロ</h2>
+  <p>ブラウザで遊べるゲーム</p>
+  <button onclick="location.href='othello.html'">遊ぶ</button>
 </div>
+
+<br>
+<a href="index.html">戻る</a>
 
 </body>
 </html>
