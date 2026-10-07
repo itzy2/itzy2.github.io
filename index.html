@@ -2,46 +2,62 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITMGateway</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="style.css">
+<title>ITMGateway</title>
 
-  <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
-  <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+<link rel="stylesheet" href="style.css">
+
+<link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+<script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
 </head>
 
 <body>
 
 <header>
   <h1>ITMGateway</h1>
+
   <nav>
     <a href="index.html">ホーム</a>
-    <a href="blog.html">ブログ</a>
+    <a href="posts.html">ブログ</a>
     <a href="#reservation">予約</a>
+    <a href="#music">Music</a>
   </nav>
 </header>
 
 <main>
 
+<!-- メイン -->
 <section class="hero">
   <h2>ITMGateway</h2>
   <p>Technology & Service</p>
 
-  <a class="button" href="blog.html">ブログを見る</a>
+  <a class="button" href="posts.html">
+    ブログを見る
+  </a>
 </section>
 
+
+<!-- サイト紹介 -->
 <section>
   <h2>ITMGatewayについて</h2>
+
   <p>
-    IT・電子工作・プログラミングなどについて発信しています。
+    IT・プログラミング・電子工作などについて
+    発信しているサイトです。
   </p>
 </section>
 
+
+<!-- Googleカレンダー -->
 <section id="reservation">
+
   <h2>予約</h2>
-  <p>ご希望の日時を選択してください。</p>
+
+  <p>
+    ご希望の日時を選択してください。
+  </p>
 
   <script>
   (function() {
@@ -57,9 +73,32 @@
     });
   })();
   </script>
+
+</section>
+
+
+<!-- YouTube -->
+<section id="music">
+
+  <h2>Music</h2>
+
+  <p>
+    YouTubeで音楽を再生できます。
+  </p>
+
+  <div class="youtube">
+    <iframe
+      src="https://www.youtube.com/embed/TaNlrxTlIfM"
+      title="YouTube Music"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+
 </section>
 
 </main>
+
 
 <footer>
   © 2026 ITMGateway
