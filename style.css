@@ -1,1 +1,115 @@
+```css
+* {
+  box-sizing: border-box;
+}
 
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans JP", sans-serif;
+  background: #f5f7fa;
+  color: #222;
+}
+
+header {
+  background: #111827;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+}
+
+section {
+  background: white;
+  margin: 30px 15px;
+  padding: 35px;
+  border-radius: 12px;
+}
+
+.hero {
+  text-align: center;
+  padding: 90px 20px;
+}
+
+.hero h2 {
+  font-size: 42px;
+}
+
+.hero p {
+  font-size: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 12px 22px;
+  margin-top: 15px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.button:hover {
+  background: #1d4ed8;
+}
+
+.post-card {
+  border: 1px solid #ddd;
+  margin: 20px 0;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.post-card h3 {
+  margin-top: 0;
+}
+
+.date {
+  color: #777;
+}
+
+footer {
+  background: #111827;
+  color: white;
+  text-align: center;
+  padding: 30px;
+  margin-top: 50px;
+}
+
+@media (max-width: 600px) {
+
+  header h1 {
+    font-size: 26px;
+  }
+
+  nav a {
+    margin: 0 5px;
+    font-size: 14px;
+  }
+
+  section {
+    padding: 25px 20px;
+  }
+
+  .hero h2 {
+    font-size: 32px;
+  }
+}
+```
