@@ -1,96 +1,202 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>Nexora　Web</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
-  color: white;
-}
+  <title>ITMGateway</title>
 
-h1 {
-  text-align: center;
-  margin: 20px;
-}
-.container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  max-width: 700px;
-  margin: auto;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans JP", sans-serif;
+      background: #f5f7fa;
+      color: #222;
+    }
 
-.card {
-  background: #1f1f3a;
-  padding: 20px;
-  width: 300px;
-  border-radius: 15px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
-  transition: 0.3s;
-}
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
 
-.card:hover {
-  transform: scale(1.05);
-}
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+    }
 
-button {
-  margin-top: 10px;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 10px;
-  background: #6c63ff;
-  color: white;
-  cursor: pointer;
-}
-</style>
+    header p {
+      margin: 5px 0 0;
+      color: #d1d5db;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 90px 20px;
+      background: white;
+    }
+
+    .hero h2 {
+      font-size: 42px;
+      margin: 0 0 15px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 14px 30px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background: #1d4ed8;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 35px 25px;
+      background: white;
+      border-radius: 12px;
+    }
+
+    section h2 {
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 10px;
+    }
+
+    #reservation {
+      text-align: center;
+    }
+
+    #reservation p {
+      margin-bottom: 25px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #111827;
+      color: white;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 60px 15px;
+      }
+
+      .hero h2 {
+        font-size: 32px;
+      }
+
+      section {
+        margin: 25px 15px;
+      }
+    }
+  </style>
+
+  <!-- Google Calendar Appointment Scheduling -->
+  <link
+    href="https://calendar.google.com/calendar/scheduling-button-script.css"
+    rel="stylesheet">
+
+  <script
+    src="https://calendar.google.com/calendar/scheduling-button-script.js"
+    async>
+  </script>
 
 </head>
+
 <body>
 
-<h1>Nexora　Web　V2.0</h1>
+  <!-- ヘッダー -->
+  <header>
+    <h1>ITMGateway</h1>
+    <p>Technology & Service</p>
+  </header>
 
-<div class="container">
 
-  <div class="card">
-    <h2>Main Page</h2>
-    <p>トップページ</p>
-    <button onclick="location.href='index.html'">開く</button>
+  <!-- メイン -->
+  <div class="hero">
+    <h2>ITMGateway</h2>
+
+    <p>
+      あなたのためのサービスサイト
+    </p>
+
+    <a href="#reservation" class="button">
+      予約する
+    </a>
   </div>
 
-  <div class="card">
-    <h2>Uptime</h2>
-    <p>サーバー状態</p>
-    <button onclick="location.href='status.html'">開く</button>
-  </div>
 
-  <div class="card">
-    <h2>blog</h2>
-    <p>ブログ</p>
-    <button onclick="location.href='blog.html'">開く</button>
-  </div>
+  <!-- ITMGatewayについて -->
+  <section>
+    <h2>ITMGatewayについて</h2>
 
-  <div class="card">
-  　<h2>Projects</h2>
-    <p>作品</p>
-    <button onclick="location.href='projects.html'">開く</button>
-  </div>
+    <p>
+      ITMGatewayでは、さまざまなサービスを提供しています。
+    </p>
 
-  <div class="card">
-    <h2>Contact</h2>
-    <p>お問い合わせ</p>
-    <button onclick="location.href='contact.html'">開く</button>
-  </div>
-  
- <div class="card">
-    <h2>Tools</h2>
-    <p>ツール</p>
-    <button onclick="location.href='member.html'">開く</button>
-</div>
+    <p>
+      ご利用やお問い合わせの際は、下の予約ページから
+      ご希望の日時を選択してください。
+    </p>
+  </section>
+
+
+  <!-- 予約 -->
+  <section id="reservation">
+
+    <h2>予約</h2>
+
+    <p>
+      ご希望の日時を選択してください。
+    </p>
+
+    <!-- Google Calendar Appointment Scheduling begin -->
+
+    <script>
+    (function() {
+      var target = document.currentScript;
+
+      window.addEventListener('load', function() {
+        calendar.schedulingButton.load({
+          url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3M11pBoEMT-xvzebUbMKYdJwkzr1fftSnm-AcxTU_k_JPOBp7S6OMqilIJiI9ENBZATFjNj2yE?gv=true',
+          color: '#039BE5',
+          label: '予約を作成',
+          target: target
+        });
+      });
+    })();
+    </script>
+
+    <!-- Google Calendar Appointment Scheduling end -->
+
+  </section>
+
+
+  <!-- フッター -->
+  <footer>
+    © 2026 ITMGateway
+  </footer>
+
 </body>
 </html>
+```
