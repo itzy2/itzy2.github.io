@@ -4,203 +4,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>ITMGateway</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <link rel="stylesheet" href="style.css">
 
-    body {
-      margin: 0;
-      font-family: Arial, "Noto Sans JP", sans-serif;
-      background: #f5f7fa;
-      color: #222;
-    }
-
-    header {
-      background: #111827;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 32px;
-    }
-
-    header p {
-      margin: 5px 0 0;
-      color: #d1d5db;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 90px 20px;
-      background: white;
-    }
-
-    .hero h2 {
-      font-size: 42px;
-      margin: 0 0 15px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: #555;
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 14px 30px;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-
-    .button:hover {
-      background: #1d4ed8;
-    }
-
-    section {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 35px 25px;
-      background: white;
-      border-radius: 12px;
-    }
-
-    section h2 {
-      border-bottom: 2px solid #2563eb;
-      padding-bottom: 10px;
-    }
-
-    #reservation {
-      text-align: center;
-    }
-
-    #reservation p {
-      margin-bottom: 25px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #111827;
-      color: white;
-      margin-top: 50px;
-    }
-
-    @media (max-width: 600px) {
-      .hero {
-        padding: 60px 15px;
-      }
-
-      .hero h2 {
-        font-size: 32px;
-      }
-
-      section {
-        margin: 25px 15px;
-      }
-    }
-  </style>
-
-  <!-- Google Calendar Appointment Scheduling -->
-  <link
-    href="https://calendar.google.com/calendar/scheduling-button-script.css"
-    rel="stylesheet">
-
-  <script
-    src="https://calendar.google.com/calendar/scheduling-button-script.js"
-    async>
-  </script>
-
+  <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+  <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
 </head>
 
 <body>
 
-  <!-- ヘッダー -->
-  <header>
-    <h1>ITMGateway</h1>
-    <p>Technology & Service</p>
-  </header>
+<header>
+  <h1>ITMGateway</h1>
+  <nav>
+    <a href="index.html">ホーム</a>
+    <a href="posts.html">ブログ</a>
+    <a href="#reservation">予約</a>
+  </nav>
+</header>
 
+<main>
 
-  <!-- メイン -->
-  <div class="hero">
-    <h2>ITMGateway</h2>
+<section class="hero">
+  <h2>ITMGateway</h2>
+  <p>Technology & Service</p>
 
-    <p>
-      あなたのためのサービスサイト
-    </p>
+  <a class="button" href="post.html">ブログを見る</a>
+</section>
 
-    <a href="#reservation" class="button">
-      予約する
-    </a>
-  </div>
+<section>
+  <h2>ITMGatewayについて</h2>
+  <p>
+    IT・電子工作・プログラミングなどについて発信しています。
+  </p>
+</section>
 
+<section id="reservation">
+  <h2>予約</h2>
+  <p>ご希望の日時を選択してください。</p>
 
-  <!-- ITMGatewayについて -->
-  <section>
-    <h2>ITMGatewayについて</h2>
+  <script>
+  (function() {
+    var target = document.currentScript;
 
-    <p>
-      ITMGatewayでは、さまざまなサービスを提供しています。
-    </p>
-
-    <p>
-      ご利用やお問い合わせの際は、下の予約ページから
-      ご希望の日時を選択してください。
-      
-    </p><a href="post.html" class="button">
-  ブログを見る
-</a>
-  </section>
-
-  
-
-
-  <!-- 予約 -->
-  <section id="reservation">
-
-    <h2>予約</h2>
-
-    <p>
-      ご希望の日時を選択してください。
-    </p>
-
-    <!-- Google Calendar Appointment Scheduling begin -->
-
-    <script>
-    (function() {
-      var target = document.currentScript;
-
-      window.addEventListener('load', function() {
-        calendar.schedulingButton.load({
-          url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3M11pBoEMT-xvzebUbMKYdJwkzr1fftSnm-AcxTU_k_JPOBp7S6OMqilIJiI9ENBZATFjNj2yE?gv=true',
-          color: '#039BE5',
-          label: '予約を作成',
-          target: target
-        });
+    window.addEventListener('load', function() {
+      calendar.schedulingButton.load({
+        url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3M11pBoEMT-xvzebUbMKYdJwkzr1fftSnm-AcxTU_k_JPOBp7S6OMqilIJiI9ENBZATFjNj2yE?gv=true',
+        color: '#039BE5',
+        label: '予約を作成',
+        target: target
       });
-    })();
-    </script>
+    });
+  })();
+  </script>
+</section>
 
-    <!-- Google Calendar Appointment Scheduling end -->
+</main>
 
-  </section>
-
-
-  <!-- フッター -->
-  <footer>
-    © 2026 ITMGateway
-  </footer>
+<footer>
+  © 2026 ITMGateway
+</footer>
 
 </body>
 </html>
