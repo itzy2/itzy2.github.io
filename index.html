@@ -1,106 +1,1032 @@
-```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="GATE SQUARE TECHNOLOGIES。テクノロジーで未来へのゲートを開く。">
+  <title>GATE SQUARE | Official Website</title>
 
-<title>ITMGateway</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #101e32;
+      --text: #f1f7ff;
+      --muted: #a8bad0;
+      --cyan: #63e5ff;
+      --blue: #7298ff;
+      --orange: #ff784f;
+      --line: rgba(255,255,255,.13);
+    }
 
-<link rel="stylesheet" href="style.css">
+    * {
+      box-sizing: border-box;
+    }
 
-<link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
-<script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 15% 0%, #163c5d 0%, transparent 35%),
+        radial-gradient(ellipse at 90% 30%, #1b2250 0%, transparent 35%),
+        var(--bg);
+      font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+      line-height: 1.8;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1120px, 90%);
+      margin: auto;
+    }
+
+    /* ヘッダー */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7,17,31,.92);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      min-height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 19px;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    nav a {
+      color: var(--muted);
+      transition: .2s;
+    }
+
+    nav a:hover {
+      color: var(--cyan);
+    }
+
+    .menu-button {
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: white;
+      background: var(--panel);
+      padding: 7px 12px;
+    }
+
+    /* 共通 */
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-label {
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: clamp(27px, 4vw, 40px);
+      line-height: 1.35;
+      margin: 10px 0 20px;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      max-width: 720px;
+      margin-bottom: 35px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(
+        145deg,
+        rgba(19,39,63,.95),
+        rgba(10,22,39,.88)
+      );
+      transition: transform .25s, border-color .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99,229,255,.55);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 19px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 800;
+      background: linear-gradient(110deg, var(--cyan), var(--blue));
+      color: #07111f;
+      border: 0;
+      transition: transform .2s, opacity .2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      opacity: .9;
+    }
+
+    .button-outline {
+      display: inline-block;
+      padding: 11px 21px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--text);
+      margin-left: 8px;
+    }
+
+    /* メインビジュアル */
+
+    .hero {
+      min-height: 610px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 90px 0;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      right: -100px;
+      top: 80px;
+      border: 1px solid rgba(99,229,255,.2);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 45px rgba(99,229,255,.025),
+        0 0 0 90px rgba(99,229,255,.025),
+        0 0 100px rgba(99,229,255,.12);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid rgba(99,229,255,.4);
+      border-radius: 100px;
+      color: var(--cyan);
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1.15;
+      letter-spacing: -2px;
+      margin: 25px 0;
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--cyan);
+    }
+
+    .hero p {
+      max-width: 590px;
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    .hero-bottom {
+      margin-top: 60px;
+      color: #91a6bf;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    /* 会社紹介 */
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 35px;
+      align-items: start;
+    }
+
+    .about-box {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(16,30,50,.8);
+    }
+
+    .company-row {
+      display: grid;
+      grid-template-columns: 115px 1fr;
+      gap: 15px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .company-row:last-child {
+      border-bottom: 0;
+    }
+
+    .company-row strong {
+      color: var(--cyan);
+    }
+
+    /* プロジェクト */
+
+    .project-card {
+      min-height: 235px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-tag {
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: 2px;
+      font-weight: 800;
+    }
+
+    .project-card p {
+      flex: 1;
+    }
+
+    /* ニュース */
+
+    .news-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .news-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+      padding: 20px 5px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .news-date {
+      color: var(--cyan);
+      font-size: 13px;
+    }
+
+    .news-item p {
+      margin: 0;
+    }
+
+    .demo-note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 15px;
+    }
+
+    /* 動画 */
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .video-card {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--panel);
+    }
+
+    .video-card h3 {
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    .video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #000;
+    }
+
+    .video-frame iframe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      inset: 0;
+      border: 0;
+    }
+
+    .video-link {
+      display: inline-block;
+      color: var(--cyan);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    /* 予約 */
+
+    .booking-panel {
+      padding: clamp(25px, 5vw, 50px);
+      border-radius: 22px;
+      border: 1px solid rgba(99,229,255,.3);
+      background:
+        radial-gradient(ellipse at top right, rgba(99,229,255,.12), transparent 55%),
+        var(--panel);
+    }
+
+    .booking-panel p {
+      color: var(--muted);
+    }
+
+    .booking-button-area {
+      margin-top: 25px;
+      min-height: 55px;
+    }
+
+    .calendar-fallback {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--cyan);
+      text-decoration: underline;
+      font-size: 14px;
+    }
+
+    /* お問い合わせ */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .contact-box {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 25px;
+      background: rgba(16,30,50,.8);
+    }
+
+    .contact-box p {
+      color: var(--muted);
+    }
+
+    .contact-box a {
+      color: var(--cyan);
+      overflow-wrap: anywhere;
+    }
+
+    /* フッター */
+
+    footer {
+      padding: 35px 0;
+      border-top: 1px solid var(--line);
+      background: rgba(3,9,17,.7);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .back-top {
+      color: var(--cyan);
+      font-size: 13px;
+    }
+
+    /* スマートフォン */
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about-layout {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 75px;
+        padding: 20px 5%;
+        background: #07111f;
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav.open {
+        display: flex;
+      }
+
+      .menu-button {
+        display: inline-block;
+      }
+
+      .hero::after {
+        right: -300px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      section {
+        padding: 65px 0;
+      }
+
+      .grid,
+      .video-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 560px;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+
+      .button-outline {
+        margin: 12px 0 0;
+      }
+
+      .news-item {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+
+      .company-row {
+        grid-template-columns: 100px 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 
-<body>
+<body id="top">
 
 <header>
-  <h1>ITMGateway</h1>
+  <div class="container nav">
+    <a class="logo" href="#top">GATE <span>SQUARE</span></a>
 
-  <nav>
-    <a href="index.html">ホーム</a>
-    <a href="posts.html">ブログ</a>
-    <a href="#reservation">予約</a>
-    <a href="#music">Music</a>
-  </nav>
+    <button class="menu-button" id="menuButton"
+            aria-expanded="false" aria-controls="mainNav">
+      メニュー ☰
+    </button>
+
+    <nav id="mainNav" aria-label="メインメニュー">
+      <a href="#about">会社情報</a>
+      <a href="#services">事業内容</a>
+      <a href="#projects">プロジェクト</a>
+      <a href="#news">ニュース</a>
+      <a href="#videos">動画</a>
+      <a href="#booking">予約</a>
+      <a href="#contact">お問い合わせ</a>
+    </nav>
+  </div>
 </header>
 
 <main>
 
-<!-- メイン -->
-<section class="hero">
-  <h2>ITMGateway</h2>
-  <p>Technology & Service</p>
+  <!-- メインビジュアル -->
+  <section class="hero">
+    <div class="container hero-content">
+      <span class="eyebrow">TECHNOLOGY · INNOVATION · FUTURE</span>
 
-  <a class="button" href="posts.html">
-    ブログを見る
-  </a>
-</section>
+      <h1>
+        OPEN THE GATE.
+        <span>SHAPE THE FUTURE.</span>
+      </h1>
 
+      <p>
+        テクノロジーで、未来へのゲートを開く。<br>
+        GATE SQUAREは、デジタル技術と創造力を通じて、
+        新しい可能性に挑戦するテクノロジーブランドです。
+      </p>
 
-<!-- サイト紹介 -->
-<section>
-  <h2>ITMGatewayについて</h2>
+      <a class="button" href="#about">会社について</a>
+      <a class="button-outline" href="#services">事業内容を見る →</a>
 
-  <p>
-    IT・プログラミング・電子工作などについて
-    発信しているサイトです。
-  </p>
-</section>
+      <div class="hero-bottom">
+        GATE SQUARE TECHNOLOGIES ／ OFFICIAL WEBSITE
+      </div>
+    </div>
+  </section>
 
+  <!-- 会社紹介 -->
+  <section id="about">
+    <div class="container">
+      <div class="section-label">ABOUT US</div>
+      <h2>未来をつくる、技術の交差点。</h2>
 
-<!-- Googleカレンダー -->
-<section id="reservation">
+      <div class="about-layout">
+        <div>
+          <p>
+            GATE SQUARE TECHNOLOGIESは、
+            IT・ソフトウェア・デジタルソリューションの可能性を探求する
+            架空のテクノロジーブランドです。
+          </p>
 
-  <h2>予約</h2>
+          <p>
+            私たちが大切にするのは、技術を使うことだけではなく、
+            技術によって何が実現できるかを考えること。
+            アイデアを形にし、より便利でつながりのある未来を目指します。
+          </p>
 
-  <p>
-    ご希望の日時を選択してください。
-  </p>
+          <p>
+            小さな実験から大きな構想まで。
+            一歩ずつ、新しい可能性を切り開いていきます。
+          </p>
+        </div>
 
-  <script>
-  (function() {
-    var target = document.currentScript;
+        <div class="about-box">
+          <div class="company-row">
+            <strong>会社名</strong>
+            <span>GATE SQUARE TECHNOLOGIES</span>
+          </div>
 
-    window.addEventListener('load', function() {
-      calendar.schedulingButton.load({
-        url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3M11pBoEMT-xvzebUbMKYdJwkzr1fftSnm-AcxTU_k_JPOBp7S6OMqilIJiI9ENBZATFjNj2yE?gv=true',
-        color: '#039BE5',
-        label: '予約を作成',
-        target: target
-      });
-    });
-  })();
-  </script>
+          <div class="company-row">
+            <strong>ブランド名</strong>
+            <span>GATE SQUARE</span>
+          </div>
 
-</section>
+          <div class="company-row">
+            <strong>事業分野</strong>
+            <span>IT・ソフトウェア・デジタル技術</span>
+          </div>
 
+          <div class="company-row">
+            <strong>所在地</strong>
+            <span>岐阜県瑞浪市周辺（構想上の所在地）</span>
+          </div>
 
-<!-- YouTube -->
-<section id="music">
-  <h2>Music</h2>
+          <div class="company-row">
+            <strong>企業理念</strong>
+            <span>Open the Gate. Shape the Future.</span>
+          </div>
 
-  <p>おすすめYouTubeを公開します</p>
+          <div class="company-row">
+            <strong>ウェブサイト</strong>
+            <span>GATE SQUARE Official Website</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <iframe
-    width="100%"
-    height="450"
-    src="https://www.youtube.com/embed/TaNlrxTlIfM"
-    title="YouTube"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    allowfullscreen>
-  </iframe>
-</section>
+  <!-- 事業内容 -->
+  <section id="services">
+    <div class="container">
+      <div class="section-label">OUR SERVICES</div>
+      <h2>テクノロジーで、可能性を広げる。</h2>
+
+      <p class="section-intro">
+        GATE SQUAREが取り組む、デジタル技術を活用したサービス分野。
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <div class="icon">⌘</div>
+          <h3>ソフトウェア開発</h3>
+          <p>
+            Webサイトやアプリケーションなど、
+            日常や仕事を便利にするソフトウェアの企画・開発を目指します。
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">◇</div>
+          <h3>AI・データ活用</h3>
+          <p>
+            AIやデータ分析の技術を研究し、
+            情報をより活用しやすくする仕組みを考えます。
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">⌘</div>
+          <h3>ネットワーク・IT</h3>
+          <p>
+            ネットワークやサーバーなど、
+            デジタルサービスを支える技術に取り組みます。
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">▣</div>
+          <h3>IoT・電子工作</h3>
+          <p>
+            センサーやマイコンを活用して、
+            現実世界とデジタル技術をつなぐ仕組みを探求します。
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">✧</div>
+          <h3>デジタルデザイン</h3>
+          <p>
+            見やすさと使いやすさを大切にし、
+            ブランドやWebサービスのデザインを考えます。
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">↗</div>
+          <h3>技術研究・実験</h3>
+          <p>
+            新しい技術を学び、試作や実験を通じて、
+            アイデアを具体的な形にしていきます。
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- プロジェクト -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-label">PROJECTS</div>
+      <h2>アイデアを、動く仕組みへ。</h2>
+
+      <p class="section-intro">
+        技術の可能性を探るプロジェクト構想を紹介します。
+        以下はサイト用の紹介例です。
+      </p>
+
+      <div class="grid">
+        <article class="card project-card">
+          <div class="project-tag">PROJECT 01</div>
+          <h3>GATE CLOUD</h3>
+          <p>
+            ファイルや情報へのアクセスを便利にする、
+            クラウドサービスの構想。
+          </p>
+          <span class="footer-small">STATUS：CONCEPT</span>
+        </article>
+
+        <article class="card project-card">
+          <div class="project-tag">PROJECT 02</div>
+          <h3>GATE IoT</h3>
+          <p>
+            センサーとマイコンを活用した、
+            スマートな機器制御システムの構想。
+          </p>
+          <span class="footer-small">STATUS：RESEARCH</span>
+        </article>
+
+        <article class="card project-card">
+          <div class="project-tag">PROJECT 03</div>
+          <h3>GATE DIGITAL</h3>
+          <p>
+            Web技術を活用して情報を発信する、
+            デジタルプラットフォームの構想。
+          </p>
+          <span class="footer-small">STATUS：PLANNING</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ニュース -->
+  <section id="news">
+    <div class="container">
+      <div class="section-label">NEWS & UPDATES</div>
+      <h2>最新情報</h2>
+
+      <div class="news-list">
+        <article class="news-item">
+          <div class="news-date">INFORMATION</div>
+          <p>GATE SQUARE公式ウェブサイトを公開。</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-date">PROJECT</div>
+          <p>新しいデジタルプロジェクトの構想を掲載。</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-date">TECHNOLOGY</div>
+          <p>ソフトウェア・IoT・IT技術に関する情報を発信予定。</p>
+        </article>
+      </div>
+
+      <p class="demo-note">
+        ※上記はサイトデザイン用のサンプル情報です。
+        実際のニュースに合わせて編集してください。
+      </p>
+    </div>
+  </section>
+
+  <!-- 動画 -->
+  <section id="videos">
+    <div class="container">
+      <div class="section-label">VIDEOS</div>
+      <h2>動画・おすすめコンテンツ</h2>
+
+      <p class="section-intro">
+        おすすめ動画や関連コンテンツを紹介するセクションです。
+        動画はYouTubeから再生できます。
+      </p>
+
+      <div class="video-grid">
+        <article class="video-card">
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/TaNlrxTlIfM"
+              title="おすすめYouTube動画"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <h3>おすすめ動画</h3>
+          <p class="footer-small">
+            YouTubeで公開されている動画です。
+          </p>
+
+          <a class="video-link"
+             href="https://youtu.be/TaNlrxTlIfM"
+             target="_blank"
+             rel="noopener noreferrer">
+            YouTubeで開く ↗
+          </a>
+        </article>
+
+        <article class="video-card">
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed?listType=search&list=technology%20innovation"
+              title="テクノロジー関連動画"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <h3>テクノロジー関連動画</h3>
+          <p class="footer-small">
+            関連動画の表示はYouTube側の仕様により変わる場合があります。
+          </p>
+
+          <a class="video-link"
+             href="https://www.youtube.com/results?search_query=technology+innovation"
+             target="_blank"
+             rel="noopener noreferrer">
+            関連動画を検索 ↗
+          </a>
+        </article>
+      </div>
+
+      <p class="demo-note">
+        ※動画の埋め込みが制限されている場合は、YouTubeで開いてください。
+      </p>
+    </div>
+  </section>
+
+  <!-- Googleカレンダー予約 -->
+  <section id="booking">
+    <div class="container">
+      <div class="section-label">APPOINTMENT</div>
+      <h2>予約・スケジュール</h2>
+
+      <div class="booking-panel">
+        <h3>GATE SQUARE Appointment</h3>
+
+        <p>
+          Googleカレンダーの予約ページから、
+          予約可能な日時を確認できます。
+        </p>
+
+        <p>
+          ご希望の日時を選択し、予約ページの案内に従ってください。
+        </p>
+
+        <div class="booking-button-area">
+          <!-- Google Calendar予約ボタン -->
+          <link
+            href="https://calendar.google.com/calendar/scheduling-button-script.css"
+            rel="stylesheet">
+
+          <script
+            src="https://calendar.google.com/calendar/scheduling-button-script.js"
+            async>
+          </script>
+
+          <script>
+            (function () {
+              var target = document.currentScript;
+
+              window.addEventListener("load", function () {
+                if (
+                  window.calendar &&
+                  calendar.schedulingButton &&
+                  typeof calendar.schedulingButton.load === "function"
+                ) {
+                  calendar.schedulingButton.load({
+                    url: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ3M11pBoEMT-xvzebUbMKYdJwkzr1fftSnm-AcxTU_k_JPOBp7S6OMqilIJiI9ENBZATFjNj2yE?gv=true",
+                    color: "#F4511E",
+                    label: "予約を作成",
+                    target: target
+                  });
+                }
+              });
+            })();
+          </script>
+        </div>
+
+        <a
+          class="calendar-fallback"
+          href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3M11pBoEMT-xvzebUbMKYdJwkzr1fftSnm-AcxTU_k_JPOBp7S6OMqilIJiI9ENBZATFjNj2yE?gv=true"
+          target="_blank"
+          rel="noopener noreferrer">
+          予約ページが表示されない場合はこちら →
+        </a>
+
+        <p class="demo-note">
+          ※予約機能は、Googleカレンダー側で予約受付が有効になっている必要があります。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- お問い合わせ -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label">CONTACT</div>
+      <h2>お問い合わせ</h2>
+
+      <p class="section-intro">
+        GATE SQUAREへのお問い合わせや予約は、
+        下記のリンクをご利用ください。
+      </p>
+
+      <div class="contact-grid">
+        <div class="contact-box">
+          <h3>予約・スケジュール</h3>
+          <p>
+            Googleカレンダーの予約ページから、
+            空いている日時を確認できます。
+          </p>
+
+          <a
+            href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3M11pBoEMT-xvzebUbMKYdJwkzr1fftSnm-AcxTU_k_JPOBp7S6OMqilIJiI9ENBZATFjNj2yE?gv=true"
+            target="_blank"
+            rel="noopener noreferrer">
+            予約ページを開く ↗
+          </a>
+        </div>
+
+        <div class="contact-box">
+          <h3>公式GitHub</h3>
+          <p>
+            ウェブサイトの更新情報やソースコードを確認できます。
+          </p>
+
+          <a
+            href="https://github.com/itzy2/gatesquare"
+            target="_blank"
+            rel="noopener noreferrer">
+            GitHubリポジトリを開く ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </main>
 
-
 <footer>
-  © 2026 ITMGateway
+  <div class="container footer-inner">
+    <div>
+      <div class="logo">GATE <span>SQUARE</span></div>
+      <div class="footer-small">
+        GATE SQUARE TECHNOLOGIES
+      </div>
+    </div>
+
+    <div class="footer-small">
+      © <span id="year"></span> GATE SQUARE. All rights reserved.
+    </div>
+
+    <a class="back-top" href="#top">ページ上部へ ↑</a>
+  </div>
 </footer>
+
+<script>
+  // フッターの年を自動更新
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+  // スマートフォン用メニュー
+  const menuButton = document.getElementById("menuButton");
+  const mainNav = document.getElementById("mainNav");
+
+  menuButton.addEventListener("click", function () {
+    const isOpen = mainNav.classList.toggle("open");
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  // メニュー選択後に閉じる
+  mainNav.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      mainNav.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+    });
+  });
+</script>
 
 </body>
 </html>
-```
