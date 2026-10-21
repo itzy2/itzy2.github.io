@@ -246,7 +246,7 @@ footer {
   <section class="stats">
     <div class="card">
       <div class="stat-label">現在のポイント</div>
-      <div class="stat-value" id="points">10100</div>
+      <div class="stat-value" id="points">100P</div>
     </div>
     <div class="card">
       <div class="stat-label">全ミッション</div>
@@ -351,6 +351,9 @@ const hard = [
   ["3か所完全訪問チャレンジ","指定された3か所をすべて訪問し、証拠を提出する。"]
 ];
 
+const veryhard= [
+  ["スペシャルチャレンジ","オルビステストを受けよう。（所要時間　約120分）指示を受けてください。"],
+];
 const chosen = new Set();
 
 function renderMissions(items, elementId, start, isHard) {
