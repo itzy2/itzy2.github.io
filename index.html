@@ -3,452 +3,1183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>USJ CHALLENGE SYSTEM</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#050814">
+<title>USJ CHALLENGE SYSTEM | ANNUAL PLAN</title>
+
 <style>
-:root {
-  --bg: #050814;
-  --panel: #0d1427;
-  --blue: #00e5ff;
-  --purple: #a855f7;
-  --text: #eaf4ff;
-  --muted: #91a4c5;
-  --border: rgba(0,229,255,.22);
+:root{
+  --bg:#050814;
+  --panel:#0d1427;
+  --panel2:#111d35;
+  --blue:#00e5ff;
+  --purple:#a855f7;
+  --text:#eaf4ff;
+  --muted:#91a4c5;
+  --border:rgba(0,229,255,.22);
+  --green:#4ade80;
+  --red:#fb7185;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background:
-    radial-gradient(ellipse at top, #13234b 0%, transparent 55%),
-    var(--bg);
-  color: var(--text);
-  font-family: "Segoe UI", "Meiryo", sans-serif;
-  line-height: 1.7;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at top,#13234b 0%,transparent 55%),var(--bg);
+  color:var(--text);
+  font-family:"Segoe UI","Meiryo",sans-serif;
+  line-height:1.7;
 }
-header {
-  padding: 18px 7%;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  background: rgba(5,8,20,.9);
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  padding:14px max(18px,calc((100% - 1200px)/2));
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  background:rgba(5,8,20,.94);
+  backdrop-filter:blur(14px);
 }
-.logo {
-  color: var(--blue);
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 2px;
+.logo{
+  color:var(--blue);
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:2px;
+  white-space:nowrap;
 }
-header span {
-  color: var(--muted);
-  font-size: 12px;
+.logo span{color:var(--purple)}
+nav{display:flex;flex-wrap:wrap;gap:14px}
+nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:12px;
 }
-main {
-  max-width: 1200px;
-  margin: auto;
-  padding: 30px 20px 70px;
+nav a:hover{color:var(--blue)}
+main{max-width:1200px;margin:auto;padding:25px 20px 70px}
+.hero{
+  padding:45px 25px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(0,229,255,.09),rgba(168,85,247,.1));
+  box-shadow:0 0 40px rgba(0,229,255,.06);
 }
-.hero {
-  padding: 55px 25px;
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  background: linear-gradient(135deg,rgba(0,229,255,.09),rgba(168,85,247,.1));
-  box-shadow: 0 0 40px rgba(0,229,255,.06);
+.eyebrow{color:var(--blue);font-size:11px;letter-spacing:3px}
+h1{
+  font-size:clamp(31px,6vw,56px);
+  line-height:1.2;
+  margin:12px 0;
+  letter-spacing:1px;
 }
-.eyebrow {
-  color: var(--blue);
-  font-size: 12px;
-  letter-spacing: 4px;
+h1 span{color:var(--blue)}
+.hero p,.muted{color:var(--muted)}
+.deadline{
+  display:inline-block;
+  margin-top:10px;
+  border:1px solid var(--purple);
+  padding:6px 13px;
+  border-radius:7px;
+  color:#d8b4fe;
+  font-size:12px;
 }
-h1 {
-  font-size: clamp(30px, 6vw, 58px);
-  line-height: 1.2;
-  margin: 14px 0;
-  letter-spacing: 1px;
+.section-title{margin:40px 0 17px;font-size:21px}
+.section-title small{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:normal;
 }
-h1 span { color: var(--blue); }
-.hero p { color: var(--muted); }
-.deadline {
-  display: inline-block;
-  margin-top: 12px;
-  border: 1px solid var(--purple);
-  padding: 7px 15px;
-  border-radius: 7px;
-  color: #d8b4fe;
-  font-size: 13px;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;
+  margin-top:20px;
 }
-.section-title {
-  margin: 42px 0 18px;
-  font-size: 21px;
+.card,.mission,.option-card,.rule{
+  background:rgba(13,20,39,.94);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:19px;
+  min-width:0;
 }
-.section-title small {
-  display: block;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: normal;
+.stat-label{color:var(--muted);font-size:12px}
+.stat-value{
+  font-size:clamp(22px,3vw,31px);
+  font-weight:800;
+  color:var(--blue);
+  margin-top:4px;
+  overflow-wrap:anywhere;
 }
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4,minmax(0,1fr));
-  gap: 14px;
-  margin-top: 22px;
+.purple{color:#c084fc!important}
+.green{color:var(--green)!important}
+.progress-track{
+  height:10px;
+  background:#202b43;
+  border-radius:20px;
+  overflow:hidden;
+  margin:14px 0 8px;
 }
-.card {
-  background: rgba(13,20,39,.92);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  min-width: 0;
+.progress-fill{
+  width:0;
+  height:100%;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  border-radius:inherit;
+  transition:width .25s;
 }
-.stat-label { color: var(--muted); font-size: 12px; }
-.stat-value {
-  font-size: clamp(22px,3vw,32px);
-  font-weight: 800;
-  color: var(--blue);
-  margin-top: 5px;
-  overflow-wrap: anywhere;
+.progress-note{color:var(--muted);font-size:12px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
 }
-.stat-value.purple { color: #c084fc; }
-.progress-track {
-  height: 10px;
-  background: #202b43;
-  border-radius: 20px;
-  overflow: hidden;
-  margin: 15px 0 8px;
+.plan-card{
+  background:linear-gradient(145deg,rgba(13,20,39,.98),rgba(18,29,53,.98));
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px;
 }
-.progress-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg,var(--blue),var(--purple));
-  border-radius: inherit;
+.plan-card.selected{
+  border:2px solid var(--blue);
+  padding:19px;
+  background:linear-gradient(145deg,rgba(0,229,255,.11),rgba(168,85,247,.09));
 }
-.progress-note { color: var(--muted); font-size: 12px; }
-.mission-grid {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 14px;
+.rank{
+  font-size:11px;
+  letter-spacing:2px;
+  color:var(--blue);
+  font-weight:800;
 }
-.mission {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px;
-  background: var(--panel);
-  transition: .2s;
+.plan-card h3{font-size:20px;margin:6px 0}
+.price{font-size:29px;font-weight:850}
+.price small{font-size:12px;color:var(--muted);font-weight:normal}
+.plan-card p{color:var(--muted);font-size:12px;min-height:40px}
+button{
+  cursor:pointer;
+  background:transparent;
+  border:1px solid var(--blue);
+  color:var(--blue);
+  border-radius:7px;
+  padding:9px 12px;
+  font-size:12px;
+  font-weight:700;
 }
-.mission:hover {
-  border-color: var(--blue);
-  transform: translateY(-2px);
+button:hover{background:rgba(0,229,255,.1)}
+button.selected{border-color:var(--green);color:var(--green)}
+button:disabled{cursor:not-allowed}
+.plan-card button{width:100%}
+.option-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
 }
-.mission-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+.option-card{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  cursor:pointer;
+  padding:15px;
 }
-.badge {
-  font-size: 11px;
-  border-radius: 5px;
-  padding: 3px 8px;
-  background: rgba(0,229,255,.1);
-  color: var(--blue);
+.option-card:has(input:checked){
+  border-color:var(--blue);
+  background:rgba(0,229,255,.06);
 }
-.badge.hard {
-  background: rgba(168,85,247,.15);
-  color: #d8b4fe;
+.option-card input{
+  width:18px;
+  height:18px;
+  margin-top:5px;
+  accent-color:var(--blue);
+  flex-shrink:0;
 }
-.points { font-weight: 800; color: var(--blue); }
-.points.hard { color: #c084fc; }
-.mission h3 { font-size: 16px; margin: 13px 0 5px; }
-.mission p { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
-button {
-  cursor: pointer;
-  background: transparent;
-  border: 1px solid var(--blue);
-  color: var(--blue);
-  border-radius: 7px;
-  padding: 8px 13px;
-  font-size: 12px;
+.option-card strong{display:block;font-size:14px}
+.option-card small{display:block;color:var(--muted);font-size:12px}
+.option-card .option-price{
+  color:var(--green);
+  font-weight:700;
+  margin-top:4px;
 }
-button:hover { background: rgba(0,229,255,.1); }
-button.selected {
-  border-color: #4ade80;
-  color: #4ade80;
+.notice{
+  border-left:3px solid var(--purple);
+  padding:12px 15px;
+  background:rgba(168,85,247,.07);
+  color:var(--muted);
+  font-size:12px;
+  margin-top:16px;
 }
-.tag {
-  color: var(--muted);
-  font-size: 11px;
-  margin-left: 8px;
+.mission-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
 }
-.table-wrap { overflow-x: auto; }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
+.mission{transition:.2s}
+.mission:hover{border-color:var(--blue);transform:translateY(-2px)}
+.mission.completed{border-color:rgba(74,222,128,.65)}
+.mission-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
 }
-th,td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+.badge{
+  font-size:10px;
+  border-radius:5px;
+  padding:3px 8px;
+  background:rgba(0,229,255,.1);
+  color:var(--blue);
 }
-th { color: var(--blue); font-weight: 600; }
-td { color: #d4def0; }
-.empty { color: var(--muted); text-align: center; padding: 25px; }
-.notice {
-  border-left: 3px solid var(--purple);
-  padding: 12px 16px;
-  background: rgba(168,85,247,.07);
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 18px;
+.badge.hard{background:rgba(168,85,247,.15);color:#d8b4fe}
+.points{font-weight:800;color:var(--blue);font-size:13px}
+.points.hard{color:#c084fc}
+.mission h3{font-size:15px;margin:12px 0 5px}
+.mission p{color:var(--muted);font-size:12px;margin:0 0 13px}
+.mission-actions{display:flex;gap:8px;flex-wrap:wrap}
+.mission-actions button{flex:1}
+button.complete{border-color:var(--green);color:var(--green)}
+button.fail{border-color:var(--red);color:var(--red)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{
+  padding:11px;
+  text-align:left;
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
-footer {
-  text-align: center;
-  padding: 28px 15px;
-  color: #71829f;
-  font-size: 11px;
-  border-top: 1px solid var(--border);
-  letter-spacing: 1px;
+th{color:var(--blue);font-weight:600}
+td{color:#d4def0}
+.empty{color:var(--muted);text-align:center;padding:22px}
+.summary{
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:20px;
+  background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(168,85,247,.08));
 }
-@media(max-width:700px) {
-  header { padding: 15px; }
-  header span { text-align: right; }
-  main { padding: 20px 14px 50px; }
-  .hero { padding: 35px 20px; }
-  .stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .mission-grid { grid-template-columns: 1fr; }
-  .card { padding: 15px; }
+.summary-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+.total{font-size:31px;font-weight:850;color:var(--green)}
+.total small{font-size:12px;color:var(--muted)}
+.summary-details{
+  border-top:1px solid var(--border);
+  margin-top:14px;
+  padding-top:12px;
+}
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin:5px 0;
+  font-size:13px;
+}
+.summary-row span:first-child{color:var(--muted)}
+.summary-row strong{text-align:right}
+.rules{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+}
+.rule h3{font-size:15px;margin:0 0 7px}
+.rule p{font-size:12px;color:var(--muted);margin:0}
+footer{
+  text-align:center;
+  padding:25px 15px;
+  color:#71829f;
+  font-size:11px;
+  border-top:1px solid var(--border);
+  letter-spacing:1px;
+}
+@media(max-width:800px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  header{align-items:flex-start;flex-direction:column;padding:12px 15px}
+  nav{gap:12px}
+  main{padding:18px 13px 45px}
+  .hero{padding:30px 18px}
+  .grid,.option-list,.mission-grid,.rules{grid-template-columns:1fr}
+  .plan-card p{min-height:0}
+  .card{padding:15px}
+  .summary{padding:16px}
+  .total{font-size:27px}
 }
 </style>
 </head>
-<body>
 
+<body>
 <header>
-  <div class="logo">USJ // SYSTEM</div>
-  <span>CHALLENGE MANAGEMENT SYSTEM</span>
+  <div class="logo">USJ <span>// SYSTEM</span></div>
+  <nav>
+    <a href="#status">STATUS</a>
+    <a href="#plans">契約プラン</a>
+    <a href="#options">オプション</a>
+    <a href="#missions">ミッション</a>
+    <a href="#rules">利用条件</a>
+  </nav>
 </header>
 
 <main>
-  <section class="hero">
-    <div class="eyebrow">MISSION CONTROL // 2027</div>
-    <h1>USJ <span>CHALLENGE</span><br>SYSTEM</h1>
-    <p>
-      目標を達成せよ。記録を残せ。<br>
-      すべてのチャレンジを、このシステムで管理する。
-    </p>
-    <div class="deadline">DEADLINE : 2027.07.21</div>
-  </section>
 
-  <h2 class="section-title">
-    SYSTEM STATUS
-    <small>チャレンジの基本情報</small>
-  </h2>
+<section class="hero">
+  <div class="eyebrow">MISSION CONTROL // 2027</div>
+  <h1>USJ <span>CHALLENGE</span><br>SYSTEM</h1>
+  <p>
+    目標を達成せよ。記録を残せ。<br>
+    契約プランとチャレンジを、このシステムで管理する。
+  </p>
+  <div class="deadline">DEADLINE : 2027.07.21</div>
+</section>
 
-  <section class="stats">
-    <div class="card">
-      <div class="stat-label">現在のポイント</div>
-      <div class="stat-value" id="points">100P</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">全ミッション</div>
-      <div class="stat-value">20</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">通常ミッション</div>
-      <div class="stat-value">10</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">高難度ミッション</div>
-      <div class="stat-value purple">10</div>
-    </div>
-  </section>
+<h2 class="section-title" id="status">
+  SYSTEM STATUS
+  <small>チャレンジとポイントの状況</small>
+</h2>
 
-  <h2 class="section-title">
-    MAHJONG SOUL // TARGET
-    <small>雀魂・50,000点差チャレンジ</small>
-  </h2>
+<section class="stats">
+  <div class="card">
+    <div class="stat-label">獲得ポイント</div>
+    <div class="stat-value" id="points">100 P</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">全ミッション</div>
+    <div class="stat-value" id="missionCount">21</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">達成済み</div>
+    <div class="stat-value green" id="completedCount">0</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">選択中</div>
+    <div class="stat-value purple" id="chosenCount">0 / 2</div>
+  </div>
+</section>
 
-  <section class="card">
-    <div class="stat-label">TARGET DIFFERENCE</div>
-    <div class="stat-value">50,000 POINTS</div>
-    <div class="progress-track">
-      <div class="progress-fill" id="mahjongBar"></div>
-    </div>
-    <div class="progress-note" id="mahjongText">
-      現在の点差：11000点 ／ 目標：50,000点
-    </div>
-    <p class="progress-note">
-      ※このページは閲覧用です。実際の対局記録とは連動しています。
-    </p>
-  </section>
+<h2 class="section-title">
+  ANNUAL PLAN SYSTEM
+  <small>匿名の年間契約プランとオプション</small>
+</h2>
 
-  <h2 class="section-title">
-    MISSION DATABASE
-    <small>挑戦したいミッションを1日2個まで選択できます</small>
-  </h2>
-
-  <h3>01 // STANDARD MISSIONS <span class="tag">100 P EACH</span></h3>
-  <section class="mission-grid" id="normalMissions"></section>
-
-  <h3 style="margin-top:35px">
-    02 // HIGH DIFFICULTY <span class="tag">1,000 P EACH</span>
+<section id="plans">
+  <h3 class="section-title">
+    01 // BASIC PLANS
+    <small>年間料金・1つ選択してください</small>
   </h3>
-  <section class="mission-grid" id="hardMissions"></section>
+  <div class="grid" id="planGrid"></div>
+</section>
+
+<section id="options">
+  <h3 class="section-title">
+    02 // ANNUAL OPTIONS
+    <small>追加オプションは任意です</small>
+  </h3>
+
+  <h3>お出かけオプション</h3>
+  <div class="option-list" id="outingOptions"></div>
+
+  <h3 style="margin-top:25px">予定・交流オプション</h3>
+  <div class="option-list" id="serviceOptions"></div>
 
   <div class="notice">
-    NOTICE：ミッションを失敗した場合、所有ポイントから100ポイントを減点します。
+    岐阜県内（岐阜市内を含む）は無料。
+    名古屋市内は年間1,200円、名古屋市以外の愛知県内は年間2,000円です。
+    地域別オプションは同時に1つだけ選択できます。
+    交通費・飲食代・施設利用料などの実費は含まれません。
   </div>
 
-  <h2 class="section-title">
-    MISSION STATUS
-    <small>このブラウザで選択したミッション</small>
-  </h2>
+  <div class="summary" style="margin-top:20px">
+    <div class="summary-top">
+      <div>
+        <strong>年間契約料金の見積もり</strong>
+        <div class="progress-note">選択したプランとオプションの合計</div>
+      </div>
+      <div class="total" id="totalPrice">0円 <small>/ 年</small></div>
+    </div>
 
-  <section class="card table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>MISSION</th>
-          <th>POINT</th>
-          <th>STATUS</th>
-        </tr>
-      </thead>
-      <tbody id="selectedTable">
-        <tr><td colspan="3" class="empty">ミッションはまだ選択されていません。</td></tr>
-      </tbody>
-    </table>
-  </section>
+    <div class="summary-details" id="summaryDetails"></div>
+
+    <div class="summary-row">
+      <span>月額換算</span>
+      <strong id="monthlyPrice">0円</strong>
+    </div>
+
+    <div class="notice">
+      料金は選択内容に基づく試算です。
+      実際に契約する場合は、双方で金額と内容を確認してください。
+    </div>
+  </div>
+</section>
+
+<h2 class="section-title" id="mahjong">
+  MAHJONG SOUL // TARGET
+  <small>雀魂・50,000点差チャレンジ</small>
+</h2>
+
+<section class="card">
+  <div class="stat-label">TARGET DIFFERENCE</div>
+  <div class="stat-value">50,000 POINTS</div>
+  <div class="progress-track">
+    <div class="progress-fill" id="mahjongBar"></div>
+  </div>
+  <div class="progress-note" id="mahjongText">
+    現在の点差：11,000点 ／ 目標：50,000点
+  </div>
+  <div class="notice">
+    この表示は手動設定の参考値です。
+    実際の対局記録とは自動連動していません。
+  </div>
+</section>
+
+<h2 class="section-title" id="missions">
+  MISSION DATABASE
+  <small>
+    選択できるミッションは最大2個です。
+    選択後、達成または失敗を記録します。
+  </small>
+</h2>
+
+<h3>01 // STANDARD MISSIONS <span class="tag">100 P EACH</span></h3>
+<section class="mission-grid" id="normalMissions"></section>
+
+<h3 style="margin-top:32px">
+  02 // HIGH DIFFICULTY <span class="tag">1,000 P EACH</span>
+</h3>
+<section class="mission-grid" id="hardMissions"></section>
+
+<h3 style="margin-top:32px">
+  03 // SPECIAL CHALLENGE <span class="tag">1,000 P</span>
+</h3>
+<section class="mission-grid" id="specialMissions"></section>
+
+<div class="notice">
+  NOTICE：失敗時は所持ポイントから100ポイントを減点します。
+  ポイントは0未満にならないものとします。
+  選択しただけではポイントは増えません。
+  実際に行動する前に、移動先・費用・安全面を確認し、
+  無理のない計画にしてください。
+</div>
+
+<h2 class="section-title">
+  MISSION STATUS
+  <small>選択・達成・失敗の記録（このブラウザ内のみ）</small>
+</h2>
+
+<section class="card table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>MISSION</th>
+        <th>POINT</th>
+        <th>STATUS</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="selectedTable">
+      <tr>
+        <td colspan="4" class="empty">
+          ミッションはまだ選択されていません。
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+  <button id="resetMissions" type="button">ミッション記録をリセット</button>
+  <button id="resetAll" type="button">ポイント・記録を初期状態に戻す</button>
+</div>
+
+<h2 class="section-title" id="rules">
+  SYSTEM RULES
+  <small>匿名サイトの利用条件</small>
+</h2>
+
+<section class="rules">
+  <div class="rule">
+    <h3>01. 契約期間</h3>
+    <p>基本プランは年間契約を想定します。開始日・終了日は双方で確認します。</p>
+  </div>
+
+  <div class="rule">
+    <h3>02. プラン選択</h3>
+    <p>基本プランは1つ選択します。オプションの追加は任意です。</p>
+  </div>
+
+  <div class="rule">
+    <h3>03. 予定調整</h3>
+    <p>優先予定調整は日程相談を優先するサービスです。予定は双方の都合を確認して決定します。</p>
+  </div>
+
+  <div class="rule">
+    <h3>04. 対応方針</h3>
+    <p>プランに応じてサービスや予定調整の優先度が異なります。どのプランでも、基本的な礼儀と相互の尊重を大切にします。</p>
+  </div>
+
+  <div class="rule">
+    <h3>05. 実費</h3>
+    <p>交通費、飲食代、施設利用料などは基本料金に含まれません。必要な費用は事前に確認します。</p>
+  </div>
+
+  <div class="rule">
+    <h3>06. 変更・終了</h3>
+    <p>契約内容の変更や終了は、双方で話し合い、合意した内容に従って対応します。</p>
+  </div>
+
+  <div class="rule">
+    <h3>07. 匿名性</h3>
+    <p>このページには個人名や個人の連絡先を掲載しません。公開ページに個人情報や私的な記録を追加しないでください。</p>
+  </div>
+
+  <div class="rule">
+    <h3>08. 保存範囲</h3>
+    <p>ミッションの記録は、このブラウザのローカル保存領域に保存されます。他の端末とは同期されません。</p>
+  </div>
+</section>
+
 </main>
 
 <footer>
-  USJ CHALLENGE SYSTEM // FUTURE PROJECT<br>
-  ALL SYSTEMS DISPLAYED FOR INFORMATIONAL PURPOSES
+  USJ CHALLENGE SYSTEM // ANNUAL PLAN MODULE<br>
+  ANONYMOUS DISPLAY • LOCAL BROWSER STORAGE
 </footer>
 
 <script>
+"use strict";
+
+const INITIAL_POINTS = 100;
+const MAX_ACTIVE = 2;
+
+let points = INITIAL_POINTS;
+let selectedPlan = "free";
+let chosen = new Set();
+let statuses = {};
+let nextMissionId = 0;
+
+const plans = [
+  {
+    id:"premium",
+    rank:"S RANK",
+    name:"プレミアム",
+    price:2200,
+    desc:"最優先の予定調整と充実したサービス。"
+  },
+  {
+    id:"gold",
+    rank:"A RANK",
+    name:"ゴールド",
+    price:1800,
+    desc:"優先的な予定調整と丁寧な対応。"
+  },
+  {
+    id:"standard",
+    rank:"B RANK",
+    name:"スタンダード",
+    price:1200,
+    desc:"標準的なサービスを利用するプラン。"
+  },
+  {
+    id:"basic",
+    rank:"C RANK",
+    name:"ベーシック",
+    price:800,
+    desc:"基本的なサービスを利用するプラン。"
+  },
+  {
+    id:"light",
+    rank:"D RANK",
+    name:"ライト",
+    price:250,
+    desc:"必要なサービスをシンプルに利用するプラン。"
+  },
+  {
+    id:"free",
+    rank:"FREE",
+    name:"フリー",
+    price:0,
+    desc:"基本料金無料。追加サービスは任意。"
+  }
+];
+
+const outingOptions = [
+  {
+    id:"gifu",
+    name:"岐阜県内のお出かけ",
+    price:0,
+    desc:"岐阜市内を含む岐阜県内のお出かけ。",
+    group:"region"
+  },
+  {
+    id:"nagoya",
+    name:"名古屋市内のお出かけ",
+    price:1200,
+    desc:"名古屋市内へのお出かけ。",
+    group:"region"
+  },
+  {
+    id:"aichi",
+    name:"愛知県内（名古屋市以外）",
+    price:2000,
+    desc:"名古屋市を除く愛知県内へのお出かけ。",
+    group:"region"
+  },
+  {
+    id:"far",
+    name:"遠出プラン",
+    price:1500,
+    desc:"遠方へのお出かけの計画。",
+    group:"other"
+  },
+  {
+    id:"karaoke",
+    name:"カラオケオプション",
+    price:500,
+    desc:"カラオケに関する予定調整。",
+    group:"other"
+  },
+  {
+    id:"shopping",
+    name:"ショッピングオプション",
+    price:500,
+    desc:"買い物に関する予定調整。",
+    group:"other"
+  }
+];
+
+const serviceOptions = [
+  {
+    id:"priority",
+    name:"優先予定調整",
+    price:1000,
+    desc:"遊ぶ日程の相談を優先的に行う。"
+  },
+  {
+    id:"event",
+    name:"イベント企画",
+    price:500,
+    desc:"一緒に楽しむイベントの企画。"
+  },
+  {
+    id:"regular",
+    name:"定期交流プラン",
+    price:800,
+    desc:"定期的に遊ぶ予定の相談。"
+  },
+  {
+    id:"special",
+    name:"特別イベント",
+    price:1000,
+    desc:"誕生日や記念日などの企画。"
+  }
+];
+
 const normal = [
   ["指定された飲み物を購入する","指定された飲み物を購入し、達成を報告する。"],
   ["指定された食事を購入する","指定された条件に従って食事を購入する。"],
   ["紹介動画を制作する","指定されたテーマの短い動画を完成させる。"],
   ["資料を作成する","指定されたテーマについて資料をまとめる。"],
-  ["イオンモール各務原へ行く","指示されるものを探し、購入する。"],
+  ["イオンモール各務原へ行く","事前に目的と予算を確認して訪問する。"],
   ["指定課題を提出する","指定された課題を完成させて提出する。"],
-  ["指定場所を訪問する","管理者が指定した訪問先へ行く。"],
-  ["写真記録を完成させる","指定された対象を撮影して記録を提出する。"],
-  ["麻雀の学習課題","指定された麻雀の課題に取り組む。"],
+  ["指定場所を訪問する","訪問先と移動方法を確認して訪問する。"],
+  ["写真記録を完成させる","撮影してよい対象を撮影し、記録をまとめる。"],
+  ["麻雀の学習課題","指定された学習課題に取り組む。"],
   ["指定されたレポートを作る","条件に従ってレポートを完成させる。"]
 ];
 
 const hard = [
-  ["名鉄指定駅チャレンジ","指定された名鉄の駅まで行き、駅名が確認できる写真を提出する。"],
-  ["指定住所訪問チャレンジ","指定された訪問先まで行き、到着を証明する。"],
-  ["名鉄一周チャレンジ","指定されたルートで名鉄を一周し、乗車記録を提出する。"],
-  ["遠距離目的地チャレンジ","指定された遠方の目的地まで行き、到着記録を提出する。"],
-  ["1日複数駅巡り","指定された名鉄の駅を1日で10駅巡り、記録を提出する。"],
-  ["指定施設訪問チャレンジ","指定された科学館や博物館などを訪問し、レポートを提出する。"],
-  ["公共交通機関限定チャレンジ","指定された目的地まで公共交通機関だけで移動する。"],
-  ["39kmウォーキングチャレンジ","安全な計画を立てて実施し、記録を提出する。"],
-  ["遠方商業施設訪問チャレンジ","指定された商業施設を訪問し、課題を達成する。"],
-  ["3か所完全訪問チャレンジ","指定された3か所をすべて訪問し、証拠を提出する。"]
+  ["名鉄指定駅チャレンジ","指定された名鉄の駅を訪問し、駅名が確認できる記録を作成する。"],
+  ["指定場所訪問チャレンジ","訪問先と移動手段を事前に確認し、到着記録を作成する。"],
+  ["名鉄ルートチャレンジ","指定されたルートを無理のない計画で巡り、乗車記録をまとめる。"],
+  ["遠距離目的地チャレンジ","予算と移動時間を確認し、目的地の記録を作成する。"],
+  ["1日複数駅巡り","時間と体調に余裕を持った計画で複数駅を巡る。"],
+  ["指定施設訪問チャレンジ","科学館や博物館などを訪問し、レポートを作成する。"],
+  ["公共交通機関チャレンジ","公共交通機関の時刻・運賃を確認して目的地へ移動する。"],
+  ["ウォーキングチャレンジ","距離・天候・休憩・帰宅方法を考慮した安全な計画を作る。"],
+  ["商業施設訪問チャレンジ","目的と予算を決めて商業施設を訪問し、記録を作成する。"],
+  ["3か所訪問チャレンジ","無理のない移動計画で指定された3か所を訪問する。"]
 ];
 
-const veryhard= [
-  ["スペシャルチャレンジ","オルビステストを受けよう。（所要時間　約120分）指示を受けてください。"],
+const veryhard = [
+  [
+    "スペシャルチャレンジ",
+    "オルビステストに挑戦する。所要時間の目安：約120分。内容や実施方法を事前に確認する。"
+  ]
 ];
-const chosen = new Set();
 
-function renderMissions(items, elementId, start, isHard) {
-  const root = document.getElementById(elementId);
-  items.forEach((mission, i) => {
-    const id = start + i;
-    const points = isHard ? 1000 : 100;
+const missions = [];
+
+normal.forEach(m => {
+  missions.push({
+    id:nextMissionId++,
+    name:m[0],
+    desc:m[1],
+    points:100,
+    kind:"STANDARD"
+  });
+});
+
+hard.forEach(m => {
+  missions.push({
+    id:nextMissionId++,
+    name:m[0],
+    desc:m[1],
+    points:1000,
+    kind:"HIGH DIFFICULTY"
+  });
+});
+
+veryhard.forEach(m => {
+  missions.push({
+    id:nextMissionId++,
+    name:m[0],
+    desc:m[1],
+    points:1000,
+    kind:"SPECIAL"
+  });
+});
+
+document.getElementById("missionCount").textContent = missions.length;
+
+function yen(n){
+  return Math.round(n).toLocaleString("ja-JP") + "円";
+}
+
+function saveState(){
+  try{
+    localStorage.setItem(
+      "usjChallengeStateV1",
+      JSON.stringify({
+        points,
+        selectedPlan,
+        chosen:[...chosen],
+        statuses
+      })
+    );
+  }catch(e){
+    console.warn("保存できませんでした。",e);
+  }
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem("usjChallengeStateV1");
+    if(!raw) return;
+
+    const s = JSON.parse(raw);
+
+    if(Number.isFinite(s.points)){
+      points = Math.max(0,s.points);
+    }
+
+    if(plans.some(p => p.id === s.selectedPlan)){
+      selectedPlan = s.selectedPlan;
+    }
+
+    if(Array.isArray(s.chosen)){
+      chosen = new Set(
+        s.chosen.filter(id => missions.some(m => m.id === id))
+      );
+    }
+
+    if(s.statuses && typeof s.statuses === "object"){
+      statuses = s.statuses;
+    }
+
+    const active = [...chosen].filter(
+      id => !statuses[id] || statuses[id] === "選択中"
+    );
+
+    active.slice(MAX_ACTIVE).forEach(id => chosen.delete(id));
+
+  }catch(e){
+    console.warn("保存データを読み込めませんでした。",e);
+  }
+}
+
+function renderPlans(){
+  const root = document.getElementById("planGrid");
+  root.replaceChildren();
+
+  plans.forEach(p => {
+    const article = document.createElement("article");
+
+    article.className =
+      "plan-card" + (selectedPlan === p.id ? " selected" : "");
+
+    const monthly = p.price / 12;
+
+    article.innerHTML = `
+      <div class="rank">${p.rank}</div>
+      <h3>${p.name}</h3>
+      <div class="price">${yen(p.price)} <small>/ 年</small></div>
+      <div class="progress-note">
+        ${p.price === 0 ? "月額無料" : "月額換算 " + yen(monthly)}
+      </div>
+      <p>${p.desc}</p>
+      <button type="button" class="${selectedPlan === p.id ? "selected" : ""}">
+        ${selectedPlan === p.id ? "選択中 ✓" : "このプランを選択"}
+      </button>
+    `;
+
+    article.querySelector("button").addEventListener("click",() => {
+      selectedPlan = p.id;
+      renderPlans();
+      updateEstimate();
+      saveState();
+    });
+
+    root.appendChild(article);
+  });
+}
+
+function renderOptions(options,containerId){
+  const root = document.getElementById(containerId);
+  root.replaceChildren();
+
+  options.forEach(o => {
+    const label = document.createElement("label");
+    label.className = "option-card";
+
+    label.innerHTML = `
+      <input
+        type="checkbox"
+        data-option-id="${o.id}"
+        data-price="${o.price}"
+        data-group="${o.group || ""}"
+      >
+      <span>
+        <strong>${o.name}</strong>
+        <small>${o.desc}</small>
+        <small class="option-price">
+          ${o.price === 0 ? "無料" : yen(o.price) + " / 年"}
+        </small>
+      </span>
+    `;
+
+    const input = label.querySelector("input");
+
+    input.addEventListener("change",() => {
+      if(input.dataset.group === "region" && input.checked){
+        document.querySelectorAll('input[data-group="region"]').forEach(other => {
+          if(other !== input){
+            other.checked = false;
+          }
+        });
+      }
+
+      updateEstimate();
+      saveState();
+    });
+
+    root.appendChild(label);
+  });
+}
+
+function updateEstimate(){
+  const plan = plans.find(p => p.id === selectedPlan);
+  let total = plan.price;
+
+  const details = [
+    {
+      name:plan.name + "（基本プラン）",
+      price:plan.price
+    }
+  ];
+
+  document.querySelectorAll(
+    '#options input[type="checkbox"]:checked'
+  ).forEach(input => {
+    const price = Number(input.dataset.price);
+    const name = input.closest("label").querySelector("strong").textContent;
+
+    total += price;
+    details.push({name,price});
+  });
+
+  document.getElementById("totalPrice").innerHTML =
+    yen(total) + ' <small>/ 年</small>';
+
+  document.getElementById("monthlyPrice").textContent =
+    yen(total / 12);
+
+  const root = document.getElementById("summaryDetails");
+  root.replaceChildren();
+
+  details.forEach(d => {
+    const row = document.createElement("div");
+    row.className = "summary-row";
+
+    const name = document.createElement("span");
+    name.textContent = d.name;
+
+    const price = document.createElement("strong");
+    price.textContent = yen(d.price);
+
+    row.append(name,price);
+    root.appendChild(row);
+  });
+
+  const row = document.createElement("div");
+  row.className = "summary-row";
+  row.style.cssText =
+    "border-top:1px solid var(--border);padding-top:10px;margin-top:10px";
+
+  const name = document.createElement("strong");
+  name.textContent = "年間合計";
+
+  const price = document.createElement("strong");
+  price.className = "green";
+  price.textContent = yen(total);
+
+  row.append(name,price);
+  root.appendChild(row);
+}
+
+function renderMissions(list,rootId){
+  const root = document.getElementById(rootId);
+  root.replaceChildren();
+
+  list.forEach(m => {
     const article = document.createElement("article");
     article.className = "mission";
+    article.dataset.id = m.id;
 
     const top = document.createElement("div");
     top.className = "mission-top";
 
     const badge = document.createElement("span");
-    badge.className = isHard ? "badge hard" : "badge";
-    badge.textContent = isHard ? "HIGH DIFFICULTY" : "STANDARD";
+    badge.className = "badge" + (m.kind !== "STANDARD" ? " hard" : "");
+    badge.textContent = m.kind;
 
-    const pointLabel = document.createElement("span");
-    pointLabel.className = isHard ? "points hard" : "points";
-    pointLabel.textContent = points.toLocaleString() + " P";
+    const pts = document.createElement("span");
+    pts.className = "points" + (m.kind !== "STANDARD" ? " hard" : "");
+    pts.textContent = m.points.toLocaleString() + " P";
 
-    top.append(badge, pointLabel);
+    top.append(badge,pts);
 
     const title = document.createElement("h3");
-    title.textContent = String(i + 1).padStart(2, "0") + " // " + mission[0];
+    title.textContent =
+      String(m.id + 1).padStart(2,"0") + " // " + m.name;
 
     const desc = document.createElement("p");
-    desc.textContent = mission[1];
+    desc.textContent = m.desc;
 
-    const button = document.createElement("button");
-    button.textContent = "＋ ミッションを選択";
-    button.addEventListener("click", () => {
-      if (chosen.has(id)) {
-        chosen.delete(id);
-      } else {
-        chosen.add(id);
-      }
-      update();
-    });
+    const actions = document.createElement("div");
+    actions.className = "mission-actions";
 
-    article.append(top, title, desc, button);
+    const select = document.createElement("button");
+    select.type = "button";
+    select.textContent = "＋ ミッションを選択";
+    select.addEventListener("click",() => toggleMission(m.id));
+
+    const complete = document.createElement("button");
+    complete.type = "button";
+    complete.className = "complete";
+    complete.textContent = "達成";
+    complete.addEventListener("click",() => setStatus(m.id,"達成"));
+
+    const fail = document.createElement("button");
+    fail.type = "button";
+    fail.className = "fail";
+    fail.textContent = "失敗";
+    fail.addEventListener("click",() => setStatus(m.id,"失敗"));
+
+    actions.append(select,complete,fail);
+    article.append(top,title,desc,actions);
     root.appendChild(article);
-    article.dataset.id = id;
   });
 }
 
-function update() {
+function toggleMission(id){
+  const status = statuses[id];
+
+  if(status === "達成" || status === "失敗"){
+    alert("このミッションはすでに結果が記録されています。記録をリセットしてから再選択してください。");
+    return;
+  }
+
+  if(chosen.has(id)){
+    chosen.delete(id);
+    delete statuses[id];
+  }else{
+    const active = [...chosen].filter(
+      x => !statuses[x] || statuses[x] === "選択中"
+    );
+
+    if(active.length >= MAX_ACTIVE){
+      alert("同時に選択できるミッションは最大2個です。");
+      return;
+    }
+
+    chosen.add(id);
+    statuses[id] = "選択中";
+  }
+
+  updateMissions();
+  saveState();
+}
+
+function setStatus(id,status){
+  if(!chosen.has(id)){
+    alert("先にミッションを選択してください。");
+    return;
+  }
+
+  if(statuses[id] === "達成" || statuses[id] === "失敗"){
+    alert("結果はすでに記録されています。");
+    return;
+  }
+
+  if(status === "達成"){
+    points += missions.find(m => m.id === id).points;
+  }else{
+    points = Math.max(0,points - 100);
+  }
+
+  statuses[id] = status;
+  updateMissions();
+  saveState();
+}
+
+function updateMissions(){
   document.querySelectorAll(".mission").forEach(card => {
     const id = Number(card.dataset.id);
-    const button = card.querySelector("button");
-    const isChosen = chosen.has(id);
-    button.classList.toggle("selected", isChosen);
-    button.textContent = isChosen ? "✓ 選択済み（解除）" : "＋ ミッションを選択";
+    const status = statuses[id];
+    const button = card.querySelector(".mission-actions button");
+
+    card.classList.toggle("completed",status === "達成");
+
+    button.textContent = chosen.has(id)
+      ? (status === "選択中" ? "✓ 選択済み（解除）" : status)
+      : "＋ ミッションを選択";
+
+    button.classList.toggle("selected",chosen.has(id));
+
+    card.querySelectorAll(".mission-actions button").forEach((b,i) => {
+      if(i > 0){
+        b.disabled =
+          !chosen.has(id) ||
+          status === "達成" ||
+          status === "失敗";
+
+        b.style.opacity = b.disabled ? ".45" : "1";
+      }
+    });
   });
 
-  const all = [...normal, ...hard];
-  let total = 0;
+  document.getElementById("points").textContent =
+    points.toLocaleString() + " P";
+
+  document.getElementById("completedCount").textContent =
+    missions.filter(m => statuses[m.id] === "達成").length;
+
+  const active = [...chosen].filter(
+    id => statuses[id] === "選択中"
+  ).length;
+
+  document.getElementById("chosenCount").textContent =
+    active + " / " + MAX_ACTIVE;
+
   const tbody = document.getElementById("selectedTable");
   tbody.replaceChildren();
 
-  chosen.forEach(id => {
-    const isHard = id >= 10;
-    total += isHard ? 1000 : 100;
+  const history = [...chosen]
+    .map(id => missions.find(m => m.id === id))
+    .filter(Boolean);
 
-    const row = document.createElement("tr");
-    const name = document.createElement("td");
-    name.textContent = all[id][0];
-
-    const point = document.createElement("td");
-    point.textContent = (isHard ? "1,000" : "100") + " P";
-
-    const status = document.createElement("td");
-    status.textContent = "選択中";
-
-    row.append(name, point, status);
-    tbody.appendChild(row);
-  });
-
-  if (chosen.size === 0) {
+  if(history.length === 0){
     const row = document.createElement("tr");
     const cell = document.createElement("td");
-    cell.colSpan = 3;
+
+    cell.colSpan = 4;
     cell.className = "empty";
     cell.textContent = "ミッションはまだ選択されていません。";
+
     row.appendChild(cell);
     tbody.appendChild(row);
+  }else{
+    history.forEach(m => {
+      const row = document.createElement("tr");
+
+      [
+        m.name,
+        m.points.toLocaleString() + " P",
+        statuses[m.id] || "選択中"
+      ].forEach(value => {
+        const td = document.createElement("td");
+        td.textContent = value;
+        row.appendChild(td);
+      });
+
+      const td = document.createElement("td");
+
+      if(statuses[m.id] === "達成" || statuses[m.id] === "失敗"){
+        const b = document.createElement("button");
+        b.textContent = "記録を削除";
+
+        b.addEventListener("click",() => {
+          if(confirm("このミッションの記録を削除しますか？ポイントは自動で戻りません。")){
+            chosen.delete(m.id);
+            delete statuses[m.id];
+            updateMissions();
+            saveState();
+          }
+        });
+
+        td.appendChild(b);
+      }else{
+        const b = document.createElement("button");
+        b.textContent = "選択解除";
+
+        b.addEventListener("click",() => toggleMission(m.id));
+        td.appendChild(b);
+      }
+
+      row.appendChild(td);
+      tbody.appendChild(row);
+    });
   }
 
-  document.getElementById("points").textContent = total.toLocaleString() + " P";
+  document.getElementById("mahjongBar").style.width =
+    (Math.min(50000,11000) / 50000 * 100) + "%";
 }
 
-renderMissions(normal, "normalMissions", 0, false);
-renderMissions(hard, "hardMissions", 10, true);
-renderMissions(veryhard, "hardMissions", 10, true);
-update();
+document.getElementById("resetMissions").addEventListener("click",() => {
+  if(!confirm("ミッションの選択・結果記録をリセットしますか？獲得済みポイントはそのままです。")){
+    return;
+  }
+
+  chosen.clear();
+  statuses = {};
+  updateMissions();
+  saveState();
+});
+
+document.getElementById("resetAll").addEventListener("click",() => {
+  if(!confirm("ポイントとミッション記録を初期状態に戻しますか？")){
+    return;
+  }
+
+  points = INITIAL_POINTS;
+  chosen.clear();
+  statuses = {};
+  updateMissions();
+  saveState();
+});
+
+loadState();
+
+renderPlans();
+renderOptions(outingOptions,"outingOptions");
+renderOptions(serviceOptions,"serviceOptions");
+
+renderMissions(normal,"normalMissions");
+renderMissions(hard,"hardMissions");
+renderMissions(veryhard,"specialMissions");
+
+updateEstimate();
+updateMissions();
 </script>
+
 </body>
 </html>
