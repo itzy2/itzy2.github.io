@@ -3,20 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MISSION POINT | ミッション管理</title>
+
+<title>MISSION POINT | ミッションポイント</title>
 
 <style>
 :root {
-  --bg: #090d18;
-  --panel: #131b2d;
-  --panel2: #19243a;
+  --bg: #090e1d;
+  --panel: #141e35;
+  --panel2: #1b2946;
   --text: #f3f6ff;
-  --muted: #9ba9c4;
-  --blue: #51a7ff;
-  --purple: #a77bff;
-  --green: #40e0a0;
-  --yellow: #ffd166;
-  --red: #ff647c;
+  --muted: #a5b3d0;
+  --blue: #61a8ff;
+  --purple: #a78bfa;
+  --gold: #ffd166;
+  --green: #66e3a4;
+  --border: rgba(255,255,255,.10);
 }
 
 * {
@@ -25,439 +26,230 @@
 
 body {
   margin: 0;
-  background:
-    radial-gradient(ellipse at top, #17254a 0%, transparent 55%),
-    var(--bg);
+  font-family: "Segoe UI", "Meiryo", sans-serif;
   color: var(--text);
-  font-family: "Segoe UI", "Yu Gothic", sans-serif;
+  background:
+    radial-gradient(ellipse at top, #1a2850 0%, transparent 55%),
+    var(--bg);
   min-height: 100vh;
 }
 
-button, input, select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
 header {
-  border-bottom: 1px solid #27334c;
-  background: rgba(9, 13, 24, 0.88);
+  padding: 24px 18px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(9,14,29,.85);
 }
 
 .header-inner {
-  max-width: 1100px;
+  max-width: 1050px;
   margin: auto;
-  padding: 20px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
 }
 
 .logo span {
   color: var(--blue);
 }
 
-.header-label {
-  color: var(--muted);
+.badge {
   font-size: 12px;
+  padding: 7px 12px;
+  border: 1px solid rgba(102,227,164,.4);
+  color: var(--green);
+  border-radius: 20px;
+  background: rgba(102,227,164,.08);
 }
 
 main {
-  max-width: 1100px;
+  max-width: 1050px;
   margin: auto;
-  padding: 30px 20px 60px;
+  padding: 28px 18px 55px;
 }
 
 .hero {
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: linear-gradient(135deg, #202f54, #171b37);
   position: relative;
   overflow: hidden;
-  padding: 32px;
-  border: 1px solid #34456c;
-  border-radius: 24px;
-  background: linear-gradient(125deg, #1a2b50, #201b3d 65%, #111a2c);
-  box-shadow: 0 15px 50px #0003;
 }
 
 .hero::after {
   content: "★";
   position: absolute;
-  right: 35px;
-  top: 10px;
-  font-size: 125px;
-  color: #ffffff09;
+  right: 25px;
+  top: 5px;
+  font-size: 110px;
+  color: rgba(255,255,255,.04);
 }
 
 .eyebrow {
   color: var(--blue);
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 800;
   letter-spacing: 3px;
 }
 
-.hero h1 {
-  font-size: clamp(27px, 5vw, 42px);
+h1 {
+  font-size: clamp(27px, 5vw, 43px);
   margin: 12px 0;
 }
 
 .hero p {
-  color: #c1cce3;
+  color: var(--muted);
   line-height: 1.8;
+  margin-bottom: 0;
 }
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-top: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  margin: 20px 0 35px;
 }
 
 .stat {
-  padding: 20px;
-  background: #0b1223a8;
-  border: 1px solid #ffffff13;
-  border-radius: 15px;
+  padding: 23px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--panel);
 }
 
 .stat-label {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .stat-value {
-  font-size: clamp(22px, 4vw, 32px);
+  font-size: clamp(26px, 5vw, 37px);
   font-weight: 900;
-  margin-top: 8px;
-  overflow-wrap: anywhere;
+  margin-top: 10px;
 }
 
 .points {
-  color: var(--yellow);
+  color: var(--gold);
 }
 
-.section-head {
+.section-heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin: 35px 0 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 34px 0 16px;
 }
 
-.section-head h2 {
+.section-heading h2 {
   margin: 0;
   font-size: 22px;
 }
 
-.count {
+.section-heading span {
+  font-size: 12px;
   color: var(--muted);
-  font-size: 13px;
 }
 
-.progress-box {
-  padding: 20px;
-  background: var(--panel);
-  border: 1px solid #283650;
-  border-radius: 16px;
-  margin-bottom: 22px;
-}
-
-.progress-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
-
-.progress-track {
-  height: 11px;
-  border-radius: 20px;
-  background: #28334a;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, var(--blue), var(--purple));
-  border-radius: inherit;
-  transition: width .35s;
-}
-
-.mission-list {
+.missions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 15px;
 }
 
 .mission {
-  position: relative;
-  padding: 22px;
-  background: linear-gradient(145deg, var(--panel), #101726);
-  border: 1px solid #283650;
-  border-radius: 18px;
-  transition: transform .2s, border-color .2s;
-}
-
-.mission:hover {
-  transform: translateY(-3px);
-  border-color: #577bb4;
-}
-
-.mission.completed {
-  border-color: #287d67;
-  background: linear-gradient(145deg, #112b2a, #101b28);
-}
-
-.mission.pending {
-  border-color: #9b7936;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  padding: 21px;
+  display: flex;
+  flex-direction: column;
+  min-height: 225px;
 }
 
 .mission-top {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
 }
 
 .mission-icon {
-  width: 45px;
-  height: 45px;
-  display: grid;
-  place-items: center;
-  font-size: 24px;
-  background: #263653;
-  border-radius: 13px;
-  flex-shrink: 0;
+  font-size: 29px;
 }
 
-.reward {
-  color: var(--yellow);
-  font-size: 19px;
-  font-weight: 900;
-  white-space: nowrap;
+.status {
+  font-size: 11px;
+  border: 1px solid rgba(97,168,255,.35);
+  background: rgba(97,168,255,.09);
+  color: #9bc9ff;
+  padding: 6px 9px;
+  border-radius: 20px;
 }
 
 .mission h3 {
-  margin: 19px 0 9px;
   font-size: 18px;
+  margin: 16px 0 8px;
 }
 
 .description {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.8;
-  min-height: 45px;
-}
-
-.meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 15px 0;
-}
-
-.badge {
-  padding: 5px 9px;
-  background: #222e45;
-  color: #cbd7ed;
-  border-radius: 6px;
-  font-size: 11px;
-}
-
-.badge.done {
-  background: #164738;
-  color: #7af0bf;
-}
-
-.badge.wait {
-  background: #49391b;
-  color: #ffda8a;
-}
-
-.action {
-  width: 100%;
-  border: 0;
-  border-radius: 10px;
-  padding: 12px;
-  color: white;
-  font-weight: bold;
-  background: linear-gradient(100deg, #318bff, #8057ed);
-}
-
-.action:hover {
-  filter: brightness(1.12);
-}
-
-.action:disabled {
-  cursor: default;
-  background: #29364b;
-  color: #a8b4c9;
-}
-
-.action.approve {
-  background: linear-gradient(100deg, #138b69, #31bc91);
-}
-
-.action.reject {
-  background: #4a2634;
-  color: #ffb5c2;
-}
-
-.action.secondary {
-  background: #273650;
-}
-
-.empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 35px;
-  border: 1px dashed #34445e;
-  border-radius: 16px;
-  color: var(--muted);
-}
-
-.admin-panel {
-  margin-top: 35px;
-  padding: 24px;
-  border: 1px solid #594779;
-  border-radius: 18px;
-  background: #18152a;
-}
-
-.admin-panel h2 {
-  margin-top: 0;
-}
-
-.admin-note {
-  color: #c1b2e8;
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-.admin-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.admin-controls input,
-.admin-controls select {
-  min-width: 0;
-  padding: 11px;
-  border: 1px solid #3b4964;
-  border-radius: 9px;
-  background: #0c1322;
-  color: white;
-}
-
-.admin-controls input[type="text"] {
-  flex: 1 1 180px;
-}
-
-.admin-controls input[type="number"] {
-  width: 120px;
-}
-
-.admin-controls button {
-  border: 0;
-  border-radius: 9px;
-  padding: 11px 15px;
-  color: white;
-  background: #6248b6;
-}
-
-.admin-item {
-  padding: 15px 0;
-  border-bottom: 1px solid #343049;
-}
-
-.admin-item:last-child {
-  border-bottom: 0;
-}
-
-.admin-item p {
-  color: var(--muted);
   font-size: 13px;
   line-height: 1.7;
+  color: var(--muted);
+  flex: 1;
 }
 
-.admin-item-buttons {
+.reward {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
-.admin-item-buttons button {
-  border: 0;
-  border-radius: 7px;
-  padding: 8px 12px;
-  background: #29364b;
-  color: white;
+.reward-label {
+  font-size: 12px;
+  color: var(--muted);
 }
 
-.admin-item-buttons .yes {
-  background: #17684f;
+.reward-points {
+  color: var(--gold);
+  font-size: 20px;
+  font-weight: 900;
 }
 
-.admin-item-buttons .no {
-  background: #542a39;
-}
-
-.admin-item-buttons .delete {
-  background: #592c36;
-}
-
-.hidden {
-  display: none !important;
+.notice {
+  margin-top: 22px;
+  padding: 17px;
+  border-radius: 15px;
+  border: 1px solid rgba(255,209,102,.25);
+  background: rgba(255,209,102,.06);
+  color: #e8d9ad;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 footer {
   text-align: center;
   padding: 25px 15px;
-  color: #75839d;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
   font-size: 12px;
-  border-top: 1px solid #222d42;
-}
-
-.notice {
-  margin-top: 20px;
-  color: #9ba9c4;
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 13px 20px;
-  background: #243451;
-  border: 1px solid #50698f;
-  color: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px #0007;
-  z-index: 10;
-  max-width: calc(100% - 30px);
 }
 
 @media (max-width: 650px) {
-  .header-inner {
-    padding: 16px;
-  }
-
-  main {
-    padding: 20px 14px 40px;
+  .missions {
+    grid-template-columns: 1fr;
   }
 
   .hero {
@@ -465,20 +257,11 @@ footer {
   }
 
   .stats {
-    grid-template-columns: 1fr;
     gap: 10px;
   }
 
   .stat {
-    padding: 15px;
-  }
-
-  .mission-list {
-    grid-template-columns: 1fr;
-  }
-
-  .section-head h2 {
-    font-size: 19px;
+    padding: 17px;
   }
 }
 </style>
@@ -489,803 +272,131 @@ footer {
 <header>
   <div class="header-inner">
     <div class="logo">MISSION <span>POINT</span></div>
-    <div class="header-label">PERSONAL MISSION SYSTEM</div>
+    <div class="badge">● VIEW ONLY / 閲覧専用</div>
   </div>
 </header>
 
 <main>
 
   <section class="hero">
-    <div class="eyebrow">YOUR CHALLENGE STARTS HERE</div>
-    <h1>ミッションを達成せよ。</h1>
+    <div class="eyebrow">YOUR MISSION STARTS HERE</div>
+    <h1>ミッションポイント</h1>
     <p>
-      ミッションに挑戦してポイントを獲得しよう。<br>
-      達成申請を管理者が承認すると、ポイントが加算されます。
+      ミッションを確認して、条件達成を目指そう。<br>
+      報酬ポイントは各ミッションの条件に応じて設定されています。
     </p>
+  </section>
 
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-label">TOTAL POINTS</div>
-        <div class="stat-value points" id="totalPoints">10100 pt</div>
-      </div>
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">💎 現在の保有ポイント</div>
+      <div class="stat-value points">14,000 <small>pt</small></div>
+    </div>
 
-      <div class="stat">
-        <div class="stat-label">COMPLETED MISSIONS</div>
-        <div class="stat-value" id="completedCount">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">IN PROGRESS</div>
-        <div class="stat-value" id="activeCount">0</div>
-      </div>
+    <div class="stat">
+      <div class="stat-label">🎯 掲載中のミッション</div>
+      <div class="stat-value">04 <small>MISSIONS</small></div>
     </div>
   </section>
 
-  <div class="section-head">
-    <h2>🎯 ミッション一覧</h2>
-    <div class="count" id="missionCount">0 MISSIONS</div>
+  <div class="section-heading">
+    <h2>📋 ミッション一覧</h2>
+    <span>MISSION LIST</span>
   </div>
 
-  <section class="progress-box">
-    <div class="progress-top">
-      <span>ミッション達成率</span>
-      <strong id="progressText">0%</strong>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
+  <section class="missions">
+
+    <article class="mission">
+      <div class="mission-top">
+        <div class="mission-icon">🥤</div>
+        <div class="status">通常ミッション</div>
+      </div>
+
+      <h3>オロナミンCを飲む</h3>
+
+      <div class="description">
+        オロナミンCを飲むミッション。
+        達成条件を満たしたら、ポイントの受け取りを確認しよう。
+      </div>
+
+      <div class="reward">
+        <span class="reward-label">達成報酬</span>
+        <span class="reward-points">+100 pt</span>
+      </div>
+    </article>
+
+    <article class="mission">
+      <div class="mission-top">
+        <div class="mission-icon">🀄</div>
+        <div class="status">テストミッション</div>
+      </div>
+
+      <h3>麻雀テストで70点以上</h3>
+
+      <div class="description">
+        麻雀のテストで70点以上を獲得しよう。
+        条件は70点以上。結果を確認して達成を判断する。
+      </div>
+
+      <div class="reward">
+        <span class="reward-label">達成報酬</span>
+        <span class="reward-points">+1,000 pt</span>
+      </div>
+    </article>
+
+    <article class="mission">
+      <div class="mission-top">
+        <div class="mission-icon">⚔️</div>
+        <div class="status">本日限定</div>
+      </div>
+
+      <h3>今日、対戦する</h3>
+
+      <div class="description">
+        本日中に対戦するミッション。
+        対戦を行い、条件を満たそう。
+      </div>
+
+      <div class="reward">
+        <span class="reward-label">達成報酬</span>
+        <span class="reward-points">+110 pt</span>
+      </div>
+    </article>
+
+    <article class="mission">
+      <div class="mission-top">
+        <div class="mission-icon">📍</div>
+        <div class="status">期間限定</div>
+      </div>
+
+      <h3>指定された場所へ行く</h3>
+
+      <div class="description">
+        2026年11月22日までに、指定された場所へ行くミッション。
+        行き先や日時は、事前に本人同士で確認しよう。
+      </div>
+
+      <div class="reward">
+        <span class="reward-label">達成報酬</span>
+        <span class="reward-points">+1,000 pt</span>
+      </div>
+    </article>
+
   </section>
 
-  <section class="mission-list" id="missionList"></section>
-
-  <section class="admin-panel">
-    <h2>👑 管理者メニュー</h2>
-
-    <p class="admin-note">
-      ここでは申請の承認・却下や、ミッションの追加ができます。<br>
-      ※これはブラウザ上だけで動くデモです。管理者専用の安全な認証機能はありません。
-    </p>
-
-    <button class="action secondary" id="adminToggle">
-      管理者メニューを開く
-    </button>
-
-    <div id="adminContent" class="hidden">
-
-      <div class="section-head">
-        <h2>📩 承認待ちの申請</h2>
-      </div>
-
-      <div id="pendingList"></div>
-
-      <div class="section-head">
-        <h2>➕ ミッションを追加</h2>
-      </div>
-
-      <form id="addForm">
-        <div class="admin-controls">
-          <input
-            type="text"
-            id="newTitle"
-            placeholder="ミッション名"
-            maxlength="100"
-            required
-          >
-
-          <input
-            type="number"
-            id="newPoints"
-            placeholder="ポイント"
-            min="1"
-            max="1000000"
-            required
-          >
-
-          <input
-            type="date"
-            id="newDeadline"
-            aria-label="期限"
-          >
-
-          <button type="submit">追加する</button>
-        </div>
-      </form>
-
-      <div class="section-head">
-        <h2>📋 ミッション管理</h2>
-      </div>
-
-      <div id="manageList"></div>
-
-      <div class="section-head">
-        <h2>💾 データ管理</h2>
-      </div>
-
-      <div class="admin-controls">
-        <button type="button" id="exportButton">
-          バックアップを保存
-        </button>
-
-        <button type="button" id="importButton">
-          バックアップを読み込む
-        </button>
-
-        <input
-          type="file"
-          id="importFile"
-          accept=".json,application/json"
-          class="hidden"
-        >
-
-        <button type="button" id="resetButton">
-          初期状態に戻す
-        </button>
-      </div>
-
-      <p class="notice">
-        バックアップはこのブラウザのデータを保存するためのものです。
-        ファイルにはポイント履歴なども含まれます。取り扱いに注意してください。
-      </p>
-    </div>
-  </section>
-
-  <p class="notice">
-    このサイトはブラウザ内にデータを保存します。
-    別の端末や別のブラウザとはデータが自動共有されません。
-  </p>
+  <div class="notice">
+    <strong>📌 ポイントについて</strong><br>
+    現在の保有ポイントは14,000 ptです。<br>
+    各ミッションの報酬は、条件を満たしたことを確認してから反映します。
+    このサイトはミッションの閲覧専用で、サイト上からポイントを変更する機能はありません。
+  </div>
 
 </main>
 
 <footer>
-  MISSION POINT SYSTEM © 2026
+  MISSION POINT © 2026<br>
+  Mission information and point status
 </footer>
-
-<div id="toast" class="toast hidden" role="status"></div>
-
-<script>
-"use strict";
-
-const STORAGE_KEY = "missionPointSystem_v1";
-
-const initialMissions = [
-  {
-    id: "mission-1",
-    title: "オロナミンCを飲む",
-    points: 100,
-    deadline: "2026-10-22",
-    description: "指定された飲み物を飲んでミッション達成を申請しよう。",
-    icon: "🥤",
-    status: "active"
-  },
-  {
-    id: "mission-2",
-    title: "麻雀のテストで70点以上取る",
-    points: 1000,
-    deadline: "",
-    description: "麻雀のテストで70点以上を取ることが条件です。",
-    icon: "🀄",
-    status: "active"
-  },
-  {
-    id: "mission-3",
-    title: "今日、対戦する",
-    points: 110,
-    deadline: "2026-10-22",
-    description: "今日の対戦を達成して申請しよう。",
-    icon: "⚔️",
-    status: "active"
-  },
-  {
-    id: "mission-4",
-    title: "指定された場所へ行く",
-    points: 1000,
-    deadline: "2026-11-22",
-    description: "指定された場所への訪問が達成条件です。",
-    icon: "📍",
-    status: "active"
-  }
-];
-
-let data = loadData();
-let adminOpen = false;
-let toastTimer;
-
-function loadData() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if (saved) {
-      const parsed = JSON.parse(saved);
-
-      if (
-        parsed &&
-        Array.isArray(parsed.missions) &&
-        Array.isArray(parsed.history)
-      ) {
-        return parsed;
-      }
-    }
-  } catch (error) {
-    console.error("保存データの読み込みに失敗しました。", error);
-  }
-
-  return {
-    missions: structuredClone(initialMissions),
-    history: []
-  };
-}
-
-function saveData() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (error) {
-    showToast("保存できませんでした。ブラウザの設定を確認してください。");
-  }
-}
-
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
-
-function formatPoints(value) {
-  return Number(value).toLocaleString("ja-JP");
-}
-
-function getHistory(id) {
-  return data.history.filter(item => item.missionId === id);
-}
-
-function isCompleted(mission) {
-  return getHistory(mission.id).some(item => item.status === "approved");
-}
-
-function hasPending(mission) {
-  return getHistory(mission.id).some(item => item.status === "pending");
-}
-
-function isRejected(mission) {
-  const records = getHistory(mission.id);
-  return records.length > 0 &&
-    records[records.length - 1].status === "rejected";
-}
-
-function getIcon(mission) {
-  return mission.icon || "🎯";
-}
-
-function getDeadline(mission) {
-  if (!mission.deadline) return "期限未設定";
-  return "期限：" + mission.deadline.replaceAll("-", "/");
-}
-
-function showToast(message) {
-  const toast = document.getElementById("toast");
-
-  toast.textContent = message;
-  toast.classList.remove("hidden");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => {
-    toast.classList.add("hidden");
-  }, 3000);
-}
-
-function render() {
-  const missions = data.missions;
-
-  const totalPoints = missions.reduce((sum, mission) => {
-    if (isCompleted(mission)) {
-      return sum + Number(mission.points);
-    }
-    return sum;
-  }, 0);
-
-  const completed = missions.filter(isCompleted).length;
-  const pending = missions.filter(hasPending).length;
-  const active = missions.length - completed - pending;
-
-  document.getElementById("totalPoints").textContent =
-    formatPoints(totalPoints) + " pt";
-
-  document.getElementById("completedCount").textContent =
-    completed + " / " + missions.length;
-
-  document.getElementById("activeCount").textContent =
-    active + pending;
-
-  document.getElementById("missionCount").textContent =
-    missions.length + " MISSIONS";
-
-  const percentage = missions.length
-    ? Math.round(completed / missions.length * 100)
-    : 0;
-
-  document.getElementById("progressText").textContent =
-    percentage + "%";
-
-  document.getElementById("progressFill").style.width =
-    percentage + "%";
-
-  renderMissions();
-  renderPending();
-  renderManage();
-}
-
-function renderMissions() {
-  const list = document.getElementById("missionList");
-
-  if (!data.missions.length) {
-    list.innerHTML =
-      '<div class="empty">ミッションはまだありません。</div>';
-    return;
-  }
-
-  list.innerHTML = data.missions.map(mission => {
-    const completed = isCompleted(mission);
-    const pending = hasPending(mission);
-    const rejected = isRejected(mission);
-
-    let statusText = "挑戦中";
-    let statusClass = "";
-    let buttonText = "達成申請する";
-    let disabled = false;
-
-    if (completed) {
-      statusText = "達成済み";
-      statusClass = "done";
-      buttonText = "✓ 達成済み";
-      disabled = true;
-    } else if (pending) {
-      statusText = "承認待ち";
-      statusClass = "wait";
-      buttonText = "申請中...";
-      disabled = true;
-    } else if (rejected) {
-      statusText = "再申請可能";
-      buttonText = "もう一度申請する";
-    }
-
-    return `
-      <article class="mission ${completed ? "completed" : ""} ${pending ? "pending" : ""}">
-        <div class="mission-top">
-          <div class="mission-icon">${escapeHTML(getIcon(mission))}</div>
-          <div class="reward">+${formatPoints(mission.points)} pt</div>
-        </div>
-
-        <h3>${escapeHTML(mission.title)}</h3>
-
-        <div class="description">
-          ${escapeHTML(mission.description || "ミッションに挑戦しよう。")}
-        </div>
-
-        <div class="meta">
-          <span class="badge ${statusClass}">${statusText}</span>
-          <span class="badge">${escapeHTML(getDeadline(mission))}</span>
-        </div>
-
-        <button
-          class="action ${completed ? "" : pending ? "secondary" : ""}"
-          data-action="apply"
-          data-id="${escapeHTML(mission.id)}"
-          ${disabled ? "disabled" : ""}
-        >
-          ${buttonText}
-        </button>
-      </article>
-    `;
-  }).join("");
-}
-
-function renderPending() {
-  const container = document.getElementById("pendingList");
-
-  const pending = data.history.filter(
-    item => item.status === "pending"
-  );
-
-  if (!pending.length) {
-    container.innerHTML =
-      '<div class="empty">承認待ちの申請はありません。</div>';
-    return;
-  }
-
-  container.innerHTML = pending.map(item => {
-    const mission = data.missions.find(
-      mission => mission.id === item.missionId
-    );
-
-    const title = mission ? mission.title : "削除されたミッション";
-    const points = mission ? mission.points : item.points;
-
-    return `
-      <div class="admin-item">
-        <strong>${escapeHTML(title)}</strong>
-        <p>
-          申請日時：${escapeHTML(item.date)}<br>
-          承認時の獲得ポイント：${formatPoints(points)} pt
-        </p>
-
-        <div class="admin-item-buttons">
-          <button class="yes" data-action="approve" data-id="${escapeHTML(item.id)}">
-            承認してポイント加算
-          </button>
-
-          <button class="no" data-action="reject" data-id="${escapeHTML(item.id)}">
-            却下する
-          </button>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-function renderManage() {
-  const container = document.getElementById("manageList");
-
-  if (!data.missions.length) {
-    container.innerHTML =
-      '<div class="empty">管理するミッションはありません。</div>';
-    return;
-  }
-
-  container.innerHTML = data.missions.map(mission => `
-    <div class="admin-item">
-      <strong>${escapeHTML(mission.title)}</strong>
-      <p>
-        ${formatPoints(mission.points)} pt /
-        ${escapeHTML(getDeadline(mission))}
-      </p>
-
-      <div class="admin-item-buttons">
-        <button data-action="edit" data-id="${escapeHTML(mission.id)}">
-          編集
-        </button>
-
-        <button class="delete" data-action="delete" data-id="${escapeHTML(mission.id)}">
-          削除
-        </button>
-      </div>
-    </div>
-  `).join("");
-}
-
-function submitApplication(id) {
-  const mission = data.missions.find(item => item.id === id);
-
-  if (!mission || isCompleted(mission) || hasPending(mission)) {
-    return;
-  }
-
-  const confirmed = confirm(
-    "「" + mission.title + "」の達成申請を送信しますか？"
-  );
-
-  if (!confirmed) return;
-
-  data.history.push({
-    id: crypto.randomUUID(),
-    missionId: mission.id,
-    points: mission.points,
-    status: "pending",
-    date: new Date().toLocaleString("ja-JP")
-  });
-
-  saveData();
-  render();
-
-  showToast("達成申請を登録しました。管理者の承認を待ちましょう。");
-}
-
-function approveApplication(id) {
-  const item = data.history.find(
-    record => record.id === id && record.status === "pending"
-  );
-
-  if (!item) return;
-
-  const mission = data.missions.find(
-    mission => mission.id === item.missionId
-  );
-
-  if (!mission) {
-    showToast("対象のミッションがありません。");
-    return;
-  }
-
-  if (isCompleted(mission)) {
-    item.status = "rejected";
-    saveData();
-    render();
-    showToast("このミッションはすでに達成済みです。");
-    return;
-  }
-
-  if (!confirm(
-    "この申請を承認しますか？\n" +
-    mission.title + "\n" +
-    formatPoints(mission.points) + " pt を加算します。"
-  )) {
-    return;
-  }
-
-  item.status = "approved";
-  item.approvedAt = new Date().toLocaleString("ja-JP");
-
-  saveData();
-  render();
-
-  showToast(formatPoints(mission.points) + " pt を加算しました！");
-}
-
-function rejectApplication(id) {
-  const item = data.history.find(
-    record => record.id === id && record.status === "pending"
-  );
-
-  if (!item) return;
-
-  if (!confirm("この申請を却下しますか？")) return;
-
-  item.status = "rejected";
-
-  saveData();
-  render();
-
-  showToast("申請を却下しました。");
-}
-
-function addMission(event) {
-  event.preventDefault();
-
-  const title = document.getElementById("newTitle").value.trim();
-  const points = Number(document.getElementById("newPoints").value);
-  const deadline = document.getElementById("newDeadline").value;
-
-  if (!title || !Number.isSafeInteger(points) || points < 1 || points > 1000000) {
-    showToast("ミッション名とポイントを正しく入力してください。");
-    return;
-  }
-
-  data.missions.push({
-    id: crypto.randomUUID(),
-    title,
-    points,
-    deadline,
-    description: "新しいミッションに挑戦しよう。",
-    icon: "🎯",
-    status: "active"
-  });
-
-  saveData();
-  render();
-
-  document.getElementById("addForm").reset();
-
-  showToast("ミッションを追加しました！");
-}
-
-function editMission(id) {
-  const mission = data.missions.find(item => item.id === id);
-
-  if (!mission) return;
-
-  const title = prompt("ミッション名", mission.title);
-
-  if (title === null) return;
-
-  if (!title.trim()) {
-    showToast("ミッション名を入力してください。");
-    return;
-  }
-
-  const pointsText = prompt(
-    "獲得ポイント",
-    String(mission.points)
-  );
-
-  if (pointsText === null) return;
-
-  const points = Number(pointsText);
-
-  if (!Number.isSafeInteger(points) || points < 1 || points > 1000000) {
-    showToast("ポイントは1～1,000,000の整数にしてください。");
-    return;
-  }
-
-  const deadline = prompt(
-    "期限（YYYY-MM-DD形式、期限なしは空欄）",
-    mission.deadline || ""
-  );
-
-  if (deadline === null) return;
-
-  if (deadline && !/^\d{4}-\d{2}-\d{2}$/.test(deadline)) {
-    showToast("期限をYYYY-MM-DD形式で入力してください。");
-    return;
-  }
-
-  mission.title = title.trim();
-  mission.points = points;
-  mission.deadline = deadline;
-
-  saveData();
-  render();
-
-  showToast("ミッションを更新しました。");
-}
-
-function deleteMission(id) {
-  const mission = data.missions.find(item => item.id === id);
-
-  if (!mission) return;
-
-  if (!confirm(
-    "「" + mission.title + "」を削除しますか？\n" +
-    "関連する履歴も削除されます。"
-  )) {
-    return;
-  }
-
-  data.missions = data.missions.filter(item => item.id !== id);
-
-  data.history = data.history.filter(
-    item => item.missionId !== id
-  );
-
-  saveData();
-  render();
-
-  showToast("ミッションを削除しました。");
-}
-
-function exportBackup() {
-  const blob = new Blob(
-    [JSON.stringify(data, null, 2)],
-    { type: "application/json" }
-  );
-
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = "mission-point-backup.json";
-  link.click();
-
-  URL.revokeObjectURL(url);
-
-  showToast("バックアップを保存しました。");
-}
-
-function importBackup(file) {
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = () => {
-    try {
-      const parsed = JSON.parse(reader.result);
-
-      if (
-        !parsed ||
-        !Array.isArray(parsed.missions) ||
-        !Array.isArray(parsed.history)
-      ) {
-        throw new Error("不正な形式");
-      }
-
-      if (!confirm(
-        "現在のデータをバックアップの内容に置き換えますか？"
-      )) {
-        return;
-      }
-
-      data = parsed;
-
-      saveData();
-      render();
-
-      showToast("バックアップを読み込みました。");
-    } catch (error) {
-      showToast("ファイルを読み込めませんでした。");
-    }
-  };
-
-  reader.readAsText(file);
-}
-
-function resetData() {
-  if (!confirm(
-    "すべてのミッションとポイント履歴を初期状態に戻しますか？\n" +
-    "必要なデータは先にバックアップしてください。"
-  )) {
-    return;
-  }
-
-  data = {
-    missions: structuredClone(initialMissions),
-    history: []
-  };
-
-  saveData();
-  render();
-
-  showToast("初期状態に戻しました。");
-}
-
-document.getElementById("missionList").addEventListener("click", event => {
-  const button = event.target.closest("button[data-action]");
-
-  if (!button) return;
-
-  if (button.dataset.action === "apply") {
-    submitApplication(button.dataset.id);
-  }
-});
-
-document.getElementById("adminToggle").addEventListener("click", () => {
-  adminOpen = !adminOpen;
-
-  document.getElementById("adminContent").classList.toggle(
-    "hidden",
-    !adminOpen
-  );
-
-  document.getElementById("adminToggle").textContent =
-    adminOpen ? "管理者メニューを閉じる" : "管理者メニューを開く";
-});
-
-document.getElementById("pendingList").addEventListener("click", event => {
-  const button = event.target.closest("button[data-action]");
-
-  if (!button) return;
-
-  if (button.dataset.action === "approve") {
-    approveApplication(button.dataset.id);
-  }
-
-  if (button.dataset.action === "reject") {
-    rejectApplication(button.dataset.id);
-  }
-});
-
-document.getElementById("manageList").addEventListener("click", event => {
-  const button = event.target.closest("button[data-action]");
-
-  if (!button) return;
-
-  if (button.dataset.action === "edit") {
-    editMission(button.dataset.id);
-  }
-
-  if (button.dataset.action === "delete") {
-    deleteMission(button.dataset.id);
-  }
-});
-
-document.getElementById("addForm").addEventListener("submit", addMission);
-
-document.getElementById("exportButton").addEventListener("click", exportBackup);
-
-document.getElementById("importButton").addEventListener("click", () => {
-  document.getElementById("importFile").click();
-});
-
-document.getElementById("importFile").addEventListener("change", event => {
-  importBackup(event.target.files[0]);
-  event.target.value = "";
-});
-
-document.getElementById("resetButton").addEventListener("click", resetData);
-
-render();
-</script>
 
 </body>
 </html>
