@@ -3,1182 +3,1288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#050814">
-<title>USJ CHALLENGE SYSTEM | ANNUAL PLAN</title>
+<title>MISSION POINT | ミッション管理</title>
 
 <style>
-:root{
-  --bg:#050814;
-  --panel:#0d1427;
-  --panel2:#111d35;
-  --blue:#00e5ff;
-  --purple:#a855f7;
-  --text:#eaf4ff;
-  --muted:#91a4c5;
-  --border:rgba(0,229,255,.22);
-  --green:#4ade80;
-  --red:#fb7185;
+:root {
+  --bg: #090d18;
+  --panel: #131b2d;
+  --panel2: #19243a;
+  --text: #f3f6ff;
+  --muted: #9ba9c4;
+  --blue: #51a7ff;
+  --purple: #a77bff;
+  --green: #40e0a0;
+  --yellow: #ffd166;
+  --red: #ff647c;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{
-  margin:0;
-  background:radial-gradient(ellipse at top,#13234b 0%,transparent 55%),var(--bg);
-  color:var(--text);
-  font-family:"Segoe UI","Meiryo",sans-serif;
-  line-height:1.7;
+
+* {
+  box-sizing: border-box;
 }
-header{
-  position:sticky;
-  top:0;
-  z-index:20;
-  padding:14px max(18px,calc((100% - 1200px)/2));
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  background:rgba(5,8,20,.94);
-  backdrop-filter:blur(14px);
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at top, #17254a 0%, transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", "Yu Gothic", sans-serif;
+  min-height: 100vh;
 }
-.logo{
-  color:var(--blue);
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:2px;
-  white-space:nowrap;
+
+button, input, select {
+  font: inherit;
 }
-.logo span{color:var(--purple)}
-nav{display:flex;flex-wrap:wrap;gap:14px}
-nav a{
-  color:var(--muted);
-  text-decoration:none;
-  font-size:12px;
+
+button {
+  cursor: pointer;
 }
-nav a:hover{color:var(--blue)}
-main{max-width:1200px;margin:auto;padding:25px 20px 70px}
-.hero{
-  padding:45px 25px;
-  border:1px solid var(--border);
-  border-radius:22px;
-  background:linear-gradient(135deg,rgba(0,229,255,.09),rgba(168,85,247,.1));
-  box-shadow:0 0 40px rgba(0,229,255,.06);
+
+header {
+  border-bottom: 1px solid #27334c;
+  background: rgba(9, 13, 24, 0.88);
 }
-.eyebrow{color:var(--blue);font-size:11px;letter-spacing:3px}
-h1{
-  font-size:clamp(31px,6vw,56px);
-  line-height:1.2;
-  margin:12px 0;
-  letter-spacing:1px;
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
 }
-h1 span{color:var(--blue)}
-.hero p,.muted{color:var(--muted)}
-.deadline{
-  display:inline-block;
-  margin-top:10px;
-  border:1px solid var(--purple);
-  padding:6px 13px;
-  border-radius:7px;
-  color:#d8b4fe;
-  font-size:12px;
+
+.logo {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
 }
-.section-title{margin:40px 0 17px;font-size:21px}
-.section-title small{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-  font-weight:normal;
+
+.logo span {
+  color: var(--blue);
 }
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:13px;
-  margin-top:20px;
+
+.header-label {
+  color: var(--muted);
+  font-size: 12px;
 }
-.card,.mission,.option-card,.rule{
-  background:rgba(13,20,39,.94);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:19px;
-  min-width:0;
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px 20px 60px;
 }
-.stat-label{color:var(--muted);font-size:12px}
-.stat-value{
-  font-size:clamp(22px,3vw,31px);
-  font-weight:800;
-  color:var(--blue);
-  margin-top:4px;
-  overflow-wrap:anywhere;
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 32px;
+  border: 1px solid #34456c;
+  border-radius: 24px;
+  background: linear-gradient(125deg, #1a2b50, #201b3d 65%, #111a2c);
+  box-shadow: 0 15px 50px #0003;
 }
-.purple{color:#c084fc!important}
-.green{color:var(--green)!important}
-.progress-track{
-  height:10px;
-  background:#202b43;
-  border-radius:20px;
-  overflow:hidden;
-  margin:14px 0 8px;
+
+.hero::after {
+  content: "★";
+  position: absolute;
+  right: 35px;
+  top: 10px;
+  font-size: 125px;
+  color: #ffffff09;
 }
-.progress-fill{
-  width:0;
-  height:100%;
-  background:linear-gradient(90deg,var(--blue),var(--purple));
-  border-radius:inherit;
-  transition:width .25s;
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3px;
 }
-.progress-note{color:var(--muted);font-size:12px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
+
+.hero h1 {
+  font-size: clamp(27px, 5vw, 42px);
+  margin: 12px 0;
 }
-.plan-card{
-  background:linear-gradient(145deg,rgba(13,20,39,.98),rgba(18,29,53,.98));
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px;
+
+.hero p {
+  color: #c1cce3;
+  line-height: 1.8;
 }
-.plan-card.selected{
-  border:2px solid var(--blue);
-  padding:19px;
-  background:linear-gradient(145deg,rgba(0,229,255,.11),rgba(168,85,247,.09));
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 22px;
 }
-.rank{
-  font-size:11px;
-  letter-spacing:2px;
-  color:var(--blue);
-  font-weight:800;
+
+.stat {
+  padding: 20px;
+  background: #0b1223a8;
+  border: 1px solid #ffffff13;
+  border-radius: 15px;
 }
-.plan-card h3{font-size:20px;margin:6px 0}
-.price{font-size:29px;font-weight:850}
-.price small{font-size:12px;color:var(--muted);font-weight:normal}
-.plan-card p{color:var(--muted);font-size:12px;min-height:40px}
-button{
-  cursor:pointer;
-  background:transparent;
-  border:1px solid var(--blue);
-  color:var(--blue);
-  border-radius:7px;
-  padding:9px 12px;
-  font-size:12px;
-  font-weight:700;
+
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
 }
-button:hover{background:rgba(0,229,255,.1)}
-button.selected{border-color:var(--green);color:var(--green)}
-button:disabled{cursor:not-allowed}
-.plan-card button{width:100%}
-.option-list{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:11px;
+
+.stat-value {
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 900;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
 }
-.option-card{
-  display:flex;
-  gap:12px;
-  align-items:flex-start;
-  cursor:pointer;
-  padding:15px;
+
+.points {
+  color: var(--yellow);
 }
-.option-card:has(input:checked){
-  border-color:var(--blue);
-  background:rgba(0,229,255,.06);
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 35px 0 16px;
 }
-.option-card input{
-  width:18px;
-  height:18px;
-  margin-top:5px;
-  accent-color:var(--blue);
-  flex-shrink:0;
+
+.section-head h2 {
+  margin: 0;
+  font-size: 22px;
 }
-.option-card strong{display:block;font-size:14px}
-.option-card small{display:block;color:var(--muted);font-size:12px}
-.option-card .option-price{
-  color:var(--green);
-  font-weight:700;
-  margin-top:4px;
+
+.count {
+  color: var(--muted);
+  font-size: 13px;
 }
-.notice{
-  border-left:3px solid var(--purple);
-  padding:12px 15px;
-  background:rgba(168,85,247,.07);
-  color:var(--muted);
-  font-size:12px;
-  margin-top:16px;
+
+.progress-box {
+  padding: 20px;
+  background: var(--panel);
+  border: 1px solid #283650;
+  border-radius: 16px;
+  margin-bottom: 22px;
 }
-.mission-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:13px;
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
 }
-.mission{transition:.2s}
-.mission:hover{border-color:var(--blue);transform:translateY(-2px)}
-.mission.completed{border-color:rgba(74,222,128,.65)}
-.mission-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
+
+.progress-track {
+  height: 11px;
+  border-radius: 20px;
+  background: #28334a;
+  overflow: hidden;
 }
-.badge{
-  font-size:10px;
-  border-radius:5px;
-  padding:3px 8px;
-  background:rgba(0,229,255,.1);
-  color:var(--blue);
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  border-radius: inherit;
+  transition: width .35s;
 }
-.badge.hard{background:rgba(168,85,247,.15);color:#d8b4fe}
-.points{font-weight:800;color:var(--blue);font-size:13px}
-.points.hard{color:#c084fc}
-.mission h3{font-size:15px;margin:12px 0 5px}
-.mission p{color:var(--muted);font-size:12px;margin:0 0 13px}
-.mission-actions{display:flex;gap:8px;flex-wrap:wrap}
-.mission-actions button{flex:1}
-button.complete{border-color:var(--green);color:var(--green)}
-button.fail{border-color:var(--red);color:var(--red)}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th,td{
-  padding:11px;
-  text-align:left;
-  border-bottom:1px solid rgba(255,255,255,.08);
+
+.mission-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
-th{color:var(--blue);font-weight:600}
-td{color:#d4def0}
-.empty{color:var(--muted);text-align:center;padding:22px}
-.summary{
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:20px;
-  background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(168,85,247,.08));
+
+.mission {
+  position: relative;
+  padding: 22px;
+  background: linear-gradient(145deg, var(--panel), #101726);
+  border: 1px solid #283650;
+  border-radius: 18px;
+  transition: transform .2s, border-color .2s;
 }
-.summary-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
+
+.mission:hover {
+  transform: translateY(-3px);
+  border-color: #577bb4;
 }
-.total{font-size:31px;font-weight:850;color:var(--green)}
-.total small{font-size:12px;color:var(--muted)}
-.summary-details{
-  border-top:1px solid var(--border);
-  margin-top:14px;
-  padding-top:12px;
+
+.mission.completed {
+  border-color: #287d67;
+  background: linear-gradient(145deg, #112b2a, #101b28);
 }
-.summary-row{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  margin:5px 0;
-  font-size:13px;
+
+.mission.pending {
+  border-color: #9b7936;
 }
-.summary-row span:first-child{color:var(--muted)}
-.summary-row strong{text-align:right}
-.rules{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:13px;
+
+.mission-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
 }
-.rule h3{font-size:15px;margin:0 0 7px}
-.rule p{font-size:12px;color:var(--muted);margin:0}
-footer{
-  text-align:center;
-  padding:25px 15px;
-  color:#71829f;
-  font-size:11px;
-  border-top:1px solid var(--border);
-  letter-spacing:1px;
+
+.mission-icon {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  background: #263653;
+  border-radius: 13px;
+  flex-shrink: 0;
 }
-@media(max-width:800px){
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+.reward {
+  color: var(--yellow);
+  font-size: 19px;
+  font-weight: 900;
+  white-space: nowrap;
 }
-@media(max-width:560px){
-  header{align-items:flex-start;flex-direction:column;padding:12px 15px}
-  nav{gap:12px}
-  main{padding:18px 13px 45px}
-  .hero{padding:30px 18px}
-  .grid,.option-list,.mission-grid,.rules{grid-template-columns:1fr}
-  .plan-card p{min-height:0}
-  .card{padding:15px}
-  .summary{padding:16px}
-  .total{font-size:27px}
+
+.mission h3 {
+  margin: 19px 0 9px;
+  font-size: 18px;
+}
+
+.description {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+  min-height: 45px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.badge {
+  padding: 5px 9px;
+  background: #222e45;
+  color: #cbd7ed;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.badge.done {
+  background: #164738;
+  color: #7af0bf;
+}
+
+.badge.wait {
+  background: #49391b;
+  color: #ffda8a;
+}
+
+.action {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  color: white;
+  font-weight: bold;
+  background: linear-gradient(100deg, #318bff, #8057ed);
+}
+
+.action:hover {
+  filter: brightness(1.12);
+}
+
+.action:disabled {
+  cursor: default;
+  background: #29364b;
+  color: #a8b4c9;
+}
+
+.action.approve {
+  background: linear-gradient(100deg, #138b69, #31bc91);
+}
+
+.action.reject {
+  background: #4a2634;
+  color: #ffb5c2;
+}
+
+.action.secondary {
+  background: #273650;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 35px;
+  border: 1px dashed #34445e;
+  border-radius: 16px;
+  color: var(--muted);
+}
+
+.admin-panel {
+  margin-top: 35px;
+  padding: 24px;
+  border: 1px solid #594779;
+  border-radius: 18px;
+  background: #18152a;
+}
+
+.admin-panel h2 {
+  margin-top: 0;
+}
+
+.admin-note {
+  color: #c1b2e8;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.admin-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.admin-controls input,
+.admin-controls select {
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #3b4964;
+  border-radius: 9px;
+  background: #0c1322;
+  color: white;
+}
+
+.admin-controls input[type="text"] {
+  flex: 1 1 180px;
+}
+
+.admin-controls input[type="number"] {
+  width: 120px;
+}
+
+.admin-controls button {
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 15px;
+  color: white;
+  background: #6248b6;
+}
+
+.admin-item {
+  padding: 15px 0;
+  border-bottom: 1px solid #343049;
+}
+
+.admin-item:last-child {
+  border-bottom: 0;
+}
+
+.admin-item p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.admin-item-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-item-buttons button {
+  border: 0;
+  border-radius: 7px;
+  padding: 8px 12px;
+  background: #29364b;
+  color: white;
+}
+
+.admin-item-buttons .yes {
+  background: #17684f;
+}
+
+.admin-item-buttons .no {
+  background: #542a39;
+}
+
+.admin-item-buttons .delete {
+  background: #592c36;
+}
+
+.hidden {
+  display: none !important;
+}
+
+footer {
+  text-align: center;
+  padding: 25px 15px;
+  color: #75839d;
+  font-size: 12px;
+  border-top: 1px solid #222d42;
+}
+
+.notice {
+  margin-top: 20px;
+  color: #9ba9c4;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 13px 20px;
+  background: #243451;
+  border: 1px solid #50698f;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px #0007;
+  z-index: 10;
+  max-width: calc(100% - 30px);
+}
+
+@media (max-width: 650px) {
+  .header-inner {
+    padding: 16px;
+  }
+
+  main {
+    padding: 20px 14px 40px;
+  }
+
+  .hero {
+    padding: 23px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .stat {
+    padding: 15px;
+  }
+
+  .mission-list {
+    grid-template-columns: 1fr;
+  }
+
+  .section-head h2 {
+    font-size: 19px;
+  }
 }
 </style>
 </head>
 
 <body>
+
 <header>
-  <div class="logo">USJ <span>// SYSTEM</span></div>
-  <nav>
-    <a href="#status">STATUS</a>
-    <a href="#plans">契約プラン</a>
-    <a href="#options">オプション</a>
-    <a href="#missions">ミッション</a>
-    <a href="#rules">利用条件</a>
-  </nav>
+  <div class="header-inner">
+    <div class="logo">MISSION <span>POINT</span></div>
+    <div class="header-label">PERSONAL MISSION SYSTEM</div>
+  </div>
 </header>
 
 <main>
 
-<section class="hero">
-  <div class="eyebrow">MISSION CONTROL // 2027</div>
-  <h1>USJ <span>CHALLENGE</span><br>SYSTEM</h1>
-  <p>
-    目標を達成せよ。記録を残せ。<br>
-    契約プランとチャレンジを、このシステムで管理する。
-  </p>
-  <div class="deadline">DEADLINE : 2027.07.21</div>
-</section>
+  <section class="hero">
+    <div class="eyebrow">YOUR CHALLENGE STARTS HERE</div>
+    <h1>ミッションを達成せよ。</h1>
+    <p>
+      ミッションに挑戦してポイントを獲得しよう。<br>
+      達成申請を管理者が承認すると、ポイントが加算されます。
+    </p>
 
-<h2 class="section-title" id="status">
-  SYSTEM STATUS
-  <small>チャレンジとポイントの状況</small>
-</h2>
-
-<section class="stats">
-  <div class="card">
-    <div class="stat-label">獲得ポイント</div>
-    <div class="stat-value" id="points">100 P</div>
-  </div>
-  <div class="card">
-    <div class="stat-label">全ミッション</div>
-    <div class="stat-value" id="missionCount">21</div>
-  </div>
-  <div class="card">
-    <div class="stat-label">達成済み</div>
-    <div class="stat-value green" id="completedCount">0</div>
-  </div>
-  <div class="card">
-    <div class="stat-label">選択中</div>
-    <div class="stat-value purple" id="chosenCount">0 / 2</div>
-  </div>
-</section>
-
-<h2 class="section-title">
-  ANNUAL PLAN SYSTEM
-  <small>匿名の年間契約プランとオプション</small>
-</h2>
-
-<section id="plans">
-  <h3 class="section-title">
-    01 // BASIC PLANS
-    <small>年間料金・1つ選択してください</small>
-  </h3>
-  <div class="grid" id="planGrid"></div>
-</section>
-
-<section id="options">
-  <h3 class="section-title">
-    02 // ANNUAL OPTIONS
-    <small>追加オプションは任意です</small>
-  </h3>
-
-  <h3>お出かけオプション</h3>
-  <div class="option-list" id="outingOptions"></div>
-
-  <h3 style="margin-top:25px">予定・交流オプション</h3>
-  <div class="option-list" id="serviceOptions"></div>
-
-  <div class="notice">
-    岐阜県内（岐阜市内を含む）は無料。
-    名古屋市内は年間1,200円、名古屋市以外の愛知県内は年間2,000円です。
-    地域別オプションは同時に1つだけ選択できます。
-    交通費・飲食代・施設利用料などの実費は含まれません。
-  </div>
-
-  <div class="summary" style="margin-top:20px">
-    <div class="summary-top">
-      <div>
-        <strong>年間契約料金の見積もり</strong>
-        <div class="progress-note">選択したプランとオプションの合計</div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">TOTAL POINTS</div>
+        <div class="stat-value points" id="totalPoints">0 pt</div>
       </div>
-      <div class="total" id="totalPrice">0円 <small>/ 年</small></div>
+
+      <div class="stat">
+        <div class="stat-label">COMPLETED MISSIONS</div>
+        <div class="stat-value" id="completedCount">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">IN PROGRESS</div>
+        <div class="stat-value" id="activeCount">0</div>
+      </div>
     </div>
+  </section>
 
-    <div class="summary-details" id="summaryDetails"></div>
+  <div class="section-head">
+    <h2>🎯 ミッション一覧</h2>
+    <div class="count" id="missionCount">0 MISSIONS</div>
+  </div>
 
-    <div class="summary-row">
-      <span>月額換算</span>
-      <strong id="monthlyPrice">0円</strong>
+  <section class="progress-box">
+    <div class="progress-top">
+      <span>ミッション達成率</span>
+      <strong id="progressText">0%</strong>
     </div>
-
-    <div class="notice">
-      料金は選択内容に基づく試算です。
-      実際に契約する場合は、双方で金額と内容を確認してください。
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<h2 class="section-title" id="mahjong">
-  MAHJONG SOUL // TARGET
-  <small>雀魂・50,000点差チャレンジ</small>
-</h2>
+  <section class="mission-list" id="missionList"></section>
 
-<section class="card">
-  <div class="stat-label">TARGET DIFFERENCE</div>
-  <div class="stat-value">50,000 POINTS</div>
-  <div class="progress-track">
-    <div class="progress-fill" id="mahjongBar"></div>
-  </div>
-  <div class="progress-note" id="mahjongText">
-    現在の点差：11,000点 ／ 目標：50,000点
-  </div>
-  <div class="notice">
-    この表示は手動設定の参考値です。
-    実際の対局記録とは自動連動していません。
-  </div>
-</section>
+  <section class="admin-panel">
+    <h2>👑 管理者メニュー</h2>
 
-<h2 class="section-title" id="missions">
-  MISSION DATABASE
-  <small>
-    選択できるミッションは最大2個です。
-    選択後、達成または失敗を記録します。
-  </small>
-</h2>
+    <p class="admin-note">
+      ここでは申請の承認・却下や、ミッションの追加ができます。<br>
+      ※これはブラウザ上だけで動くデモです。管理者専用の安全な認証機能はありません。
+    </p>
 
-<h3>01 // STANDARD MISSIONS <span class="tag">100 P EACH</span></h3>
-<section class="mission-grid" id="normalMissions"></section>
+    <button class="action secondary" id="adminToggle">
+      管理者メニューを開く
+    </button>
 
-<h3 style="margin-top:32px">
-  02 // HIGH DIFFICULTY <span class="tag">1,000 P EACH</span>
-</h3>
-<section class="mission-grid" id="hardMissions"></section>
+    <div id="adminContent" class="hidden">
 
-<h3 style="margin-top:32px">
-  03 // SPECIAL CHALLENGE <span class="tag">1,000 P</span>
-</h3>
-<section class="mission-grid" id="specialMissions"></section>
+      <div class="section-head">
+        <h2>📩 承認待ちの申請</h2>
+      </div>
 
-<div class="notice">
-  NOTICE：失敗時は所持ポイントから100ポイントを減点します。
-  ポイントは0未満にならないものとします。
-  選択しただけではポイントは増えません。
-  実際に行動する前に、移動先・費用・安全面を確認し、
-  無理のない計画にしてください。
-</div>
+      <div id="pendingList"></div>
 
-<h2 class="section-title">
-  MISSION STATUS
-  <small>選択・達成・失敗の記録（このブラウザ内のみ）</small>
-</h2>
+      <div class="section-head">
+        <h2>➕ ミッションを追加</h2>
+      </div>
 
-<section class="card table-wrap">
-  <table>
-    <thead>
-      <tr>
-        <th>MISSION</th>
-        <th>POINT</th>
-        <th>STATUS</th>
-        <th>操作</th>
-      </tr>
-    </thead>
-    <tbody id="selectedTable">
-      <tr>
-        <td colspan="4" class="empty">
-          ミッションはまだ選択されていません。
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+      <form id="addForm">
+        <div class="admin-controls">
+          <input
+            type="text"
+            id="newTitle"
+            placeholder="ミッション名"
+            maxlength="100"
+            required
+          >
 
-<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-  <button id="resetMissions" type="button">ミッション記録をリセット</button>
-  <button id="resetAll" type="button">ポイント・記録を初期状態に戻す</button>
-</div>
+          <input
+            type="number"
+            id="newPoints"
+            placeholder="ポイント"
+            min="1"
+            max="1000000"
+            required
+          >
 
-<h2 class="section-title" id="rules">
-  SYSTEM RULES
-  <small>匿名サイトの利用条件</small>
-</h2>
+          <input
+            type="date"
+            id="newDeadline"
+            aria-label="期限"
+          >
 
-<section class="rules">
-  <div class="rule">
-    <h3>01. 契約期間</h3>
-    <p>基本プランは年間契約を想定します。開始日・終了日は双方で確認します。</p>
-  </div>
+          <button type="submit">追加する</button>
+        </div>
+      </form>
 
-  <div class="rule">
-    <h3>02. プラン選択</h3>
-    <p>基本プランは1つ選択します。オプションの追加は任意です。</p>
-  </div>
+      <div class="section-head">
+        <h2>📋 ミッション管理</h2>
+      </div>
 
-  <div class="rule">
-    <h3>03. 予定調整</h3>
-    <p>優先予定調整は日程相談を優先するサービスです。予定は双方の都合を確認して決定します。</p>
-  </div>
+      <div id="manageList"></div>
 
-  <div class="rule">
-    <h3>04. 対応方針</h3>
-    <p>プランに応じてサービスや予定調整の優先度が異なります。どのプランでも、基本的な礼儀と相互の尊重を大切にします。</p>
-  </div>
+      <div class="section-head">
+        <h2>💾 データ管理</h2>
+      </div>
 
-  <div class="rule">
-    <h3>05. 実費</h3>
-    <p>交通費、飲食代、施設利用料などは基本料金に含まれません。必要な費用は事前に確認します。</p>
-  </div>
+      <div class="admin-controls">
+        <button type="button" id="exportButton">
+          バックアップを保存
+        </button>
 
-  <div class="rule">
-    <h3>06. 変更・終了</h3>
-    <p>契約内容の変更や終了は、双方で話し合い、合意した内容に従って対応します。</p>
-  </div>
+        <button type="button" id="importButton">
+          バックアップを読み込む
+        </button>
 
-  <div class="rule">
-    <h3>07. 匿名性</h3>
-    <p>このページには個人名や個人の連絡先を掲載しません。公開ページに個人情報や私的な記録を追加しないでください。</p>
-  </div>
+        <input
+          type="file"
+          id="importFile"
+          accept=".json,application/json"
+          class="hidden"
+        >
 
-  <div class="rule">
-    <h3>08. 保存範囲</h3>
-    <p>ミッションの記録は、このブラウザのローカル保存領域に保存されます。他の端末とは同期されません。</p>
-  </div>
-</section>
+        <button type="button" id="resetButton">
+          初期状態に戻す
+        </button>
+      </div>
+
+      <p class="notice">
+        バックアップはこのブラウザのデータを保存するためのものです。
+        ファイルにはポイント履歴なども含まれます。取り扱いに注意してください。
+      </p>
+    </div>
+  </section>
+
+  <p class="notice">
+    このサイトはブラウザ内にデータを保存します。
+    別の端末や別のブラウザとはデータが自動共有されません。
+  </p>
 
 </main>
 
 <footer>
-  USJ CHALLENGE SYSTEM // ANNUAL PLAN MODULE<br>
-  ANONYMOUS DISPLAY • LOCAL BROWSER STORAGE
+  MISSION POINT SYSTEM © 2026
 </footer>
+
+<div id="toast" class="toast hidden" role="status"></div>
 
 <script>
 "use strict";
 
-const INITIAL_POINTS = 100;
-const MAX_ACTIVE = 2;
+const STORAGE_KEY = "missionPointSystem_v1";
 
-let points = INITIAL_POINTS;
-let selectedPlan = "free";
-let chosen = new Set();
-let statuses = {};
-let nextMissionId = 0;
-
-const plans = [
+const initialMissions = [
   {
-    id:"premium",
-    rank:"S RANK",
-    name:"プレミアム",
-    price:2200,
-    desc:"最優先の予定調整と充実したサービス。"
+    id: "mission-1",
+    title: "オロナミンCを飲む",
+    points: 100,
+    deadline: "2026-10-22",
+    description: "指定された飲み物を飲んでミッション達成を申請しよう。",
+    icon: "🥤",
+    status: "active"
   },
   {
-    id:"gold",
-    rank:"A RANK",
-    name:"ゴールド",
-    price:1800,
-    desc:"優先的な予定調整と丁寧な対応。"
+    id: "mission-2",
+    title: "麻雀のテストで70点以上取る",
+    points: 1000,
+    deadline: "",
+    description: "麻雀のテストで70点以上を取ることが条件です。",
+    icon: "🀄",
+    status: "active"
   },
   {
-    id:"standard",
-    rank:"B RANK",
-    name:"スタンダード",
-    price:1200,
-    desc:"標準的なサービスを利用するプラン。"
+    id: "mission-3",
+    title: "今日、対戦する",
+    points: 110,
+    deadline: "2026-10-22",
+    description: "今日の対戦を達成して申請しよう。",
+    icon: "⚔️",
+    status: "active"
   },
   {
-    id:"basic",
-    rank:"C RANK",
-    name:"ベーシック",
-    price:800,
-    desc:"基本的なサービスを利用するプラン。"
-  },
-  {
-    id:"light",
-    rank:"D RANK",
-    name:"ライト",
-    price:250,
-    desc:"必要なサービスをシンプルに利用するプラン。"
-  },
-  {
-    id:"free",
-    rank:"FREE",
-    name:"フリー",
-    price:0,
-    desc:"基本料金無料。追加サービスは任意。"
+    id: "mission-4",
+    title: "指定された場所へ行く",
+    points: 1000,
+    deadline: "2026-11-22",
+    description: "指定された場所への訪問が達成条件です。",
+    icon: "📍",
+    status: "active"
   }
 ];
 
-const outingOptions = [
-  {
-    id:"gifu",
-    name:"岐阜県内のお出かけ",
-    price:0,
-    desc:"岐阜市内を含む岐阜県内のお出かけ。",
-    group:"region"
-  },
-  {
-    id:"nagoya",
-    name:"名古屋市内のお出かけ",
-    price:1200,
-    desc:"名古屋市内へのお出かけ。",
-    group:"region"
-  },
-  {
-    id:"aichi",
-    name:"愛知県内（名古屋市以外）",
-    price:2000,
-    desc:"名古屋市を除く愛知県内へのお出かけ。",
-    group:"region"
-  },
-  {
-    id:"far",
-    name:"遠出プラン",
-    price:1500,
-    desc:"遠方へのお出かけの計画。",
-    group:"other"
-  },
-  {
-    id:"karaoke",
-    name:"カラオケオプション",
-    price:500,
-    desc:"カラオケに関する予定調整。",
-    group:"other"
-  },
-  {
-    id:"shopping",
-    name:"ショッピングオプション",
-    price:500,
-    desc:"買い物に関する予定調整。",
-    group:"other"
-  }
-];
+let data = loadData();
+let adminOpen = false;
+let toastTimer;
 
-const serviceOptions = [
-  {
-    id:"priority",
-    name:"優先予定調整",
-    price:1000,
-    desc:"遊ぶ日程の相談を優先的に行う。"
-  },
-  {
-    id:"event",
-    name:"イベント企画",
-    price:500,
-    desc:"一緒に楽しむイベントの企画。"
-  },
-  {
-    id:"regular",
-    name:"定期交流プラン",
-    price:800,
-    desc:"定期的に遊ぶ予定の相談。"
-  },
-  {
-    id:"special",
-    name:"特別イベント",
-    price:1000,
-    desc:"誕生日や記念日などの企画。"
-  }
-];
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-const normal = [
-  ["指定された飲み物を購入する","指定された飲み物を購入し、達成を報告する。"],
-  ["指定された食事を購入する","指定された条件に従って食事を購入する。"],
-  ["紹介動画を制作する","指定されたテーマの短い動画を完成させる。"],
-  ["資料を作成する","指定されたテーマについて資料をまとめる。"],
-  ["イオンモール各務原へ行く","事前に目的と予算を確認して訪問する。"],
-  ["指定課題を提出する","指定された課題を完成させて提出する。"],
-  ["指定場所を訪問する","訪問先と移動方法を確認して訪問する。"],
-  ["写真記録を完成させる","撮影してよい対象を撮影し、記録をまとめる。"],
-  ["麻雀の学習課題","指定された学習課題に取り組む。"],
-  ["指定されたレポートを作る","条件に従ってレポートを完成させる。"]
-];
+    if (saved) {
+      const parsed = JSON.parse(saved);
 
-const hard = [
-  ["名鉄指定駅チャレンジ","指定された名鉄の駅を訪問し、駅名が確認できる記録を作成する。"],
-  ["指定場所訪問チャレンジ","訪問先と移動手段を事前に確認し、到着記録を作成する。"],
-  ["名鉄ルートチャレンジ","指定されたルートを無理のない計画で巡り、乗車記録をまとめる。"],
-  ["遠距離目的地チャレンジ","予算と移動時間を確認し、目的地の記録を作成する。"],
-  ["1日複数駅巡り","時間と体調に余裕を持った計画で複数駅を巡る。"],
-  ["指定施設訪問チャレンジ","科学館や博物館などを訪問し、レポートを作成する。"],
-  ["公共交通機関チャレンジ","公共交通機関の時刻・運賃を確認して目的地へ移動する。"],
-  ["ウォーキングチャレンジ","距離・天候・休憩・帰宅方法を考慮した安全な計画を作る。"],
-  ["商業施設訪問チャレンジ","目的と予算を決めて商業施設を訪問し、記録を作成する。"],
-  ["3か所訪問チャレンジ","無理のない移動計画で指定された3か所を訪問する。"]
-];
-
-const veryhard = [
-  [
-    "スペシャルチャレンジ",
-    "オルビステストに挑戦する。所要時間の目安：約120分。内容や実施方法を事前に確認する。"
-  ]
-];
-
-const missions = [];
-
-normal.forEach(m => {
-  missions.push({
-    id:nextMissionId++,
-    name:m[0],
-    desc:m[1],
-    points:100,
-    kind:"STANDARD"
-  });
-});
-
-hard.forEach(m => {
-  missions.push({
-    id:nextMissionId++,
-    name:m[0],
-    desc:m[1],
-    points:1000,
-    kind:"HIGH DIFFICULTY"
-  });
-});
-
-veryhard.forEach(m => {
-  missions.push({
-    id:nextMissionId++,
-    name:m[0],
-    desc:m[1],
-    points:1000,
-    kind:"SPECIAL"
-  });
-});
-
-document.getElementById("missionCount").textContent = missions.length;
-
-function yen(n){
-  return Math.round(n).toLocaleString("ja-JP") + "円";
-}
-
-function saveState(){
-  try{
-    localStorage.setItem(
-      "usjChallengeStateV1",
-      JSON.stringify({
-        points,
-        selectedPlan,
-        chosen:[...chosen],
-        statuses
-      })
-    );
-  }catch(e){
-    console.warn("保存できませんでした。",e);
-  }
-}
-
-function loadState(){
-  try{
-    const raw = localStorage.getItem("usjChallengeStateV1");
-    if(!raw) return;
-
-    const s = JSON.parse(raw);
-
-    if(Number.isFinite(s.points)){
-      points = Math.max(0,s.points);
-    }
-
-    if(plans.some(p => p.id === s.selectedPlan)){
-      selectedPlan = s.selectedPlan;
-    }
-
-    if(Array.isArray(s.chosen)){
-      chosen = new Set(
-        s.chosen.filter(id => missions.some(m => m.id === id))
-      );
-    }
-
-    if(s.statuses && typeof s.statuses === "object"){
-      statuses = s.statuses;
-    }
-
-    const active = [...chosen].filter(
-      id => !statuses[id] || statuses[id] === "選択中"
-    );
-
-    active.slice(MAX_ACTIVE).forEach(id => chosen.delete(id));
-
-  }catch(e){
-    console.warn("保存データを読み込めませんでした。",e);
-  }
-}
-
-function renderPlans(){
-  const root = document.getElementById("planGrid");
-  root.replaceChildren();
-
-  plans.forEach(p => {
-    const article = document.createElement("article");
-
-    article.className =
-      "plan-card" + (selectedPlan === p.id ? " selected" : "");
-
-    const monthly = p.price / 12;
-
-    article.innerHTML = `
-      <div class="rank">${p.rank}</div>
-      <h3>${p.name}</h3>
-      <div class="price">${yen(p.price)} <small>/ 年</small></div>
-      <div class="progress-note">
-        ${p.price === 0 ? "月額無料" : "月額換算 " + yen(monthly)}
-      </div>
-      <p>${p.desc}</p>
-      <button type="button" class="${selectedPlan === p.id ? "selected" : ""}">
-        ${selectedPlan === p.id ? "選択中 ✓" : "このプランを選択"}
-      </button>
-    `;
-
-    article.querySelector("button").addEventListener("click",() => {
-      selectedPlan = p.id;
-      renderPlans();
-      updateEstimate();
-      saveState();
-    });
-
-    root.appendChild(article);
-  });
-}
-
-function renderOptions(options,containerId){
-  const root = document.getElementById(containerId);
-  root.replaceChildren();
-
-  options.forEach(o => {
-    const label = document.createElement("label");
-    label.className = "option-card";
-
-    label.innerHTML = `
-      <input
-        type="checkbox"
-        data-option-id="${o.id}"
-        data-price="${o.price}"
-        data-group="${o.group || ""}"
-      >
-      <span>
-        <strong>${o.name}</strong>
-        <small>${o.desc}</small>
-        <small class="option-price">
-          ${o.price === 0 ? "無料" : yen(o.price) + " / 年"}
-        </small>
-      </span>
-    `;
-
-    const input = label.querySelector("input");
-
-    input.addEventListener("change",() => {
-      if(input.dataset.group === "region" && input.checked){
-        document.querySelectorAll('input[data-group="region"]').forEach(other => {
-          if(other !== input){
-            other.checked = false;
-          }
-        });
+      if (
+        parsed &&
+        Array.isArray(parsed.missions) &&
+        Array.isArray(parsed.history)
+      ) {
+        return parsed;
       }
-
-      updateEstimate();
-      saveState();
-    });
-
-    root.appendChild(label);
-  });
-}
-
-function updateEstimate(){
-  const plan = plans.find(p => p.id === selectedPlan);
-  let total = plan.price;
-
-  const details = [
-    {
-      name:plan.name + "（基本プラン）",
-      price:plan.price
     }
-  ];
-
-  document.querySelectorAll(
-    '#options input[type="checkbox"]:checked'
-  ).forEach(input => {
-    const price = Number(input.dataset.price);
-    const name = input.closest("label").querySelector("strong").textContent;
-
-    total += price;
-    details.push({name,price});
-  });
-
-  document.getElementById("totalPrice").innerHTML =
-    yen(total) + ' <small>/ 年</small>';
-
-  document.getElementById("monthlyPrice").textContent =
-    yen(total / 12);
-
-  const root = document.getElementById("summaryDetails");
-  root.replaceChildren();
-
-  details.forEach(d => {
-    const row = document.createElement("div");
-    row.className = "summary-row";
-
-    const name = document.createElement("span");
-    name.textContent = d.name;
-
-    const price = document.createElement("strong");
-    price.textContent = yen(d.price);
-
-    row.append(name,price);
-    root.appendChild(row);
-  });
-
-  const row = document.createElement("div");
-  row.className = "summary-row";
-  row.style.cssText =
-    "border-top:1px solid var(--border);padding-top:10px;margin-top:10px";
-
-  const name = document.createElement("strong");
-  name.textContent = "年間合計";
-
-  const price = document.createElement("strong");
-  price.className = "green";
-  price.textContent = yen(total);
-
-  row.append(name,price);
-  root.appendChild(row);
-}
-
-function renderMissions(list,rootId){
-  const root = document.getElementById(rootId);
-  root.replaceChildren();
-
-  list.forEach(m => {
-    const article = document.createElement("article");
-    article.className = "mission";
-    article.dataset.id = m.id;
-
-    const top = document.createElement("div");
-    top.className = "mission-top";
-
-    const badge = document.createElement("span");
-    badge.className = "badge" + (m.kind !== "STANDARD" ? " hard" : "");
-    badge.textContent = m.kind;
-
-    const pts = document.createElement("span");
-    pts.className = "points" + (m.kind !== "STANDARD" ? " hard" : "");
-    pts.textContent = m.points.toLocaleString() + " P";
-
-    top.append(badge,pts);
-
-    const title = document.createElement("h3");
-    title.textContent =
-      String(m.id + 1).padStart(2,"0") + " // " + m.name;
-
-    const desc = document.createElement("p");
-    desc.textContent = m.desc;
-
-    const actions = document.createElement("div");
-    actions.className = "mission-actions";
-
-    const select = document.createElement("button");
-    select.type = "button";
-    select.textContent = "＋ ミッションを選択";
-    select.addEventListener("click",() => toggleMission(m.id));
-
-    const complete = document.createElement("button");
-    complete.type = "button";
-    complete.className = "complete";
-    complete.textContent = "達成";
-    complete.addEventListener("click",() => setStatus(m.id,"達成"));
-
-    const fail = document.createElement("button");
-    fail.type = "button";
-    fail.className = "fail";
-    fail.textContent = "失敗";
-    fail.addEventListener("click",() => setStatus(m.id,"失敗"));
-
-    actions.append(select,complete,fail);
-    article.append(top,title,desc,actions);
-    root.appendChild(article);
-  });
-}
-
-function toggleMission(id){
-  const status = statuses[id];
-
-  if(status === "達成" || status === "失敗"){
-    alert("このミッションはすでに結果が記録されています。記録をリセットしてから再選択してください。");
-    return;
+  } catch (error) {
+    console.error("保存データの読み込みに失敗しました。", error);
   }
 
-  if(chosen.has(id)){
-    chosen.delete(id);
-    delete statuses[id];
-  }else{
-    const active = [...chosen].filter(
-      x => !statuses[x] || statuses[x] === "選択中"
-    );
+  return {
+    missions: structuredClone(initialMissions),
+    history: []
+  };
+}
 
-    if(active.length >= MAX_ACTIVE){
-      alert("同時に選択できるミッションは最大2個です。");
-      return;
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (error) {
+    showToast("保存できませんでした。ブラウザの設定を確認してください。");
+  }
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function formatPoints(value) {
+  return Number(value).toLocaleString("ja-JP");
+}
+
+function getHistory(id) {
+  return data.history.filter(item => item.missionId === id);
+}
+
+function isCompleted(mission) {
+  return getHistory(mission.id).some(item => item.status === "approved");
+}
+
+function hasPending(mission) {
+  return getHistory(mission.id).some(item => item.status === "pending");
+}
+
+function isRejected(mission) {
+  const records = getHistory(mission.id);
+  return records.length > 0 &&
+    records[records.length - 1].status === "rejected";
+}
+
+function getIcon(mission) {
+  return mission.icon || "🎯";
+}
+
+function getDeadline(mission) {
+  if (!mission.deadline) return "期限未設定";
+  return "期限：" + mission.deadline.replaceAll("-", "/");
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.remove("hidden");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    toast.classList.add("hidden");
+  }, 3000);
+}
+
+function render() {
+  const missions = data.missions;
+
+  const totalPoints = missions.reduce((sum, mission) => {
+    if (isCompleted(mission)) {
+      return sum + Number(mission.points);
     }
+    return sum;
+  }, 0);
 
-    chosen.add(id);
-    statuses[id] = "選択中";
-  }
+  const completed = missions.filter(isCompleted).length;
+  const pending = missions.filter(hasPending).length;
+  const active = missions.length - completed - pending;
 
-  updateMissions();
-  saveState();
-}
-
-function setStatus(id,status){
-  if(!chosen.has(id)){
-    alert("先にミッションを選択してください。");
-    return;
-  }
-
-  if(statuses[id] === "達成" || statuses[id] === "失敗"){
-    alert("結果はすでに記録されています。");
-    return;
-  }
-
-  if(status === "達成"){
-    points += missions.find(m => m.id === id).points;
-  }else{
-    points = Math.max(0,points - 100);
-  }
-
-  statuses[id] = status;
-  updateMissions();
-  saveState();
-}
-
-function updateMissions(){
-  document.querySelectorAll(".mission").forEach(card => {
-    const id = Number(card.dataset.id);
-    const status = statuses[id];
-    const button = card.querySelector(".mission-actions button");
-
-    card.classList.toggle("completed",status === "達成");
-
-    button.textContent = chosen.has(id)
-      ? (status === "選択中" ? "✓ 選択済み（解除）" : status)
-      : "＋ ミッションを選択";
-
-    button.classList.toggle("selected",chosen.has(id));
-
-    card.querySelectorAll(".mission-actions button").forEach((b,i) => {
-      if(i > 0){
-        b.disabled =
-          !chosen.has(id) ||
-          status === "達成" ||
-          status === "失敗";
-
-        b.style.opacity = b.disabled ? ".45" : "1";
-      }
-    });
-  });
-
-  document.getElementById("points").textContent =
-    points.toLocaleString() + " P";
+  document.getElementById("totalPoints").textContent =
+    formatPoints(totalPoints) + " pt";
 
   document.getElementById("completedCount").textContent =
-    missions.filter(m => statuses[m.id] === "達成").length;
+    completed + " / " + missions.length;
 
-  const active = [...chosen].filter(
-    id => statuses[id] === "選択中"
-  ).length;
+  document.getElementById("activeCount").textContent =
+    active + pending;
 
-  document.getElementById("chosenCount").textContent =
-    active + " / " + MAX_ACTIVE;
+  document.getElementById("missionCount").textContent =
+    missions.length + " MISSIONS";
 
-  const tbody = document.getElementById("selectedTable");
-  tbody.replaceChildren();
+  const percentage = missions.length
+    ? Math.round(completed / missions.length * 100)
+    : 0;
 
-  const history = [...chosen]
-    .map(id => missions.find(m => m.id === id))
-    .filter(Boolean);
+  document.getElementById("progressText").textContent =
+    percentage + "%";
 
-  if(history.length === 0){
-    const row = document.createElement("tr");
-    const cell = document.createElement("td");
+  document.getElementById("progressFill").style.width =
+    percentage + "%";
 
-    cell.colSpan = 4;
-    cell.className = "empty";
-    cell.textContent = "ミッションはまだ選択されていません。";
-
-    row.appendChild(cell);
-    tbody.appendChild(row);
-  }else{
-    history.forEach(m => {
-      const row = document.createElement("tr");
-
-      [
-        m.name,
-        m.points.toLocaleString() + " P",
-        statuses[m.id] || "選択中"
-      ].forEach(value => {
-        const td = document.createElement("td");
-        td.textContent = value;
-        row.appendChild(td);
-      });
-
-      const td = document.createElement("td");
-
-      if(statuses[m.id] === "達成" || statuses[m.id] === "失敗"){
-        const b = document.createElement("button");
-        b.textContent = "記録を削除";
-
-        b.addEventListener("click",() => {
-          if(confirm("このミッションの記録を削除しますか？ポイントは自動で戻りません。")){
-            chosen.delete(m.id);
-            delete statuses[m.id];
-            updateMissions();
-            saveState();
-          }
-        });
-
-        td.appendChild(b);
-      }else{
-        const b = document.createElement("button");
-        b.textContent = "選択解除";
-
-        b.addEventListener("click",() => toggleMission(m.id));
-        td.appendChild(b);
-      }
-
-      row.appendChild(td);
-      tbody.appendChild(row);
-    });
-  }
-
-  document.getElementById("mahjongBar").style.width =
-    (Math.min(50000,11000) / 50000 * 100) + "%";
+  renderMissions();
+  renderPending();
+  renderManage();
 }
 
-document.getElementById("resetMissions").addEventListener("click",() => {
-  if(!confirm("ミッションの選択・結果記録をリセットしますか？獲得済みポイントはそのままです。")){
+function renderMissions() {
+  const list = document.getElementById("missionList");
+
+  if (!data.missions.length) {
+    list.innerHTML =
+      '<div class="empty">ミッションはまだありません。</div>';
     return;
   }
 
-  chosen.clear();
-  statuses = {};
-  updateMissions();
-  saveState();
-});
+  list.innerHTML = data.missions.map(mission => {
+    const completed = isCompleted(mission);
+    const pending = hasPending(mission);
+    const rejected = isRejected(mission);
 
-document.getElementById("resetAll").addEventListener("click",() => {
-  if(!confirm("ポイントとミッション記録を初期状態に戻しますか？")){
+    let statusText = "挑戦中";
+    let statusClass = "";
+    let buttonText = "達成申請する";
+    let disabled = false;
+
+    if (completed) {
+      statusText = "達成済み";
+      statusClass = "done";
+      buttonText = "✓ 達成済み";
+      disabled = true;
+    } else if (pending) {
+      statusText = "承認待ち";
+      statusClass = "wait";
+      buttonText = "申請中...";
+      disabled = true;
+    } else if (rejected) {
+      statusText = "再申請可能";
+      buttonText = "もう一度申請する";
+    }
+
+    return `
+      <article class="mission ${completed ? "completed" : ""} ${pending ? "pending" : ""}">
+        <div class="mission-top">
+          <div class="mission-icon">${escapeHTML(getIcon(mission))}</div>
+          <div class="reward">+${formatPoints(mission.points)} pt</div>
+        </div>
+
+        <h3>${escapeHTML(mission.title)}</h3>
+
+        <div class="description">
+          ${escapeHTML(mission.description || "ミッションに挑戦しよう。")}
+        </div>
+
+        <div class="meta">
+          <span class="badge ${statusClass}">${statusText}</span>
+          <span class="badge">${escapeHTML(getDeadline(mission))}</span>
+        </div>
+
+        <button
+          class="action ${completed ? "" : pending ? "secondary" : ""}"
+          data-action="apply"
+          data-id="${escapeHTML(mission.id)}"
+          ${disabled ? "disabled" : ""}
+        >
+          ${buttonText}
+        </button>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderPending() {
+  const container = document.getElementById("pendingList");
+
+  const pending = data.history.filter(
+    item => item.status === "pending"
+  );
+
+  if (!pending.length) {
+    container.innerHTML =
+      '<div class="empty">承認待ちの申請はありません。</div>';
     return;
   }
 
-  points = INITIAL_POINTS;
-  chosen.clear();
-  statuses = {};
-  updateMissions();
-  saveState();
+  container.innerHTML = pending.map(item => {
+    const mission = data.missions.find(
+      mission => mission.id === item.missionId
+    );
+
+    const title = mission ? mission.title : "削除されたミッション";
+    const points = mission ? mission.points : item.points;
+
+    return `
+      <div class="admin-item">
+        <strong>${escapeHTML(title)}</strong>
+        <p>
+          申請日時：${escapeHTML(item.date)}<br>
+          承認時の獲得ポイント：${formatPoints(points)} pt
+        </p>
+
+        <div class="admin-item-buttons">
+          <button class="yes" data-action="approve" data-id="${escapeHTML(item.id)}">
+            承認してポイント加算
+          </button>
+
+          <button class="no" data-action="reject" data-id="${escapeHTML(item.id)}">
+            却下する
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderManage() {
+  const container = document.getElementById("manageList");
+
+  if (!data.missions.length) {
+    container.innerHTML =
+      '<div class="empty">管理するミッションはありません。</div>';
+    return;
+  }
+
+  container.innerHTML = data.missions.map(mission => `
+    <div class="admin-item">
+      <strong>${escapeHTML(mission.title)}</strong>
+      <p>
+        ${formatPoints(mission.points)} pt /
+        ${escapeHTML(getDeadline(mission))}
+      </p>
+
+      <div class="admin-item-buttons">
+        <button data-action="edit" data-id="${escapeHTML(mission.id)}">
+          編集
+        </button>
+
+        <button class="delete" data-action="delete" data-id="${escapeHTML(mission.id)}">
+          削除
+        </button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function submitApplication(id) {
+  const mission = data.missions.find(item => item.id === id);
+
+  if (!mission || isCompleted(mission) || hasPending(mission)) {
+    return;
+  }
+
+  const confirmed = confirm(
+    "「" + mission.title + "」の達成申請を送信しますか？"
+  );
+
+  if (!confirmed) return;
+
+  data.history.push({
+    id: crypto.randomUUID(),
+    missionId: mission.id,
+    points: mission.points,
+    status: "pending",
+    date: new Date().toLocaleString("ja-JP")
+  });
+
+  saveData();
+  render();
+
+  showToast("達成申請を登録しました。管理者の承認を待ちましょう。");
+}
+
+function approveApplication(id) {
+  const item = data.history.find(
+    record => record.id === id && record.status === "pending"
+  );
+
+  if (!item) return;
+
+  const mission = data.missions.find(
+    mission => mission.id === item.missionId
+  );
+
+  if (!mission) {
+    showToast("対象のミッションがありません。");
+    return;
+  }
+
+  if (isCompleted(mission)) {
+    item.status = "rejected";
+    saveData();
+    render();
+    showToast("このミッションはすでに達成済みです。");
+    return;
+  }
+
+  if (!confirm(
+    "この申請を承認しますか？\n" +
+    mission.title + "\n" +
+    formatPoints(mission.points) + " pt を加算します。"
+  )) {
+    return;
+  }
+
+  item.status = "approved";
+  item.approvedAt = new Date().toLocaleString("ja-JP");
+
+  saveData();
+  render();
+
+  showToast(formatPoints(mission.points) + " pt を加算しました！");
+}
+
+function rejectApplication(id) {
+  const item = data.history.find(
+    record => record.id === id && record.status === "pending"
+  );
+
+  if (!item) return;
+
+  if (!confirm("この申請を却下しますか？")) return;
+
+  item.status = "rejected";
+
+  saveData();
+  render();
+
+  showToast("申請を却下しました。");
+}
+
+function addMission(event) {
+  event.preventDefault();
+
+  const title = document.getElementById("newTitle").value.trim();
+  const points = Number(document.getElementById("newPoints").value);
+  const deadline = document.getElementById("newDeadline").value;
+
+  if (!title || !Number.isSafeInteger(points) || points < 1 || points > 1000000) {
+    showToast("ミッション名とポイントを正しく入力してください。");
+    return;
+  }
+
+  data.missions.push({
+    id: crypto.randomUUID(),
+    title,
+    points,
+    deadline,
+    description: "新しいミッションに挑戦しよう。",
+    icon: "🎯",
+    status: "active"
+  });
+
+  saveData();
+  render();
+
+  document.getElementById("addForm").reset();
+
+  showToast("ミッションを追加しました！");
+}
+
+function editMission(id) {
+  const mission = data.missions.find(item => item.id === id);
+
+  if (!mission) return;
+
+  const title = prompt("ミッション名", mission.title);
+
+  if (title === null) return;
+
+  if (!title.trim()) {
+    showToast("ミッション名を入力してください。");
+    return;
+  }
+
+  const pointsText = prompt(
+    "獲得ポイント",
+    String(mission.points)
+  );
+
+  if (pointsText === null) return;
+
+  const points = Number(pointsText);
+
+  if (!Number.isSafeInteger(points) || points < 1 || points > 1000000) {
+    showToast("ポイントは1～1,000,000の整数にしてください。");
+    return;
+  }
+
+  const deadline = prompt(
+    "期限（YYYY-MM-DD形式、期限なしは空欄）",
+    mission.deadline || ""
+  );
+
+  if (deadline === null) return;
+
+  if (deadline && !/^\d{4}-\d{2}-\d{2}$/.test(deadline)) {
+    showToast("期限をYYYY-MM-DD形式で入力してください。");
+    return;
+  }
+
+  mission.title = title.trim();
+  mission.points = points;
+  mission.deadline = deadline;
+
+  saveData();
+  render();
+
+  showToast("ミッションを更新しました。");
+}
+
+function deleteMission(id) {
+  const mission = data.missions.find(item => item.id === id);
+
+  if (!mission) return;
+
+  if (!confirm(
+    "「" + mission.title + "」を削除しますか？\n" +
+    "関連する履歴も削除されます。"
+  )) {
+    return;
+  }
+
+  data.missions = data.missions.filter(item => item.id !== id);
+
+  data.history = data.history.filter(
+    item => item.missionId !== id
+  );
+
+  saveData();
+  render();
+
+  showToast("ミッションを削除しました。");
+}
+
+function exportBackup() {
+  const blob = new Blob(
+    [JSON.stringify(data, null, 2)],
+    { type: "application/json" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "mission-point-backup.json";
+  link.click();
+
+  URL.revokeObjectURL(url);
+
+  showToast("バックアップを保存しました。");
+}
+
+function importBackup(file) {
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+
+      if (
+        !parsed ||
+        !Array.isArray(parsed.missions) ||
+        !Array.isArray(parsed.history)
+      ) {
+        throw new Error("不正な形式");
+      }
+
+      if (!confirm(
+        "現在のデータをバックアップの内容に置き換えますか？"
+      )) {
+        return;
+      }
+
+      data = parsed;
+
+      saveData();
+      render();
+
+      showToast("バックアップを読み込みました。");
+    } catch (error) {
+      showToast("ファイルを読み込めませんでした。");
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+function resetData() {
+  if (!confirm(
+    "すべてのミッションとポイント履歴を初期状態に戻しますか？\n" +
+    "必要なデータは先にバックアップしてください。"
+  )) {
+    return;
+  }
+
+  data = {
+    missions: structuredClone(initialMissions),
+    history: []
+  };
+
+  saveData();
+  render();
+
+  showToast("初期状態に戻しました。");
+}
+
+document.getElementById("missionList").addEventListener("click", event => {
+  const button = event.target.closest("button[data-action]");
+
+  if (!button) return;
+
+  if (button.dataset.action === "apply") {
+    submitApplication(button.dataset.id);
+  }
 });
 
-loadState();
+document.getElementById("adminToggle").addEventListener("click", () => {
+  adminOpen = !adminOpen;
 
-renderPlans();
-renderOptions(outingOptions,"outingOptions");
-renderOptions(serviceOptions,"serviceOptions");
+  document.getElementById("adminContent").classList.toggle(
+    "hidden",
+    !adminOpen
+  );
 
-renderMissions(normal,"normalMissions");
-renderMissions(hard,"hardMissions");
-renderMissions(veryhard,"specialMissions");
+  document.getElementById("adminToggle").textContent =
+    adminOpen ? "管理者メニューを閉じる" : "管理者メニューを開く";
+});
 
-updateEstimate();
-updateMissions();
+document.getElementById("pendingList").addEventListener("click", event => {
+  const button = event.target.closest("button[data-action]");
+
+  if (!button) return;
+
+  if (button.dataset.action === "approve") {
+    approveApplication(button.dataset.id);
+  }
+
+  if (button.dataset.action === "reject") {
+    rejectApplication(button.dataset.id);
+  }
+});
+
+document.getElementById("manageList").addEventListener("click", event => {
+  const button = event.target.closest("button[data-action]");
+
+  if (!button) return;
+
+  if (button.dataset.action === "edit") {
+    editMission(button.dataset.id);
+  }
+
+  if (button.dataset.action === "delete") {
+    deleteMission(button.dataset.id);
+  }
+});
+
+document.getElementById("addForm").addEventListener("submit", addMission);
+
+document.getElementById("exportButton").addEventListener("click", exportBackup);
+
+document.getElementById("importButton").addEventListener("click", () => {
+  document.getElementById("importFile").click();
+});
+
+document.getElementById("importFile").addEventListener("change", event => {
+  importBackup(event.target.files[0]);
+  event.target.value = "";
+});
+
+document.getElementById("resetButton").addEventListener("click", resetData);
+
+render();
 </script>
 
 </body>
