@@ -2,22 +2,20 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MISSION POINT | ミッションポイント</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MISSION POINT</title>
 
 <style>
 :root {
   --bg: #090e1d;
   --panel: #141e35;
-  --panel2: #1b2946;
+  --panel2: #1d2b49;
   --text: #f3f6ff;
   --muted: #a5b3d0;
   --blue: #61a8ff;
   --purple: #a78bfa;
   --gold: #ffd166;
   --green: #66e3a4;
-  --border: rgba(255,255,255,.10);
 }
 
 * {
@@ -27,81 +25,69 @@
 body {
   margin: 0;
   font-family: "Segoe UI", "Meiryo", sans-serif;
+  background: radial-gradient(ellipse at top, #1a2850, #090e1d 65%);
   color: var(--text);
-  background:
-    radial-gradient(ellipse at top, #1a2850 0%, transparent 55%),
-    var(--bg);
   min-height: 100vh;
 }
 
 header {
-  padding: 24px 18px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(9,14,29,.85);
+  padding: 22px 18px;
+  border-bottom: 1px solid #ffffff18;
+}
+
+.header-inner,
+main,
+footer {
+  max-width: 1000px;
+  margin: auto;
 }
 
 .header-inner {
-  max-width: 1050px;
-  margin: auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  justify-content: space-between;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .logo {
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 900;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
 }
 
 .logo span {
   color: var(--blue);
 }
 
-.badge {
+.view-only {
   font-size: 12px;
   padding: 7px 12px;
-  border: 1px solid rgba(102,227,164,.4);
+  border: 1px solid #66e3a455;
   color: var(--green);
   border-radius: 20px;
-  background: rgba(102,227,164,.08);
 }
 
 main {
-  max-width: 1050px;
-  margin: auto;
-  padding: 28px 18px 55px;
+  padding: 26px 18px 50px;
 }
 
 .hero {
-  padding: 28px;
-  border: 1px solid var(--border);
-  border-radius: 24px;
   background: linear-gradient(135deg, #202f54, #171b37);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::after {
-  content: "★";
-  position: absolute;
-  right: 25px;
-  top: 5px;
-  font-size: 110px;
-  color: rgba(255,255,255,.04);
+  border: 1px solid #ffffff18;
+  border-radius: 23px;
+  padding: 27px;
 }
 
 .eyebrow {
   color: var(--blue);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: bold;
   letter-spacing: 3px;
 }
 
 h1 {
-  font-size: clamp(27px, 5vw, 43px);
+  font-size: clamp(27px, 5vw, 40px);
   margin: 12px 0;
 }
 
@@ -114,15 +100,15 @@ h1 {
 .stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 15px;
-  margin: 20px 0 35px;
+  gap: 14px;
+  margin: 20px 0 32px;
 }
 
 .stat {
-  padding: 23px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
   background: var(--panel);
+  border: 1px solid #ffffff15;
+  border-radius: 17px;
+  padding: 21px;
 }
 
 .stat-label {
@@ -131,32 +117,32 @@ h1 {
 }
 
 .stat-value {
-  font-size: clamp(26px, 5vw, 37px);
+  font-size: clamp(25px, 5vw, 35px);
   font-weight: 900;
-  margin-top: 10px;
+  margin-top: 9px;
 }
 
-.points {
+.gold {
   color: var(--gold);
 }
 
-.section-heading {
+.section-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
-  gap: 10px;
-  margin: 34px 0 16px;
+  margin: 32px 0 15px;
 }
 
-.section-heading h2 {
+.section-title h2 {
   margin: 0;
   font-size: 22px;
 }
 
-.section-heading span {
-  font-size: 12px;
+.section-title span {
   color: var(--muted);
+  font-size: 12px;
 }
 
 .missions {
@@ -167,12 +153,22 @@ h1 {
 
 .mission {
   background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 19px;
-  padding: 21px;
-  display: flex;
-  flex-direction: column;
-  min-height: 225px;
+  border: 1px solid #ffffff18;
+  border-radius: 18px;
+  padding: 20px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.mission:hover {
+  transform: translateY(-3px);
+  border-color: var(--blue);
+  background: var(--panel2);
+}
+
+.mission.selected {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px #61a8ff33;
 }
 
 .mission-top {
@@ -182,39 +178,43 @@ h1 {
   gap: 8px;
 }
 
-.mission-icon {
+.icon {
   font-size: 29px;
 }
 
 .status {
   font-size: 11px;
-  border: 1px solid rgba(97,168,255,.35);
-  background: rgba(97,168,255,.09);
-  color: #9bc9ff;
-  padding: 6px 9px;
   border-radius: 20px;
+  padding: 6px 9px;
+  color: #a9d1ff;
+  background: #61a8ff15;
+  border: 1px solid #61a8ff40;
+}
+
+.status.active {
+  color: var(--green);
+  background: #66e3a415;
+  border-color: #66e3a455;
 }
 
 .mission h3 {
   font-size: 18px;
-  margin: 16px 0 8px;
+  margin: 15px 0 8px;
 }
 
 .description {
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--muted);
-  flex: 1;
 }
 
 .reward {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  border-top: 1px solid #ffffff16;
+  margin-top: 17px;
+  padding-top: 14px;
 }
 
 .reward-label {
@@ -223,17 +223,103 @@ h1 {
 }
 
 .reward-points {
-  color: var(--gold);
   font-size: 20px;
   font-weight: 900;
+  color: var(--gold);
+}
+
+.details {
+  display: none;
+  margin-top: 26px;
+  padding: 25px;
+  border: 1px solid #61a8ff66;
+  background: linear-gradient(135deg, #182743, #131a30);
+  border-radius: 20px;
+  animation: appear .2s ease;
+}
+
+.details.show {
+  display: block;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.details-label {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.details h2 {
+  margin: 10px 0;
+}
+
+.details p {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.detail-reward {
+  font-size: 24px;
+  color: var(--gold);
+  font-weight: 900;
+  margin: 18px 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.challenge-button {
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(100deg, #3987ff, #8063f6);
+  color: white;
+  font-weight: 800;
+  font-size: 15px;
+  transition: .2s;
+}
+
+.challenge-button:hover {
+  filter: brightness(1.13);
+}
+
+.challenge-button:disabled {
+  cursor: default;
+  opacity: .75;
+  background: #287f5b;
+}
+
+.close-button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 11px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid #ffffff25;
+  border-radius: 11px;
 }
 
 .notice {
   margin-top: 22px;
-  padding: 17px;
-  border-radius: 15px;
-  border: 1px solid rgba(255,209,102,.25);
-  background: rgba(255,209,102,.06);
+  padding: 16px;
+  background: #ffd1660c;
+  border: 1px solid #ffd16635;
+  border-radius: 14px;
   color: #e8d9ad;
   font-size: 13px;
   line-height: 1.8;
@@ -241,8 +327,8 @@ h1 {
 
 footer {
   text-align: center;
-  padding: 25px 15px;
-  border-top: 1px solid var(--border);
+  padding: 24px 18px;
+  border-top: 1px solid #ffffff18;
   color: var(--muted);
   font-size: 12px;
 }
@@ -253,15 +339,7 @@ footer {
   }
 
   .hero {
-    padding: 23px;
-  }
-
-  .stats {
-    gap: 10px;
-  }
-
-  .stat {
-    padding: 17px;
+    padding: 22px;
   }
 }
 </style>
@@ -272,7 +350,7 @@ footer {
 <header>
   <div class="header-inner">
     <div class="logo">MISSION <span>POINT</span></div>
-    <div class="badge">● VIEW ONLY / 閲覧専用</div>
+    <div class="view-only">● 閲覧・選択モード</div>
   </div>
 </header>
 
@@ -282,121 +360,241 @@ footer {
     <div class="eyebrow">YOUR MISSION STARTS HERE</div>
     <h1>ミッションポイント</h1>
     <p>
-      ミッションを確認して、条件達成を目指そう。<br>
-      報酬ポイントは各ミッションの条件に応じて設定されています。
+      気になるミッションを選択して詳細を確認しよう。<br>
+      挑戦するミッションを選ぶと、挑戦中として表示されるよ。
     </p>
   </section>
 
   <section class="stats">
     <div class="stat">
       <div class="stat-label">💎 現在の保有ポイント</div>
-      <div class="stat-value points">14,000 <small>pt</small></div>
+      <div class="stat-value gold">14,000 <small>pt</small></div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">🎯 掲載中のミッション</div>
-      <div class="stat-value">04 <small>MISSIONS</small></div>
+      <div class="stat-label">🚀 挑戦中のミッション</div>
+      <div class="stat-value" id="activeCount">0</div>
     </div>
   </section>
 
-  <div class="section-heading">
-    <h2>📋 ミッション一覧</h2>
-    <span>MISSION LIST</span>
+  <div class="section-title">
+    <h2>🎯 ミッション一覧</h2>
+    <span>ミッションを選択してください</span>
   </div>
 
-  <section class="missions">
+  <section class="missions" id="missions"></section>
 
-    <article class="mission">
-      <div class="mission-top">
-        <div class="mission-icon">🥤</div>
-        <div class="status">通常ミッション</div>
-      </div>
-
-      <h3>オロナミンCを飲む</h3>
-
-      <div class="description">
-        オロナミンCを飲むミッション。
-        達成条件を満たしたら、ポイントの受け取りを確認しよう。
-      </div>
-
-      <div class="reward">
-        <span class="reward-label">達成報酬</span>
-        <span class="reward-points">+100 pt</span>
-      </div>
-    </article>
-
-    <article class="mission">
-      <div class="mission-top">
-        <div class="mission-icon">🀄</div>
-        <div class="status">テストミッション</div>
-      </div>
-
-      <h3>麻雀テストで70点以上</h3>
-
-      <div class="description">
-        麻雀のテストで70点以上を獲得しよう。
-        条件は70点以上。結果を確認して達成を判断する。
-      </div>
-
-      <div class="reward">
-        <span class="reward-label">達成報酬</span>
-        <span class="reward-points">+1,000 pt</span>
-      </div>
-    </article>
-
-    <article class="mission">
-      <div class="mission-top">
-        <div class="mission-icon">⚔️</div>
-        <div class="status">本日限定</div>
-      </div>
-
-      <h3>今日、対戦する</h3>
-
-      <div class="description">
-        本日中に対戦するミッション。
-        対戦を行い、条件を満たそう。
-      </div>
-
-      <div class="reward">
-        <span class="reward-label">達成報酬</span>
-        <span class="reward-points">+110 pt</span>
-      </div>
-    </article>
-
-    <article class="mission">
-      <div class="mission-top">
-        <div class="mission-icon">📍</div>
-        <div class="status">期間限定</div>
-      </div>
-
-      <h3>指定された場所へ行く</h3>
-
-      <div class="description">
-        2026年11月22日までに、指定された場所へ行くミッション。
-        行き先や日時は、事前に本人同士で確認しよう。
-      </div>
-
-      <div class="reward">
-        <span class="reward-label">達成報酬</span>
-        <span class="reward-points">+1,000 pt</span>
-      </div>
-    </article>
-
+  <section class="details" id="details" aria-live="polite">
+    <div class="details-label">MISSION DETAILS</div>
+    <h2 id="detailTitle"></h2>
+    <p id="detailDescription"></p>
+    <p id="detailDeadline"></p>
+    <div class="detail-reward" id="detailReward"></div>
+    <button class="challenge-button" id="challengeButton">
+      🚀 このミッションに挑戦する
+    </button>
+    <button class="close-button" id="closeButton">
+      詳細を閉じる
+    </button>
   </section>
 
   <div class="notice">
-    <strong>📌 ポイントについて</strong><br>
-    現在の保有ポイントは14,000 ptです。<br>
-    各ミッションの報酬は、条件を満たしたことを確認してから反映します。
-    このサイトはミッションの閲覧専用で、サイト上からポイントを変更する機能はありません。
+    <strong>📌 ポイントと挑戦状態について</strong><br>
+    保有ポイントは14,000 ptです。各ミッションの報酬は、達成条件を確認したうえで管理者が反映します。<br>
+    このサイトから保有ポイントを変更したり、報酬を自動獲得したりすることはできません。
   </div>
 
 </main>
 
 <footer>
   MISSION POINT © 2026<br>
-  Mission information and point status
+  Mission information / View only
 </footer>
+
+<script>
+const missions = [
+  {
+    id: "oronamin",
+    icon: "🥤",
+    title: "オロナミンCを飲む",
+    description: "オロナミンCを飲むミッション。達成したら、達成条件を確認してポイントを反映します。",
+    deadline: "期限：2026年10月22日",
+    reward: 100
+  },
+  {
+    id: "mahjong-test",
+    icon: "🀄",
+    title: "麻雀テストで70点以上",
+    description: "麻雀のテストで70点以上を獲得しよう。70点以上が達成条件です。",
+    deadline: "期限：管理者に確認",
+    reward: 1000
+  },
+  {
+    id: "battle",
+    icon: "⚔️",
+    title: "今日、対戦する",
+    description: "今日中に対戦するミッション。対戦したことを確認して達成を判断します。",
+    deadline: "期限：2026年10月22日",
+    reward: 110
+  },
+  {
+    id: "visit",
+    icon: "📍",
+    title: "指定された場所へ行く",
+    description: "指定された場所へ行くミッション。行き先や日時を事前に確認してから行動してください。",
+    deadline: "期限：2026年11月22日",
+    reward: 1000
+  }
+];
+
+const STORAGE_KEY = "mission-point-active-v1";
+let activeMissions = loadActiveMissions();
+let selectedMission = null;
+
+function loadActiveMissions() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(data)
+      ? data.filter(id => missions.some(m => m.id === id))
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveActiveMissions() {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(activeMissions)
+    );
+  } catch {
+    // ブラウザで保存できない場合も、画面上では操作できます。
+  }
+}
+
+function renderMissions() {
+  const container = document.getElementById("missions");
+  container.innerHTML = "";
+
+  missions.forEach(mission => {
+    const isActive = activeMissions.includes(mission.id);
+
+    const card = document.createElement("article");
+    card.className =
+      "mission" +
+      (selectedMission === mission.id ? " selected" : "");
+
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute(
+      "aria-label",
+      mission.title + "の詳細を表示"
+    );
+
+    const top = document.createElement("div");
+    top.className = "mission-top";
+
+    const icon = document.createElement("div");
+    icon.className = "icon";
+    icon.textContent = mission.icon;
+
+    const status = document.createElement("div");
+    status.className = "status" + (isActive ? " active" : "");
+    status.textContent = isActive ? "挑戦中" : "選択できます";
+
+    top.append(icon, status);
+
+    const title = document.createElement("h3");
+    title.textContent = mission.title;
+
+    const description = document.createElement("div");
+    description.className = "description";
+    description.textContent = mission.description;
+
+    const reward = document.createElement("div");
+    reward.className = "reward";
+
+    const rewardLabel = document.createElement("span");
+    rewardLabel.className = "reward-label";
+    rewardLabel.textContent = "達成報酬";
+
+    const rewardPoints = document.createElement("span");
+    rewardPoints.className = "reward-points";
+    rewardPoints.textContent = "+" + mission.reward.toLocaleString() + " pt";
+
+    reward.append(rewardLabel, rewardPoints);
+    card.append(top, title, description, reward);
+
+    card.addEventListener("click", () => selectMission(mission.id));
+
+    card.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        selectMission(mission.id);
+      }
+    });
+
+    container.appendChild(card);
+  });
+
+  document.getElementById("activeCount").textContent =
+    activeMissions.length;
+}
+
+function selectMission(id) {
+  selectedMission = id;
+
+  const mission = missions.find(m => m.id === id);
+  if (!mission) return;
+
+  document.getElementById("detailTitle").textContent =
+    mission.icon + " " + mission.title;
+
+  document.getElementById("detailDescription").textContent =
+    mission.description;
+
+  document.getElementById("detailDeadline").textContent =
+    mission.deadline;
+
+  document.getElementById("detailReward").textContent =
+    "+" + mission.reward.toLocaleString() + " pt";
+
+  updateChallengeButton();
+  renderMissions();
+
+  const details = document.getElementById("details");
+  details.classList.add("show");
+  details.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function updateChallengeButton() {
+  const button = document.getElementById("challengeButton");
+  const isActive = activeMissions.includes(selectedMission);
+
+  button.disabled = isActive;
+  button.textContent = isActive
+    ? "✓ このミッションは挑戦中です"
+    : "🚀 このミッションに挑戦する";
+}
+
+document.getElementById("challengeButton").addEventListener("click", () => {
+  if (!selectedMission) return;
+
+  if (!activeMissions.includes(selectedMission)) {
+    activeMissions.push(selectedMission);
+    saveActiveMissions();
+    renderMissions();
+    updateChallengeButton();
+  }
+});
+
+document.getElementById("closeButton").addEventListener("click", () => {
+  document.getElementById("details").classList.remove("show");
+});
+
+renderMissions();
+</script>
 
 </body>
 </html>
