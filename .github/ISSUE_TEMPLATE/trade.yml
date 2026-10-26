@@ -1,0 +1,46 @@
+name: 株取引申請
+description: STOCK POINTの株を購入・売却する
+title: "株取引申請"
+labels:
+  - trade-request
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        株の購入・売却を申請するフォームです。
+        GitHubのユーザー名がプレイヤー名として記録されます。
+        個人情報やパスワードは入力しないでください。
+
+  - type: dropdown
+    id: action
+    attributes:
+      label: 売買区分
+      options:
+        - BUY
+        - SELL
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stock
+    attributes:
+      label: 銘柄ID
+      options:
+        - ST001
+        - ST002
+        - ST003
+        - ST004
+        - ST005
+        - ST006
+    validations:
+      required: true
+
+  - type: input
+    id: quantity
+    attributes:
+      label: 株数
+      description: 1〜100000の半角整数を入力
+      placeholder: "2"
+    validations:
+      required: true
