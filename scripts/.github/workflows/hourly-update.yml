@@ -1,0 +1,42 @@
+name: Hourly Stock Update
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stock-point-data
+  cancel-in-progress: false
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリを取得
+        uses: actions/checkout@v4
+
+      - name: Pythonを準備
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 株価を更新
+        run: python scripts/update_prices.py
+
+      - name: 変更を保存
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add stocks.json
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update stock prices"
+            git push
+          fi
