@@ -3,19 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MISSION POINT</title>
+
+<title>STOCK POINT | 株式取引システム</title>
 
 <style>
 :root {
-  --bg: #090e1d;
-  --panel: #141e35;
-  --panel2: #1d2b49;
-  --text: #f3f6ff;
-  --muted: #a5b3d0;
-  --blue: #61a8ff;
-  --purple: #a78bfa;
+  --bg: #080d19;
+  --panel: #121c30;
+  --panel2: #1b2942;
+  --text: #f1f5ff;
+  --muted: #99a9c6;
+  --blue: #58a6ff;
+  --green: #48e0a0;
+  --red: #ff7085;
   --gold: #ffd166;
-  --green: #66e3a4;
+  --border: #ffffff16;
 }
 
 * {
@@ -24,28 +26,29 @@
 
 body {
   margin: 0;
-  font-family: "Segoe UI", "Meiryo", sans-serif;
-  background: radial-gradient(ellipse at top, #1a2850, #090e1d 65%);
+  background:
+    radial-gradient(ellipse at top, #19294b, var(--bg) 65%);
   color: var(--text);
+  font-family: "Segoe UI", "Meiryo", sans-serif;
   min-height: 100vh;
 }
 
 header {
-  padding: 22px 18px;
-  border-bottom: 1px solid #ffffff18;
+  border-bottom: 1px solid var(--border);
+  padding: 20px;
 }
 
 .header-inner,
 main,
 footer {
-  max-width: 1000px;
+  max-width: 1150px;
   margin: auto;
 }
 
 .header-inner {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 12px;
   flex-wrap: wrap;
 }
@@ -60,70 +63,82 @@ footer {
   color: var(--blue);
 }
 
-.view-only {
-  font-size: 12px;
-  padding: 7px 12px;
-  border: 1px solid #66e3a455;
+.badge {
   color: var(--green);
+  border: 1px solid #48e0a055;
   border-radius: 20px;
+  padding: 7px 12px;
+  font-size: 12px;
 }
 
 main {
-  padding: 26px 18px 50px;
+  padding: 26px 18px 45px;
 }
 
 .hero {
-  background: linear-gradient(135deg, #202f54, #171b37);
-  border: 1px solid #ffffff18;
-  border-radius: 23px;
-  padding: 27px;
+  padding: 28px;
+  background: linear-gradient(135deg, #203458, #151b35);
+  border: 1px solid var(--border);
+  border-radius: 22px;
 }
 
 .eyebrow {
-  color: var(--blue);
   font-size: 12px;
-  font-weight: bold;
   letter-spacing: 3px;
+  color: var(--blue);
+  font-weight: bold;
 }
 
 h1 {
-  font-size: clamp(27px, 5vw, 40px);
+  font-size: clamp(26px, 5vw, 39px);
   margin: 12px 0;
+}
+
+p {
+  line-height: 1.8;
 }
 
 .hero p {
   color: var(--muted);
-  line-height: 1.8;
   margin-bottom: 0;
 }
 
-.stats {
+.grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  margin: 20px 0 32px;
+  margin: 20px 0 30px;
 }
 
-.stat {
+.panel {
   background: var(--panel);
-  border: 1px solid #ffffff15;
+  border: 1px solid var(--border);
   border-radius: 17px;
-  padding: 21px;
+  padding: 20px;
 }
 
 .stat-label {
+  font-size: 12px;
   color: var(--muted);
-  font-size: 13px;
 }
 
 .stat-value {
-  font-size: clamp(25px, 5vw, 35px);
+  font-size: clamp(22px, 3vw, 31px);
   font-weight: 900;
-  margin-top: 9px;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
 }
 
 .gold {
   color: var(--gold);
+}
+
+.green {
+  color: var(--green);
+}
+
+.red {
+  color: var(--red);
 }
 
 .section-title {
@@ -132,12 +147,12 @@ h1 {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin: 32px 0 15px;
+  margin: 30px 0 15px;
 }
 
 .section-title h2 {
   margin: 0;
-  font-size: 22px;
+  font-size: 21px;
 }
 
 .section-title span {
@@ -145,136 +160,69 @@ h1 {
   font-size: 12px;
 }
 
-.missions {
+.stock-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 15px;
+  gap: 14px;
 }
 
-.mission {
+.stock {
   background: var(--panel);
-  border: 1px solid #ffffff18;
-  border-radius: 18px;
+  border: 1px solid var(--border);
+  border-radius: 17px;
   padding: 20px;
-  cursor: pointer;
   transition: .2s;
 }
 
-.mission:hover {
-  transform: translateY(-3px);
+.stock:hover {
   border-color: var(--blue);
-  background: var(--panel2);
+  transform: translateY(-2px);
 }
 
-.mission.selected {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 1px #61a8ff33;
-}
-
-.mission-top {
+.stock-head {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   align-items: center;
-  gap: 8px;
 }
 
-.icon {
-  font-size: 29px;
+.stock-name {
+  font-size: 17px;
+  font-weight: 800;
 }
 
-.status {
+.stock-code {
   font-size: 11px;
-  border-radius: 20px;
-  padding: 6px 9px;
-  color: #a9d1ff;
-  background: #61a8ff15;
-  border: 1px solid #61a8ff40;
-}
-
-.status.active {
-  color: var(--green);
-  background: #66e3a415;
-  border-color: #66e3a455;
-}
-
-.mission h3 {
-  font-size: 18px;
-  margin: 15px 0 8px;
-}
-
-.description {
-  font-size: 13px;
-  line-height: 1.8;
   color: var(--muted);
+  margin-top: 5px;
 }
 
-.reward {
+.stock-price {
+  font-size: 28px;
+  font-weight: 900;
+  margin: 20px 0 5px;
+}
+
+.stock-change {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.stock-info {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #ffffff16;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 13px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 9px;
   margin-top: 17px;
-  padding-top: 14px;
-}
-
-.reward-label {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.reward-points {
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--gold);
-}
-
-.details {
-  display: none;
-  margin-top: 26px;
-  padding: 25px;
-  border: 1px solid #61a8ff66;
-  background: linear-gradient(135deg, #182743, #131a30);
-  border-radius: 20px;
-  animation: appear .2s ease;
-}
-
-.details.show {
-  display: block;
-}
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.details-label {
-  color: var(--blue);
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
-.details h2 {
-  margin: 10px 0;
-}
-
-.details p {
-  color: var(--muted);
-  line-height: 1.8;
-  font-size: 14px;
-}
-
-.detail-reward {
-  font-size: 24px;
-  color: var(--gold);
-  font-weight: 900;
-  margin: 18px 0;
 }
 
 button {
@@ -282,59 +230,179 @@ button {
   cursor: pointer;
 }
 
-.challenge-button {
-  width: 100%;
-  padding: 14px 18px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(100deg, #3987ff, #8063f6);
-  color: white;
-  font-weight: 800;
-  font-size: 15px;
-  transition: .2s;
-}
-
-.challenge-button:hover {
-  filter: brightness(1.13);
-}
-
-.challenge-button:disabled {
-  cursor: default;
-  opacity: .75;
-  background: #287f5b;
-}
-
-.close-button {
-  margin-top: 10px;
-  width: 100%;
+.buy,
+.sell {
+  flex: 1;
   padding: 11px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+.buy {
+  background: #2366bb;
+  color: white;
+}
+
+.sell {
+  background: #27354d;
+  color: white;
+  border: 1px solid #ffffff20;
+}
+
+button:hover {
+  filter: brightness(1.15);
+}
+
+button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.holdings {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 550px;
+}
+
+th,
+td {
+  padding: 14px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+th {
   color: var(--muted);
-  background: transparent;
-  border: 1px solid #ffffff25;
-  border-radius: 11px;
+  font-weight: 500;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 25px;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.history-item small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
 }
 
 .notice {
-  margin-top: 22px;
-  padding: 16px;
   background: #ffd1660c;
-  border: 1px solid #ffd16635;
+  border: 1px solid #ffd16630;
   border-radius: 14px;
+  padding: 16px;
   color: #e8d9ad;
+  font-size: 12px;
+  line-height: 1.9;
+  margin-top: 25px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: #000b;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 10;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 430px;
+  background: #15213a;
+  border: 1px solid #ffffff25;
+  border-radius: 20px;
+  padding: 25px;
+}
+
+.modal-box h2 {
+  margin-top: 0;
+}
+
+.modal-box label {
+  display: block;
+  margin: 18px 0 8px;
+  color: var(--muted);
   font-size: 13px;
-  line-height: 1.8;
+}
+
+.modal-box input {
+  width: 100%;
+  padding: 13px;
+  background: #0b1222;
+  border: 1px solid #ffffff25;
+  border-radius: 10px;
+  color: white;
+  font-size: 18px;
+}
+
+.modal-total {
+  padding: 15px 0;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 0;
+}
+
+.confirm {
+  background: var(--blue);
+  color: white;
+  font-weight: bold;
+}
+
+.cancel {
+  background: #28354b;
+  color: white;
 }
 
 footer {
-  text-align: center;
+  border-top: 1px solid var(--border);
   padding: 24px 18px;
-  border-top: 1px solid #ffffff18;
-  color: var(--muted);
+  text-align: center;
   font-size: 12px;
+  color: var(--muted);
 }
 
-@media (max-width: 650px) {
-  .missions {
+@media(max-width: 750px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stock-list {
     grid-template-columns: 1fr;
   }
 
@@ -349,276 +417,834 @@ footer {
 
 <header>
   <div class="header-inner">
-    <div class="logo">MISSION <span>POINT</span></div>
-    <div class="view-only">● 閲覧・選択モード</div>
+    <div class="logo">STOCK <span>POINT</span></div>
+    <div class="badge">● 株式取引シミュレーション</div>
   </div>
 </header>
 
 <main>
 
   <section class="hero">
-    <div class="eyebrow">YOUR MISSION STARTS HERE</div>
-    <h1>ミッションポイント</h1>
+    <div class="eyebrow">VIRTUAL STOCK EXCHANGE</div>
+    <h1>株式取引システム</h1>
     <p>
-      気になるミッションを選択して詳細を確認しよう。<br>
-      挑戦するミッションを選ぶと、挑戦中として表示されるよ。
+      株価の変動を確認して、株を購入・売却しよう。<br>
+      売買の結果は資産状況と取引履歴に反映されます。
     </p>
   </section>
 
-  <section class="stats">
-    <div class="stat">
-      <div class="stat-label">💎 現在の保有ポイント</div>
-      <div class="stat-value gold">12,500 <small>pt</small></div>
+  <section class="grid">
+
+    <div class="panel">
+      <div class="stat-label">💰 保有ポイント</div>
+      <div class="stat-value gold" id="cash">12,500 pt</div>
     </div>
 
-    <div class="stat">
-      <div class="stat-label">🚀 挑戦中のミッション</div>
-      <div class="stat-value" id="activeCount">0</div>
+    <div class="panel">
+      <div class="stat-label">📊 株式評価額</div>
+      <div class="stat-value" id="stockValue">0 pt</div>
     </div>
+
+    <div class="panel">
+      <div class="stat-label">💎 総資産</div>
+      <div class="stat-value green" id="totalAssets">12,500 pt</div>
+    </div>
+
+  </section>
+
+  <section class="panel">
+    <div class="stat-label">📈 購入した株の損益</div>
+    <div class="stat-value" id="profit">0 pt</div>
+    <p style="color:var(--muted);font-size:12px">
+      保有株の現在評価額と購入時の取得金額の差です。
+    </p>
   </section>
 
   <div class="section-title">
-    <h2>🎯 ミッション一覧</h2>
-    <span>ミッションを選択してください</span>
+    <h2>📈 株式市場</h2>
+    <span id="marketDate"></span>
   </div>
 
-  <section class="missions" id="missions"></section>
+  <section class="stock-list" id="stockList"></section>
 
-  <section class="details" id="details" aria-live="polite">
-    <div class="details-label">MISSION DETAILS</div>
-    <h2 id="detailTitle"></h2>
-    <p id="detailDescription"></p>
-    <p id="detailDeadline"></p>
-    <div class="detail-reward" id="detailReward"></div>
-    <button class="challenge-button" id="challengeButton">
-      🚀 このミッションに挑戦する
-    </button>
-    <button class="close-button" id="closeButton">
-      詳細を閉じる
-    </button>
+  <div class="section-title">
+    <h2>💼 保有株式</h2>
+    <span>現在の保有状況</span>
+  </div>
+
+  <section class="panel holdings">
+    <table>
+      <thead>
+        <tr>
+          <th>企業名</th>
+          <th>保有株数</th>
+          <th>平均取得価格</th>
+          <th>現在評価額</th>
+          <th>損益</th>
+        </tr>
+      </thead>
+      <tbody id="holdingsBody"></tbody>
+    </table>
   </section>
 
+  <div class="section-title">
+    <h2>📜 取引履歴</h2>
+    <span>直近の取引</span>
+  </div>
+
+  <section class="panel" id="history"></section>
+
   <div class="notice">
-    <strong>📌 ポイントと挑戦状態について</strong><br>
-    保有ポイントは14,000 ptです。各ミッションの報酬は、達成条件を確認したうえで管理者が反映します。<br>
-    このサイトから保有ポイントを変更したり、報酬を自動獲得したりすることはできません。
+    <strong>⚠ システムについて</strong><br>
+    このサイトは架空の企業を使用する株式取引シミュレーションです。
+    実際の株式市場とは連動していません。<br>
+    株価は日本時間の日付が変わった後、最初にページを開いた際に更新されます。
+    同じ日に再読み込みしても、株価は変わりません。<br>
+    ポイント・保有株・取引履歴は、このブラウザ内に保存されます。
+    ブラウザのデータ消去や別の端末への移行には対応していません。
   </div>
 
 </main>
 
+<div class="modal" id="tradeModal">
+  <div class="modal-box">
+
+    <h2 id="modalTitle">株式取引</h2>
+    <p id="modalDescription" style="color:var(--muted)"></p>
+
+    <label for="quantity">取引株数</label>
+    <input
+      id="quantity"
+      type="number"
+      min="1"
+      step="1"
+      value="1"
+    >
+
+    <div class="modal-total" id="modalTotal"></div>
+
+    <div class="modal-buttons">
+      <button class="confirm" id="confirmTrade">取引を確定</button>
+      <button class="cancel" id="cancelTrade">キャンセル</button>
+    </div>
+
+  </div>
+</div>
+
 <footer>
-  MISSION POINT © 2026<br>
-  Mission information / View only
+  STOCK POINT © 2026<br>
+  Virtual Stock Exchange / Simulation Only
 </footer>
 
 <script>
-const missions = [
+"use strict";
+
+const STORAGE_KEY = "stock-point-system-v1";
+
+const INITIAL_CASH = 5000;
+
+const companies = [
   {
-    id: "event",
-    icon: "🥤",
-    title: "オロナミンCを飲む",
-    description: "オロナミンCを飲むミッション。達成したら、達成条件を確認してポイントを反映します。",
-    deadline: "期限：2026年10月22日",
-    reward: 100
+    id: "A001",
+    name: "株式会社オルビステスト",
+    code: "A001",
+    icon: "💻",
+    initialPrice: 500,
+    volatility: 0.08
   },
   {
-    id: "mahjong-test",
-    icon: "🀄",
-    title: "麻雀テストで70点以上",
-    description: "麻雀のテストで70点以上を獲得しよう。70点以上が達成条件です。",
-    deadline: "期限：管理者に確認",
-    reward: 1000
+    id: "A002",
+    name: "株式会社ゲートスクエア",
+    code: "A002",
+    icon: "🌱",
+    initialPrice: 800,
+    volatility: 0.06
   },
   {
-    id: "train",
-    icon: "⚔️",
-    title: "1日で名鉄を一周しよう",
-    description: "詳細情報は管理者に聞いてください。",
-    deadline: "期限：2026年10月31日",
-    reward: 1000
+    id: "A003",
+    name: "ベイベイ株式会社",
+    code: "A003",
+    icon: "🤖",
+    initialPrice: 1200,
+    volatility: 0.12
   },
   {
-    
-    id: "mogi",
-    icon: "⚔️",
-    title: "模擬試験、面接を受けよう。（試験６０分、面接１２０分）（平日のみ）",
-    description: "詳細情報は管理者に聞いてください。",
-    deadline: "期限：2026年10月31日",
-    reward: 200
+    id: "A004",
+    name: "セントラル交通",
+    code: "A004",
+    icon: "🚄",
+    initialPrice: 350,
+    volatility: 0.04
   },
   {
-    id: "everyday",
-    icon: "⚔️",
-    title: "今日、対戦する",
-    description: "今日中に対戦するミッション。対戦したことを確認して達成を判断します。",
-    deadline: "期限：2026年10月22日",
-    reward: 110
+    id: "A005",
+    name: "ライフサポート",
+    code: "A005",
+    icon: "🏥",
+    initialPrice: 650,
+    volatility: 0.05
   },
   {
-     id: "aeon",
-    icon: "⚔️",
-    title: "自転車かバスなどでイオンモール各務原に行き、指定された服を着る",
-    description: "詳細情報は管理者に聞いてください",
-    deadline: "期限：2026年11月02日",
-    reward: 1000
-  },
-  {
-    id: "visit",
-    icon: "📍",
-    title: "指定された場所へ行く",
-    description: "詳細情報は管理者に聞いてください",
-    deadline: "期限：2026年11月22日",
-    reward: 1000
+    id: "A006",
+    name: "クリエイトメディア",
+    code: "A006",
+    icon: "🎮",
+    initialPrice: 1000,
+    volatility: 0.10
   }
 ];
 
-const STORAGE_KEY = "mission-point-active-v1";
-let activeMissions = loadActiveMissions();
-let selectedMission = null;
+let state;
+let selectedCompanyId = null;
+let tradeType = "buy";
 
-function loadActiveMissions() {
-  try {
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(data)
-      ? data.filter(id => missions.some(m => m.id === id))
-      : [];
-  } catch {
-    return [];
-  }
+function todayString() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
-function saveActiveMissions() {
-  try {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(activeMissions)
-    );
-  } catch {
-    // ブラウザで保存できない場合も、画面上では操作できます。
-  }
+function formatPoints(value) {
+  return Math.round(value).toLocaleString("ja-JP") + " pt";
 }
 
-function renderMissions() {
-  const container = document.getElementById("missions");
-  container.innerHTML = "";
+function formatNumber(value) {
+  return Math.round(value).toLocaleString("ja-JP");
+}
 
-  missions.forEach(mission => {
-    const isActive = activeMissions.includes(mission.id);
+function createInitialState() {
+  const prices = {};
 
-    const card = document.createElement("article");
-    card.className =
-      "mission" +
-      (selectedMission === mission.id ? " selected" : "");
+  companies.forEach(company => {
+    prices[company.id] = {
+      price: company.initialPrice,
+      previousPrice: company.initialPrice
+    };
+  });
 
-    card.tabIndex = 0;
-    card.setAttribute("role", "button");
-    card.setAttribute(
-      "aria-label",
-      mission.title + "の詳細を表示"
-    );
+  return {
+    cash: INITIAL_CASH,
+    prices,
+    holdings: {},
+    history: [],
+    lastUpdateDate: todayString()
+  };
+}
 
-    const top = document.createElement("div");
-    top.className = "mission-top";
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-    const icon = document.createElement("div");
-    icon.className = "icon";
-    icon.textContent = mission.icon;
+    if (!saved) {
+      return createInitialState();
+    }
 
-    const status = document.createElement("div");
-    status.className = "status" + (isActive ? " active" : "");
-    status.textContent = isActive ? "挑戦中" : "選択できます";
+    const parsed = JSON.parse(saved);
 
-    top.append(icon, status);
+    if (
+      !parsed ||
+      typeof parsed.cash !== "number" ||
+      !parsed.prices ||
+      typeof parsed.prices !== "object" ||
+      !parsed.holdings ||
+      typeof parsed.holdings !== "object" ||
+      !Array.isArray(parsed.history)
+    ) {
+      return createInitialState();
+    }
 
-    const title = document.createElement("h3");
-    title.textContent = mission.title;
+    const initial = createInitialState();
 
-    const description = document.createElement("div");
-    description.className = "description";
-    description.textContent = mission.description;
+    initial.cash = Math.max(0, parsed.cash);
+    initial.holdings = parsed.holdings;
+    initial.history = parsed.history.slice(0, 100);
+    initial.lastUpdateDate =
+      typeof parsed.lastUpdateDate === "string"
+        ? parsed.lastUpdateDate
+        : todayString();
 
-    const reward = document.createElement("div");
-    reward.className = "reward";
+    companies.forEach(company => {
+      const savedPrice = parsed.prices[company.id];
 
-    const rewardLabel = document.createElement("span");
-    rewardLabel.className = "reward-label";
-    rewardLabel.textContent = "達成報酬";
-
-    const rewardPoints = document.createElement("span");
-    rewardPoints.className = "reward-points";
-    rewardPoints.textContent = "+" + mission.reward.toLocaleString() + " pt";
-
-    reward.append(rewardLabel, rewardPoints);
-    card.append(top, title, description, reward);
-
-    card.addEventListener("click", () => selectMission(mission.id));
-
-    card.addEventListener("keydown", event => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        selectMission(mission.id);
+      if (
+        savedPrice &&
+        Number.isFinite(savedPrice.price) &&
+        savedPrice.price > 0
+      ) {
+        initial.prices[company.id] = {
+          price: savedPrice.price,
+          previousPrice:
+            Number.isFinite(savedPrice.previousPrice)
+              ? savedPrice.previousPrice
+              : savedPrice.price
+        };
       }
     });
 
-    container.appendChild(card);
+    companies.forEach(company => {
+      const holding = initial.holdings[company.id];
+
+      if (
+        !holding ||
+        !Number.isInteger(holding.quantity) ||
+        holding.quantity < 0 ||
+        !Number.isFinite(holding.cost) ||
+        holding.cost < 0
+      ) {
+        delete initial.holdings[company.id];
+      }
+    });
+
+    return initial;
+
+  } catch (error) {
+    return createInitialState();
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state)
+    );
+
+    return true;
+  } catch (error) {
+    alert(
+      "データを保存できませんでした。ブラウザの保存容量や設定を確認してください。"
+    );
+
+    return false;
+  }
+}
+
+// 日付ごとに一度だけ株価を変動させる
+function updateMarket() {
+  const today = todayString();
+
+  if (state.lastUpdateDate === today) {
+    return;
+  }
+
+  companies.forEach(company => {
+    const stock = state.prices[company.id];
+
+    const oldPrice = stock.price;
+
+    // 企業ごとの変動幅で株価を更新
+    const movement =
+      (Math.random() * 2 - 1) * company.volatility;
+
+    const newPrice = Math.max(
+      10,
+      Math.round(oldPrice * (1 + movement))
+    );
+
+    stock.previousPrice = oldPrice;
+    stock.price = newPrice;
   });
 
-  document.getElementById("activeCount").textContent =
-    activeMissions.length;
+  state.lastUpdateDate = today;
+
+  addHistory({
+    type: "market",
+    message: "日次株価更新",
+    date: new Date().toLocaleString("ja-JP")
+  });
+
+  saveState();
 }
 
-function selectMission(id) {
-  selectedMission = id;
-
-  const mission = missions.find(m => m.id === id);
-  if (!mission) return;
-
-  document.getElementById("detailTitle").textContent =
-    mission.icon + " " + mission.title;
-
-  document.getElementById("detailDescription").textContent =
-    mission.description;
-
-  document.getElementById("detailDeadline").textContent =
-    mission.deadline;
-
-  document.getElementById("detailReward").textContent =
-    "+" + mission.reward.toLocaleString() + " pt";
-
-  updateChallengeButton();
-  renderMissions();
-
-  const details = document.getElementById("details");
-  details.classList.add("show");
-  details.scrollIntoView({ behavior: "smooth", block: "start" });
+function addHistory(item) {
+  state.history.unshift(item);
+  state.history = state.history.slice(0, 100);
 }
 
-function updateChallengeButton() {
-  const button = document.getElementById("challengeButton");
-  const isActive = activeMissions.includes(selectedMission);
-
-  button.disabled = isActive;
-  button.textContent = isActive
-    ? "✓ このミッションは挑戦中です"
-    : "🚀 このミッションに挑戦する";
+function getCompany(id) {
+  return companies.find(company => company.id === id);
 }
 
-document.getElementById("challengeButton").addEventListener("click", () => {
-  if (!selectedMission) return;
+function getHoldingQuantity(id) {
+  return state.holdings[id]?.quantity || 0;
+}
 
-  if (!activeMissions.includes(selectedMission)) {
-    activeMissions.push(selectedMission);
-    saveActiveMissions();
-    renderMissions();
-    updateChallengeButton();
+function getHoldingCost(id) {
+  return state.holdings[id]?.cost || 0;
+}
+
+function getStockValue() {
+  return companies.reduce((total, company) => {
+    return total +
+      getHoldingQuantity(company.id) *
+      state.prices[company.id].price;
+  }, 0);
+}
+
+function getTotalCost() {
+  return companies.reduce((total, company) => {
+    return total + getHoldingCost(company.id);
+  }, 0);
+}
+
+function getProfit() {
+  return getStockValue() - getTotalCost();
+}
+
+function renderSummary() {
+  const stockValue = getStockValue();
+  const totalAssets = state.cash + stockValue;
+  const profit = getProfit();
+
+  document.getElementById("cash").textContent =
+    formatPoints(state.cash);
+
+  document.getElementById("stockValue").textContent =
+    formatPoints(stockValue);
+
+  document.getElementById("totalAssets").textContent =
+    formatPoints(totalAssets);
+
+  const profitElement = document.getElementById("profit");
+
+  profitElement.textContent =
+    (profit > 0 ? "+" : "") + formatPoints(profit);
+
+  profitElement.className =
+    "stat-value " +
+    (profit > 0 ? "green" : profit < 0 ? "red" : "");
+
+  document.getElementById("marketDate").textContent =
+    "株価基準日：" + state.lastUpdateDate;
+}
+
+function renderStocks() {
+  const container = document.getElementById("stockList");
+
+  container.replaceChildren();
+
+  companies.forEach(company => {
+    const stock = state.prices[company.id];
+
+    const price = stock.price;
+    const previous = stock.previousPrice;
+
+    const difference = price - previous;
+
+    const percent = previous > 0
+      ? (difference / previous * 100)
+      : 0;
+
+    const quantity = getHoldingQuantity(company.id);
+
+    const card = document.createElement("article");
+    card.className = "stock";
+
+    const head = document.createElement("div");
+    head.className = "stock-head";
+
+    const nameArea = document.createElement("div");
+
+    const name = document.createElement("div");
+    name.className = "stock-name";
+    name.textContent = company.icon + " " + company.name;
+
+    const code = document.createElement("div");
+    code.className = "stock-code";
+    code.textContent = "証券コード：" + company.code;
+
+    nameArea.append(name, code);
+    head.append(nameArea);
+
+    const priceElement = document.createElement("div");
+    priceElement.className = "stock-price";
+    priceElement.textContent = formatPoints(price);
+
+    const change = document.createElement("div");
+
+    change.className =
+      "stock-change " +
+      (difference > 0 ? "green" : difference < 0 ? "red" : "");
+
+    const sign = difference > 0 ? "+" : "";
+
+    change.textContent =
+      sign + formatNumber(difference) + " pt (" +
+      sign + percent.toFixed(2) + "%)";
+
+    const info = document.createElement("div");
+    info.className = "stock-info";
+
+    const held = document.createElement("span");
+    held.textContent = "保有株数：" + quantity + " 株";
+
+    const volatility = document.createElement("span");
+    volatility.textContent =
+      "変動幅：約±" +
+      Math.round(company.volatility * 100) +
+      "%";
+
+    info.append(held, volatility);
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const buyButton = document.createElement("button");
+    buyButton.className = "buy";
+    buyButton.textContent = "購入する";
+
+    buyButton.addEventListener("click", () => {
+      openTrade(company.id, "buy");
+    });
+
+    const sellButton = document.createElement("button");
+    sellButton.className = "sell";
+    sellButton.textContent = "売却する";
+    sellButton.disabled = quantity === 0;
+
+    sellButton.addEventListener("click", () => {
+      openTrade(company.id, "sell");
+    });
+
+    actions.append(buyButton, sellButton);
+
+    card.append(
+      head,
+      priceElement,
+      change,
+      info,
+      actions
+    );
+
+    container.appendChild(card);
+  });
+}
+
+function renderHoldings() {
+  const body = document.getElementById("holdingsBody");
+
+  body.replaceChildren();
+
+  let count = 0;
+
+  companies.forEach(company => {
+    const quantity = getHoldingQuantity(company.id);
+
+    if (quantity <= 0) {
+      return;
+    }
+
+    count++;
+
+    const cost = getHoldingCost(company.id);
+    const value = quantity * state.prices[company.id].price;
+    const profit = value - cost;
+
+    const row = document.createElement("tr");
+
+    const values = [
+      company.name,
+      quantity + " 株",
+      formatPoints(cost / quantity),
+      formatPoints(value),
+      (profit > 0 ? "+" : "") + formatPoints(profit)
+    ];
+
+    values.forEach((valueText, index) => {
+      const cell = document.createElement("td");
+      cell.textContent = valueText;
+
+      if (index === 4) {
+        cell.className =
+          profit > 0 ? "green" : profit < 0 ? "red" : "";
+      }
+
+      row.appendChild(cell);
+    });
+
+    body.appendChild(row);
+  });
+
+  if (count === 0) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+
+    cell.colSpan = 5;
+    cell.className = "empty";
+    cell.textContent = "保有している株はありません。";
+
+    row.appendChild(cell);
+    body.appendChild(row);
   }
-});
+}
 
-document.getElementById("closeButton").addEventListener("click", () => {
-  document.getElementById("details").classList.remove("show");
-});
+function renderHistory() {
+  const container = document.getElementById("history");
 
-renderMissions();
+  container.replaceChildren();
+
+  if (state.history.length === 0) {
+    const empty = document.createElement("div");
+
+    empty.className = "empty";
+    empty.textContent = "取引履歴はありません。";
+
+    container.appendChild(empty);
+    return;
+  }
+
+  state.history.slice(0, 20).forEach(item => {
+    const row = document.createElement("div");
+    row.className = "history-item";
+
+    const left = document.createElement("div");
+
+    const title = document.createElement("strong");
+    title.textContent = item.message;
+
+    const date = document.createElement("small");
+    date.textContent = item.date;
+
+    left.append(title, date);
+
+    const right = document.createElement("div");
+
+    if (item.type === "buy") {
+      right.className = "red";
+      right.textContent = "-" + formatPoints(item.amount);
+    } else if (item.type === "sell") {
+      right.className = "green";
+      right.textContent = "+" + formatPoints(item.amount);
+    } else {
+      right.style.color = "var(--muted)";
+      right.textContent = "更新";
+    }
+
+    row.append(left, right);
+    container.appendChild(row);
+  });
+}
+
+function renderAll() {
+  renderSummary();
+  renderStocks();
+  renderHoldings();
+  renderHistory();
+}
+
+function openTrade(id, type) {
+  selectedCompanyId = id;
+  tradeType = type;
+
+  const company = getCompany(id);
+
+  if (!company) {
+    return;
+  }
+
+  const price = state.prices[id].price;
+
+  document.getElementById("modalTitle").textContent =
+    type === "buy" ? "株式購入" : "株式売却";
+
+  document.getElementById("modalDescription").textContent =
+    company.name + " / 現在株価：" + formatPoints(price);
+
+  const input = document.getElementById("quantity");
+
+  input.value = "1";
+  input.min = "1";
+  input.step = "1";
+
+  document.getElementById("tradeModal").classList.add("show");
+
+  updateModalTotal();
+}
+
+function updateModalTotal() {
+  const input = document.getElementById("quantity");
+
+  const quantity = Number(input.value);
+
+  const company = getCompany(selectedCompanyId);
+
+  if (!company) {
+    return;
+  }
+
+  const price = state.prices[selectedCompanyId].price;
+
+  const total = price * quantity;
+
+  let message = "取引金額：" + formatPoints(total);
+
+  if (!Number.isInteger(quantity) || quantity <= 0) {
+    message = "1株以上の整数を入力してください。";
+  } else if (tradeType === "buy") {
+    message +=
+      "\n購入後の保有ポイント：" +
+      formatPoints(state.cash - total);
+  } else {
+    message +=
+      "\n売却後の保有ポイント：" +
+      formatPoints(state.cash + total);
+  }
+
+  document.getElementById("modalTotal").textContent = message;
+
+  document.getElementById("confirmTrade").disabled =
+    !Number.isSafeInteger(quantity) ||
+    quantity <= 0 ||
+    !Number.isSafeInteger(total) ||
+    (
+      tradeType === "buy" &&
+      total > state.cash
+    ) ||
+    (
+      tradeType === "sell" &&
+      quantity > getHoldingQuantity(selectedCompanyId)
+    );
+}
+
+function closeTrade() {
+  document.getElementById("tradeModal").classList.remove("show");
+}
+
+function executeTrade() {
+  const company = getCompany(selectedCompanyId);
+
+  if (!company) {
+    return;
+  }
+
+  const quantity = Number(
+    document.getElementById("quantity").value
+  );
+
+  if (
+    !Number.isSafeInteger(quantity) ||
+    quantity <= 0
+  ) {
+    alert("1株以上の整数を入力してください。");
+    return;
+  }
+
+  const id = selectedCompanyId;
+  const price = state.prices[id].price;
+  const amount = price * quantity;
+
+  if (!Number.isSafeInteger(amount)) {
+    alert("取引金額が大きすぎます。");
+    return;
+  }
+
+  if (tradeType === "buy") {
+    if (amount > state.cash) {
+      alert("保有ポイントが不足しています。");
+      return;
+    }
+
+    const oldQuantity = getHoldingQuantity(id);
+    const oldCost = getHoldingCost(id);
+
+    state.cash -= amount;
+
+    state.holdings[id] = {
+      quantity: oldQuantity + quantity,
+      cost: oldCost + amount
+    };
+
+    addHistory({
+      type: "buy",
+      message:
+        company.name + "を" + quantity + "株購入",
+      amount,
+      date: new Date().toLocaleString("ja-JP")
+    });
+
+  } else {
+    const oldQuantity = getHoldingQuantity(id);
+    const oldCost = getHoldingCost(id);
+
+    if (quantity > oldQuantity) {
+      alert("保有株数が不足しています。");
+      return;
+    }
+
+    // 売却分に対応する取得金額を按分
+    const costOfSoldShares =
+      oldCost * quantity / oldQuantity;
+
+    const remainingQuantity = oldQuantity - quantity;
+
+    state.cash += amount;
+
+    if (remainingQuantity === 0) {
+      delete state.holdings[id];
+    } else {
+      state.holdings[id] = {
+        quantity: remainingQuantity,
+        cost: oldCost - costOfSoldShares
+      };
+    }
+
+    addHistory({
+      type: "sell",
+      message:
+        company.name + "を" + quantity + "株売却",
+      amount,
+      date: new Date().toLocaleString("ja-JP")
+    });
+  }
+
+  if (!saveState()) {
+    // 保存できない場合は、再読み込みして
+    // 取引前の保存済み状態に戻す。
+    state = loadState();
+    renderAll();
+    return;
+  }
+
+  closeTrade();
+  renderAll();
+}
+
+document.getElementById("quantity").addEventListener(
+  "input",
+  updateModalTotal
+);
+
+document.getElementById("confirmTrade").addEventListener(
+  "click",
+  executeTrade
+);
+
+document.getElementById("cancelTrade").addEventListener(
+  "click",
+  closeTrade
+);
+
+document.getElementById("tradeModal").addEventListener(
+  "click",
+  event => {
+    if (event.target.id === "tradeModal") {
+      closeTrade();
+    }
+  }
+);
+
+// 起動
+state = loadState();
+
+updateMarket();
+
+saveState();
+
+renderAll();
 </script>
 
 </body>
