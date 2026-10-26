@@ -1,0 +1,13 @@
+{
+  "gameName": "STOCK POINT",
+  "initialPoints": 5000,
+  "priceUpdateHours": 1,
+  "minChangePercent": -10,
+  "maxChangePercent": 10,
+  "minStockPrice": 10,
+  "tradeFeePercent": 0,
+  "publicHoldings": true,
+  "publicTransactions": true,
+  "publicProfit": true,
+  "publicRanking": true
+}
