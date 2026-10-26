@@ -3,7 +3,7 @@
 // ==========================================
 
 const SITE_CONFIG = {
-    REPO_OWNER: "razupai",
+    REPO_OWNER: "itzy2",
     REPO_NAME: "STOCK-POINT",
     BRANCH: "main",
     INITIAL_POINTS: 5000
