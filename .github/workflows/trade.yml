@@ -1,0 +1,88 @@
+name: Process STOCK POINT Trade
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: stock-point-data
+  cancel-in-progress: false
+
+jobs:
+  process-trade:
+    if: github.event.issue != null
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリを取得
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Pythonを準備
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 売買を処理
+        id: trade
+        env:
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+        run: python scripts/process_trade.py
+
+      - name: 取引データを保存
+        if: steps.trade.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add players.json transactions.json
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Process trade request"
+            git push
+          fi
+
+      - name: 申請に結果を返信
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          RESULT_STATUS: ${{ steps.trade.outputs.status }}
+          RESULT_MESSAGE: ${{ steps.trade.outputs.message }}
+        with:
+          script: |
+            const status =
+              process.env.RESULT_STATUS || "error";
+
+            const message =
+              process.env.RESULT_MESSAGE ||
+              "処理結果を確認できませんでした。";
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body:
+                "### STOCK POINT 取引結果\n\n" +
+                "**状態：** " + status + "\n\n" +
+                message
+            });
+
+            if (
+              status === "success" ||
+              status === "duplicate" ||
+              status === "ignored"
+            ) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: "closed"
+              });
+            }
