@@ -1,1251 +1,574 @@
-<!DOCTYPE html>
-<html lang="ja">
+<!DOCTYPE html><html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101827"><title>STOCK POINT | 仮想株式市場</title>
 
-<title>STOCK POINT | 株式取引システム</title>
+<meta name="description" content="STOCK POINTは、仮想ポイントを使って株式売買を体験できるオンライン株式市場です。">
+
+<link rel="stylesheet" href="style.css">
 
 <style>
-:root {
-  --bg: #080d19;
-  --panel: #121c30;
-  --panel2: #1b2942;
-  --text: #f1f5ff;
-  --muted: #99a9c6;
-  --blue: #58a6ff;
-  --green: #48e0a0;
-  --red: #ff7085;
-  --gold: #ffd166;
-  --border: #ffffff16;
-}
+    :root {
+        color-scheme: dark;
+        --background: #0b1120;
+        --panel: #151f32;
+        --panel-light: #1c2940;
+        --border: #2a3850;
+        --text: #f1f5f9;
+        --muted: #9caec5;
+        --accent: #38bdf8;
+        --green: #34d399;
+        --red: #fb7185;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    * {
+        box-sizing: border-box;
+    }
 
-body {
-  margin: 0;
-  background:
-    radial-gradient(ellipse at top, #19294b, var(--bg) 65%);
-  color: var(--text);
-  font-family: "Segoe UI", "Meiryo", sans-serif;
-  min-height: 100vh;
-}
+    html {
+        scroll-behavior: smooth;
+    }
 
-header {
-  border-bottom: 1px solid var(--border);
-  padding: 20px;
-}
+    body {
+        margin: 0;
+        background: var(--background);
+        color: var(--text);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", sans-serif;
+        line-height: 1.6;
+    }
 
-.header-inner,
-main,
-footer {
-  max-width: 1150px;
-  margin: auto;
-}
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
 
-.header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+    button,
+    input,
+    select {
+        font: inherit;
+    }
 
-.logo {
-  font-size: 23px;
-  font-weight: 900;
-  letter-spacing: 1px;
-}
+    .container {
+        width: min(1200px, 92%);
+        margin: 0 auto;
+    }
 
-.logo span {
-  color: var(--blue);
-}
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(11, 17, 32, 0.94);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(12px);
+    }
 
-.badge {
-  color: var(--green);
-  border: 1px solid #48e0a055;
-  border-radius: 20px;
-  padding: 7px 12px;
-  font-size: 12px;
-}
+    .header-inner {
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
 
-main {
-  padding: 26px 18px 45px;
-}
+    .logo {
+        font-size: 1.45rem;
+        font-weight: 900;
+        letter-spacing: 1px;
+    }
 
-.hero {
-  padding: 28px;
-  background: linear-gradient(135deg, #203458, #151b35);
-  border: 1px solid var(--border);
-  border-radius: 22px;
-}
+    .logo span {
+        color: var(--accent);
+    }
 
-.eyebrow {
-  font-size: 12px;
-  letter-spacing: 3px;
-  color: var(--blue);
-  font-weight: bold;
-}
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        font-size: 0.9rem;
+        color: var(--muted);
+    }
 
-h1 {
-  font-size: clamp(26px, 5vw, 39px);
-  margin: 12px 0;
-}
+    nav a:hover {
+        color: var(--accent);
+    }
 
-p {
-  line-height: 1.8;
-}
+    .hero {
+        padding: 70px 0 45px;
+        background:
+            radial-gradient(ellipse at top right, #123b5a 0%, transparent 48%),
+            var(--background);
+    }
 
-.hero p {
-  color: var(--muted);
-  margin-bottom: 0;
-}
+    .hero-label {
+        display: inline-block;
+        padding: 6px 12px;
+        border: 1px solid #28506c;
+        border-radius: 999px;
+        color: var(--accent);
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin: 20px 0 30px;
-}
+    .hero h1 {
+        margin: 20px 0 12px;
+        font-size: clamp(2.2rem, 6vw, 4.4rem);
+        line-height: 1.12;
+    }
 
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  padding: 20px;
-}
+    .hero h1 span {
+        color: var(--accent);
+    }
 
-.stat-label {
-  font-size: 12px;
-  color: var(--muted);
-}
+    .hero p {
+        max-width: 700px;
+        color: var(--muted);
+    }
 
-.stat-value {
-  font-size: clamp(22px, 3vw, 31px);
-  font-weight: 900;
-  margin-top: 10px;
-  overflow-wrap: anywhere;
-}
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 26px;
+    }
 
-.gold {
-  color: var(--gold);
-}
+    .button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 44px;
+        padding: 10px 18px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--panel-light);
+        color: var(--text);
+        cursor: pointer;
+    }
 
-.green {
-  color: var(--green);
-}
+    .button-primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #061522;
+        font-weight: 800;
+    }
 
-.red {
-  color: var(--red);
-}
+    .button:hover {
+        filter: brightness(1.1);
+    }
 
-.section-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 30px 0 15px;
-}
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 15px;
+        margin: 20px auto 35px;
+    }
 
-.section-title h2 {
-  margin: 0;
-  font-size: 21px;
-}
+    .stat-card,
+    .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+    }
 
-.section-title span {
-  color: var(--muted);
-  font-size: 12px;
-}
+    .stat-card {
+        padding: 20px;
+    }
 
-.stock-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
+    .stat-label {
+        color: var(--muted);
+        font-size: 0.85rem;
+    }
 
-.stock {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  padding: 20px;
-  transition: .2s;
-}
+    .stat-value {
+        margin-top: 6px;
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        font-weight: 850;
+    }
 
-.stock:hover {
-  border-color: var(--blue);
-  transform: translateY(-2px);
-}
+    main {
+        padding-bottom: 60px;
+    }
 
-.stock-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-}
+    section {
+        margin-top: 34px;
+        scroll-margin-top: 90px;
+    }
 
-.stock-name {
-  font-size: 17px;
-  font-weight: 800;
-}
+    .section-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
 
-.stock-code {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 5px;
-}
+    .section-heading h2 {
+        margin: 0;
+        font-size: 1.45rem;
+    }
 
-.stock-price {
-  font-size: 28px;
-  font-weight: 900;
-  margin: 20px 0 5px;
-}
+    .section-heading p {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
 
-.stock-change {
-  font-size: 13px;
-  font-weight: bold;
-}
+    .panel {
+        padding: 20px;
+        min-width: 0;
+    }
 
-.stock-info {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 15px;
-  padding-top: 13px;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 12px;
-}
+    .table-wrap {
+        overflow-x: auto;
+    }
 
-.actions {
-  display: flex;
-  gap: 9px;
-  margin-top: 17px;
-}
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 600px;
+    }
 
-button {
-  font: inherit;
-  cursor: pointer;
-}
+    th,
+    td {
+        padding: 13px 12px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+    }
 
-.buy,
-.sell {
-  flex: 1;
-  padding: 11px;
-  border: 0;
-  border-radius: 10px;
-  font-weight: 800;
-}
+    th {
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 650;
+        white-space: nowrap;
+    }
 
-.buy {
-  background: #2366bb;
-  color: white;
-}
+    td {
+        font-size: 0.92rem;
+    }
 
-.sell {
-  background: #27354d;
-  color: white;
-  border: 1px solid #ffffff20;
-}
+    tbody tr:last-child td {
+        border-bottom: 0;
+    }
 
-button:hover {
-  filter: brightness(1.15);
-}
+    .positive {
+        color: var(--green);
+    }
 
-button:disabled {
-  opacity: .4;
-  cursor: not-allowed;
-}
+    .negative {
+        color: var(--red);
+    }
 
-.holdings {
-  overflow-x: auto;
-}
+    .muted {
+        color: var(--muted);
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 550px;
-}
+    .two-columns {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 20px;
+    }
 
-th,
-td {
-  padding: 14px 10px;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px;
-}
+    .ranking-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 
-th {
-  color: var(--muted);
-  font-weight: 500;
-}
+    .ranking-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border);
+    }
 
-.empty {
-  text-align: center;
-  color: var(--muted);
-  padding: 25px;
-}
+    .ranking-list li:last-child {
+        border-bottom: 0;
+    }
 
-.history-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px;
-}
+    .ranking-rank {
+        display: inline-block;
+        min-width: 35px;
+        color: var(--accent);
+        font-weight: 850;
+    }
 
-.history-item small {
-  display: block;
-  color: var(--muted);
-  margin-top: 5px;
-}
+    .transactions-list {
+        display: grid;
+        gap: 12px;
+    }
 
-.notice {
-  background: #ffd1660c;
-  border: 1px solid #ffd16630;
-  border-radius: 14px;
-  padding: 16px;
-  color: #e8d9ad;
-  font-size: 12px;
-  line-height: 1.9;
-  margin-top: 25px;
-}
+    .transaction-item {
+        padding: 13px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--panel-light);
+    }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  background: #000b;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  z-index: 10;
-}
+    .transaction-item small {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+    }
 
-.modal.show {
-  display: flex;
-}
+    .notice {
+        padding: 14px 16px;
+        border: 1px solid #31516d;
+        border-radius: 12px;
+        background: #10263a;
+        color: #d5efff;
+        overflow-wrap: anywhere;
+    }
 
-.modal-box {
-  width: 100%;
-  max-width: 430px;
-  background: #15213a;
-  border: 1px solid #ffffff25;
-  border-radius: 20px;
-  padding: 25px;
-}
+    .notice.error {
+        border-color: #7f3444;
+        background: #351722;
+        color: #ffdce3;
+    }
 
-.modal-box h2 {
-  margin-top: 0;
-}
+    .empty-state {
+        padding: 25px 10px;
+        text-align: center;
+        color: var(--muted);
+    }
 
-.modal-box label {
-  display: block;
-  margin: 18px 0 8px;
-  color: var(--muted);
-  font-size: 13px;
-}
+    .footer {
+        padding: 28px 0;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.85rem;
+    }
 
-.modal-box input {
-  width: 100%;
-  padding: 13px;
-  background: #0b1222;
-  border: 1px solid #ffffff25;
-  border-radius: 10px;
-  color: white;
-  font-size: 18px;
-}
+    .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
+    }
 
-.modal-total {
-  padding: 15px 0;
-  font-size: 15px;
-  font-weight: bold;
-}
+    @media (max-width: 760px) {
+        .header-inner {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 15px 0;
+        }
 
-.modal-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
+        nav {
+            gap: 12px;
+        }
 
-.modal-buttons button {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  border: 0;
-}
+        .hero {
+            padding-top: 45px;
+        }
 
-.confirm {
-  background: var(--blue);
-  color: white;
-  font-weight: bold;
-}
+        .stats {
+            grid-template-columns: 1fr;
+        }
 
-.cancel {
-  background: #28354b;
-  color: white;
-}
+        .two-columns {
+            grid-template-columns: 1fr;
+        }
 
-footer {
-  border-top: 1px solid var(--border);
-  padding: 24px 18px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted);
-}
+        .panel {
+            padding: 14px;
+        }
 
-@media(max-width: 750px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stock-list {
-    grid-template-columns: 1fr;
-  }
-
-  .hero {
-    padding: 22px;
-  }
-}
+        .section-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
 </style>
-</head>
 
-<body>
-
-<header>
-  <div class="header-inner">
-    <div class="logo">STOCK <span>POINT</span></div>
-    <div class="badge">● 株式取引シミュレーション</div>
-  </div>
-</header>
-
-<main>
-
-  <section class="hero">
-    <div class="eyebrow">VIRTUAL STOCK EXCHANGE</div>
-    <h1>株式取引システム</h1>
-    <p>
-      株価の変動を確認して、株を購入・売却しよう。<br>
-      売買の結果は資産状況と取引履歴に反映されます。
-    </p>
-  </section>
-
-  <section class="grid">
-
-    <div class="panel">
-      <div class="stat-label">💰 保有ポイント</div>
-      <div class="stat-value gold" id="cash">12,500 pt</div>
-    </div>
-
-    <div class="panel">
-      <div class="stat-label">📊 株式評価額</div>
-      <div class="stat-value" id="stockValue">0 pt</div>
-    </div>
-
-    <div class="panel">
-      <div class="stat-label">💎 総資産</div>
-      <div class="stat-value green" id="totalAssets">12,500 pt</div>
-    </div>
-
-  </section>
-
-  <section class="panel">
-    <div class="stat-label">📈 購入した株の損益</div>
-    <div class="stat-value" id="profit">0 pt</div>
-    <p style="color:var(--muted);font-size:12px">
-      保有株の現在評価額と購入時の取得金額の差です。
-    </p>
-  </section>
-
-  <div class="section-title">
-    <h2>📈 株式市場</h2>
-    <span id="marketDate"></span>
-  </div>
-
-  <section class="stock-list" id="stockList"></section>
-
-  <div class="section-title">
-    <h2>💼 保有株式</h2>
-    <span>現在の保有状況</span>
-  </div>
-
-  <section class="panel holdings">
-    <table>
-      <thead>
-        <tr>
-          <th>企業名</th>
-          <th>保有株数</th>
-          <th>平均取得価格</th>
-          <th>現在評価額</th>
-          <th>損益</th>
-        </tr>
-      </thead>
-      <tbody id="holdingsBody"></tbody>
-    </table>
-  </section>
-
-  <div class="section-title">
-    <h2>📜 取引履歴</h2>
-    <span>直近の取引</span>
-  </div>
-
-  <section class="panel" id="history"></section>
-
-  <div class="notice">
-    <strong>⚠ システムについて</strong><br>
-    このサイトは架空の企業を使用する株式取引シミュレーションです。
-    実際の株式市場とは連動していません。<br>
-    株価は日本時間の日付が変わった後、最初にページを開いた際に更新されます。
-    同じ日に再読み込みしても、株価は変わりません。<br>
-    ポイント・保有株・取引履歴は、このブラウザ内に保存されます。
-    ブラウザのデータ消去や別の端末への移行には対応していません。
-  </div>
-
-</main>
-
-<div class="modal" id="tradeModal">
-  <div class="modal-box">
-
-    <h2 id="modalTitle">株式取引</h2>
-    <p id="modalDescription" style="color:var(--muted)"></p>
-
-    <label for="quantity">取引株数</label>
-    <input
-      id="quantity"
-      type="number"
-      min="1"
-      step="1"
-      value="1"
-    >
-
-    <div class="modal-total" id="modalTotal"></div>
-
-    <div class="modal-buttons">
-      <button class="confirm" id="confirmTrade">取引を確定</button>
-      <button class="cancel" id="cancelTrade">キャンセル</button>
-    </div>
-
-  </div>
+</head><body><header>
+    <div class="container header-inner">
+        <a class="logo" href="#top">STOCK <span>POINT</span></a>    <nav aria-label="メインメニュー">
+        <a href="#market">株式市場</a>
+        <a href="#ranking">ランキング</a>
+        <a href="#players">参加者</a>
+        <a href="#transactions">取引履歴</a>
+        <a href="#rules">ルール</a>
+    </nav>
 </div>
 
-<footer>
-  STOCK POINT © 2026<br>
-  Virtual Stock Exchange / Simulation Only
-</footer>
-
-<script>
-"use strict";
-
-const STORAGE_KEY = "stock-point-system-v1";
-
-const INITIAL_CASH = 5000;
-
-const companies = [
-  {
-    id: "A001",
-    name: "株式会社オルビステスト",
-    code: "A001",
-    icon: "💻",
-    initialPrice: 500,
-    volatility: 0.08
-  },
-  {
-    id: "A002",
-    name: "株式会社ゲートスクエア",
-    code: "A002",
-    icon: "🌱",
-    initialPrice: 800,
-    volatility: 0.06
-  },
-  {
-    id: "A003",
-    name: "ベイベイ株式会社",
-    code: "A003",
-    icon: "🤖",
-    initialPrice: 1200,
-    volatility: 0.12
-  },
-  {
-    id: "A004",
-    name: "セントラル交通",
-    code: "A004",
-    icon: "🚄",
-    initialPrice: 350,
-    volatility: 0.04
-  },
-  {
-    id: "A005",
-    name: "ライフサポート",
-    code: "A005",
-    icon: "🏥",
-    initialPrice: 650,
-    volatility: 0.05
-  },
-  {
-    id: "A006",
-    name: "クリエイトメディア",
-    code: "A006",
-    icon: "🎮",
-    initialPrice: 1000,
-    volatility: 0.10
-  }
-];
-
-let state;
-let selectedCompanyId = null;
-let tradeType = "buy";
-
-function todayString() {
-  const now = new Date();
-
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
-function formatPoints(value) {
-  return Math.round(value).toLocaleString("ja-JP") + " pt";
-}
-
-function formatNumber(value) {
-  return Math.round(value).toLocaleString("ja-JP");
-}
-
-function createInitialState() {
-  const prices = {};
-
-  companies.forEach(company => {
-    prices[company.id] = {
-      price: company.initialPrice,
-      previousPrice: company.initialPrice
-    };
-  });
-
-  return {
-    cash: INITIAL_CASH,
-    prices,
-    holdings: {},
-    history: [],
-    lastUpdateDate: todayString()
-  };
-}
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if (!saved) {
-      return createInitialState();
-    }
-
-    const parsed = JSON.parse(saved);
-
-    if (
-      !parsed ||
-      typeof parsed.cash !== "number" ||
-      !parsed.prices ||
-      typeof parsed.prices !== "object" ||
-      !parsed.holdings ||
-      typeof parsed.holdings !== "object" ||
-      !Array.isArray(parsed.history)
-    ) {
-      return createInitialState();
-    }
-
-    const initial = createInitialState();
-
-    initial.cash = Math.max(0, parsed.cash);
-    initial.holdings = parsed.holdings;
-    initial.history = parsed.history.slice(0, 100);
-    initial.lastUpdateDate =
-      typeof parsed.lastUpdateDate === "string"
-        ? parsed.lastUpdateDate
-        : todayString();
-
-    companies.forEach(company => {
-      const savedPrice = parsed.prices[company.id];
-
-      if (
-        savedPrice &&
-        Number.isFinite(savedPrice.price) &&
-        savedPrice.price > 0
-      ) {
-        initial.prices[company.id] = {
-          price: savedPrice.price,
-          previousPrice:
-            Number.isFinite(savedPrice.previousPrice)
-              ? savedPrice.previousPrice
-              : savedPrice.price
-        };
-      }
-    });
-
-    companies.forEach(company => {
-      const holding = initial.holdings[company.id];
-
-      if (
-        !holding ||
-        !Number.isInteger(holding.quantity) ||
-        holding.quantity < 0 ||
-        !Number.isFinite(holding.cost) ||
-        holding.cost < 0
-      ) {
-        delete initial.holdings[company.id];
-      }
-    });
-
-    return initial;
-
-  } catch (error) {
-    return createInitialState();
-  }
-}
-
-function saveState() {
-  try {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(state)
-    );
-
-    return true;
-  } catch (error) {
-    alert(
-      "データを保存できませんでした。ブラウザの保存容量や設定を確認してください。"
-    );
-
-    return false;
-  }
-}
-
-// 日付ごとに一度だけ株価を変動させる
-function updateMarket() {
-  const today = todayString();
-
-  if (state.lastUpdateDate === today) {
-    return;
-  }
-
-  companies.forEach(company => {
-    const stock = state.prices[company.id];
-
-    const oldPrice = stock.price;
-
-    // 企業ごとの変動幅で株価を更新
-    const movement =
-      (Math.random() * 2 - 1) * company.volatility;
-
-    const newPrice = Math.max(
-      10,
-      Math.round(oldPrice * (1 + movement))
-    );
-
-    stock.previousPrice = oldPrice;
-    stock.price = newPrice;
-  });
-
-  state.lastUpdateDate = today;
-
-  addHistory({
-    type: "market",
-    message: "日次株価更新",
-    date: new Date().toLocaleString("ja-JP")
-  });
-
-  saveState();
-}
-
-function addHistory(item) {
-  state.history.unshift(item);
-  state.history = state.history.slice(0, 100);
-}
-
-function getCompany(id) {
-  return companies.find(company => company.id === id);
-}
-
-function getHoldingQuantity(id) {
-  return state.holdings[id]?.quantity || 0;
-}
-
-function getHoldingCost(id) {
-  return state.holdings[id]?.cost || 0;
-}
-
-function getStockValue() {
-  return companies.reduce((total, company) => {
-    return total +
-      getHoldingQuantity(company.id) *
-      state.prices[company.id].price;
-  }, 0);
-}
-
-function getTotalCost() {
-  return companies.reduce((total, company) => {
-    return total + getHoldingCost(company.id);
-  }, 0);
-}
-
-function getProfit() {
-  return getStockValue() - getTotalCost();
-}
-
-function renderSummary() {
-  const stockValue = getStockValue();
-  const totalAssets = state.cash + stockValue;
-  const profit = getProfit();
-
-  document.getElementById("cash").textContent =
-    formatPoints(state.cash);
-
-  document.getElementById("stockValue").textContent =
-    formatPoints(stockValue);
-
-  document.getElementById("totalAssets").textContent =
-    formatPoints(totalAssets);
-
-  const profitElement = document.getElementById("profit");
-
-  profitElement.textContent =
-    (profit > 0 ? "+" : "") + formatPoints(profit);
-
-  profitElement.className =
-    "stat-value " +
-    (profit > 0 ? "green" : profit < 0 ? "red" : "");
-
-  document.getElementById("marketDate").textContent =
-    "株価基準日：" + state.lastUpdateDate;
-}
-
-function renderStocks() {
-  const container = document.getElementById("stockList");
-
-  container.replaceChildren();
-
-  companies.forEach(company => {
-    const stock = state.prices[company.id];
-
-    const price = stock.price;
-    const previous = stock.previousPrice;
-
-    const difference = price - previous;
-
-    const percent = previous > 0
-      ? (difference / previous * 100)
-      : 0;
-
-    const quantity = getHoldingQuantity(company.id);
-
-    const card = document.createElement("article");
-    card.className = "stock";
-
-    const head = document.createElement("div");
-    head.className = "stock-head";
-
-    const nameArea = document.createElement("div");
-
-    const name = document.createElement("div");
-    name.className = "stock-name";
-    name.textContent = company.icon + " " + company.name;
-
-    const code = document.createElement("div");
-    code.className = "stock-code";
-    code.textContent = "証券コード：" + company.code;
-
-    nameArea.append(name, code);
-    head.append(nameArea);
-
-    const priceElement = document.createElement("div");
-    priceElement.className = "stock-price";
-    priceElement.textContent = formatPoints(price);
-
-    const change = document.createElement("div");
-
-    change.className =
-      "stock-change " +
-      (difference > 0 ? "green" : difference < 0 ? "red" : "");
-
-    const sign = difference > 0 ? "+" : "";
-
-    change.textContent =
-      sign + formatNumber(difference) + " pt (" +
-      sign + percent.toFixed(2) + "%)";
-
-    const info = document.createElement("div");
-    info.className = "stock-info";
-
-    const held = document.createElement("span");
-    held.textContent = "保有株数：" + quantity + " 株";
-
-    const volatility = document.createElement("span");
-    volatility.textContent =
-      "変動幅：約±" +
-      Math.round(company.volatility * 100) +
-      "%";
-
-    info.append(held, volatility);
-
-    const actions = document.createElement("div");
-    actions.className = "actions";
-
-    const buyButton = document.createElement("button");
-    buyButton.className = "buy";
-    buyButton.textContent = "購入する";
-
-    buyButton.addEventListener("click", () => {
-      openTrade(company.id, "buy");
-    });
-
-    const sellButton = document.createElement("button");
-    sellButton.className = "sell";
-    sellButton.textContent = "売却する";
-    sellButton.disabled = quantity === 0;
-
-    sellButton.addEventListener("click", () => {
-      openTrade(company.id, "sell");
-    });
-
-    actions.append(buyButton, sellButton);
-
-    card.append(
-      head,
-      priceElement,
-      change,
-      info,
-      actions
-    );
-
-    container.appendChild(card);
-  });
-}
-
-function renderHoldings() {
-  const body = document.getElementById("holdingsBody");
-
-  body.replaceChildren();
-
-  let count = 0;
-
-  companies.forEach(company => {
-    const quantity = getHoldingQuantity(company.id);
-
-    if (quantity <= 0) {
-      return;
-    }
-
-    count++;
-
-    const cost = getHoldingCost(company.id);
-    const value = quantity * state.prices[company.id].price;
-    const profit = value - cost;
-
-    const row = document.createElement("tr");
-
-    const values = [
-      company.name,
-      quantity + " 株",
-      formatPoints(cost / quantity),
-      formatPoints(value),
-      (profit > 0 ? "+" : "") + formatPoints(profit)
-    ];
-
-    values.forEach((valueText, index) => {
-      const cell = document.createElement("td");
-      cell.textContent = valueText;
-
-      if (index === 4) {
-        cell.className =
-          profit > 0 ? "green" : profit < 0 ? "red" : "";
-      }
-
-      row.appendChild(cell);
-    });
-
-    body.appendChild(row);
-  });
-
-  if (count === 0) {
-    const row = document.createElement("tr");
-    const cell = document.createElement("td");
-
-    cell.colSpan = 5;
-    cell.className = "empty";
-    cell.textContent = "保有している株はありません。";
-
-    row.appendChild(cell);
-    body.appendChild(row);
-  }
-}
-
-function renderHistory() {
-  const container = document.getElementById("history");
-
-  container.replaceChildren();
-
-  if (state.history.length === 0) {
-    const empty = document.createElement("div");
-
-    empty.className = "empty";
-    empty.textContent = "取引履歴はありません。";
-
-    container.appendChild(empty);
-    return;
-  }
-
-  state.history.slice(0, 20).forEach(item => {
-    const row = document.createElement("div");
-    row.className = "history-item";
-
-    const left = document.createElement("div");
-
-    const title = document.createElement("strong");
-    title.textContent = item.message;
-
-    const date = document.createElement("small");
-    date.textContent = item.date;
-
-    left.append(title, date);
-
-    const right = document.createElement("div");
-
-    if (item.type === "buy") {
-      right.className = "red";
-      right.textContent = "-" + formatPoints(item.amount);
-    } else if (item.type === "sell") {
-      right.className = "green";
-      right.textContent = "+" + formatPoints(item.amount);
-    } else {
-      right.style.color = "var(--muted)";
-      right.textContent = "更新";
-    }
-
-    row.append(left, right);
-    container.appendChild(row);
-  });
-}
-
-function renderAll() {
-  renderSummary();
-  renderStocks();
-  renderHoldings();
-  renderHistory();
-}
-
-function openTrade(id, type) {
-  selectedCompanyId = id;
-  tradeType = type;
-
-  const company = getCompany(id);
-
-  if (!company) {
-    return;
-  }
-
-  const price = state.prices[id].price;
-
-  document.getElementById("modalTitle").textContent =
-    type === "buy" ? "株式購入" : "株式売却";
-
-  document.getElementById("modalDescription").textContent =
-    company.name + " / 現在株価：" + formatPoints(price);
-
-  const input = document.getElementById("quantity");
-
-  input.value = "1";
-  input.min = "1";
-  input.step = "1";
-
-  document.getElementById("tradeModal").classList.add("show");
-
-  updateModalTotal();
-}
-
-function updateModalTotal() {
-  const input = document.getElementById("quantity");
-
-  const quantity = Number(input.value);
-
-  const company = getCompany(selectedCompanyId);
-
-  if (!company) {
-    return;
-  }
-
-  const price = state.prices[selectedCompanyId].price;
-
-  const total = price * quantity;
-
-  let message = "取引金額：" + formatPoints(total);
-
-  if (!Number.isInteger(quantity) || quantity <= 0) {
-    message = "1株以上の整数を入力してください。";
-  } else if (tradeType === "buy") {
-    message +=
-      "\n購入後の保有ポイント：" +
-      formatPoints(state.cash - total);
-  } else {
-    message +=
-      "\n売却後の保有ポイント：" +
-      formatPoints(state.cash + total);
-  }
-
-  document.getElementById("modalTotal").textContent = message;
-
-  document.getElementById("confirmTrade").disabled =
-    !Number.isSafeInteger(quantity) ||
-    quantity <= 0 ||
-    !Number.isSafeInteger(total) ||
-    (
-      tradeType === "buy" &&
-      total > state.cash
-    ) ||
-    (
-      tradeType === "sell" &&
-      quantity > getHoldingQuantity(selectedCompanyId)
-    );
-}
-
-function closeTrade() {
-  document.getElementById("tradeModal").classList.remove("show");
-}
-
-function executeTrade() {
-  const company = getCompany(selectedCompanyId);
-
-  if (!company) {
-    return;
-  }
-
-  const quantity = Number(
-    document.getElementById("quantity").value
-  );
-
-  if (
-    !Number.isSafeInteger(quantity) ||
-    quantity <= 0
-  ) {
-    alert("1株以上の整数を入力してください。");
-    return;
-  }
-
-  const id = selectedCompanyId;
-  const price = state.prices[id].price;
-  const amount = price * quantity;
-
-  if (!Number.isSafeInteger(amount)) {
-    alert("取引金額が大きすぎます。");
-    return;
-  }
-
-  if (tradeType === "buy") {
-    if (amount > state.cash) {
-      alert("保有ポイントが不足しています。");
-      return;
-    }
-
-    const oldQuantity = getHoldingQuantity(id);
-    const oldCost = getHoldingCost(id);
-
-    state.cash -= amount;
-
-    state.holdings[id] = {
-      quantity: oldQuantity + quantity,
-      cost: oldCost + amount
-    };
-
-    addHistory({
-      type: "buy",
-      message:
-        company.name + "を" + quantity + "株購入",
-      amount,
-      date: new Date().toLocaleString("ja-JP")
-    });
-
-  } else {
-    const oldQuantity = getHoldingQuantity(id);
-    const oldCost = getHoldingCost(id);
-
-    if (quantity > oldQuantity) {
-      alert("保有株数が不足しています。");
-      return;
-    }
-
-    // 売却分に対応する取得金額を按分
-    const costOfSoldShares =
-      oldCost * quantity / oldQuantity;
-
-    const remainingQuantity = oldQuantity - quantity;
-
-    state.cash += amount;
-
-    if (remainingQuantity === 0) {
-      delete state.holdings[id];
-    } else {
-      state.holdings[id] = {
-        quantity: remainingQuantity,
-        cost: oldCost - costOfSoldShares
-      };
-    }
-
-    addHistory({
-      type: "sell",
-      message:
-        company.name + "を" + quantity + "株売却",
-      amount,
-      date: new Date().toLocaleString("ja-JP")
-    });
-  }
-
-  if (!saveState()) {
-    // 保存できない場合は、再読み込みして
-    // 取引前の保存済み状態に戻す。
-    state = loadState();
-    renderAll();
-    return;
-  }
-
-  closeTrade();
-  renderAll();
-}
-
-document.getElementById("quantity").addEventListener(
-  "input",
-  updateModalTotal
-);
-
-document.getElementById("confirmTrade").addEventListener(
-  "click",
-  executeTrade
-);
-
-document.getElementById("cancelTrade").addEventListener(
-  "click",
-  closeTrade
-);
-
-document.getElementById("tradeModal").addEventListener(
-  "click",
-  event => {
-    if (event.target.id === "tradeModal") {
-      closeTrade();
-    }
-  }
-);
-
-// 起動
-state = loadState();
-
-updateMarket();
-
-saveState();
-
-renderAll();
-</script>
-
-</body>
+</header><div id="top"></div><div class="hero">
+    <div class="container">
+        <span class="hero-label">VIRTUAL STOCK MARKET</span>    <h1>
+        仮想株式市場、<br>
+        <span>STOCK POINT</span>
+    </h1>
+
+    <p>
+        仮想ポイントを使って株式売買に挑戦しよう。
+        株価の変動を読み、保有株を管理し、参加者同士で資産を競い合う
+        仮想株式市場です。
+    </p>
+
+    <div class="hero-actions">
+        <a class="button button-primary" href="#market">株式市場を見る</a>
+        <a class="button" href="#ranking">ランキングを見る</a>
+        <a class="button" id="tradeLink" href="#" target="_blank" rel="noopener">
+            売買を申請する
+        </a>
+    </div>
+</div>
+
+</div><main class="container"><div id="notice" class="notice" role="status" aria-live="polite">
+    データを読み込んでいます……
+</div>
+
+<div class="stats">
+    <div class="stat-card">
+        <div class="stat-label">参加プレイヤー数</div>
+        <div class="stat-value" id="playerCount">--</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">取引件数</div>
+        <div class="stat-value" id="transactionCount">--</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">上場銘柄数</div>
+        <div class="stat-value" id="stockCount">--</div>
+    </div>
+</div>
+
+<section id="market">
+    <div class="section-heading">
+        <div>
+            <h2>📈 株式市場</h2>
+            <p>現在の株価と前回価格を確認できます。</p>
+        </div>
+        <span class="muted" id="updatedAt">更新日時：確認中</span>
+    </div>
+
+    <div class="panel">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>銘柄ID</th>
+                        <th>会社名</th>
+                        <th>現在株価</th>
+                        <th>前回株価</th>
+                        <th>変動率</th>
+                    </tr>
+                </thead>
+                <tbody id="stocksBody">
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            株価データを読み込んでいます……
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="muted">
+            次回の定期更新予定：<span id="nextUpdate">確認中</span>
+        </p>
+    </div>
+</section>
+
+<section id="ranking">
+    <div class="section-heading">
+        <div>
+            <h2>🏆 資産ランキング</h2>
+            <p>ポイントと保有株の評価額を合計した資産で比較します。</p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <ol id="rankingList" class="ranking-list">
+            <li class="empty-state">ランキングを読み込んでいます……</li>
+        </ol>
+    </div>
+</section>
+
+<section id="players">
+    <div class="section-heading">
+        <div>
+            <h2>👥 参加者一覧</h2>
+            <p>各プレイヤーのポイント、保有株、資産、損益を確認できます。</p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>プレイヤー</th>
+                        <th>保有ポイント</th>
+                        <th>保有株評価額</th>
+                        <th>総資産</th>
+                        <th>損益</th>
+                    </tr>
+                </thead>
+                <tbody id="playersBody">
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            プレイヤーデータを読み込んでいます……
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section id="transactions">
+    <div class="section-heading">
+        <div>
+            <h2>🔄 最近の取引</h2>
+            <p>参加者の売買履歴を表示します。</p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div id="transactionsList" class="transactions-list">
+            <div class="empty-state">取引履歴を読み込んでいます……</div>
+        </div>
+    </div>
+</section>
+
+<section id="rules">
+    <div class="section-heading">
+        <div>
+            <h2>📋 ゲームルール</h2>
+            <p>STOCK POINTの基本ルール</p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <ul>
+            <li>初期ポイントは1人につき5,000ポイントです。</li>
+            <li>株式は仮想ポイントで売買します。</li>
+            <li>株価はGitHub Actionsによる定期処理で1時間ごとに更新する設計です。</li>
+            <li>ランキングは保有ポイントと保有株の評価額を基に計算します。</li>
+            <li>取引申請の処理には時間がかかる場合があります。</li>
+            <li>実際のお金を使わない、ゲーム用の仮想株式市場です。</li>
+        </ul>
+
+        <div class="notice">
+            注意：このサイトは仮想株式市場の試作版です。
+            公開データを利用するため、不正防止や同時取引の安全性には限界があります。
+            実際のお金や個人情報は登録しないでください。
+        </div>
+    </div>
+</section>
+
+</main><footer class="footer">
+    <div class="container footer-inner">
+        <div>
+            <strong>STOCK POINT</strong><br>
+            仮想株式市場プロジェクト
+        </div>    <div>
+        © STOCK POINT — Virtual Market
+    </div>
+</div>
+
+</footer><script src="app.js"></script></body>
 </html>
