@@ -1,0 +1,37 @@
+name: 株取引申請
+description: STOCK POINTで株を購入・売却する
+title: "株取引申請"
+body:
+  - type: dropdown
+    id: action
+    attributes:
+      label: 売買区分
+      description: 購入または売却を選んでください
+      options:
+        - BUY
+        - SELL
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stock
+    attributes:
+      label: 銘柄ID
+      options:
+        - ST001
+        - ST002
+        - ST003
+        - ST004
+        - ST005
+        - ST006
+    validations:
+      required: true
+
+  - type: input
+    id: quantity
+    attributes:
+      label: 株数
+      description: 売買する株数を半角数字で入力
+      placeholder: "2"
+    validations:
+      required: true
