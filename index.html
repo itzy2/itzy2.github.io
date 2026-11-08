@@ -27,7 +27,8 @@ input{width:100%;font-size:22px;padding:12px;border-radius:10px;border:2px solid
 .prog{font-size:13px;color:var(--sub);margin-top:10px;text-align:center}
 </style></head><body>
 <div class="tabs"><button id="t0">✏️ 書く</button><button id="t1">👀 読む</button><button id="t2">👂 聞いて書く</button></div>
-<div class="opt"><select id="sec"></select><label><input type="checkbox" id="weak" style="width:auto;margin:0"> 苦手のみ</label><label><input type="checkbox" id="shuf" checked style="width:auto;margin:0"> ランダム</label></div>
+<div class="opt"><select id="sec"></select><label><input type="checkbox" id="weak" style="width:auto;margin:0"> 苦手のみ</label><label><input type="checkbox" id="shuf" checked style="width:auto;margin:0"> ランダム</label><button onclick="speak('Hello, nice to meet you')" style="padding:6px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx)">🔊 テスト</button></div>
+<div class="prog" id="vs"></div>
 <div class="card" id="c"></div>
 <div class="prog" id="p"></div>
 <script>
@@ -116,7 +117,11 @@ let mode=0,q=[],i=0,shown=false,done=false,W=new Set();
 try{W=new Set(JSON.parse(localStorage.getItem("weak")||"[]"))}catch(e){}
 const save=()=>{try{localStorage.setItem("weak",JSON.stringify([...W]))}catch(e){}};
 const sec=$("sec");sec.innerHTML='<option value="all">全部 (0561–0680)</option>'+[...new Set(D.map(d=>d.n.slice(0,3)))].map(s=>`<option value="${s}">${s}0–${s}9</option>`).join("");
-function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;speechSynthesis.speak(u)}catch(e){}}
+let VO=null;
+function pickVoice(){try{const v=speechSynthesis.getVoices();VO=v.find(x=>/en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null;$("vs").textContent=VO?"":"⚠️ 英語の音声が見つかりません。端末の設定で英語の読み上げ音声を追加してください"}catch(e){}}
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+function speak(t){if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){alert("このブラウザは音声読み上げに対応していません");return}
+try{speechSynthesis.cancel();speechSynthesis.resume();setTimeout(()=>{const u=new SpeechSynthesisUtterance(t);u.lang="en-US";if(VO)u.voice=VO;u.rate=.9;speechSynthesis.speak(u)},50)}catch(e){}}
 function build(){let a=D.filter(d=>sec.value=="all"||d.n.startsWith(sec.value));if($("weak").checked)a=a.filter(d=>W.has(d.n));if($("shuf").checked)a=a.sort(()=>Math.random()-.5);q=a;i=0;render()}
 const ph=(d,hide)=>d.p.replace("@",hide?"<b>＿＿＿＿</b>":`<b>${d.form}</b>`);
 function render(){shown=false;done=false;const c=$("c");
