@@ -27,7 +27,7 @@ input{width:100%;font-size:22px;padding:12px;border-radius:10px;border:2px solid
 .prog{font-size:13px;color:var(--sub);margin-top:10px;text-align:center}
 </style></head><body>
 <div class="tabs"><button id="t0">✏️ 書く</button><button id="t1">👀 読む</button><button id="t2">👂 聞いて書く</button></div>
-<div class="opt"><select id="sec"></select><label><input type="checkbox" id="weak" style="width:auto;margin:0"> 苦手のみ</label><label><input type="checkbox" id="shuf" checked style="width:auto;margin:0"> ランダム</label><button onclick="speak('Hello, nice to meet you')" style="padding:6px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx)">🔊 テスト</button></div>
+<div class="opt"><select id="sec"></select><label><input type="checkbox" id="weak" style="width:auto;margin:0"> 苦手のみ</label><label><input type="checkbox" id="shuf" checked style="width:auto;margin:0"> ランダム</label><button onclick="speak('Hello, nice to meet you')" style="padding:6px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx)">🔊 テスト</button><button id="rs" onclick="reset()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx)">🗑 リセット</button></div>
 <div class="prog" id="vs"></div>
 <div class="card" id="c"></div>
 <div class="prog" id="p"></div>
@@ -122,6 +122,7 @@ function pickVoice(){try{const v=speechSynthesis.getVoices();VO=v.find(x=>/en[-_
 try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
 function speak(t){if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){alert("このブラウザは音声読み上げに対応していません");return}
 try{speechSynthesis.cancel();speechSynthesis.resume();setTimeout(()=>{const u=new SpeechSynthesisUtterance(t);u.lang="en-US";if(VO)u.voice=VO;u.rate=.9;speechSynthesis.speak(u)},50)}catch(e){}}
+let rt=0;function reset(){const b=$("rs");if(!rt){b.textContent="本当に消す？";rt=setTimeout(()=>{rt=0;b.textContent="🗑 リセット"},3000);return}clearTimeout(rt);rt=0;b.textContent="🗑 リセット";W=new Set();save();$("weak").checked=false;build()}
 function build(){let a=D.filter(d=>sec.value=="all"||d.n.startsWith(sec.value));if($("weak").checked)a=a.filter(d=>W.has(d.n));if($("shuf").checked)a=a.sort(()=>Math.random()-.5);q=a;i=0;render()}
 const ph=(d,hide)=>d.p.replace("@",hide?"<b>＿＿＿＿</b>":`<b>${d.form}</b>`);
 function render(){shown=false;done=false;const c=$("c");
@@ -129,7 +130,7 @@ function render(){shown=false;done=false;const c=$("c");
 if(!q.length){c.innerHTML="<p>該当する単語がありません。</p>";$("p").textContent="";return}
 if(i>=q.length){c.innerHTML=`<div class="big">🎉</div><p>全${q.length}語 完了！</p><button class="btn pri" onclick="build()">もう一度</button>`;$("p").textContent="";return}
 const d=q[i];$("p").textContent=`${i+1} / ${q.length}　苦手: ${W.size}語`;
-if(mode==1){c.innerHTML=`<div class="no">${d.n}</div><div class="big">${d.w}</div><button class="btn" onclick="speak('${d.form}')">🔊 発音を聞く</button><div id="ans"></div><div class="row"><button class="btn pri" id="rv">意味を見る</button></div>`;
+if(mode==1){c.innerHTML=`<div class="no">${d.n}</div><div class="big">${d.w}</div><button class="btn" onclick="speak('${d.form}')">🔊 発音を聞く</button><input id="in" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="日本語の意味を書く"><div id="ans"></div><div class="row"><button class="btn pri" id="rv">答えを見る</button></div>`;$("in").onkeydown=e=>{if(e.key=="Enter")reveal()};
 $("rv").onclick=reveal;speak(d.w);return}
 c.innerHTML=`<div class="no">${d.n}</div>`+(mode==0?`<div class="jp">${d.j}</div><div class="ph">${ph(d,1)}</div>`:`<div class="ph">🔊 聞こえた単語を書こう</div><button class="btn" onclick="speak('${d.w}')">もう一度聞く</button>`)+`<input id="in" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="spelling"><div class="msg" id="m"></div><div class="row"><button class="btn" id="hint">ヒント</button><button class="btn pri" id="ok">答え合わせ</button></div>`;
 const inp=$("in");inp.onkeydown=e=>{if(e.key=="Enter")check()};$("ok").onclick=check;
