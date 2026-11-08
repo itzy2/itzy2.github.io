@@ -1,574 +1,143 @@
-<!DOCTYPE html><html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#101827"><title>STOCK POINT | 仮想株式市場</title>
-
-<meta name="description" content="STOCK POINTは、仮想ポイントを使って株式売買を体験できるオンライン株式市場です。">
-
-<link rel="stylesheet" href="style.css">
-
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>英単語 書き・読み練習</title>
 <style>
-    :root {
-        color-scheme: dark;
-        --background: #0b1120;
-        --panel: #151f32;
-        --panel-light: #1c2940;
-        --border: #2a3850;
-        --text: #f1f5f9;
-        --muted: #9caec5;
-        --accent: #38bdf8;
-        --green: #34d399;
-        --red: #fb7185;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
-    html {
-        scroll-behavior: smooth;
-    }
-
-    body {
-        margin: 0;
-        background: var(--background);
-        color: var(--text);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont,
-            "Segoe UI", sans-serif;
-        line-height: 1.6;
-    }
-
-    a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    button,
-    input,
-    select {
-        font: inherit;
-    }
-
-    .container {
-        width: min(1200px, 92%);
-        margin: 0 auto;
-    }
-
-    header {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: rgba(11, 17, 32, 0.94);
-        border-bottom: 1px solid var(--border);
-        backdrop-filter: blur(12px);
-    }
-
-    .header-inner {
-        min-height: 72px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-    }
-
-    .logo {
-        font-size: 1.45rem;
-        font-weight: 900;
-        letter-spacing: 1px;
-    }
-
-    .logo span {
-        color: var(--accent);
-    }
-
-    nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 18px;
-        font-size: 0.9rem;
-        color: var(--muted);
-    }
-
-    nav a:hover {
-        color: var(--accent);
-    }
-
-    .hero {
-        padding: 70px 0 45px;
-        background:
-            radial-gradient(ellipse at top right, #123b5a 0%, transparent 48%),
-            var(--background);
-    }
-
-    .hero-label {
-        display: inline-block;
-        padding: 6px 12px;
-        border: 1px solid #28506c;
-        border-radius: 999px;
-        color: var(--accent);
-        font-size: 0.8rem;
-        font-weight: 700;
-    }
-
-    .hero h1 {
-        margin: 20px 0 12px;
-        font-size: clamp(2.2rem, 6vw, 4.4rem);
-        line-height: 1.12;
-    }
-
-    .hero h1 span {
-        color: var(--accent);
-    }
-
-    .hero p {
-        max-width: 700px;
-        color: var(--muted);
-    }
-
-    .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 26px;
-    }
-
-    .button {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 44px;
-        padding: 10px 18px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: var(--panel-light);
-        color: var(--text);
-        cursor: pointer;
-    }
-
-    .button-primary {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: #061522;
-        font-weight: 800;
-    }
-
-    .button:hover {
-        filter: brightness(1.1);
-    }
-
-    .stats {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 15px;
-        margin: 20px auto 35px;
-    }
-
-    .stat-card,
-    .panel {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-    }
-
-    .stat-card {
-        padding: 20px;
-    }
-
-    .stat-label {
-        color: var(--muted);
-        font-size: 0.85rem;
-    }
-
-    .stat-value {
-        margin-top: 6px;
-        font-size: clamp(1.3rem, 3vw, 2rem);
-        font-weight: 850;
-    }
-
-    main {
-        padding-bottom: 60px;
-    }
-
-    section {
-        margin-top: 34px;
-        scroll-margin-top: 90px;
-    }
-
-    .section-heading {
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        gap: 12px;
-        margin-bottom: 16px;
-    }
-
-    .section-heading h2 {
-        margin: 0;
-        font-size: 1.45rem;
-    }
-
-    .section-heading p {
-        margin: 5px 0 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-    }
-
-    .panel {
-        padding: 20px;
-        min-width: 0;
-    }
-
-    .table-wrap {
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 600px;
-    }
-
-    th,
-    td {
-        padding: 13px 12px;
-        text-align: left;
-        border-bottom: 1px solid var(--border);
-    }
-
-    th {
-        color: var(--muted);
-        font-size: 0.82rem;
-        font-weight: 650;
-        white-space: nowrap;
-    }
-
-    td {
-        font-size: 0.92rem;
-    }
-
-    tbody tr:last-child td {
-        border-bottom: 0;
-    }
-
-    .positive {
-        color: var(--green);
-    }
-
-    .negative {
-        color: var(--red);
-    }
-
-    .muted {
-        color: var(--muted);
-    }
-
-    .two-columns {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 20px;
-    }
-
-    .ranking-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .ranking-list li {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-        padding: 14px 0;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .ranking-list li:last-child {
-        border-bottom: 0;
-    }
-
-    .ranking-rank {
-        display: inline-block;
-        min-width: 35px;
-        color: var(--accent);
-        font-weight: 850;
-    }
-
-    .transactions-list {
-        display: grid;
-        gap: 12px;
-    }
-
-    .transaction-item {
-        padding: 13px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: var(--panel-light);
-    }
-
-    .transaction-item small {
-        display: block;
-        margin-top: 4px;
-        color: var(--muted);
-    }
-
-    .notice {
-        padding: 14px 16px;
-        border: 1px solid #31516d;
-        border-radius: 12px;
-        background: #10263a;
-        color: #d5efff;
-        overflow-wrap: anywhere;
-    }
-
-    .notice.error {
-        border-color: #7f3444;
-        background: #351722;
-        color: #ffdce3;
-    }
-
-    .empty-state {
-        padding: 25px 10px;
-        text-align: center;
-        color: var(--muted);
-    }
-
-    .footer {
-        padding: 28px 0;
-        border-top: 1px solid var(--border);
-        color: var(--muted);
-        font-size: 0.85rem;
-    }
-
-    .footer-inner {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 12px;
-    }
-
-    @media (max-width: 760px) {
-        .header-inner {
-            align-items: flex-start;
-            flex-direction: column;
-            padding: 15px 0;
-        }
-
-        nav {
-            gap: 12px;
-        }
-
-        .hero {
-            padding-top: 45px;
-        }
-
-        .stats {
-            grid-template-columns: 1fr;
-        }
-
-        .two-columns {
-            grid-template-columns: 1fr;
-        }
-
-        .panel {
-            padding: 14px;
-        }
-
-        .section-heading {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-    }
-</style>
-
-</head><body><header>
-    <div class="container header-inner">
-        <a class="logo" href="#top">STOCK <span>POINT</span></a>    <nav aria-label="メインメニュー">
-        <a href="#market">株式市場</a>
-        <a href="#ranking">ランキング</a>
-        <a href="#players">参加者</a>
-        <a href="#transactions">取引履歴</a>
-        <a href="#rules">ルール</a>
-    </nav>
-</div>
-
-</header><div id="top"></div><div class="hero">
-    <div class="container">
-        <span class="hero-label">VIRTUAL STOCK MARKET</span>    <h1>
-        仮想株式市場、<br>
-        <span>STOCK POINT</span>
-    </h1>
-
-    <p>
-        仮想ポイントを使って株式売買に挑戦しよう。
-        株価の変動を読み、保有株を管理し、参加者同士で資産を競い合う
-        仮想株式市場です。
-    </p>
-
-    <div class="hero-actions">
-        <a class="button button-primary" href="#market">株式市場を見る</a>
-        <a class="button" href="#ranking">ランキングを見る</a>
-        <a class="button" id="tradeLink" href="#" target="_blank" rel="noopener">
-            売買を申請する
-        </a>
-    </div>
-</div>
-
-</div><main class="container"><div id="notice" class="notice" role="status" aria-live="polite">
-    データを読み込んでいます……
-</div>
-
-<div class="stats">
-    <div class="stat-card">
-        <div class="stat-label">参加プレイヤー数</div>
-        <div class="stat-value" id="playerCount">--</div>
-    </div>
-
-    <div class="stat-card">
-        <div class="stat-label">取引件数</div>
-        <div class="stat-value" id="transactionCount">--</div>
-    </div>
-
-    <div class="stat-card">
-        <div class="stat-label">上場銘柄数</div>
-        <div class="stat-value" id="stockCount">--</div>
-    </div>
-</div>
-
-<section id="market">
-    <div class="section-heading">
-        <div>
-            <h2>📈 株式市場</h2>
-            <p>現在の株価と前回価格を確認できます。</p>
-        </div>
-        <span class="muted" id="updatedAt">更新日時：確認中</span>
-    </div>
-
-    <div class="panel">
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>銘柄ID</th>
-                        <th>会社名</th>
-                        <th>現在株価</th>
-                        <th>前回株価</th>
-                        <th>変動率</th>
-                    </tr>
-                </thead>
-                <tbody id="stocksBody">
-                    <tr>
-                        <td colspan="5" class="empty-state">
-                            株価データを読み込んでいます……
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <p class="muted">
-            次回の定期更新予定：<span id="nextUpdate">確認中</span>
-        </p>
-    </div>
-</section>
-
-<section id="ranking">
-    <div class="section-heading">
-        <div>
-            <h2>🏆 資産ランキング</h2>
-            <p>ポイントと保有株の評価額を合計した資産で比較します。</p>
-        </div>
-    </div>
-
-    <div class="panel">
-        <ol id="rankingList" class="ranking-list">
-            <li class="empty-state">ランキングを読み込んでいます……</li>
-        </ol>
-    </div>
-</section>
-
-<section id="players">
-    <div class="section-heading">
-        <div>
-            <h2>👥 参加者一覧</h2>
-            <p>各プレイヤーのポイント、保有株、資産、損益を確認できます。</p>
-        </div>
-    </div>
-
-    <div class="panel">
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>プレイヤー</th>
-                        <th>保有ポイント</th>
-                        <th>保有株評価額</th>
-                        <th>総資産</th>
-                        <th>損益</th>
-                    </tr>
-                </thead>
-                <tbody id="playersBody">
-                    <tr>
-                        <td colspan="5" class="empty-state">
-                            プレイヤーデータを読み込んでいます……
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<section id="transactions">
-    <div class="section-heading">
-        <div>
-            <h2>🔄 最近の取引</h2>
-            <p>参加者の売買履歴を表示します。</p>
-        </div>
-    </div>
-
-    <div class="panel">
-        <div id="transactionsList" class="transactions-list">
-            <div class="empty-state">取引履歴を読み込んでいます……</div>
-        </div>
-    </div>
-</section>
-
-<section id="rules">
-    <div class="section-heading">
-        <div>
-            <h2>📋 ゲームルール</h2>
-            <p>STOCK POINTの基本ルール</p>
-        </div>
-    </div>
-
-    <div class="panel">
-        <ul>
-            <li>初期ポイントは1人につき5,000ポイントです。</li>
-            <li>株式は仮想ポイントで売買します。</li>
-            <li>株価はGitHub Actionsによる定期処理で1時間ごとに更新する設計です。</li>
-            <li>ランキングは保有ポイントと保有株の評価額を基に計算します。</li>
-            <li>取引申請の処理には時間がかかる場合があります。</li>
-            <li>実際のお金を使わない、ゲーム用の仮想株式市場です。</li>
-        </ul>
-
-        <div class="notice">
-            注意：このサイトは仮想株式市場の試作版です。
-            公開データを利用するため、不正防止や同時取引の安全性には限界があります。
-            実際のお金や個人情報は登録しないでください。
-        </div>
-    </div>
-</section>
-
-</main><footer class="footer">
-    <div class="container footer-inner">
-        <div>
-            <strong>STOCK POINT</strong><br>
-            仮想株式市場プロジェクト
-        </div>    <div>
-        © STOCK POINT — Virtual Market
-    </div>
-</div>
-
-</footer><script src="app.js"></script></body>
-</html>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f8fb;--card:#fff;--tx:#1c2430;--sub:#6b7686;--ac:#2f7de1;--ok:#1f9d55;--ng:#d64545;--bd:#dde3ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a22;--card:#1e2733;--tx:#e8edf3;--sub:#93a0b2;--ac:#5aa0f5;--ok:#43c37b;--ng:#f07070;--bd:#2f3b4c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:560px;margin:0 auto;padding:12px}
+.tabs{display:flex;gap:6px}
+.tabs button{flex:1;padding:10px 4px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-size:14px}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.opt{display:flex;gap:8px;align-items:center;margin:10px 0;font-size:13px;color:var(--sub);flex-wrap:wrap}
+select{padding:7px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px;text-align:center}
+.no{font-size:12px;color:var(--sub)}
+.jp{font-size:22px;margin:10px 0;font-weight:600}
+.ph{font-size:20px;margin:8px 0}
+.ph b{color:var(--ac);border-bottom:2px solid var(--ac)}
+.big{font-size:40px;font-weight:700;margin:14px 0}
+input{width:100%;font-size:22px;padding:12px;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--tx);text-align:center;margin-top:10px}
+.row{display:flex;gap:8px;margin-top:12px}
+.row button,.btn{flex:1;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:15px}
+.pri{background:var(--ac)!important;color:#fff!important;border-color:var(--ac)!important}
+.msg{min-height:28px;margin-top:10px;font-size:17px;font-weight:600}
+.ok{color:var(--ok)}.ng{color:var(--ng)}
+.prog{font-size:13px;color:var(--sub);margin-top:10px;text-align:center}
+</style></head><body>
+<div class="tabs"><button id="t0">✏️ 書く</button><button id="t1">👀 読む</button><button id="t2">👂 聞いて書く</button></div>
+<div class="opt"><select id="sec"></select><label><input type="checkbox" id="weak" style="width:auto;margin:0"> 苦手のみ</label><label><input type="checkbox" id="shuf" checked style="width:auto;margin:0"> ランダム</label></div>
+<div class="card" id="c"></div>
+<div class="prog" id="p"></div>
+<script>
+const D=`0561|自然の力|the power of *nature*
+0562|小枝|a small *branch*
+0563|野生の花|*wild* flowers
+0564|木で造られた家|a house made of *wood*
+0565|茂みを見る|see a *bush*
+0566|植物に水をやる|water the *plants=plant*
+0567|その植物の根|the *root* of the plant
+0568|高い波|tall *waves=wave*
+0569|天然ガス|natural *gas*
+0570|地球という惑星|the *planet* Earth
+0571|喜びでいっぱいで|full of *joy*
+0572|おもしろがっているように見える|look *amused*
+0573|安心を感じる|feel *safe*
+0574|夕食後にくつろぐ|*relax* after dinner
+0575|全員を感動させる|*impress* everyone
+0576|イライラするようになる|grow *nervous*
+0577|ショックを受ける|get a *shock*
+0578|その知らせに取り乱す|be *upset* by the news
+0579|悩みがある|have *trouble*
+0580|満員電車が嫌だ|*hate* crowded trains
+0611|きれいな空気|clean *air*
+0612|低温|a low *temperature*
+0613|森林を守る|save the *forest*
+0614|新聞を再利用する|*recycle* newspapers
+0615|沈黙を守る|keep my *silence*
+0616|彼に適している|*suit* him
+0617|階段を上る|go up the *stairs=stair*
+0618|人体の模型|a *model* of the human body
+0619|ねじを回す|turn the *screw*
+0620|貝がらを拾う|pick up a *shell*
+0621|日記をつける|keep a *diary*
+0622|私のイメージをよくする|make my *image* better
+0623|食事を用意する|*prepare* food
+0624|会社を経営する|run a *company*
+0625|制服を着ている|wear her *uniform*
+0626|高校を卒業する|*graduate* from high school
+0627|大学に通う|go to *university*
+0628|平和の象徴|a *symbol* of peace
+0629|正門|the front *gate*
+0630|警察に行く|go to the *police*
+0641|パンを焼く|*bake* bread
+0642|木を燃やす|*burn* wood
+0643|箱を埋める|*bury* a box
+0644|情報を集める|*gather* information
+0645|穴の中にボールをころがす|*roll* a ball into a hole
+0646|新聞を印刷する|*print* newspapers
+0647|窓を閉める|*shut* the window
+0648|その仕事を処理する|*handle* the jobs
+0649|メッセージを録音する|*record* the message
+0650|その壁を破壊する|*destroy* the wall
+0651|私の母国|my home *country*
+0652|全国紙|a *national* newspaper
+0653|日本国民|a Japanese *citizen*
+0654|フランスの首都|the *capital* of France
+0655|日本政府|the Japanese *government*
+0656|成田国際空港|Narita *International* Airport
+0657|最初の州|the first *state*
+0658|牛乳を生産する|*produce* milk
+0659|技能を発達させる|*develop* skills
+0660|米の収穫|the rice *harvest*
+0661|旅行に出かける|go on a *tour*
+0662|外国へ旅行する|travel *abroad*
+0663|観光に行く|go *sightseeing*
+0664|冒険をする|have an *adventure*
+0665|小さな村|a small *village*
+0666|美しいながめ|beautiful *views=view*
+0667|その博物館を訪れる|visit the *museum*
+0668|必要な変更を加える|make *necessary* changes
+0669|役に立つ情報|*useful* information
+0670|完ぺきな贈りもの|a *perfect* gift
+0671|子どもでさえ|*even* a child
+0672|スポーツ、特にテニス|sports, *especially* tennis
+0673|実際にそこに行く|*actually* go there
+0674|そのようなすばらしい日|*such* a wonderful day
+0675|とにかく君を信じる|believe you *anyway*
+0676|彼を元気づける|*cheer* him up
+0677|おもしろい冗談を言う|tell a funny *joke*
+0678|友人を夕食に招待する|*invite* a friend to dinner
+0679|彼の助言に従う|follow his *advice*
+0680|君にお願いをする|ask a *favor* of you`.split("\n").map(l=>{const[n,j,p]=l.split("|");const m=p.match(/\*(.+?)\*/)[1].split("=");return{n,j,form:m[0],w:m[1]||m[0],p:p.replace(/\*.+?\*/,"@")}});
+const $=id=>document.getElementById(id);
+let mode=0,q=[],i=0,shown=false,done=false,W=new Set();
+try{W=new Set(JSON.parse(localStorage.getItem("weak")||"[]"))}catch(e){}
+const save=()=>{try{localStorage.setItem("weak",JSON.stringify([...W]))}catch(e){}};
+const sec=$("sec");sec.innerHTML='<option value="all">全部 (0561–0680)</option>'+[...new Set(D.map(d=>d.n.slice(0,3)))].map(s=>`<option value="${s}">${s}0–${s}9</option>`).join("");
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;speechSynthesis.speak(u)}catch(e){}}
+function build(){let a=D.filter(d=>sec.value=="all"||d.n.startsWith(sec.value));if($("weak").checked)a=a.filter(d=>W.has(d.n));if($("shuf").checked)a=a.sort(()=>Math.random()-.5);q=a;i=0;render()}
+const ph=(d,hide)=>d.p.replace("@",hide?"<b>＿＿＿＿</b>":`<b>${d.form}</b>`);
+function render(){shown=false;done=false;const c=$("c");
+[0,1,2].forEach(k=>$("t"+k).className=k==mode?"on":"");
+if(!q.length){c.innerHTML="<p>該当する単語がありません。</p>";$("p").textContent="";return}
+if(i>=q.length){c.innerHTML=`<div class="big">🎉</div><p>全${q.length}語 完了！</p><button class="btn pri" onclick="build()">もう一度</button>`;$("p").textContent="";return}
+const d=q[i];$("p").textContent=`${i+1} / ${q.length}　苦手: ${W.size}語`;
+if(mode==1){c.innerHTML=`<div class="no">${d.n}</div><div class="big">${d.w}</div><button class="btn" onclick="speak('${d.form}')">🔊 発音を聞く</button><div id="ans"></div><div class="row"><button class="btn pri" id="rv">意味を見る</button></div>`;
+$("rv").onclick=reveal;speak(d.w);return}
+c.innerHTML=`<div class="no">${d.n}</div>`+(mode==0?`<div class="jp">${d.j}</div><div class="ph">${ph(d,1)}</div>`:`<div class="ph">🔊 聞こえた単語を書こう</div><button class="btn" onclick="speak('${d.w}')">もう一度聞く</button>`)+`<input id="in" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="spelling"><div class="msg" id="m"></div><div class="row"><button class="btn" id="hint">ヒント</button><button class="btn pri" id="ok">答え合わせ</button></div>`;
+const inp=$("in");inp.onkeydown=e=>{if(e.key=="Enter")check()};$("ok").onclick=check;
+$("hint").onclick=()=>{$("m").className="msg";$("m").textContent="ヒント: "+d.w[0]+" "+"_ ".repeat(d.w.length-1)+`(${d.w.length}文字)`};
+if(mode==2)speak(d.w);else inp.focus()}
+function reveal(){const d=q[i];if(!shown){shown=true;$("ans").innerHTML=`<div class="jp">${d.j}</div><div class="ph">${ph(d)}</div>`;$("rv").style.display="none";$("c").querySelector(".row").innerHTML='<button class="btn" id="no">もう一度</button><button class="btn pri" id="yes">覚えた</button>';$("no").onclick=()=>{W.add(d.n);save();q.push(d);i++;render()};$("yes").onclick=()=>{W.delete(d.n);save();i++;render()}}}
+function check(){const d=q[i];if(done){i++;render();return}const v=$("in").value.trim().toLowerCase(),m=$("m");
+if(!v)return;done=true;
+if(v==d.w.toLowerCase()||v==d.form.toLowerCase()){m.className="msg ok";m.textContent="⭕ 正解！ "+d.w;W.delete(d.n)}
+else{m.className="msg ng";m.innerHTML="❌ 正解: "+d.w;W.add(d.n);q.push(d)}
+save();speak(d.form);$("ok").textContent="次へ";$("p").textContent=`${i+1} / ${q.length}　苦手: ${W.size}語`}
+document.addEventListener("keydown",e=>{if(e.key=="Enter"&&mode==0||e.key=="Enter"&&mode==2){if(done&&document.activeElement.tagName!="INPUT")check()}});
+[0,1,2].forEach(k=>$("t"+k).onclick=()=>{mode=k;build()});
+sec.onchange=$("weak").onchange=$("shuf").onchange=build;
+build();
+</script></body></html>
