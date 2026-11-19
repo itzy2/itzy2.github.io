@@ -1,24 +1,26 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>GATE SQUARE | Official Portal</title>
 
-<meta name="description" content="GATE SQUARE公式ポータルサイト。株式ゲーム、オンライン試験、単語学習、予約システムなどのサービスを提供しています。">
+<meta name="description" content="GATE SQUARE公式ポータルサイト">
 
 <meta name="theme-color" content="#080e1b">
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 :root {
-  --background: #080e1b;
-  --surface: #111d31;
-  --surface-light: #192a43;
+  --bg: #080e1b;
+  --panel: #111d31;
   --border: #293b55;
   --text: #f8fafc;
   --muted: #a5b4c8;
-  --blue: #3b82f6;
+  --blue: #2563eb;
   --cyan: #38bdf8;
 }
 
@@ -33,33 +35,28 @@ html {
 }
 
 body {
-  font-family:
-    "Segoe UI",
-    "Noto Sans JP",
-    sans-serif;
-  background: var(--background);
+  font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+  background: var(--bg);
   color: var(--text);
   line-height: 1.7;
 }
 
-/* HEADER */
-
 header {
-  height: 76px;
-  padding: 0 7%;
+  min-height: 75px;
+  padding: 12px 7%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 100;
-  background: rgba(8,14,27,.96);
+  z-index: 10;
+  background: rgba(8,14,27,.97);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(12px);
 }
 
 .logo {
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 900;
   letter-spacing: 3px;
   color: white;
@@ -72,180 +69,140 @@ header {
 
 nav {
   display: flex;
-  align-items: center;
-  gap: 28px;
+  gap: 22px;
 }
 
 nav a {
   color: #cbd5e1;
-  font-size: 13px;
   text-decoration: none;
-  transition: .2s;
+  font-size: 13px;
 }
 
 nav a:hover {
   color: var(--cyan);
 }
 
-/* HERO */
-
 .hero {
-  min-height: 450px;
-  padding: 90px 20px;
+  min-height: 400px;
+  padding: 75px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
-
   background:
-    radial-gradient(
-      ellipse at 50% 100%,
-      rgba(8,145,178,.25),
-      transparent 65%
-    ),
-    linear-gradient(
-      140deg,
-      #152b49,
-      #080e1b 75%
-    );
-
-  border-bottom: 1px solid var(--border);
+    radial-gradient(ellipse at 50% 100%,#164e6370,transparent 65%),
+    linear-gradient(140deg,#152b49,#080e1b 75%);
 }
 
 .hero-label {
   color: var(--cyan);
   font-size: 12px;
-  letter-spacing: 6px;
-  font-weight: bold;
-  margin-bottom: 25px;
+  letter-spacing: 5px;
+  margin-bottom: 22px;
 }
 
 .hero h1 {
-  font-size: clamp(40px, 8vw, 82px);
+  font-size: clamp(40px,8vw,78px);
+  letter-spacing: 4px;
   font-weight: 900;
-  letter-spacing: 5px;
-  line-height: 1.2;
 }
 
 .hero h1 span {
   color: var(--cyan);
 }
 
-.hero-description {
+.hero p {
   color: #cbd5e1;
-  margin-top: 24px;
-  font-size: 15px;
-  line-height: 2.1;
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 2;
 }
 
-.hero-button {
+.primary-button {
   display: inline-block;
-  margin-top: 35px;
-  padding: 13px 35px;
-  border-radius: 30px;
-  background: #2563eb;
+  padding: 12px 30px;
+  margin-top: 30px;
+  background: var(--blue);
   color: white;
+  border-radius: 30px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 14px;
-  transition: .25s;
 }
-
-.hero-button:hover {
-  background: #0891b2;
-  transform: translateY(-4px);
-}
-
-/* SERVICES */
 
 section {
   max-width: 1150px;
   margin: auto;
-  padding: 75px 25px;
+  padding: 70px 25px;
 }
 
-.section-title {
+.heading {
   text-align: center;
-  margin-bottom: 45px;
+  margin-bottom: 40px;
 }
 
-.section-title .en {
+.heading small {
   color: var(--cyan);
-  font-size: 11px;
   letter-spacing: 4px;
-  margin-bottom: 8px;
 }
 
-.section-title h2 {
-  font-size: 30px;
-  letter-spacing: 2px;
+.heading h2 {
+  font-size: 28px;
+  margin-top: 8px;
 }
 
-.section-title p {
+.heading p {
   color: var(--muted);
   font-size: 13px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .services {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 22px;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
 }
 
 .service {
-  min-height: 260px;
-  padding: 30px;
+  padding: 28px;
+  min-height: 245px;
   display: flex;
   flex-direction: column;
-
-  background: linear-gradient(
-    145deg,
-    #17263e,
-    #101a2b
-  );
-
+  background: linear-gradient(145deg,#17263e,#101a2b);
   border: 1px solid var(--border);
-  border-radius: 18px;
-
+  border-radius: 17px;
   transition: .25s;
 }
 
 .service:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
   border-color: var(--cyan);
-  box-shadow: 0 15px 35px rgba(0,0,0,.3);
 }
 
 .service-icon {
-  font-size: 36px;
-  margin-bottom: 15px;
+  font-size: 34px;
 }
 
 .service h3 {
-  font-size: 23px;
-  margin-bottom: 5px;
-  font-weight: 800;
+  font-size: 22px;
+  margin-top: 12px;
 }
 
-.service .en {
-  font-size: 11px;
-  letter-spacing: 2px;
+.service small {
   color: var(--cyan);
-  margin-bottom: 15px;
+  letter-spacing: 2px;
+  font-size: 10px;
 }
 
 .service p {
   color: var(--muted);
   font-size: 13px;
-  line-height: 2;
+  margin-top: 12px;
 }
 
 .service a {
   margin-top: auto;
-  padding-top: 22px;
-  display: inline-block;
+  padding-top: 20px;
   color: #60a5fa;
   font-size: 13px;
   font-weight: bold;
@@ -256,174 +213,245 @@ section {
   color: white;
 }
 
-.admin {
-  border-color: #59437c;
-}
+/* ACCOUNT RECOVERY */
 
-.admin .en {
-  color: #c4b5fd;
-}
-
-.tango {
-  border-color: #24634e;
-}
-
-.tango .en {
-  color: #6ee7b7;
-}
-
-.reservation {
-  border-color: #72552b;
-}
-
-.reservation .en {
-  color: #fbbf24;
-}
-
-/* ABOUT */
-
-.about {
-  background: #101b2d;
+.recovery-section {
+  background:
+    radial-gradient(ellipse at top,#12304b,transparent 70%);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 75px 20px;
+}
+
+.recovery-box {
+  max-width: 560px;
+  margin: auto;
+  padding: 30px;
+  background: #111d31;
+  border: 1px solid #34516f;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px #0004;
+}
+
+.recovery-icon {
+  text-align: center;
+  font-size: 42px;
+}
+
+.recovery-box h3 {
+  text-align: center;
+  font-size: 22px;
+  margin-top: 10px;
+}
+
+.recovery-subtitle {
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+  margin: 8px 0 25px;
+}
+
+.field {
+  margin-bottom: 19px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 9px;
+  border: 1px solid #3b4d65;
+  background: #081323;
+  color: white;
+  outline: none;
+  font-size: 16px;
+}
+
+.field input:focus {
+  border-color: var(--cyan);
+}
+
+.pin-input {
+  letter-spacing: 9px;
+  text-align: center;
+  font-size: 23px !important;
+}
+
+.recovery-button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(90deg,#2563eb,#0891b2);
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.recovery-button:hover {
+  opacity: .85;
+}
+
+.recovery-button:disabled {
+  opacity: .5;
+  cursor: wait;
+}
+
+.notice {
+  margin-top: 18px;
+  font-size: 11px;
+  color: #94a3b8;
   text-align: center;
 }
 
-.about h2 {
-  font-size: 28px;
-  margin-bottom: 22px;
-  letter-spacing: 2px;
+#message {
+  display: none;
+  margin-top: 18px;
+  padding: 13px;
+  border-radius: 9px;
+  font-size: 13px;
+  text-align: center;
 }
 
-.about .subtitle {
-  color: var(--cyan);
+#message.error {
+  display: block;
+  color: #fecaca;
+  background: #7f1d1d40;
+  border: 1px solid #991b1b;
+}
+
+#message.success {
+  display: block;
+  color: #bbf7d0;
+  background: #14532d40;
+  border: 1px solid #166534;
+}
+
+/* RESULTS */
+
+#results {
+  display: none;
+  margin-top: 25px;
+}
+
+.result-heading {
+  font-size: 17px;
+  margin-bottom: 15px;
+  color: #7dd3fc;
+}
+
+.account-card {
+  background: #0a1526;
+  border: 1px solid #304966;
+  border-radius: 12px;
+  padding: 17px;
+  margin-bottom: 13px;
+  overflow-wrap: anywhere;
+}
+
+.account-service {
+  color: #38bdf8;
   font-size: 11px;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.account-card h4 {
+  font-size: 17px;
+  margin: 7px 0;
+}
+
+.account-id {
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.account-info {
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid #293b55;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.account-info div {
+  margin-bottom: 5px;
+}
+
+.about {
+  text-align: center;
+  padding: 65px 20px;
+  background: #101b2d;
+}
+
+.about h2 {
+  font-size: 27px;
   margin-bottom: 15px;
 }
 
 .about p {
   color: var(--muted);
-  font-size: 14px;
-  line-height: 2.2;
+  font-size: 13px;
+  line-height: 2.1;
 }
 
-/* FOOTER */
-
 footer {
-  padding: 40px 20px;
   text-align: center;
+  padding: 35px 20px;
   color: #64748b;
   font-size: 12px;
 }
 
-footer .footer-logo {
+footer strong {
   color: #cbd5e1;
-  font-size: 19px;
-  font-weight: 900;
   letter-spacing: 3px;
-  margin-bottom: 12px;
+  font-size: 18px;
 }
 
-footer .footer-logo span {
-  color: var(--cyan);
-}
-
-footer a {
-  color: #94a3b8;
-  text-decoration: none;
-}
-
-footer a:hover {
-  color: var(--cyan);
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin: 20px 0;
-}
-
-/* MOBILE */
-
-@media (max-width: 700px) {
-
+@media(max-width:700px) {
   header {
-    height: auto;
-    min-height: 70px;
-    padding: 15px 18px;
+    padding: 14px 17px;
     flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .logo {
-    font-size: 19px;
+    gap: 10px;
   }
 
   nav {
-    gap: 14px;
+    gap: 13px;
   }
 
   nav a {
     font-size: 11px;
   }
 
+  .services {
+    grid-template-columns: 1fr;
+  }
+
   .hero {
-    min-height: 370px;
-    padding: 65px 18px;
-  }
-
-  .hero h1 {
-    letter-spacing: 2px;
-  }
-
-  .hero-label {
-    letter-spacing: 3px;
-  }
-
-  .hero-description {
-    font-size: 13px;
+    min-height: 350px;
   }
 
   section {
-    padding: 55px 18px;
+    padding: 55px 17px;
   }
 
-  .services {
-    grid-template-columns: 1fr;
-    gap: 17px;
-  }
-
-  .service {
-    min-height: 235px;
-    padding: 25px;
-  }
-
-  .section-title h2 {
-    font-size: 25px;
-  }
-
-  .about {
-    padding: 55px 20px;
-  }
-
-  .about p {
-    font-size: 12px;
+  .recovery-box {
+    padding: 22px 17px;
   }
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-
 <header>
-
   <a href="#home" class="logo">
     GATE <span>SQUARE</span>
   </a>
@@ -431,15 +459,14 @@ footer a:hover {
   <nav>
     <a href="#home">HOME</a>
     <a href="#services">SERVICES</a>
+    <a href="#recovery">ACCOUNT</a>
     <a href="#about">ABOUT</a>
   </nav>
-
 </header>
 
+<main>
 
 <!-- HERO -->
-
-<main>
 
 <div class="hero" id="home">
 
@@ -447,16 +474,14 @@ footer a:hover {
     GATE SQUARE OFFICIAL PORTAL
   </div>
 
-  <h1>
-    GATE <span>SQUARE</span>
-  </h1>
+  <h1>GATE <span>SQUARE</span></h1>
 
-  <p class="hero-description">
+  <p>
     その先に、新しい体験を。<br>
     多彩なサービスを、ひとつの場所から。
   </p>
 
-  <a href="#services" class="hero-button">
+  <a href="#services" class="primary-button">
     サービス一覧を見る →
   </a>
 
@@ -467,143 +492,127 @@ footer a:hover {
 
 <section id="services">
 
-  <div class="section-title">
-
-    <div class="en">
-      OUR SERVICES
-    </div>
-
+  <div class="heading">
+    <small>OUR SERVICES</small>
     <h2>サービス一覧</h2>
-
-    <p>
-      GATE SQUAREが提供する各種サービス
-    </p>
-
+    <p>GATE SQUAREの各種サービス</p>
   </div>
-
 
   <div class="services">
 
-
-    <!-- KABU -->
-
     <article class="service">
-
       <div class="service-icon">📈</div>
-
       <h3>KABU</h3>
-
-      <div class="en">
-        STOCKPOINT
-      </div>
-
-      <p>
-        株式投資をゲーム感覚で楽しむサービス。<br>
-        株の動きや投資の仕組みを体験できます。
-      </p>
-
-      <a href="https://itzy2.github.io/kabu/">
-        KABUを利用する →
-      </a>
-
+      <small>STOCKPOINT</small>
+      <p>株式投資をゲーム感覚で楽しむ株のゲームサービス。</p>
+      <a href="https://itzy2.github.io/kabu/">KABUを利用する →</a>
     </article>
-
-
-    <!-- ORBIS TEST -->
 
     <article class="service">
-
       <div class="service-icon">🎓</div>
-
       <h3>ORBIS TEST</h3>
-
-      <div class="en">
-        ONLINE CBT EXAMINATION
-      </div>
-
-      <p>
-        オルビステスト公式CBT試験システム。<br>
-        オンラインで試験を受験し、結果を確認できます。
-      </p>
-
-      <a href="https://itzy2.github.io/test/">
-        オルビステストへ →
-      </a>
-
+      <small>ONLINE CBT EXAMINATION</small>
+      <p>オルビステストの公式オンライン試験システム。</p>
+      <a href="https://itzy2.github.io/test/">試験を受ける →</a>
     </article>
 
-
-    <!-- ADMIN -->
-
-    <article class="service admin">
-
+    <article class="service">
       <div class="service-icon">🔐</div>
-
       <h3>ADMIN</h3>
-
-      <div class="en">
-        ADMINISTRATION SYSTEM
-      </div>
-
-      <p>
-        オルビステストの管理者専用ページ。<br>
-        受験者情報や試験結果などを管理します。
-      </p>
-
-      <a href="https://itzy2.github.io/admin.html">
-        管理者ページへ →
-      </a>
-
+      <small>ADMINISTRATION SYSTEM</small>
+      <p>オルビステストの管理者専用ページ。</p>
+      <a href="https://itzy2.github.io/admin.html">管理者ページへ →</a>
     </article>
 
-
-    <!-- TANGO -->
-
-    <article class="service tango">
-
+    <article class="service">
       <div class="service-icon">📚</div>
-
       <h3>TANGO</h3>
-
-      <div class="en">
-        VOCABULARY LEARNING
-      </div>
-
-      <p>
-        単語学習に特化した学習サービス。<br>
-        単語を覚えて語彙力を高めましょう。
-      </p>
-
-      <a href="https://itzy2.github.io/tango/">
-        TANGOを利用する →
-      </a>
-
+      <small>VOCABULARY LEARNING</small>
+      <p>単語学習に特化した学習サービス。</p>
+      <a href="https://itzy2.github.io/tango/">TANGOを利用する →</a>
     </article>
 
-
-    <!-- GATE SQUARE OFFICIAL -->
-
-    <article class="service reservation">
-
+    <article class="service">
       <div class="service-icon">📅</div>
-
       <h3>GATE SQUARE OFFICIAL</h3>
-
-      <div class="en">
-        RESERVATION SYSTEM
-      </div>
-
-      <p>
-        ゲートスクエア公式予約システム。<br>
-        サービスの予約や予約に関する手続きを行えます。
-      </p>
-
-      <a href="https://itzy2.github.io/gatesquare_Official/">
-        予約システムへ →
-      </a>
-
+      <small>RESERVATION SYSTEM</small>
+      <p>ゲートスクエア公式予約システム。</p>
+      <a href="https://itzy2.github.io/gatesquare_Official/">予約システムへ →</a>
     </article>
 
+  </div>
+</section>
+
+
+<!-- ACCOUNT RECOVERY -->
+
+<section class="recovery-section" id="recovery">
+
+  <div class="heading">
+    <small>ACCOUNT SUPPORT</small>
+    <h2>アカウント確認・照会</h2>
+    <p>アカウント名やユーザーIDを忘れた場合はこちら</p>
+  </div>
+
+  <div class="recovery-box">
+
+    <div class="recovery-icon">🔎</div>
+
+    <h3>アカウントを確認する</h3>
+
+    <p class="recovery-subtitle">
+      登録した氏名と6桁の暗証番号を入力してください。
+    </p>
+
+    <form id="recoveryForm">
+
+      <div class="field">
+        <label for="accountName">登録した氏名</label>
+
+        <input
+          type="text"
+          id="accountName"
+          placeholder="登録時の氏名を入力"
+          maxlength="100"
+          autocomplete="name"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="accountPin">6桁の暗証番号</label>
+
+        <input
+          type="password"
+          id="accountPin"
+          class="pin-input"
+          placeholder="000000"
+          inputmode="numeric"
+          pattern="[0-9]{6}"
+          maxlength="6"
+          autocomplete="off"
+          required
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="recovery-button"
+        id="searchButton"
+      >
+        アカウントを確認する →
+      </button>
+
+    </form>
+
+    <div id="message" role="status" aria-live="polite"></div>
+
+    <div id="results"></div>
+
+    <p class="notice">
+      ※本人確認に成功した場合のみ登録情報が表示されます。<br>
+      ※パスワードや暗証番号は表示されません。
+    </p>
 
   </div>
 
@@ -614,19 +623,13 @@ footer a:hover {
 
 <div class="about" id="about">
 
-  <div class="subtitle">
-    ABOUT US
-  </div>
-
   <h2>ABOUT GATE SQUARE</h2>
 
   <p>
     GATE SQUAREは、複数のサービスを展開する<br>
     総合サービスブランドです。<br><br>
-
     ゲーム・教育・学習・予約システムなど、<br>
-    多彩な分野のサービスを通じて、<br>
-    新しい体験と価値を提供します。
+    多彩な分野のサービスを提供します。
   </p>
 
 </div>
@@ -634,33 +637,292 @@ footer a:hover {
 </main>
 
 
-<!-- FOOTER -->
-
 <footer>
 
-  <div class="footer-logo">
-    GATE <span>SQUARE</span>
-  </div>
+  <strong>GATE SQUARE</strong>
 
-  <div class="footer-links">
-
-    <a href="#home">HOME</a>
-
-    <a href="#services">SERVICES</a>
-
-    <a href="#about">ABOUT</a>
-
-  </div>
-
-  <p>
+  <p style="margin-top:12px;">
     © 2026 GATE SQUARE. All Rights Reserved.
   </p>
 
-  <p style="margin-top:8px;">
+  <p style="margin-top:5px;">
     OFFICIAL PORTAL
   </p>
 
 </footer>
+
+
+<script>
+
+// ========================================
+// SUPABASE 設定
+// ========================================
+
+const SUPABASE_URL =
+  "https://hxrtpftlklgwesvanlpk.supabase.co";
+
+// SupabaseのPublishable keyを設定
+const SUPABASE_KEY =
+  "ここにSupabaseのPublishable keyを入力";
+
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+// ========================================
+// サービス名
+// ========================================
+
+const serviceNames = {
+  kabu: "KABU / STOCKPOINT",
+  test: "ORBIS TEST / CBT",
+  admin: "ADMIN / 管理者",
+  tango: "TANGO / 単語学習",
+  gatesquare_official: "GATE SQUARE OFFICIAL / 予約システム"
+};
+
+
+// ========================================
+// メッセージ表示
+// ========================================
+
+function showMessage(message, type) {
+
+  const element = document.getElementById("message");
+
+  element.textContent = message;
+  element.className = type;
+
+}
+
+
+// ========================================
+// 結果表示
+// ========================================
+
+function showAccounts(accounts) {
+
+  const results = document.getElementById("results");
+
+  results.replaceChildren();
+
+  const heading = document.createElement("h3");
+
+  heading.className = "result-heading";
+  heading.textContent =
+    "確認されたアカウント：" + accounts.length + "件";
+
+  results.appendChild(heading);
+
+  accounts.forEach(account => {
+
+    const card = document.createElement("div");
+
+    card.className = "account-card";
+
+    const service = document.createElement("div");
+
+    service.className = "account-service";
+
+    service.textContent =
+      serviceNames[account.service_code] || "登録サービス";
+
+    const name = document.createElement("h4");
+
+    name.textContent = account.account_name;
+
+    const userId = document.createElement("div");
+
+    userId.className = "account-id";
+
+    userId.textContent = "ユーザーID：" + account.user_id;
+
+    const info = document.createElement("div");
+
+    info.className = "account-info";
+
+    const infoTitle = document.createElement("div");
+
+    infoTitle.textContent = "登録情報";
+
+    infoTitle.style.fontWeight = "bold";
+
+    info.appendChild(infoTitle);
+
+    const registration =
+      account.registration_info || {};
+
+    Object.entries(registration).forEach(([key, value]) => {
+
+      const row = document.createElement("div");
+
+      row.textContent =
+        key + "：" +
+        (typeof value === "object"
+          ? JSON.stringify(value)
+          : String(value));
+
+      info.appendChild(row);
+
+    });
+
+    card.appendChild(service);
+    card.appendChild(name);
+    card.appendChild(userId);
+    card.appendChild(info);
+
+    results.appendChild(card);
+
+  });
+
+  results.style.display = "block";
+
+}
+
+
+// ========================================
+// アカウント照会
+// ========================================
+
+document.getElementById("recoveryForm")
+.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  const button =
+    document.getElementById("searchButton");
+
+  const results =
+    document.getElementById("results");
+
+  const name =
+    document.getElementById("accountName")
+    .value.trim();
+
+  const pin =
+    document.getElementById("accountPin")
+    .value;
+
+  results.replaceChildren();
+  results.style.display = "none";
+
+  if (!name) {
+
+    showMessage(
+      "氏名を入力してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+  if (!/^[0-9]{6}$/.test(pin)) {
+
+    showMessage(
+      "暗証番号は6桁の数字で入力してください。",
+      "error"
+    );
+
+    return;
+
+  }
+
+  button.disabled = true;
+  button.textContent = "確認しています...";
+
+  showMessage(
+    "本人確認を行っています。",
+    "success"
+  );
+
+  try {
+
+    const { data, error } =
+      await supabaseClient.rpc(
+        "lookup_all_accounts",
+        {
+          p_name: name,
+          p_pin: pin
+        }
+      );
+
+    if (error) {
+
+      throw error;
+
+    }
+
+    if (!data || data.ok !== true) {
+
+      showMessage(
+        data?.message ||
+        "照会できませんでした。入力内容を確認してください。",
+        "error"
+      );
+
+      return;
+
+    }
+
+    if (!data.accounts || data.accounts.length === 0) {
+
+      showMessage(
+        "登録アカウントが見つかりませんでした。",
+        "error"
+      );
+
+      return;
+
+    }
+
+    showMessage(
+      "本人確認が完了しました。",
+      "success"
+    );
+
+    showAccounts(data.accounts);
+
+  } catch (error) {
+
+    console.error("Account lookup error:", error);
+
+    showMessage(
+      "照会処理に失敗しました。時間をおいて再度お試しください。",
+      "error"
+    );
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      "アカウントを確認する →";
+
+    document.getElementById("accountPin").value = "";
+
+  }
+
+});
+
+
+// ========================================
+// 暗証番号の数字入力制限
+// ========================================
+
+document.getElementById("accountPin")
+.addEventListener("input", function() {
+
+  this.value = this.value
+    .replace(/[^0-9]/g, "")
+    .slice(0, 6);
+
+});
+
+</script>
 
 </body>
 </html>
