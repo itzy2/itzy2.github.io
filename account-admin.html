@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GATE SQUARE | 管理者ページ</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f1f5f9;color:#172033;font-family:Arial,"Noto Sans JP",sans-serif}
@@ -19,6 +20,7 @@ label{display:block;font-size:13px;font-weight:bold;margin:13px 0 6px}
 input,textarea,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}
 textarea{min-height:90px;resize:vertical}
 button{border:0;border-radius:8px;padding:11px 16px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
 .primary{background:#2563eb;color:white}
 .secondary{background:#e2e8f0;color:#172033}
 .danger{background:#fee2e2;color:#b91c1c}
@@ -39,6 +41,8 @@ th,td{text-align:left;padding:11px;border-bottom:1px solid #e2e8f0;font-size:13p
 th{background:#f8fafc}
 .editor-item{border:1px solid #dbe3ee;border-radius:10px;padding:15px;margin:12px 0}
 .item-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.help{font-size:12px;color:#64748b;line-height:1.7}
+.section-note{background:#f8fafc;padding:12px;border-radius:8px;font-size:13px;color:#475569;margin-bottom:15px}
 @media(max-width:650px){
   .grid{grid-template-columns:1fr}
   .panel{padding:16px}
@@ -46,6 +50,7 @@ th{background:#f8fafc}
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -59,20 +64,26 @@ th{background:#f8fafc}
 </header>
 
 <main>
+
 <section id="loginPanel" class="panel">
   <h1>管理者ログイン</h1>
   <p>管理者アカウントでログインしてください。</p>
+
   <label>メールアドレス</label>
   <input id="email" type="email" autocomplete="username">
+
   <label>パスワード</label>
   <input id="password" type="password" autocomplete="current-password">
+
   <div class="actions">
     <button class="primary" onclick="login()">ログイン</button>
   </div>
+
   <div id="loginMessage"></div>
 </section>
 
 <section id="adminPanel" class="hidden">
+
   <div class="panel">
     <h1>管理者ダッシュボード</h1>
     <p>アカウント管理とポータルサイトの編集を行えます。</p>
@@ -84,45 +95,117 @@ th{background:#f8fafc}
     <button class="secondary" onclick="showTab('accounts',this)">アカウント管理</button>
   </div>
 
+  <!-- ポータル編集 -->
   <section id="portal" class="tab active">
+
     <div class="panel">
       <h2>トップページ編集</h2>
+      <div class="section-note">
+        トップページの最初のヒーローカードに表示するタイトルと説明文です。
+      </div>
+
       <label>トップタイトル</label>
       <input id="heroTitle">
+
       <label>トップ説明文</label>
       <textarea id="heroDescription"></textarea>
-      <div class="actions">
-        <button class="primary" onclick="savePortal()">トップページを保存</button>
-        <a href="index.html" target="_blank">ポータルを確認</a>
+    </div>
+
+    <div class="panel">
+      <h2>バナー編集</h2>
+      <div class="section-note">
+        バナー用のタイトル・説明・ボタンの表示内容を保存します。
+      </div>
+
+      <label>バナータイトル</label>
+      <input id="bannerTitle">
+
+      <label>バナー説明文</label>
+      <textarea id="bannerSubtitle"></textarea>
+
+      <div class="grid">
+        <div>
+          <label>ボタンの文字</label>
+          <input id="bannerButtonText">
+        </div>
+        <div>
+          <label>ボタンのリンク先</label>
+          <input id="bannerButtonUrl">
+        </div>
       </div>
     </div>
 
     <div class="panel">
+      <h2>会社概要編集</h2>
+
+      <label>会社名</label>
+      <input id="companyName">
+
+      <label>代表者</label>
+      <input id="companyRepresentative">
+
+      <label>所在地</label>
+      <input id="companyAddress">
+
+      <label>設立年月日</label>
+      <input id="companyEstablished">
+    </div>
+
+    <div class="panel">
       <h2>ニュース・お知らせ編集</h2>
+      <p class="help">タイトル・掲載日・カテゴリー・公開状態を編集できます。</p>
+
       <div id="newsEditor"></div>
-      <button class="secondary" onclick="addItem('news')">＋ お知らせを追加</button>
+
+      <button class="secondary" onclick="addItem('news')">
+        ＋ お知らせを追加
+      </button>
     </div>
 
     <div class="panel">
       <h2>事業案内編集</h2>
       <div id="businessEditor"></div>
-      <button class="secondary" onclick="addItem('businesses')">＋ 事業を追加</button>
+
+      <button class="secondary" onclick="addItem('businesses')">
+        ＋ 事業を追加
+      </button>
     </div>
 
     <div class="panel">
       <h2>サービス編集</h2>
+      <p class="help">サービス名・カード上部の短縮表示・説明・リンク先を編集できます。</p>
+
       <div id="serviceEditor"></div>
-      <button class="secondary" onclick="addItem('services')">＋ サービスを追加</button>
+
+      <button class="secondary" onclick="addItem('services')">
+        ＋ サービスを追加
+      </button>
     </div>
 
     <div class="panel">
-      <button class="primary" onclick="savePortal()">すべての変更を保存</button>
+      <h2>保存</h2>
+      <p class="help">
+        すべての編集内容をSupabaseに保存します。
+      </p>
+
+      <div class="actions">
+        <button class="primary" id="savePortalButton" onclick="savePortal()">
+          すべての変更を保存
+        </button>
+        <button class="secondary" onclick="loadPortal()">
+          保存内容を再読み込み
+        </button>
+      </div>
     </div>
+
   </section>
 
+  <!-- アカウント管理 -->
   <section id="accounts" class="tab">
+
     <div class="panel">
       <h2>アカウント登録・更新</h2>
+
       <div class="grid">
         <div>
           <label>登録サービス</label>
@@ -134,25 +217,31 @@ th{background:#f8fafc}
             <option value="gatesquare_official">GATE SQUARE</option>
           </select>
         </div>
+
         <div>
           <label>利用者氏名</label>
           <input id="fullName">
         </div>
+
         <div>
           <label>6桁PIN</label>
           <input id="pin" type="password" inputmode="numeric" maxlength="6">
         </div>
+
         <div>
           <label>アカウント名</label>
           <input id="accountName">
         </div>
+
         <div>
           <label>ユーザーID</label>
           <input id="userId">
         </div>
       </div>
+
       <label>その他の登録情報</label>
       <textarea id="registrationInfo"></textarea>
+
       <div class="actions">
         <button class="primary" onclick="saveAccount()">登録・更新</button>
         <button class="secondary" onclick="clearAccountForm()">クリア</button>
@@ -164,54 +253,117 @@ th{background:#f8fafc}
         <h2>登録済みアカウント</h2>
         <button class="secondary" onclick="loadAccounts()">再読み込み</button>
       </div>
+
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>サービス</th><th>氏名</th><th>アカウント名</th>
-              <th>ユーザーID</th><th>登録情報</th><th>操作</th>
+              <th>サービス</th>
+              <th>氏名</th>
+              <th>アカウント名</th>
+              <th>ユーザーID</th>
+              <th>登録情報</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody id="accountList"></tbody>
         </table>
       </div>
     </div>
+
   </section>
+
 </section>
 </main>
 
 <script>
+"use strict";
+
 const SUPABASE_URL="https://hxrtpftlklgwesvanlpk.supabase.co";
 const SUPABASE_KEY="sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
+
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const DEFAULT_BUSINESSES=[
-  {title:"デジタルサービス事業",description:"オンラインサービス・会員向けシステムの企画と運営。"},
-  {title:"学習・教育支援事業",description:"オルビステストなどの学習・試験システムの運営。"},
-  {title:"会員向けサービス事業",description:"予約・コミュニケーション・各種会員サービスの提供。"}
+  {
+    title:"デジタルサービス事業",
+    description:"オンラインサービス・会員向けシステムの企画と運営。"
+  },
+  {
+    title:"学習・教育支援事業",
+    description:"オルビステストなどの学習・試験システムの運営。"
+  },
+  {
+    title:"会員向けサービス事業",
+    description:"予約・コミュニケーション・各種会員サービスの提供。"
+  }
 ];
 
 const DEFAULT_SERVICES=[
-  {title:"STOCKPOINT",short_title:"KABU",description:"株式売買・ポイント管理ゲーム",url:"https://itzy2.github.io/kabu/"},
-  {title:"ORBiS TEST",short_title:"ORBiS",description:"オンライン試験・成績確認",url:"https://itzy2.github.io/test/"},
-  {title:"単語学習",short_title:"TANGO",description:"単語学習・語彙力向上サービス",url:"https://itzy2.github.io/tango/"},
-  {title:"予約システム",short_title:"RESERVE",description:"会員向け予約・スケジュール管理",url:"https://itzy2.github.io/gatesquare_Official/"},
-  {title:"GATE MESSAGE",short_title:"MESSAGE",description:"会員同士のメッセージ機能",url:"https://itzy2.github.io/gatemessage/"},
-  {title:"管理者ページ",short_title:"ADMIN",description:"運営・会員・ニュース管理",url:"https://itzy2.github.io/admin.html"}
+  {
+    title:"STOCKPOINT",
+    short_title:"KABU",
+    description:"株式売買・ポイント管理ゲーム",
+    url:"https://itzy2.github.io/kabu/"
+  },
+  {
+    title:"ORBiS TEST",
+    short_title:"ORBiS",
+    description:"オンライン試験・成績確認",
+    url:"https://itzy2.github.io/test/"
+  },
+  {
+    title:"単語学習",
+    short_title:"TANGO",
+    description:"単語学習・語彙力向上サービス",
+    url:"https://itzy2.github.io/tango/"
+  },
+  {
+    title:"予約システム",
+    short_title:"RESERVE",
+    description:"会員向け予約・スケジュール管理",
+    url:"https://itzy2.github.io/gatesquare_Official/"
+  },
+  {
+    title:"GATE MESSAGE",
+    short_title:"MESSAGE",
+    description:"会員同士のメッセージ機能",
+    url:"https://itzy2.github.io/gatemessage/"
+  },
+  {
+    title:"管理者ページ",
+    short_title:"ADMIN",
+    description:"運営・会員・ニュース管理",
+    url:"https://itzy2.github.io/admin.html"
+  }
 ];
 
 let portalData={
   hero_title:"GATE SQUARE",
   hero_description:"未来につながるサービスを提供します。",
+  banner:{
+    title:"GATE SQUARE",
+    subtitle:"企業ポータル・総合サービス",
+    button_text:"会社概要を見る",
+    button_url:"#company"
+  },
+  company:{
+    company_name:"GATE SQUARE",
+    representative:"深海",
+    address:"岐阜県瑞浪市",
+    established:"2024年11月2日"
+  },
   businesses:DEFAULT_BUSINESSES.map(x=>({...x})),
   services:DEFAULT_SERVICES.map(x=>({...x})),
   news:[]
 };
 
 let accounts=[];
+let saving=false;
 
 function message(id,text,type="info"){
   const el=document.getElementById(id);
+  if(!el)return;
   el.className="status "+type;
   el.textContent=text;
 }
@@ -219,8 +371,9 @@ function message(id,text,type="info"){
 function showTab(id,button){
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+
   document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
-  button.classList.add("active");
+  if(button)button.classList.add("active");
 }
 
 async function login(){
@@ -232,20 +385,24 @@ async function login(){
     return;
   }
 
-  const {error}=await db.auth.signInWithPassword({email,password});
+  try{
+    const {error}=await db.auth.signInWithPassword({email,password});
 
-  if(error){
-    message("loginMessage","ログインできません："+error.message,"error");
-    return;
+    if(error){
+      message("loginMessage","ログインできません："+error.message,"error");
+      return;
+    }
+
+    await checkAdmin();
+  }catch(error){
+    message("loginMessage","エラー："+error.message,"error");
   }
-
-  await checkAdmin();
 }
 
 async function checkAdmin(){
-  const {data:sessionData}=await db.auth.getSession();
+  const {data:sessionData,error:sessionError}=await db.auth.getSession();
 
-  if(!sessionData.session){
+  if(sessionError||!sessionData.session){
     showLogin();
     return;
   }
@@ -255,7 +412,7 @@ async function checkAdmin(){
   if(error||data!==true){
     await db.auth.signOut();
     showLogin();
-    message("loginMessage","管理者権限がありません。","error");
+    message("loginMessage","管理者権限を確認できません："+(error?.message||"権限がありません"),"error");
     return;
   }
 
@@ -284,10 +441,18 @@ function normalizeItems(value){
 
 function makeField(tag,placeholder,value,type){
   const el=document.createElement(tag);
+
   if(tag==="input"&&type)el.type=type;
+
   el.placeholder=placeholder;
   el.value=value??"";
+
   return el;
+}
+
+function addDataField(element,name){
+  element.dataset.field=name;
+  return element;
 }
 
 function renderEditor(type,containerId){
@@ -298,27 +463,32 @@ function renderEditor(type,containerId){
     const div=document.createElement("div");
     div.className="editor-item";
 
-    const title=makeField("input","タイトル",item.title);
-    const description=makeField("textarea","説明文",item.description);
-    const url=makeField("input","リンクURL（任意）",item.url);
+    const title=addDataField(
+      makeField("input","タイトル",item.title),
+      "title"
+    );
 
-    title.dataset.field="title";
-    description.dataset.field="description";
-    url.dataset.field="url";
-
-    div.append(title,description,url);
+    div.append(title);
 
     if(type==="news"){
-      const date=makeField("input","掲載日",item.news_date||item.date||"","date");
-      const category=makeField("input","カテゴリー",item.category||"お知らせ");
+      const date=addDataField(
+        makeField("input","掲載日",item.news_date||"","date"),
+        "news_date"
+      );
+
+      const category=addDataField(
+        makeField("input","カテゴリー",item.category||"お知らせ"),
+        "category"
+      );
 
       const color=document.createElement("select");
+      addDataField(color,"category_color");
 
       [["blue","青"],["green","緑"],["red","赤"]].forEach(([v,t])=>{
-        const o=document.createElement("option");
-        o.value=v;
-        o.textContent=t;
-        color.append(o);
+        const option=document.createElement("option");
+        option.value=v;
+        option.textContent=t;
+        color.append(option);
       });
 
       color.value=["blue","green","red"].includes(item.category_color)
@@ -333,6 +503,7 @@ function renderEditor(type,containerId){
       const isNew=document.createElement("input");
       isNew.type="checkbox";
       isNew.checked=!!item.is_new;
+      addDataField(isNew,"is_new");
       newLabel.append(isNew);
 
       const pubLabel=document.createElement("label");
@@ -341,16 +512,32 @@ function renderEditor(type,containerId){
       const published=document.createElement("input");
       published.type="checkbox";
       published.checked=item.is_published!==false;
+      addDataField(published,"is_published");
       pubLabel.append(published);
-
-      date.dataset.field="news_date";
-      category.dataset.field="category";
-      color.dataset.field="category_color";
-      isNew.dataset.field="is_new";
-      published.dataset.field="is_published";
 
       div.append(date,category,color,flags);
       flags.append(newLabel,pubLabel);
+
+    }else{
+      if(type==="services"){
+        const shortTitle=addDataField(
+          makeField("input","カード上部の短縮表示（例：KABU）",item.short_title),
+          "short_title"
+        );
+        div.append(shortTitle);
+      }
+
+      const description=addDataField(
+        makeField("textarea","説明文",item.description),
+        "description"
+      );
+
+      const url=addDataField(
+        makeField("input","リンクURL",item.url),
+        "url"
+      );
+
+      div.append(description,url);
     }
 
     const buttons=document.createElement("div");
@@ -377,6 +564,11 @@ function renderEditor(type,containerId){
 
     buttons.append(remove);
     div.append(buttons);
+
+    if(type==="news"){
+      div.dataset.id=item.id??"";
+    }
+
     box.append(div);
   });
 }
@@ -393,8 +585,6 @@ function readEditor(type,containerId){
 
     if(type==="news"){
       item.id=div.dataset.id?Number(div.dataset.id):null;
-      item.is_new=!!item.is_new;
-      item.is_published=!!item.is_published;
     }
 
     return item;
@@ -404,30 +594,31 @@ function readEditor(type,containerId){
 function addItem(type){
   portalData[type]=normalizeItems(portalData[type]);
 
-  portalData[type].push(
-    type==="news"
-      ?{
-        id:null,
-        title:"",
-        category:"お知らせ",
-        category_color:"blue",
-        news_date:new Date().toISOString().slice(0,10),
-        is_new:false,
-        is_published:true
-      }
-      :{
-        title:"",
-        description:"",
-        url:""
-      }
-  );
+  if(type==="news"){
+    portalData.news.push({
+      id:null,
+      title:"",
+      category:"お知らせ",
+      category_color:"blue",
+      news_date:new Date().toLocaleDateString("sv-SE"),
+      is_new:false,
+      is_published:true
+    });
+  }else if(type==="businesses"){
+    portalData.businesses.push({
+      title:"",
+      description:""
+    });
+  }else if(type==="services"){
+    portalData.services.push({
+      title:"",
+      short_title:"",
+      description:"",
+      url:""
+    });
+  }
 
   renderAllEditors();
-
-  if(type==="news"){
-    const box=document.getElementById("newsEditor").lastElementChild;
-    if(box)box.dataset.id="";
-  }
 }
 
 async function removeItem(type,index){
@@ -436,7 +627,10 @@ async function removeItem(type,index){
   const item=portalData[type][index];
 
   if(type==="news"&&item.id){
-    const {error}=await db.from("portal_news").delete().eq("id",item.id);
+    const {error}=await db
+      .from("portal_news")
+      .delete()
+      .eq("id",item.id);
 
     if(error){
       message("adminMessage","ニュースを削除できません："+error.message,"error");
@@ -465,13 +659,11 @@ function renderAllEditors(){
   renderEditor("news","newsEditor");
   renderEditor("businesses","businessEditor");
   renderEditor("services","serviceEditor");
-
-  [...document.getElementById("newsEditor").children].forEach((el,index)=>{
-    el.dataset.id=portalData.news[index]?.id??"";
-  });
 }
 
 async function loadPortal(){
+  message("adminMessage","ポータル情報を読み込んでいます...","info");
+
   const {data,error}=await db
     .from("gs_portal_content")
     .select("content_key,content_value");
@@ -482,15 +674,34 @@ async function loadPortal(){
   }
 
   const values={};
+
   (data||[]).forEach(row=>{
     values[row.content_key]=row.content_value;
   });
 
-  portalData.hero_title=typeof values.hero_title==="string"
-    ?values.hero_title:"GATE SQUARE";
+  portalData.hero_title=
+    typeof values.hero_title==="string"
+      ?values.hero_title:"GATE SQUARE";
 
-  portalData.hero_description=typeof values.hero_description==="string"
-    ?values.hero_description:"未来につながるサービスを提供します。";
+  portalData.hero_description=
+    typeof values.hero_description==="string"
+      ?values.hero_description:"未来につながるサービスを提供します。";
+
+  portalData.banner={
+    title:"GATE SQUARE",
+    subtitle:"企業ポータル・総合サービス",
+    button_text:"会社概要を見る",
+    button_url:"#company",
+    ...(values.banner&&typeof values.banner==="object"?values.banner:{})
+  };
+
+  portalData.company={
+    company_name:"GATE SQUARE",
+    representative:"深海",
+    address:"岐阜県瑞浪市",
+    established:"2024年11月2日",
+    ...(values.company&&typeof values.company==="object"?values.company:{})
+  };
 
   portalData.businesses=Array.isArray(values.businesses)
     ?values.businesses
@@ -511,80 +722,153 @@ async function loadPortal(){
     return;
   }
 
-  portalData.news=(news||[]).map(n=>({
-    ...n,
-    title:n.title||"",
-    description:"",
-    url:""
-  }));
+  portalData.news=(news||[]).map(n=>({...n}));
 
   document.getElementById("heroTitle").value=portalData.hero_title;
   document.getElementById("heroDescription").value=portalData.hero_description;
 
+  document.getElementById("bannerTitle").value=portalData.banner.title||"";
+  document.getElementById("bannerSubtitle").value=portalData.banner.subtitle||"";
+  document.getElementById("bannerButtonText").value=portalData.banner.button_text||"";
+  document.getElementById("bannerButtonUrl").value=portalData.banner.button_url||"";
+
+  document.getElementById("companyName").value=portalData.company.company_name||"";
+  document.getElementById("companyRepresentative").value=portalData.company.representative||"";
+  document.getElementById("companyAddress").value=portalData.company.address||"";
+  document.getElementById("companyEstablished").value=portalData.company.established||"";
+
   renderAllEditors();
+
+  message("adminMessage","ポータル情報を読み込みました。","success");
 }
 
 async function savePortal(){
-  portalData.hero_title=document.getElementById("heroTitle").value.trim();
-  portalData.hero_description=document.getElementById("heroDescription").value.trim();
+  if(saving)return;
 
-  portalData.businesses=readEditor("businesses","businessEditor");
-  portalData.services=readEditor("services","serviceEditor");
+  saving=true;
 
-  const newsItems=readEditor("news","newsEditor");
+  const button=document.getElementById("savePortalButton");
+  button.disabled=true;
+  button.textContent="保存中...";
 
-  for(const n of newsItems){
-    if(!n.title){
-      message("adminMessage","ニュースのタイトルを入力してください。","error");
-      return;
-    }
+  try{
+    portalData.hero_title=document.getElementById("heroTitle").value.trim();
+    portalData.hero_description=document.getElementById("heroDescription").value.trim();
 
-    const payload={
-      title:n.title,
-      category:n.category||"お知らせ",
-      category_color:["blue","green","red"].includes(n.category_color)
-        ?n.category_color:"blue",
-      news_date:n.news_date||null,
-      is_new:!!n.is_new,
-      is_published:!!n.is_published
+    portalData.banner={
+      title:document.getElementById("bannerTitle").value.trim(),
+      subtitle:document.getElementById("bannerSubtitle").value.trim(),
+      button_text:document.getElementById("bannerButtonText").value.trim(),
+      button_url:document.getElementById("bannerButtonUrl").value.trim()
     };
 
-    const result=n.id
-      ?await db.from("portal_news")
-        .update({...payload,updated_at:new Date().toISOString()})
-        .eq("id",n.id)
-      :await db.from("portal_news").insert(payload);
+    portalData.company={
+      company_name:document.getElementById("companyName").value.trim(),
+      representative:document.getElementById("companyRepresentative").value.trim(),
+      address:document.getElementById("companyAddress").value.trim(),
+      established:document.getElementById("companyEstablished").value.trim()
+    };
 
-    if(result.error){
-      message("adminMessage","ニュースを保存できません："+result.error.message,"error");
+    portalData.businesses=readEditor("businesses","businessEditor");
+    portalData.services=readEditor("services","serviceEditor");
+
+    const newsItems=readEditor("news","newsEditor");
+
+    if(!portalData.hero_title){
+      message("adminMessage","トップタイトルを入力してください。","error");
       return;
     }
+
+    for(const n of newsItems){
+      if(!n.title){
+        message("adminMessage","ニュースのタイトルを入力してください。","error");
+        return;
+      }
+
+      const payload={
+        title:n.title,
+        category:n.category||"お知らせ",
+        category_color:["blue","green","red"].includes(n.category_color)
+          ?n.category_color:"blue",
+        news_date:n.news_date||null,
+        is_new:!!n.is_new,
+        is_published:!!n.is_published
+      };
+
+      let result;
+
+      if(n.id){
+        result=await db
+          .from("portal_news")
+          .update({
+            ...payload,
+            updated_at:new Date().toISOString()
+          })
+          .eq("id",n.id);
+      }else{
+        result=await db
+          .from("portal_news")
+          .insert(payload);
+      }
+
+      if(result.error){
+        throw new Error("ニュースの保存に失敗しました："+result.error.message);
+      }
+    }
+
+    const rows=[
+      {
+        content_key:"hero_title",
+        content_value:portalData.hero_title
+      },
+      {
+        content_key:"hero_description",
+        content_value:portalData.hero_description
+      },
+      {
+        content_key:"banner",
+        content_value:portalData.banner
+      },
+      {
+        content_key:"company",
+        content_value:portalData.company
+      },
+      {
+        content_key:"businesses",
+        content_value:portalData.businesses
+      },
+      {
+        content_key:"services",
+        content_value:portalData.services
+      }
+    ];
+
+    const {error}=await db
+      .from("gs_portal_content")
+      .upsert(rows,{onConflict:"content_key"});
+
+    if(error){
+      throw new Error("ポータル情報の保存に失敗しました："+error.message);
+    }
+
+    await loadPortal();
+
+    message(
+      "adminMessage",
+      "保存が完了しました。Supabaseに変更内容を保存しました。",
+      "success"
+    );
+
+  }catch(error){
+    message("adminMessage","保存エラー："+error.message,"error");
+  }finally{
+    saving=false;
+    button.disabled=false;
+    button.textContent="すべての変更を保存";
   }
-
-  const rows=[
-    {content_key:"hero_title",content_value:portalData.hero_title},
-    {content_key:"hero_description",content_value:portalData.hero_description},
-    {content_key:"businesses",content_value:portalData.businesses},
-    {content_key:"services",content_value:portalData.services}
-  ];
-
-  const {error}=await db
-    .from("gs_portal_content")
-    .upsert(rows,{onConflict:"content_key"});
-
-  if(error){
-    message("adminMessage","ポータル情報を保存できません："+error.message,"error");
-    return;
-  }
-
-  await loadPortal();
-
-  message(
-    "adminMessage",
-    "変更を保存しました。トップページを再読み込みすると反映されます。",
-    "success"
-  );
 }
+
+/* アカウント管理 */
 
 const SERVICE_NAMES={
   kabu:"KABU",
@@ -728,16 +1012,31 @@ function clearAccountForm(){
 }
 
 async function initialize(){
-  const {data}=await db.auth.getSession();
+  try{
+    const {data,error}=await db.auth.getSession();
 
-  if(data.session)await checkAdmin();
+    if(error){
+      message("loginMessage","接続エラー："+error.message,"error");
+      return;
+    }
 
-  db.auth.onAuthStateChange((event,session)=>{
-    if(event==="SIGNED_OUT"||!session)showLogin();
-  });
+    if(data.session){
+      await checkAdmin();
+    }
+
+    db.auth.onAuthStateChange((event,session)=>{
+      if(event==="SIGNED_OUT"||!session){
+        showLogin();
+      }
+    });
+
+  }catch(error){
+    message("loginMessage","初期化エラー："+error.message,"error");
+  }
 }
 
 initialize();
 </script>
+
 </body>
 </html>
