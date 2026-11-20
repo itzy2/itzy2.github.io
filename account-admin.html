@@ -39,10 +39,15 @@ th,td{text-align:left;padding:11px;border-bottom:1px solid #e2e8f0;font-size:13p
 th{background:#f8fafc}
 .editor-item{border:1px solid #dbe3ee;border-radius:10px;padding:15px;margin:12px 0}
 .item-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-@media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:16px}.header-inner{align-items:flex-start;flex-direction:column}}
+@media(max-width:650px){
+  .grid{grid-template-columns:1fr}
+  .panel{padding:16px}
+  .header-inner{align-items:flex-start;flex-direction:column}
+}
 </style>
 </head>
 <body>
+
 <header>
   <div class="header-inner">
     <div>
@@ -180,19 +185,27 @@ const SUPABASE_URL="https://hxrtpftlklgwesvanlpk.supabase.co";
 const SUPABASE_KEY="sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
+const DEFAULT_BUSINESSES=[
+  {title:"デジタルサービス事業",description:"オンラインサービス・会員向けシステムの企画と運営。"},
+  {title:"学習・教育支援事業",description:"オルビステストなどの学習・試験システムの運営。"},
+  {title:"会員向けサービス事業",description:"予約・コミュニケーション・各種会員サービスの提供。"}
+];
+
+const DEFAULT_SERVICES=[
+  {title:"STOCKPOINT",short_title:"KABU",description:"株式売買・ポイント管理ゲーム",url:"https://itzy2.github.io/kabu/"},
+  {title:"ORBiS TEST",short_title:"ORBiS",description:"オンライン試験・成績確認",url:"https://itzy2.github.io/test/"},
+  {title:"単語学習",short_title:"TANGO",description:"単語学習・語彙力向上サービス",url:"https://itzy2.github.io/tango/"},
+  {title:"予約システム",short_title:"RESERVE",description:"会員向け予約・スケジュール管理",url:"https://itzy2.github.io/gatesquare_Official/"},
+  {title:"GATE MESSAGE",short_title:"MESSAGE",description:"会員同士のメッセージ機能",url:"https://itzy2.github.io/gatemessage/"},
+  {title:"管理者ページ",short_title:"ADMIN",description:"運営・会員・ニュース管理",url:"https://itzy2.github.io/admin.html"}
+];
+
 let portalData={
   hero_title:"GATE SQUARE",
   hero_description:"未来につながるサービスを提供します。",
-  news:[],
-  businesses:[],
-  services:[
-    {title:"KABU",description:"STOCKPOINT株式ゲーム",url:"https://itzy2.github.io/kabu/"},
-    {title:"ORBiS TEST",description:"オンライン試験・CBT",url:"https://itzy2.github.io/test/"},
-    {title:"TANGO",description:"単語学習サービス",url:"https://itzy2.github.io/tango/"},
-    {title:"GATE SQUARE OFFICIAL",description:"予約管理サービス",url:"https://itzy2.github.io/gatesquare_Official/"},
-    {title:"GATE MESSAGE",description:"会員向けコミュニケーション",url:"https://itzy2.github.io/gatemessage/"},
-    {title:"MY MENU",description:"会員情報・契約内容",url:"mymenu.html"}
-  ]
+  businesses:DEFAULT_BUSINESSES.map(x=>({...x})),
+  services:DEFAULT_SERVICES.map(x=>({...x})),
+  news:[]
 };
 
 let accounts=[];
@@ -213,23 +226,32 @@ function showTab(id,button){
 async function login(){
   const email=document.getElementById("email").value.trim();
   const password=document.getElementById("password").value;
+
   if(!email||!password){
     message("loginMessage","メールアドレスとパスワードを入力してください。","error");
     return;
   }
+
   const {error}=await db.auth.signInWithPassword({email,password});
+
   if(error){
     message("loginMessage","ログインできません："+error.message,"error");
     return;
   }
+
   await checkAdmin();
 }
 
 async function checkAdmin(){
   const {data:sessionData}=await db.auth.getSession();
-  if(!sessionData.session){showLogin();return;}
+
+  if(!sessionData.session){
+    showLogin();
+    return;
+  }
 
   const {data,error}=await db.rpc("gs_admin_is_admin");
+
   if(error||data!==true){
     await db.auth.signOut();
     showLogin();
@@ -260,91 +282,182 @@ function normalizeItems(value){
   return Array.isArray(value)?value:[];
 }
 
+function makeField(tag,placeholder,value,type){
+  const el=document.createElement(tag);
+  if(tag==="input"&&type)el.type=type;
+  el.placeholder=placeholder;
+  el.value=value??"";
+  return el;
+}
+
 function renderEditor(type,containerId){
   const box=document.getElementById(containerId);
   box.replaceChildren();
 
-  const items=normalizeItems(portalData[type]);
-
-  items.forEach((item,index)=>{
+  normalizeItems(portalData[type]).forEach((item,index)=>{
     const div=document.createElement("div");
     div.className="editor-item";
 
-    const title=document.createElement("input");
-    title.placeholder="タイトル";
-    title.value=item.title||"";
-
-    const description=document.createElement("textarea");
-    description.placeholder="説明文";
-    description.value=item.description||"";
-
-    const url=document.createElement("input");
-    url.placeholder="リンクURL（任意）";
-    url.value=item.url||"";
-
-    const date=document.createElement("input");
-    date.placeholder="日付（ニュース用）";
-    date.value=item.date||"";
-    if(type!=="news")date.classList.add("hidden");
+    const title=makeField("input","タイトル",item.title);
+    const description=makeField("textarea","説明文",item.description);
+    const url=makeField("input","リンクURL（任意）",item.url);
 
     title.dataset.field="title";
     description.dataset.field="description";
     url.dataset.field="url";
-    date.dataset.field="date";
+
+    div.append(title,description,url);
+
+    if(type==="news"){
+      const date=makeField("input","掲載日",item.news_date||item.date||"","date");
+      const category=makeField("input","カテゴリー",item.category||"お知らせ");
+
+      const color=document.createElement("select");
+
+      [["blue","青"],["green","緑"],["red","赤"]].forEach(([v,t])=>{
+        const o=document.createElement("option");
+        o.value=v;
+        o.textContent=t;
+        color.append(o);
+      });
+
+      color.value=["blue","green","red"].includes(item.category_color)
+        ?item.category_color:"blue";
+
+      const flags=document.createElement("div");
+      flags.className="grid";
+
+      const newLabel=document.createElement("label");
+      newLabel.textContent="NEW表示";
+
+      const isNew=document.createElement("input");
+      isNew.type="checkbox";
+      isNew.checked=!!item.is_new;
+      newLabel.append(isNew);
+
+      const pubLabel=document.createElement("label");
+      pubLabel.textContent="公開する";
+
+      const published=document.createElement("input");
+      published.type="checkbox";
+      published.checked=item.is_published!==false;
+      pubLabel.append(published);
+
+      date.dataset.field="news_date";
+      category.dataset.field="category";
+      color.dataset.field="category_color";
+      isNew.dataset.field="is_new";
+      published.dataset.field="is_published";
+
+      div.append(date,category,color,flags);
+      flags.append(newLabel,pubLabel);
+    }
 
     const buttons=document.createElement("div");
     buttons.className="item-actions";
 
-    const up=document.createElement("button");
-    up.className="secondary";
-    up.textContent="上へ";
-    up.onclick=()=>moveItem(type,index,-1);
+    if(type!=="news"){
+      const up=document.createElement("button");
+      up.className="secondary";
+      up.textContent="上へ";
+      up.onclick=()=>moveItem(type,index,-1);
 
-    const down=document.createElement("button");
-    down.className="secondary";
-    down.textContent="下へ";
-    down.onclick=()=>moveItem(type,index,1);
+      const down=document.createElement("button");
+      down.className="secondary";
+      down.textContent="下へ";
+      down.onclick=()=>moveItem(type,index,1);
+
+      buttons.append(up,down);
+    }
 
     const remove=document.createElement("button");
     remove.className="danger";
     remove.textContent="削除";
     remove.onclick=()=>removeItem(type,index);
 
-    buttons.append(up,down,remove);
-    div.append(title,description,url);
-    if(type==="news")div.append(date);
+    buttons.append(remove);
     div.append(buttons);
-    box.appendChild(div);
+    box.append(div);
   });
 }
 
 function readEditor(type,containerId){
   return [...document.getElementById(containerId).children].map(div=>{
     const item={};
+
     div.querySelectorAll("[data-field]").forEach(el=>{
-      item[el.dataset.field]=el.value.trim();
+      item[el.dataset.field]=el.type==="checkbox"
+        ?el.checked
+        :el.value.trim();
     });
+
+    if(type==="news"){
+      item.id=div.dataset.id?Number(div.dataset.id):null;
+      item.is_new=!!item.is_new;
+      item.is_published=!!item.is_published;
+    }
+
     return item;
   });
 }
 
 function addItem(type){
   portalData[type]=normalizeItems(portalData[type]);
-  portalData[type].push({title:"",description:"",url:"",date:""});
+
+  portalData[type].push(
+    type==="news"
+      ?{
+        id:null,
+        title:"",
+        category:"お知らせ",
+        category_color:"blue",
+        news_date:new Date().toISOString().slice(0,10),
+        is_new:false,
+        is_published:true
+      }
+      :{
+        title:"",
+        description:"",
+        url:""
+      }
+  );
+
   renderAllEditors();
+
+  if(type==="news"){
+    const box=document.getElementById("newsEditor").lastElementChild;
+    if(box)box.dataset.id="";
+  }
 }
 
-function removeItem(type,index){
+async function removeItem(type,index){
   if(!confirm("この項目を削除しますか？"))return;
+
+  const item=portalData[type][index];
+
+  if(type==="news"&&item.id){
+    const {error}=await db.from("portal_news").delete().eq("id",item.id);
+
+    if(error){
+      message("adminMessage","ニュースを削除できません："+error.message,"error");
+      return;
+    }
+  }
+
   portalData[type].splice(index,1);
   renderAllEditors();
+
+  message("adminMessage","項目を削除しました。","success");
 }
 
 function moveItem(type,index,direction){
   const next=index+direction;
+
   if(next<0||next>=portalData[type].length)return;
+
   const list=portalData[type];
   [list[index],list[next]]=[list[next],list[index]];
+
   renderAllEditors();
 }
 
@@ -352,60 +465,133 @@ function renderAllEditors(){
   renderEditor("news","newsEditor");
   renderEditor("businesses","businessEditor");
   renderEditor("services","serviceEditor");
+
+  [...document.getElementById("newsEditor").children].forEach((el,index)=>{
+    el.dataset.id=portalData.news[index]?.id??"";
+  });
 }
 
 async function loadPortal(){
-  const {data,error}=await db.from("gs_portal_content")
-    .select("*").eq("id",1).maybeSingle();
+  const {data,error}=await db
+    .from("gs_portal_content")
+    .select("content_key,content_value");
 
   if(error){
     message("adminMessage","ポータル情報を読み込めません："+error.message,"error");
     return;
   }
 
-  if(data){
-    portalData={
-      hero_title:data.hero_title||"",
-      hero_description:data.hero_description||"",
-      news:normalizeItems(data.news),
-      businesses:normalizeItems(data.businesses),
-      services:normalizeItems(data.services)
-    };
+  const values={};
+  (data||[]).forEach(row=>{
+    values[row.content_key]=row.content_value;
+  });
+
+  portalData.hero_title=typeof values.hero_title==="string"
+    ?values.hero_title:"GATE SQUARE";
+
+  portalData.hero_description=typeof values.hero_description==="string"
+    ?values.hero_description:"未来につながるサービスを提供します。";
+
+  portalData.businesses=Array.isArray(values.businesses)
+    ?values.businesses
+    :DEFAULT_BUSINESSES.map(x=>({...x}));
+
+  portalData.services=Array.isArray(values.services)
+    ?values.services
+    :DEFAULT_SERVICES.map(x=>({...x}));
+
+  const {data:news,error:newsError}=await db
+    .from("portal_news")
+    .select("*")
+    .order("news_date",{ascending:false})
+    .order("created_at",{ascending:false});
+
+  if(newsError){
+    message("adminMessage","ニュースを読み込めません："+newsError.message,"error");
+    return;
   }
+
+  portalData.news=(news||[]).map(n=>({
+    ...n,
+    title:n.title||"",
+    description:"",
+    url:""
+  }));
 
   document.getElementById("heroTitle").value=portalData.hero_title;
   document.getElementById("heroDescription").value=portalData.hero_description;
+
   renderAllEditors();
 }
 
 async function savePortal(){
   portalData.hero_title=document.getElementById("heroTitle").value.trim();
   portalData.hero_description=document.getElementById("heroDescription").value.trim();
-  portalData.news=readEditor("news","newsEditor");
+
   portalData.businesses=readEditor("businesses","businessEditor");
   portalData.services=readEditor("services","serviceEditor");
 
-  const payload={
-    id:1,
-    hero_title:portalData.hero_title,
-    hero_description:portalData.hero_description,
-    news:portalData.news,
-    businesses:portalData.businesses,
-    services:portalData.services,
-    updated_at:new Date().toISOString()
-  };
+  const newsItems=readEditor("news","newsEditor");
 
-  const {error}=await db.from("gs_portal_content").upsert(payload,{onConflict:"id"});
+  for(const n of newsItems){
+    if(!n.title){
+      message("adminMessage","ニュースのタイトルを入力してください。","error");
+      return;
+    }
+
+    const payload={
+      title:n.title,
+      category:n.category||"お知らせ",
+      category_color:["blue","green","red"].includes(n.category_color)
+        ?n.category_color:"blue",
+      news_date:n.news_date||null,
+      is_new:!!n.is_new,
+      is_published:!!n.is_published
+    };
+
+    const result=n.id
+      ?await db.from("portal_news")
+        .update({...payload,updated_at:new Date().toISOString()})
+        .eq("id",n.id)
+      :await db.from("portal_news").insert(payload);
+
+    if(result.error){
+      message("adminMessage","ニュースを保存できません："+result.error.message,"error");
+      return;
+    }
+  }
+
+  const rows=[
+    {content_key:"hero_title",content_value:portalData.hero_title},
+    {content_key:"hero_description",content_value:portalData.hero_description},
+    {content_key:"businesses",content_value:portalData.businesses},
+    {content_key:"services",content_value:portalData.services}
+  ];
+
+  const {error}=await db
+    .from("gs_portal_content")
+    .upsert(rows,{onConflict:"content_key"});
+
   if(error){
-    message("adminMessage","保存できません："+error.message,"error");
+    message("adminMessage","ポータル情報を保存できません："+error.message,"error");
     return;
   }
-  message("adminMessage","ポータルサイトの内容を保存しました。公開ページを再読み込みすると反映されます。","success");
+
+  await loadPortal();
+
+  message(
+    "adminMessage",
+    "変更を保存しました。トップページを再読み込みすると反映されます。",
+    "success"
+  );
 }
 
 const SERVICE_NAMES={
-  kabu:"KABU",test:"オルビステスト",admin:"オルビステスト管理者",
-  tango:"TANGO",gatesquare_official:"GATE SQUARE"
+  kabu:"KABU",
+  test:"オルビステスト",
+  admin:"オルビステスト管理者",
+  tango:"TANGO",
+  gatesquare_official:"GATE SQUARE"
 };
 
 async function loadAccounts(){
@@ -413,6 +599,7 @@ async function loadAccounts(){
   tbody.innerHTML="<tr><td colspan='6'>読み込み中...</td></tr>";
 
   const {data,error}=await db.rpc("gs_admin_list_accounts");
+
   if(error){
     tbody.innerHTML="<tr><td colspan='6'>読み込みに失敗しました。</td></tr>";
     message("adminMessage","アカウント一覧の取得に失敗："+error.message,"error");
@@ -425,21 +612,21 @@ async function loadAccounts(){
   accounts.forEach(account=>{
     const tr=document.createElement("tr");
     const info=account.registration_info||{};
-    const values=[
+
+    [
       SERVICE_NAMES[account.service_code]||account.service_code,
       info.name||"未登録",
       account.account_name||"",
       account.user_id||"",
       info.details||""
-    ];
-
-    values.forEach(value=>{
+    ].forEach(value=>{
       const td=document.createElement("td");
       td.textContent=String(value??"");
       tr.appendChild(td);
     });
 
     const td=document.createElement("td");
+
     const edit=document.createElement("button");
     edit.className="secondary";
     edit.textContent="編集";
@@ -459,15 +646,24 @@ async function loadAccounts(){
 function editAccount(id){
   const a=accounts.find(x=>x.id===id);
   if(!a)return;
+
   const info=a.registration_info||{};
+
   document.getElementById("service").value=a.service_code;
   document.getElementById("fullName").value=info.name||"";
   document.getElementById("accountName").value=a.account_name||"";
   document.getElementById("userId").value=a.user_id||"";
   document.getElementById("registrationInfo").value=info.details||"";
   document.getElementById("pin").value="";
+
   showTab("accounts",document.querySelectorAll(".tabs button")[1]);
-  message("adminMessage","編集する情報を入力欄に表示しました。PINは再入力してください。","info");
+
+  message(
+    "adminMessage",
+    "編集する情報を入力欄に表示しました。PINは再入力してください。",
+    "info"
+  );
+
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -483,6 +679,7 @@ async function saveAccount(){
     message("adminMessage","氏名・アカウント名・ユーザーIDを入力してください。","error");
     return;
   }
+
   if(!/^[0-9]{6}$/.test(pin)){
     message("adminMessage","PINは数字6桁で入力してください。","error");
     return;
@@ -501,18 +698,23 @@ async function saveAccount(){
     message("adminMessage","保存に失敗しました："+error.message,"error");
     return;
   }
+
   clearAccountForm();
   await loadAccounts();
+
   message("adminMessage","アカウント情報を保存しました。","success");
 }
 
 async function deleteAccount(id){
   if(!confirm("このアカウント情報を削除しますか？"))return;
+
   const {error}=await db.rpc("gs_admin_delete_account",{p_id:id});
+
   if(error){
     message("adminMessage","削除できません："+error.message,"error");
     return;
   }
+
   await loadAccounts();
   message("adminMessage","削除しました。","success");
 }
@@ -521,16 +723,20 @@ function clearAccountForm(){
   ["fullName","pin","accountName","userId","registrationInfo"].forEach(id=>{
     document.getElementById(id).value="";
   });
+
   document.getElementById("service").value="kabu";
 }
 
 async function initialize(){
   const {data}=await db.auth.getSession();
+
   if(data.session)await checkAdmin();
+
   db.auth.onAuthStateChange((event,session)=>{
     if(event==="SIGNED_OUT"||!session)showLogin();
   });
 }
+
 initialize();
 </script>
 </body>
