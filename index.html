@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -9,873 +10,544 @@
 
 <style>
 :root{
- --blue:#078dcc;--green:#83c52e;--cyan:#12aaa9;
- --text:#34444e;--line:#dce5e7;--muted:#75858b;
+  --blue:#078dcc;
+  --green:#83c52e;
+  --cyan:#19b9ba;
+  --dark:#183b4e;
+  --text:#34444e;
 }
 *{box-sizing:border-box}
 body{
- margin:0;font-family:Arial,"Meiryo","Noto Sans JP",sans-serif;
- color:var(--text);background:#a9ead4;font-size:15px;
+  margin:0;
+  font-family:Meiryo,"Noto Sans JP",sans-serif;
+  color:var(--text);
+  background:#d7f5eb;
 }
 a{text-decoration:none;color:inherit}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.top-header{
- background:white;min-height:112px;padding:15px 25px;
- display:grid;grid-template-columns:260px 1fr 180px;
- gap:20px;align-items:center;
+button,input{font:inherit}
+
+header{
+  background:white;
+  padding:20px 4%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
 }
-.brand-name{font-size:32px;font-weight:1000;letter-spacing:-2px;color:#263a43}
-.brand-name span{color:var(--blue)}
-.brand-sub{font-size:10px;letter-spacing:3px;color:#839198}
-.member-small{font-size:12px;color:#43855d;margin-top:7px}
-.search-area{display:flex;justify-content:center}
-.search-area input{height:44px;width:min(100%,750px);padding:10px;border:1px solid #ccc}
-.search-area button{width:58px;background:var(--blue);color:white;border:0;font-size:21px}
-.font-control{text-align:center;font-size:12px}
-.font-control button{padding:7px 12px;border:1px solid #ddd;background:white}
-.font-control .selected{background:#263c4b;color:white}
-.main-nav{
- display:flex;justify-content:space-around;flex-wrap:wrap;
- background:linear-gradient(90deg,#008bce,#00a9b5,#82c52e);
- position:sticky;top:0;z-index:20;
+.logo{
+  font-size:32px;
+  font-weight:1000;
+  color:#263a43;
 }
-.main-nav a{color:white;font-weight:bold;padding:13px 12px;font-size:13px}
-.main-nav a:hover{background:#ffffff35}
-.page-background{
- min-height:90vh;padding:25px 18px 55px;
- background-color:#a9ead4;
- background-image:
- linear-gradient(60deg,transparent 49.5%,#ffffff35 50%,transparent 50.5%),
- linear-gradient(120deg,transparent 49.5%,#ffffff38 50%,transparent 50.5%);
- background-size:230px 200px;
+.logo span{color:#078dcc}
+.search{
+  display:flex;
+  width:min(550px,100%);
 }
-.portal-layout{
- max-width:1450px;margin:auto;
- display:grid;grid-template-columns:220px minmax(0,1fr) 220px;gap:18px;
- align-items:start;
+.search input{
+  flex:1;
+  min-width:0;
+  padding:12px;
+  border:1px solid #ccc;
 }
-.side-box,.section,.right-box{
- background:white;border:1px solid #dce5e5;
- box-shadow:0 2px 8px #315c5018;margin-bottom:17px;
+.search button{
+  background:var(--blue);
+  color:white;
+  border:0;
+  padding:0 20px;
+  cursor:pointer;
 }
-.side-title{padding:12px;background:#dff3d5;color:#39872a;font-weight:bold}
-.side-title.blue{background:#d9f0fb;color:#087eb9}
-.side-item{
- display:flex;align-items:center;gap:9px;
- padding:11px;margin:0 9px;border-bottom:1px solid #ddd;
- font-size:13px;font-weight:bold;
+nav{
+  display:flex;
+  justify-content:space-around;
+  flex-wrap:wrap;
+  background:linear-gradient(90deg,#008bce,#00a9b5,#82c52e);
+  position:sticky;
+  top:0;
+  z-index:10;
 }
-.side-item:hover{background:#f0faff;color:var(--blue)}
-.side-icon{
- width:31px;height:31px;display:grid;place-items:center;
- background:var(--blue);color:white;border-radius:5px;font-weight:bold;
+nav a{
+  color:white;
+  padding:15px;
+  font-weight:bold;
+  font-size:13px;
 }
-.side-icon.green{background:#82bd32}
-.side-icon.orange{background:#e99b24}
-.side-icon.purple{background:#8062bb}
-.content{min-width:0}
-.hero-grid{
- background:white;padding:17px;display:grid;
- grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;
+nav a:hover{background:#ffffff35}
+
+.background{
+  min-height:100vh;
+  padding:25px 15px;
+  background-color:#b5ead7;
+  background-image:
+  linear-gradient(60deg,transparent 49.5%,#ffffff30 50%,transparent 50.5%),
+  linear-gradient(120deg,transparent 49.5%,#ffffff30 50%,transparent 50.5%);
+  background-size:230px 200px;
+}
+.layout{
+  max-width:1450px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr) 220px;
+  gap:18px;
+}
+.side,.section,.right-box{
+  background:white;
+  margin-bottom:18px;
+  box-shadow:0 2px 8px #315c5018;
+}
+.side-title{
+  background:#d9f0fb;
+  color:#087eb9;
+  padding:13px;
+  font-weight:bold;
+}
+.side a{
+  display:block;
+  padding:12px;
+  border-bottom:1px solid #eee;
+  font-size:13px;
+}
+.side a:hover{color:var(--blue);background:#f3faff}
+
+.hero{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:20px;
 }
 .hero-card{
- min-height:145px;padding:20px;color:white;
- display:flex;flex-direction:column;justify-content:center;
- background:linear-gradient(130deg,#008cc8,#22b9c1);
+  min-height:145px;
+  padding:20px;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:linear-gradient(130deg,#008cc8,#22b9c1);
 }
-.hero-card:nth-child(2){background:linear-gradient(130deg,#e52d79,#fa709a)}
-.hero-card:nth-child(3){background:linear-gradient(130deg,#0789ca,#78bd30)}
-.hero-card strong{font-size:22px}
-.hero-card p{font-size:12px;line-height:1.5}
-.hero-card a{font-size:12px;border:1px solid white;border-radius:20px;padding:6px 12px;width:max-content}
-.section{padding:17px}
-.section-heading{
- display:flex;align-items:center;justify-content:space-between;
- gap:10px;padding:10px 13px;margin-bottom:14px;
- background:linear-gradient(90deg,#078dcc,#04b5a5,#83c52e);
- color:white;font-weight:bold;
+.hero-card:nth-child(2){
+  background:linear-gradient(130deg,#e52d79,#fa709a);
 }
-.section-heading.red{background:#e60012}
-.section-heading a{border:1px solid #ffffffaa;padding:4px 12px;border-radius:20px;font-size:12px}
-.notice-row{
- display:grid;grid-template-columns:100px 55px 105px minmax(0,1fr);
- gap:10px;align-items:center;padding:11px 5px;
- border-bottom:1px dotted #d5dddd;font-size:13px;
+.hero-card:nth-child(3){
+  background:linear-gradient(130deg,#0789ca,#78bd30);
 }
-.notice-date{white-space:nowrap;color:#77848a}
-.notice-new{color:#ed3980;font-weight:bold}
-.notice-label{
- width:max-content;white-space:nowrap;
- padding:4px 10px;color:white;background:#b90000;
- border-radius:4px;font-size:11px;
+.hero-card strong{font-size:23px}
+.hero-card p{font-size:12px}
+.hero-card a{
+  background:#ffffff30;
+  border:1px solid #ffffff80;
+  padding:8px;
+  text-align:center;
+  font-size:12px;
 }
-.notice-label.green{background:#87c83e}
-.notice-label.gray{background:#7b858b}
-.notice-body{line-height:1.6;overflow-wrap:anywhere}
-.service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.service-card{border:1px solid #d9e5e8;background:white;display:flex;flex-direction:column}
-.service-card:hover{outline:2px solid var(--blue);transform:translateY(-2px)}
+.section{padding:18px}
+.heading{
+  padding:12px 15px;
+  margin-bottom:15px;
+  color:white;
+  font-weight:bold;
+  background:linear-gradient(90deg,#078dcc,#04b5a5,#83c52e);
+}
+.heading.red{background:#df2639}
+
+.news-item{
+  display:grid;
+  grid-template-columns:100px 65px 100px minmax(0,1fr);
+  align-items:center;
+  gap:10px;
+  padding:13px 5px;
+  border-bottom:1px dotted #ccc;
+  font-size:13px;
+}
+.news-date{color:#77848a;white-space:nowrap}
+.news-new{color:#e83c83;font-weight:bold}
+.news-category{
+  background:#b90000;
+  color:white;
+  padding:5px 8px;
+  border-radius:4px;
+  font-size:11px;
+  text-align:center;
+  white-space:nowrap;
+}
+.news-category.green{background:#83bd32}
+.news-category.blue{background:#078dcc}
+.news-text{line-height:1.6}
+
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.service{
+  border:1px solid #dce5e8;
+  transition:.2s;
+}
+.service:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 18px #0002;
+}
 .service-top{
- min-height:78px;display:grid;place-items:center;color:white;
- font-size:25px;font-weight:1000;letter-spacing:2px;
- background:linear-gradient(120deg,#078dcc,#00b4ba);
+  height:85px;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-size:27px;
+  font-weight:1000;
+  background:linear-gradient(120deg,#078dcc,#00b4ba);
 }
-.service-card:nth-child(2) .service-top{background:linear-gradient(120deg,#2354a1,#3287ce)}
-.service-card:nth-child(3) .service-top{background:linear-gradient(120deg,#e8a52a,#e87936)}
-.service-card:nth-child(4) .service-top{background:linear-gradient(120deg,#00a88b,#78c338)}
-.service-card:nth-child(5) .service-top{background:linear-gradient(120deg,#7155b6,#a66ad1)}
-.service-card:nth-child(6) .service-top{background:linear-gradient(120deg,#344c63,#657d91)}
-.service-body{padding:13px;flex:1}
+.service:nth-child(2) .service-top{background:linear-gradient(120deg,#2354a1,#3287ce)}
+.service:nth-child(3) .service-top{background:linear-gradient(120deg,#e8a52a,#e87936)}
+.service:nth-child(4) .service-top{background:linear-gradient(120deg,#00a88b,#78c338)}
+.service:nth-child(5) .service-top{background:linear-gradient(120deg,#7155b6,#a66ad1)}
+.service:nth-child(6) .service-top{background:linear-gradient(120deg,#344c63,#657d91)}
+.service-body{padding:13px}
 .service-body h3{font-size:15px;margin:0 0 8px}
-.service-body p{font-size:12px;line-height:1.6;color:#7b898e;margin:0}
-.service-bottom{padding:10px 13px;border-top:1px solid #e7eeee;color:var(--blue);font-weight:bold;font-size:12px}
+.service-body p{font-size:12px;color:#78858b;line-height:1.7}
+.service-link{
+  padding:11px;
+  border-top:1px solid #eee;
+  color:var(--blue);
+  font-weight:bold;
+  font-size:12px;
+}
 .my-menu{
- padding:20px;color:white;
- background:linear-gradient(135deg,#087fbb,#13b5ad);
+  background:linear-gradient(135deg,#087fbb,#13b5ad);
+  color:white;
+  padding:20px;
+  margin-bottom:18px;
 }
-.my-menu h2{margin:0 0 8px}
+.my-menu h2{margin:0}
 .my-menu p{font-size:12px;line-height:1.7}
-.my-menu a{display:block;background:white;color:#087eaf;text-align:center;font-weight:bold;padding:11px}
-.right-title{padding:12px;color:white;font-weight:bold;background:linear-gradient(100deg,#008dc8,#82c52e)}
-.right-content{padding:14px;font-size:13px;line-height:1.8}
-.right-content a{display:block;color:var(--blue);padding:7px 0;border-bottom:1px solid #eee}
-.company-info{padding:14px;background:white;font-size:12px;line-height:2}
-.company-info strong{font-size:17px;color:var(--blue)}
-.admin-entry{
- display:none;margin:18px 0;padding:15px;background:#fff;
- border:2px solid #168fc1;
+.my-menu a{
+  display:block;
+  padding:12px;
+  background:white;
+  color:#087eaf;
+  text-align:center;
+  font-weight:bold;
 }
-.admin-entry h2{margin:0 0 10px}
-.admin-panel{display:none}
-.admin-login{display:none;padding:18px;background:#eef8fc;border:1px solid #b9dce9;margin-bottom:15px}
-.admin-panel input,.admin-panel textarea,.admin-panel select,
-.admin-login input{
- width:100%;padding:10px;margin:5px 0 12px;
- border:1px solid #cbd9df;border-radius:4px;background:white;color:#333;
+.right-box{padding:15px;font-size:13px;line-height:1.8}
+.right-title{
+  background:linear-gradient(90deg,#078dcc,#83c52e);
+  color:white;
+  padding:12px;
+  margin:-15px -15px 12px;
+  font-weight:bold;
 }
-.admin-panel textarea{min-height:75px}
-.admin-panel label,.admin-login label{font-size:12px;font-weight:bold}
-.admin-panel fieldset{border:1px solid #d6e1e5;margin:12px 0;padding:14px}
-.admin-panel legend{font-weight:bold;color:#087eb9}
-.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn{
- border:0;padding:9px 14px;background:var(--blue);color:white;
- border-radius:4px;font-weight:bold;
+.right-box a{
+  display:block;
+  padding:8px 0;
+  border-bottom:1px solid #eee;
+  color:#078dcc;
 }
-.btn.green{background:#68ad35}
-.btn.red{background:#c93648}
-.btn.gray{background:#637780}
-.admin-item{
- border:1px solid #dce5e7;padding:12px;margin:9px 0;background:white;
+footer{
+  background:#173b4e;
+  color:white;
+  padding:30px;
+  text-align:center;
+  font-size:12px;
 }
-.admin-item strong{display:block;margin-bottom:5px}
-.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
-.status-message{font-size:13px;color:#087eb9;white-space:pre-wrap;margin:10px 0}
-footer{background:#173b4e;color:white;text-align:center;padding:28px}
-footer p{font-size:11px;color:#bdcbd0}
+
 @media(max-width:1050px){
- .portal-layout{grid-template-columns:190px minmax(0,1fr)}
- .right-column{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .layout{grid-template-columns:190px minmax(0,1fr)}
+  .right-column{
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+  }
 }
 @media(max-width:700px){
- .top-header{grid-template-columns:1fr auto;padding:12px}
- .brand-name{font-size:26px}
- .search-area{grid-column:1/-1;grid-row:2}
- .main-nav{position:static;display:grid;grid-template-columns:repeat(3,1fr)}
- .main-nav a{text-align:center;font-size:11px;padding:11px 3px}
- .page-background{padding:10px}
- .portal-layout{display:flex;flex-direction:column}
- .left-column,.content,.right-column{width:100%}
- .left-column{display:grid;grid-template-columns:1fr 1fr;gap:9px}
- .hero-grid{grid-template-columns:1fr}
- .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .right-column{display:grid;grid-template-columns:1fr 1fr}
- .notice-row{grid-template-columns:85px 55px minmax(0,1fr);gap:6px}
- .notice-body{grid-column:1/-1}
- .admin-grid{grid-template-columns:1fr}
+  header{padding:12px}
+  .logo{font-size:25px}
+  nav{position:static;display:grid;grid-template-columns:repeat(3,1fr)}
+  nav a{text-align:center;padding:10px 3px;font-size:11px}
+  .layout{display:flex;flex-direction:column}
+  .left-column,.content,.right-column{width:100%}
+  .hero{grid-template-columns:1fr}
+  .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .right-column{display:grid;grid-template-columns:1fr 1fr}
+  .news-item{grid-template-columns:85px 55px minmax(0,1fr);gap:6px}
+  .news-text{grid-column:1/-1}
 }
 @media(max-width:420px){
- .service-grid,.left-column,.right-column{grid-template-columns:1fr}
+  .service-grid,.right-column{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<header class="top-header">
- <div>
-  <div class="brand-name">GATE<span>SQUARE</span>✦</div>
-  <div class="brand-sub">CORPORATE PORTAL SITE</div>
-  <div class="member-small">● GATE SQUARE MEMBER</div>
- </div>
- <div class="search-area">
-  <input id="searchInput" placeholder="サイト・サービス・お知らせを検索..."
-   onkeydown="if(event.key==='Enter')searchSite()">
-  <button onclick="searchSite()">⌕</button>
- </div>
- <div class="font-control">
-  <div>文字サイズ</div>
-  <button onclick="setFont(13,this)">小</button>
-  <button class="selected" onclick="setFont(15,this)">中</button>
-  <button onclick="setFont(18,this)">大</button>
- </div>
+<header>
+  <div>
+    <div class="logo">GATE<span>SQUARE</span> ✦</div>
+    <small>CORPORATE PORTAL SITE</small>
+  </div>
+  <div class="search">
+    <input id="searchInput" placeholder="サービス・お知らせを検索">
+    <button onclick="searchSite()">検索</button>
+  </div>
 </header>
 
-<nav class="main-nav">
- <a href="#news">お知らせ</a>
- <a href="#services">サービス一覧</a>
- <a href="#mymenu">マイメニュー</a>
- <a href="#company">会社概要</a>
- <a href="#support">お問い合わせ</a>
- <a href="https://itzy2.github.io/gatemessage/">コミュニケーション</a>
- <a href="https://itzy2.github.io/admin.html">管理者ページ</a>
+<nav>
+  <a href="#news">インフォメーション</a>
+  <a href="#business">事業案内</a>
+  <a href="#services">サービス</a>
+  <a href="#mymenu">マイメニュー</a>
+  <a href="#company">会社概要</a>
+  <a href="#support">サポート</a>
+  <a href="https://itzy2.github.io/gatemessage/">MESSAGE</a>
+  <a href="https://itzy2.github.io/admin.html">管理者</a>
 </nav>
 
-<div class="page-background">
-<div class="portal-layout">
+<div class="background">
+<div class="layout">
 
 <aside class="left-column">
- <div class="side-box">
-  <div class="side-title blue">⚙ システムツール</div>
-  <a class="side-item" href="https://itzy2.github.io/kabu/"><span class="side-icon">K</span>KABU 株式ゲーム</a>
-  <a class="side-item" href="https://itzy2.github.io/test/"><span class="side-icon">O</span>ORBiS TEST</a>
-  <a class="side-item" href="https://itzy2.github.io/tango/"><span class="side-icon orange">T</span>TANGO 単語学習</a>
-  <a class="side-item" href="https://itzy2.github.io/gatesquare_Official/"><span class="side-icon green">R</span>予約システム</a>
-  <a class="side-item" href="https://itzy2.github.io/gatemessage/"><span class="side-icon purple">G</span>GATE MESSAGE</a>
-  <a class="side-item" href="https://itzy2.github.io/test/admin.html"><span class="side-icon">A</span>管理者ページ</a>
- </div>
+  <div class="side">
+    <div class="side-title">システム・サービス</div>
+    <a href="https://itzy2.github.io/kabu/">KABU 株式ゲーム</a>
+    <a href="https://itzy2.github.io/test/">ORBiS TEST</a>
+    <a href="https://itzy2.github.io/tango/">TANGO 単語学習</a>
+    <a href="https://itzy2.github.io/gatesquare_Official/">予約システム</a>
+    <a href="https://itzy2.github.io/gatemessage/">GATE MESSAGE</a>
+    <a href="https://itzy2.github.io/admin.html">管理者ページ</a>
+  </div>
 
- <div class="side-box">
-  <div class="side-title">GATE SQUARE 情報</div>
-  <a class="side-item" href="#news">最新のお知らせ</a>
-  <a class="side-item" href="#services">事業・サービス</a>
-  <a class="side-item" href="#mymenu">会員専用メニュー</a>
-  <a class="side-item" href="#company">会社概要</a>
-  <a class="side-item" href="#support">サポート</a>
- </div>
+  <div class="side">
+    <div class="side-title">ポータルメニュー</div>
+    <a href="#news">最新ニュース</a>
+    <a href="#business">事業案内</a>
+    <a href="#services">サービス一覧</a>
+    <a href="#mymenu">会員メニュー</a>
+    <a href="#company">会社概要</a>
+  </div>
 </aside>
 
 <main class="content">
 
- <div class="hero-grid" id="banners">
-  <div class="hero-card">
-   <strong id="bannerTitle">GATE SQUARE</strong>
-   <p id="bannerSubtitle">企業ポータル・総合サービス</p>
-   <a id="bannerLink" href="#company">会社概要を見る</a>
+  <div class="hero">
+    <div class="hero-card">
+      <strong>GATE SQUARE</strong>
+      <p>企業ポータル・総合サービス</p>
+      <a href="#company">会社概要を見る</a>
+    </div>
+    <div class="hero-card">
+      <strong>MY MENU</strong>
+      <p>会員情報・契約・料金管理</p>
+      <a href="https://itzy2.github.io/mymenu.html">マイメニューへ</a>
+    </div>
+    <div class="hero-card">
+      <strong>GATE MESSAGE</strong>
+      <p>会員コミュニケーション</p>
+      <a href="https://itzy2.github.io/gatemessage/">利用する</a>
+    </div>
   </div>
-  <div class="hero-card">
-   <strong>MY MENU</strong>
-   <p>会員情報・契約・オプション管理</p>
-   <a href="https://itzy2.github.io/mymenu.html">マイメニューへ</a>
-  </div>
-  <div class="hero-card">
-   <strong>GATE MESSAGE</strong>
-   <p>会員同士のコミュニケーション</p>
-   <a href="https://itzy2.github.io/gatemessage/">利用する</a>
-  </div>
- </div>
 
- <section class="section" id="news">
-  <div class="section-heading red">
-   <span>特別インフォメーション</span>
-   <a href="#news">一覧へ →</a>
-  </div>
-  <div id="newsList">
-   <p>お知らせを読み込んでいます...</p>
-  </div>
- </section>
+  <section class="section" id="news">
+    <div class="heading red">INFORMATION / お知らせ</div>
+    <div id="newsList">
+      <p>お知らせを読み込んでいます...</p>
+    </div>
+  </section>
 
- <section class="section" id="services">
-  <div class="section-heading">
-   <span>GATE SQUARE 事業・サービス一覧</span>
-   <span>6サイト</span>
-  </div>
-  <div class="service-grid" id="serviceList">
-   <p>サービスを読み込んでいます...</p>
-  </div>
- </section>
+  <section class="section" id="business">
+    <div class="heading">BUSINESS / 事業案内</div>
+    <div id="businessList">
+      <h3>デジタルサービス事業</h3>
+      <p>オンラインサービス・会員向けシステムの企画と運営。</p>
+      <h3>学習・教育支援事業</h3>
+      <p>オルビステストなどの学習・試験システムの運営。</p>
+      <h3>会員向けサービス事業</h3>
+      <p>予約・コミュニケーション・各種会員サービスの提供。</p>
+    </div>
+  </section>
 
- <section class="section" id="mymenu">
-  <div class="section-heading"><span>会員専用 MY MENU</span></div>
-  <div class="my-menu">
-   <h2>GATE SQUARE マイメニュー</h2>
-   <p>会員情報、オプション契約、サービス設定、セキュリティ、通知設定などをまとめて管理できます。</p>
-   <a href="https://itzy2.github.io/mymenu.html">マイメニューへ進む →</a>
-  </div>
- </section>
+  <section class="section" id="services">
+    <div class="heading">SERVICE / サービス一覧</div>
+    <div class="service-grid">
 
- <section class="section" id="company">
-  <div class="section-heading"><span>GATE SQUARE 会社概要</span></div>
-  <div id="companyInfo">
-   <div class="notice-row"><span>会社名</span><span></span><strong>GATE SQUARE</strong></div>
-   <div class="notice-row"><span>代表者</span><span></span><strong>深海</strong></div>
-   <div class="notice-row"><span>所在地</span><span></span><strong>岐阜県瑞浪市</strong></div>
-   <div class="notice-row"><span>設立</span><span></span><strong>2024年11月2日</strong></div>
-  </div>
- </section>
+      <a class="service" href="https://itzy2.github.io/kabu/">
+        <div class="service-top">KABU</div>
+        <div class="service-body">
+          <h3>STOCKPOINT</h3>
+          <p>株式売買・ポイント管理ゲーム</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/test/">
+        <div class="service-top">ORBiS</div>
+        <div class="service-body">
+          <h3>ORBiS TEST</h3>
+          <p>オンライン試験・成績確認</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/tango/">
+        <div class="service-top">TANGO</div>
+        <div class="service-body">
+          <h3>単語学習</h3>
+          <p>単語学習・語彙力向上サービス</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/gatesquare_Official/">
+        <div class="service-top">RESERVE</div>
+        <div class="service-body">
+          <h3>予約システム</h3>
+          <p>会員向け予約・スケジュール管理</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/gatemessage/">
+        <div class="service-top">MESSAGE</div>
+        <div class="service-body">
+          <h3>GATE MESSAGE</h3>
+          <p>会員同士のメッセージ機能</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/admin.html">
+        <div class="service-top">ADMIN</div>
+        <div class="service-body">
+          <h3>管理者ページ</h3>
+          <p>運営・会員・ニュース管理</p>
+        </div>
+        <div class="service-link">管理者ページを開く →</div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="section" id="mymenu">
+    <div class="heading">MY MENU / 会員専用メニュー</div>
+    <div class="my-menu">
+      <h2>GATE SQUARE MEMBER</h2>
+      <p>会員情報・契約プラン・オプション・料金明細・印刷などを管理できます。</p>
+      <a href="https://itzy2.github.io/mymenu.html">マイメニューを開く →</a>
+    </div>
+  </section>
 
   <section class="section" id="company">
-  <div class="section-heading"><span>GATE SQUARE グループ会社</span></div>
-  <div id="companyInfo">
-   <div class="notice-row"><span>会社名</span><span></span><strong>オルビスNET</strong></div>
-   <div class="notice-row"><span>概要</span><span></span><strong>令和7年に開業以来、最高峰のネットワークサービスを提供しています。</strong></div>
-   <div class="notice-row"><span>会社名</span><span></span><strong>オルビステスト</strong></div>
-   <div class="notice-row"><span>概要</span><span></span><strong>ゲートスクエアと合併後CBTシステムを開始。難しいといわれるオルビステストは今年で3周年。</strong></div>
-  </div>
- </section>
-
- <!-- 管理者編集エリア -->
- <section class="section admin-entry" id="adminArea">
-  <div class="section-heading">
-   <span>管理者専用 ポータル編集</span>
-   <button class="btn gray" onclick="adminLogout()">管理者ログアウト</button>
-  </div>
-
-  <div id="adminLogin" class="admin-login">
-   <h3>管理者ログイン</h3>
-   <p>管理者アカウントでログインしてください。</p>
-   <label>メールアドレス</label>
-   <input id="adminEmail" type="email" autocomplete="username">
-   <label>パスワード</label>
-   <input id="adminPassword" type="password" autocomplete="current-password">
-   <button class="btn" onclick="adminLogin()">ログイン</button>
-   <div id="adminLoginMessage" class="status-message"></div>
-  </div>
-
-  <div id="adminEditor" class="admin-panel">
-   <p class="status-message" id="adminStatus">管理者としてログインしています。</p>
-
-   <fieldset>
-    <legend>① ニュースの追加</legend>
-    <label>ニュースタイトル</label>
-    <input id="newsTitle" placeholder="例：新サービスのお知らせ">
-    <label>本文</label>
-    <textarea id="newsBody" placeholder="お知らせの内容"></textarea>
-    <div class="admin-grid">
-     <div>
-      <label>分類</label>
-      <select id="newsCategory">
-       <option>お知らせ</option>
-       <option>重要連絡</option>
-       <option>サービス</option>
-       <option>事業連絡</option>
-       <option>メンテナンス</option>
-       <option>イベント</option>
-      </select>
-     </div>
-     <div>
-      <label>掲載日</label>
-      <input id="newsDate" type="date">
-     </div>
-    </div>
-    <label><input id="newsNew" type="checkbox" style="width:auto"> NEW表示</label>
-    <br>
-    <label><input id="newsPublished" type="checkbox" checked style="width:auto"> 公開する</label>
-    <br><br>
-    <button class="btn green" onclick="addNews()">ニュースを追加</button>
-   </fieldset>
-
-   <fieldset>
-    <legend>② ニュースの編集・削除</legend>
-    <div id="adminNewsList">ニュースを読み込んでいます...</div>
-   </fieldset>
-
-   <fieldset>
-    <legend>③ サービス情報の編集</legend>
-    <p>6つのサイトの表示名・説明・リンク先を変更できます。</p>
-    <div id="adminServiceList">サービスを読み込んでいます...</div>
-   </fieldset>
-
-   <fieldset>
-    <legend>④ 会社情報の編集</legend>
-    <label>会社名</label>
-    <input id="companyName">
-    <label>代表者</label>
-    <input id="companyRepresentative">
-    <label>所在地</label>
-    <input id="companyAddress">
-    <label>設立年月日</label>
-    <input id="companyEstablished">
-    <button class="btn green" onclick="saveCompany()">会社情報を保存</button>
-   </fieldset>
-
-   <fieldset>
-    <legend>⑤ メインバナーの編集</legend>
-    <label>タイトル</label>
-    <input id="bannerTitleEdit">
-    <label>説明文</label>
-    <input id="bannerSubtitleEdit">
-    <label>リンク文字</label>
-    <input id="bannerButtonEdit">
-    <label>リンク先</label>
-    <input id="bannerUrlEdit">
-    <button class="btn green" onclick="saveBanner()">バナーを保存</button>
-   </fieldset>
-  </div>
- </section>
+    <div class="heading">COMPANY / 会社概要</div>
+    <p><b>会社名：</b>GATE SQUARE</p>
+    <p><b>代表者：</b>深海</p>
+    <p><b>所在地：</b>岐阜県瑞浪市</p>
+    <p><b>設立：</b>2024年11月2日</p>
+  </section>
 
 </main>
 
 <aside class="right-column">
- <div class="my-menu">
-  <h2>MY MENU</h2>
-  <p>会員情報やオプション契約を管理できます。</p>
-  <a href="https://itzy2.github.io/mymenu.html">会員ページへ →</a>
- </div>
 
- <div class="right-box">
-  <div class="right-title">GATE SQUARE INFORMATION</div>
-  <div class="right-content">
-   <strong>最新情報</strong>
-   <p>各サービスの最新情報をご確認ください。</p>
-   <a href="#news">お知らせ一覧 →</a>
-   <a href="#services">サービス一覧 →</a>
+  <div class="my-menu">
+    <h2>MY MENU</h2>
+    <p>会員情報・契約・料金確認</p>
+    <a href="https://itzy2.github.io/mymenu.html">マイメニュー →</a>
   </div>
- </div>
 
- <div class="right-box">
-  <div class="right-title">COMMUNICATION</div>
-  <div class="right-content">
-   <strong>GATE MESSAGE</strong>
-   <p>会員同士のコミュニケーション。</p>
-   <a href="https://itzy2.github.io/gatemessage/">チャットを開く →</a>
+  <div class="right-box">
+    <div class="right-title">INFORMATION</div>
+    <a href="#news">最新のお知らせ</a>
+    <a href="#business">事業案内</a>
+    <a href="#services">サービス一覧</a>
   </div>
- </div>
 
- <div class="right-box">
-  <div class="right-title">MEMBER SERVICE</div>
-  <div class="right-content">
-   <a href="https://itzy2.github.io/kabu/">KABU 株式ゲーム</a>
-   <a href="https://itzy2.github.io/test/">ORBiS TEST</a>
-   <a href="https://itzy2.github.io/tango/">TANGO</a>
-   <a href="https://itzy2.github.io/gatesquare_Official/">予約システム</a>
+  <div class="right-box" id="support">
+    <div class="right-title">SUPPORT</div>
+    <p>サービスに関するご質問や不具合の報告は運営窓口までお願いします。</p>
+    <a href="https://itzy2.github.io/gatemessage/">GATE MESSAGEから連絡 →</a>
   </div>
- </div>
 
- <div class="right-box" id="support">
-  <div class="right-title">SUPPORT CENTER</div>
-  <div class="right-content">
-   <strong>お問い合わせ</strong>
-   <p>サービスに関するご質問や不具合の報告は運営窓口までお願いします。</p>
-  </div>
- </div>
-
- <div class="company-info">
-  <strong>GATE SQUARE</strong><br>
-  代表者：深海<br>
-  岐阜県瑞浪市<br>
-  設立：2024年11月2日
- </div>
 </aside>
 
 </div>
 </div>
 
 <footer>
- <div class="brand-name" style="color:white">GATE<span>SQUARE</span></div>
- <p>会社概要 ｜ サービス一覧 ｜ マイメニュー ｜ お問い合わせ</p>
- <p>© 2026 GATE SQUARE. All Rights Reserved.</p>
+  <div class="logo" style="color:white">GATE<span>SQUARE</span></div>
+  <p>岐阜県瑞浪市 | 代表者 深海 | 設立 2024年11月2日</p>
+  <p>© 2026 GATE SQUARE. All Rights Reserved.</p>
 </footer>
 
 <script>
 const SUPABASE_URL="https://hxrtpftlklgwesvanlpk.supabase.co";
 const SUPABASE_KEY="sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
-
 let db=null;
-let isAdmin=false;
-let newsCache=[];
-let serviceCache=[];
-let companyData={};
-let bannerData={};
 
-const $=id=>document.getElementById(id);
-
-function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
-
-function safeURL(value){
- try{
-  if(String(value).startsWith("#"))return String(value);
-  const u=new URL(value);
-  if(u.protocol==="https:" || u.protocol==="http:")return u.href;
- }catch(e){}
- return "#";
-}
-
-function showStatus(text){
- $("adminStatus").textContent=text;
-}
-
-function setFont(size,button){
- document.body.style.fontSize=size+"px";
- document.querySelectorAll(".font-control button").forEach(b=>b.classList.remove("selected"));
- button.classList.add("selected");
-}
-
-function searchSite(){
- const q=$("searchInput").value.trim().toLowerCase();
- if(!q)return;
- const items=[...document.querySelectorAll(".service-card,.notice-row,.side-item,.right-content a")];
- const found=items.find(x=>x.innerText.toLowerCase().includes(q));
- if(found){
-  found.scrollIntoView({behavior:"smooth",block:"center"});
-  found.style.outline="3px solid #078dcc";
-  setTimeout(()=>found.style.outline="",1800);
- }else alert("該当する情報が見つかりませんでした。");
+async function initialize(){
+  try{
+    if(!window.supabase){
+      document.getElementById("newsList").textContent=
+        "データベース接続ライブラリを読み込めませんでした。";
+      return;
+    }
+    db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    await loadNews();
+  }catch(error){
+    console.error(error);
+    document.getElementById("newsList").textContent=
+      "お知らせを読み込めませんでした。";
+  }
 }
 
 async function loadNews(){
- const {data,error}=await db.from("gs_portal_news")
-  .select("*").eq("is_published",true)
-  .order("published_date",{ascending:false})
-  .order("created_at",{ascending:false});
+  const box=document.getElementById("newsList");
+  const {data,error}=await db
+    .from("portal_news")
+    .select("*")
+    .eq("is_published",true)
+    .order("created_at",{ascending:false});
 
- if(error){
-  $("newsList").innerHTML="<p>ニュースを読み込めませんでした。SupabaseのSQL設定を確認してください。</p>";
-  return;
- }
- newsCache=data||[];
- renderNews();
-}
-
-function renderNews(){
- const box=$("newsList");
- if(!newsCache.length){
-  box.innerHTML="<p>現在、掲載中のお知らせはありません。</p>";
-  return;
- }
- box.innerHTML=newsCache.map(n=>`
-  <div class="notice-row">
-   <span class="notice-date">${escapeHTML(n.published_date||"")}</span>
-   <span class="notice-new">${n.is_new?"NEW!":""}</span>
-   <span class="notice-label ${n.category==="サービス"?"green":n.category==="お知らせ"?"gray":""}">${escapeHTML(n.category)}</span>
-   <span class="notice-body"><strong>${escapeHTML(n.title)}</strong>　${escapeHTML(n.body)}</span>
-  </div>
- `).join("");
-}
-
-async function loadServices(){
- const {data,error}=await db.from("gs_portal_services")
-  .select("*").eq("is_published",true).order("display_order");
-
- if(error){
-  $("serviceList").innerHTML="<p>サービス情報を読み込めませんでした。</p>";
-  return;
- }
- serviceCache=data||[];
- renderServices();
-}
-
-function serviceSymbol(code){
- return ({
-  kabu:"KABU",orbis:"ORBiS",tango:"TANGO",
-  reserve:"RESERVE",message:"MESSAGE",admin:"ADMIN"
- })[code]||"GATE";
-}
-
-function renderServices(){
- $("serviceList").innerHTML=serviceCache.map(s=>`
-  <a class="service-card" href="${escapeHTML(safeURL(s.service_url))}">
-   <div class="service-top">${escapeHTML(serviceSymbol(s.service_code))}</div>
-   <div class="service-body">
-    <h3>${escapeHTML(s.service_name)}</h3>
-    <p>${escapeHTML(s.description)}</p>
-   </div>
-   <div class="service-bottom">サービスを開く　›</div>
-  </a>
- `).join("");
-}
-
-async function loadContent(){
- const {data,error}=await db.from("gs_portal_content")
-  .select("*");
- if(error)return;
-
- for(const row of data||[]){
-  if(row.content_key==="company")companyData=row.content_value||{};
-  if(row.content_key==="banner")bannerData=row.content_value||{};
- }
- renderCompany();
- renderBanner();
-}
-
-function renderCompany(){
- const c=companyData;
- if(!Object.keys(c).length)return;
- $("companyInfo").innerHTML=`
-  <div class="notice-row"><span>会社名</span><span></span><strong>${escapeHTML(c.company_name||"")}</strong></div>
-  <div class="notice-row"><span>代表者</span><span></span><strong>${escapeHTML(c.representative||"")}</strong></div>
-  <div class="notice-row"><span>所在地</span><span></span><strong>${escapeHTML(c.address||"")}</strong></div>
-  <div class="notice-row"><span>設立年月日</span><span></span><strong>${escapeHTML(c.established||"")}</strong></div>
- `;
-}
-
-function renderBanner(){
- if(!Object.keys(bannerData).length)return;
- $("bannerTitle").textContent=bannerData.title||"GATE SQUARE";
- $("bannerSubtitle").textContent=bannerData.subtitle||"";
- $("bannerLink").textContent=bannerData.button_text||"詳しく見る";
- $("bannerLink").href=safeURL(bannerData.button_url||"#company");
-}
-
-async function checkAdmin(){
- const {data:{session}}=await db.auth.getSession();
- if(!session)return;
- const {data,error}=await db.rpc("gs_is_portal_admin");
- if(error){
-  console.error("管理者確認エラー",error);
-  return;
- }
- if(data===true){
-  isAdmin=true;
-  $("adminArea").style.display="block";
-  $("adminLogin").style.display="none";
-  $("adminEditor").style.display="block";
-  showStatus("管理者としてログインしています。");
-  await loadAdminData();
- }
-}
-
-async function adminLogin(){
- const email=$("adminEmail").value.trim();
- const password=$("adminPassword").value;
- $("adminLoginMessage").textContent="ログイン中...";
- const {data,error}=await db.auth.signInWithPassword({email,password});
- if(error){
-  $("adminLoginMessage").textContent="ログイン失敗："+error.message;
-  return;
- }
- const {data:allowed,error:checkError}=await db.rpc("gs_is_portal_admin");
- if(checkError||allowed!==true){
-  await db.auth.signOut();
-  $("adminLoginMessage").textContent="このアカウントには管理者権限がありません。";
-  return;
- }
- isAdmin=true;
- $("adminLogin").style.display="none";
- $("adminEditor").style.display="block";
- showStatus("管理者ログインに成功しました。");
- await loadAdminData();
-}
-
-async function adminLogout(){
- await db.auth.signOut();
- isAdmin=false;
- $("adminEditor").style.display="none";
- $("adminLogin").style.display="block";
- $("adminPassword").value="";
- $("adminLoginMessage").textContent="ログアウトしました。";
-}
-
-async function loadAdminData(){
- if(!isAdmin)return;
- await loadNewsForAdmin();
- await loadServicesForAdmin();
- fillCompanyForm();
- fillBannerForm();
-}
-
-async function addNews(){
- if(!isAdmin)return;
- const title=$("newsTitle").value.trim();
- const body=$("newsBody").value.trim();
- const date=$("newsDate").value||new Date().toISOString().slice(0,10);
- if(!title){
-  showStatus("ニュースタイトルを入力してください。");
-  return;
- }
- const {error}=await db.from("gs_portal_news").insert({
-  title,body,
-  category:$("newsCategory").value,
-  published_date:date,
-  is_new:$("newsNew").checked,
-  is_published:$("newsPublished").checked
- });
- if(error){showStatus("追加に失敗しました："+error.message);return;}
- $("newsTitle").value="";
- $("newsBody").value="";
- $("newsNew").checked=false;
- showStatus("ニュースを追加しました。");
- await loadNews();
- await loadNewsForAdmin();
-}
-
-async function loadNewsForAdmin(){
- const {data,error}=await db.from("gs_portal_news")
-  .select("*").order("published_date",{ascending:false});
- if(error){showStatus("ニュース管理の読み込みに失敗："+error.message);return;}
- newsCache=data||[];
- renderNews();
- $("adminNewsList").innerHTML=(data||[]).map(n=>`
-  <div class="admin-item">
-   <strong>${escapeHTML(n.title)}</strong>
-   <div>${escapeHTML(n.published_date)} / ${escapeHTML(n.category)} / ${n.is_published?"公開中":"非公開"}</div>
-   <div>${escapeHTML(n.body)}</div>
-   <div class="admin-actions">
-    <button class="btn" onclick="editNews('${n.id}')">編集</button>
-    <button class="btn gray" onclick="toggleNews('${n.id}',${!n.is_published})">${n.is_published?"非公開にする":"公開する"}</button>
-    <button class="btn red" onclick="deleteNews('${n.id}')">削除</button>
-   </div>
-  </div>
- `).join("")||"登録されているニュースはありません。";
-}
-
-async function editNews(id){
- if(!isAdmin)return;
- const n=newsCache.find(x=>x.id===id);
- if(!n)return;
- const title=prompt("ニュースタイトル",n.title);
- if(title===null)return;
- const body=prompt("ニュース本文",n.body||"");
- if(body===null)return;
- const category=prompt("分類",n.category);
- if(category===null)return;
- const date=prompt("掲載日（YYYY-MM-DD）",n.published_date);
- if(date===null)return;
- const {error}=await db.from("gs_portal_news").update({
-  title,body,category,published_date:date,updated_at:new Date().toISOString()
- }).eq("id",id);
- if(error){showStatus("編集失敗："+error.message);return;}
- showStatus("ニュースを更新しました。");
- await loadNews();
- await loadNewsForAdmin();
-}
-
-async function toggleNews(id,value){
- const {error}=await db.from("gs_portal_news")
-  .update({is_published:value,updated_at:new Date().toISOString()}).eq("id",id);
- if(error){showStatus(error.message);return;}
- await loadNews();
- await loadNewsForAdmin();
- showStatus("公開状態を変更しました。");
-}
-
-async function deleteNews(id){
- if(!confirm("このニュースを削除しますか？"))return;
- const {error}=await db.from("gs_portal_news").delete().eq("id",id);
- if(error){showStatus("削除失敗："+error.message);return;}
- await loadNews();
- await loadNewsForAdmin();
- showStatus("ニュースを削除しました。");
-}
-
-async function loadServicesForAdmin(){
- const {data,error}=await db.from("gs_portal_services")
-  .select("*").order("display_order");
- if(error){showStatus("サービス管理の読み込みに失敗："+error.message);return;}
- serviceCache=data||[];
- renderServices();
- $("adminServiceList").innerHTML=(data||[]).map(s=>`
-  <div class="admin-item">
-   <strong>${escapeHTML(s.service_name)} (${escapeHTML(s.service_code)})</strong>
-   <label>サービス名</label>
-   <input id="sn-${s.id}" value="${escapeHTML(s.service_name)}">
-   <label>説明文</label>
-   <textarea id="sd-${s.id}">${escapeHTML(s.description)}</textarea>
-   <label>リンク先URL</label>
-   <input id="su-${s.id}" value="${escapeHTML(s.service_url)}">
-   <label>表示順</label>
-   <input id="so-${s.id}" type="number" value="${Number(s.display_order)}">
-   <label><input id="sp-${s.id}" type="checkbox" style="width:auto" ${s.is_published?"checked":""}> 公開する</label>
-   <div class="admin-actions">
-    <button class="btn green" onclick="saveService('${s.id}')">このサービスを保存</button>
-   </div>
-  </div>
- `).join("");
-}
-
-async function saveService(id){
- if(!isAdmin)return;
- const name=$("sn-"+id).value.trim();
- const description=$("sd-"+id).value.trim();
- const url=$("su-"+id).value.trim();
- const order=Number($("so-"+id).value)||0;
- const published=$("sp-"+id).checked;
- if(!name||!url){showStatus("サービス名とURLを入力してください。");return;}
- if(!safeURL(url).startsWith("http") ){showStatus("URLはhttpまたはhttpsで入力してください。");return;}
- const {error}=await db.from("gs_portal_services").update({
-  service_name:name,description,service_url:url,
-  display_order:order,is_published:published,
-  updated_at:new Date().toISOString()
- }).eq("id",id);
- if(error){showStatus("保存失敗："+error.message);return;}
- showStatus("サービス情報を保存しました。");
- await loadServices();
- await loadServicesForAdmin();
-}
-
-function fillCompanyForm(){
- $("companyName").value=companyData.company_name||"";
- $("companyRepresentative").value=companyData.representative||"";
- $("companyAddress").value=companyData.address||"";
- $("companyEstablished").value=companyData.established||"";
-}
-
-async function saveCompany(){
- if(!isAdmin)return;
- const value={
-  company_name:$("companyName").value.trim(),
-  representative:$("companyRepresentative").value.trim(),
-  address:$("companyAddress").value.trim(),
-  established:$("companyEstablished").value.trim()
- };
- const {error}=await db.from("gs_portal_content").upsert({
-  content_key:"company",content_value:value,
-  updated_at:new Date().toISOString()
- },{onConflict:"content_key"});
- if(error){showStatus("会社情報の保存失敗："+error.message);return;}
- companyData=value;renderCompany();
- showStatus("会社情報を保存しました。");
-}
-
-function fillBannerForm(){
- $("bannerTitleEdit").value=bannerData.title||"GATE SQUARE";
- $("bannerSubtitleEdit").value=bannerData.subtitle||"企業ポータル・総合サービス";
- $("bannerButtonEdit").value=bannerData.button_text||"会社概要を見る";
- $("bannerUrlEdit").value=bannerData.button_url||"#company";
-}
-
-async function saveBanner(){
- if(!isAdmin)return;
- const value={
-  title:$("bannerTitleEdit").value.trim(),
-  subtitle:$("bannerSubtitleEdit").value.trim(),
-  button_text:$("bannerButtonEdit").value.trim(),
-  button_url:$("bannerUrlEdit").value.trim()
- };
- const {error}=await db.from("gs_portal_content").upsert({
-  content_key:"banner",content_value:value,
-  updated_at:new Date().toISOString()
- },{onConflict:"content_key"});
- if(error){showStatus("バナー保存失敗："+error.message);return;}
- bannerData=value;renderBanner();
- showStatus("バナー情報を保存しました。");
-}
-
-async function initialize(){
- if(!window.supabase){
-  $("newsList").textContent="Supabaseライブラリを読み込めませんでした。";
-  return;
- }
- db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
- await Promise.all([loadNews(),loadServices(),loadContent()]);
- $("adminArea").style.display="block";
- $("adminLogin").style.display="block";
- await checkAdmin();
-
- db.auth.onAuthStateChange(async(event,session)=>{
-  if(!session){
-   isAdmin=false;
-   $("adminEditor").style.display="none";
-   $("adminLogin").style.display="block";
+  if(error){
+    console.error(error);
+    box.innerHTML="<p>現在お知らせを表示できません。管理者にお問い合わせください。</p>";
+    return;
   }
- });
+
+  if(!data || data.length===0){
+    box.innerHTML="<p>現在公開中のお知らせはありません。</p>";
+    return;
+  }
+
+  box.innerHTML=data.map(n=>`
+    <div class="news-item">
+      <span class="news-date">${escapeHTML(n.news_date||"")}</span>
+      <span class="news-new">${n.is_new?"NEW!":""}</span>
+      <span class="news-category ${escapeHTML(n.category_color||"")}">${escapeHTML(n.category||"お知らせ")}</span>
+      <span class="news-text">${escapeHTML(n.title||"")}</span>
+    </div>
+  `).join("");
 }
+
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function searchSite(){
+  const q=document.getElementById("searchInput").value.trim().toLowerCase();
+  if(!q)return;
+  const elements=[...document.querySelectorAll(".service,.news-item,.side a")];
+  const found=elements.find(el=>el.innerText.toLowerCase().includes(q));
+  if(found){
+    found.scrollIntoView({behavior:"smooth",block:"center"});
+    found.style.outline="3px solid #078dcc";
+    setTimeout(()=>found.style.outline="",2000);
+  }else{
+    alert("該当する情報が見つかりませんでした。");
+  }
+}
+
 initialize();
 </script>
+
 </body>
 </html>
