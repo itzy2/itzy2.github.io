@@ -480,73 +480,98 @@ const SUPABASE_URL="https://hxrtpftlklgwesvanlpk.supabase.co";
 const SUPABASE_KEY="sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
 let db=null;
 
+const DEFAULT_BUSINESSES=[
+  {title:"デジタルサービス事業",description:"オンラインサービス・会員向けシステムの企画と運営。"},
+  {title:"学習・教育支援事業",description:"オルビステストなどの学習・試験システムの運営。"},
+  {title:"会員向けサービス事業",description:"予約・コミュニケーション・各種会員サービスの提供。"}
+];
+const DEFAULT_SERVICES=[
+  {title:"STOCKPOINT",short_title:"KABU",description:"株式売買・ポイント管理ゲーム",url:"https://itzy2.github.io/kabu/"},
+  {title:"ORBiS TEST",short_title:"ORBiS",description:"オンライン試験・成績確認",url:"https://itzy2.github.io/test/"},
+  {title:"単語学習",short_title:"TANGO",description:"単語学習・語彙力向上サービス",url:"https://itzy2.github.io/tango/"},
+  {title:"予約システム",short_title:"RESERVE",description:"会員向け予約・スケジュール管理",url:"https://itzy2.github.io/gatesquare_Official/"},
+  {title:"GATE MESSAGE",short_title:"MESSAGE",description:"会員同士のメッセージ機能",url:"https://itzy2.github.io/gatemessage/"},
+  {title:"管理者ページ",short_title:"ADMIN",description:"運営・会員・ニュース管理",url:"https://itzy2.github.io/admin.html"}
+];
+
 async function initialize(){
   try{
     if(!window.supabase){
-      document.getElementById("newsList").textContent=
-        "データベース接続ライブラリを読み込めませんでした。";
-      return;
+      document.getElementById("newsList").textContent="データベース接続ライブラリを読み込めませんでした。";return;
     }
     db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-    await loadNews();
+    await Promise.all([loadNews(),loadPortalContent()]);
   }catch(error){
     console.error(error);
-    document.getElementById("newsList").textContent=
-      "お知らせを読み込めませんでした。";
+    document.getElementById("newsList").textContent="お知らせを読み込めませんでした。";
   }
 }
-
 async function loadNews(){
   const box=document.getElementById("newsList");
-  const {data,error}=await db
-    .from("portal_news")
-    .select("*")
-    .eq("is_published",true)
-    .order("created_at",{ascending:false});
-
-  if(error){
-    console.error(error);
-    box.innerHTML="<p>現在お知らせを表示できません。管理者にお問い合わせください。</p>";
-    return;
-  }
-
-  if(!data || data.length===0){
-    box.innerHTML="<p>現在公開中のお知らせはありません。</p>";
-    return;
-  }
-
-  box.innerHTML=data.map(n=>`
-    <div class="news-item">
-      <span class="news-date">${escapeHTML(n.news_date||"")}</span>
-      <span class="news-new">${n.is_new?"NEW!":""}</span>
-      <span class="news-category ${escapeHTML(n.category_color||"")}">${escapeHTML(n.category||"お知らせ")}</span>
-      <span class="news-text">${escapeHTML(n.title||"")}</span>
-    </div>
-  `).join("");
+  const {data,error}=await db.from("portal_news").select("*").eq("is_published",true)
+    .order("news_date",{ascending:false}).order("created_at",{ascending:false});
+  if(error){console.error(error);box.textContent="現在お知らせを表示できません。管理者にお問い合わせください。";return;}
+  if(!data||data.length===0){box.textContent="現在公開中のお知らせはありません。";return;}
+  box.replaceChildren();
+  data.forEach(n=>{
+    const item=document.createElement("div");item.className="news-item";
+    const date=document.createElement("span");date.className="news-date";date.textContent=n.news_date||"";
+    const fresh=document.createElement("span");fresh.className="news-new";fresh.textContent=n.is_new?"NEW!":"";
+    const category=document.createElement("span");
+    const color=["blue","green","red"].includes(n.category_color)?n.category_color:"blue";
+    category.className="news-category "+color;category.textContent=n.category||"お知らせ";
+    const title=document.createElement("span");title.className="news-text";title.textContent=n.title||"";
+    item.append(date,fresh,category,title);box.append(item);
+  });
 }
-
-function escapeHTML(value){
-  return String(value??"").replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
+async function loadPortalContent(){
+  const {data,error}=await db.from("gs_portal_content").select("content_key,content_value");
+  if(error){console.error("ポータル内容の取得に失敗:",error);return;}
+  const values={};(data||[]).forEach(row=>{values[row.content_key]=row.content_value;});
+  const heroTitle=typeof values.hero_title==="string"?values.hero_title:"GATE SQUARE";
+  const heroDescription=typeof values.hero_description==="string"?values.hero_description:"企業ポータル・総合サービス";
+  const hero=document.querySelector(".hero-card");
+  if(hero){
+    const strong=hero.querySelector("strong");const p=hero.querySelector("p");
+    if(strong)strong.textContent=heroTitle;if(p)p.textContent=heroDescription;
+  }
+  renderBusinesses(Array.isArray(values.businesses)?values.businesses:DEFAULT_BUSINESSES);
+  renderServices(Array.isArray(values.services)?values.services:DEFAULT_SERVICES);
 }
-
+function renderBusinesses(items){
+  const box=document.getElementById("businessList");box.replaceChildren();
+  items.forEach(item=>{
+    const h=document.createElement("h3");h.textContent=item.title||"";
+    const p=document.createElement("p");p.textContent=item.description||"";
+    box.append(h,p);
+  });
+}
+function renderServices(items){
+  const box=document.querySelector("#services .service-grid");box.replaceChildren();
+  items.forEach(item=>{
+    const link=document.createElement("a");link.className="service";
+    const url=safeUrl(item.url);if(url){link.href=url;}else{link.href="#services";}
+    const top=document.createElement("div");top.className="service-top";top.textContent=item.short_title||item.title||"SERVICE";
+    const body=document.createElement("div");body.className="service-body";
+    const h=document.createElement("h3");h.textContent=item.title||"";
+    const p=document.createElement("p");p.textContent=item.description||"";
+    body.append(h,p);
+    const foot=document.createElement("div");foot.className="service-link";foot.textContent="サービスを開く →";
+    link.append(top,body,foot);box.append(link);
+  });
+}
+function safeUrl(value){
+  try{const u=new URL(value,location.href);return ["http:","https:"].includes(u.protocol)?u.href:null;}
+  catch{return null;}
+}
 function searchSite(){
-  const q=document.getElementById("searchInput").value.trim().toLowerCase();
-  if(!q)return;
+  const q=document.getElementById("searchInput").value.trim().toLowerCase();if(!q)return;
   const elements=[...document.querySelectorAll(".service,.news-item,.side a")];
   const found=elements.find(el=>el.innerText.toLowerCase().includes(q));
-  if(found){
-    found.scrollIntoView({behavior:"smooth",block:"center"});
-    found.style.outline="3px solid #078dcc";
-    setTimeout(()=>found.style.outline="",2000);
-  }else{
-    alert("該当する情報が見つかりませんでした。");
-  }
+  if(found){found.scrollIntoView({behavior:"smooth",block:"center"});found.style.outline="3px solid #078dcc";setTimeout(()=>found.style.outline="",2000);}
+  else{alert("該当する情報が見つかりませんでした。");}
 }
-
 initialize();
 </script>
-
 </body>
 </html>
