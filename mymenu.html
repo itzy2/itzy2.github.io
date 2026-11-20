@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MY MENU | GATE SQUARE</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 :root{
   --bg:#081426;--panel:#10223c;--line:#254361;
@@ -55,6 +56,10 @@ label{font-size:13px;color:var(--muted)}
 .total-box{background:#091a30;border:1px solid var(--line);border-radius:12px;padding:18px;margin:15px 0}
 .total-box strong{font-size:28px;color:var(--green)}
 footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
+
+/* 印刷専用 */
+#printSheet{display:none}
+
 @media(max-width:760px){
  .layout{grid-template-columns:1fr}
  nav{position:static;display:grid;grid-template-columns:repeat(2,1fr)}
@@ -63,18 +68,131 @@ footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
  .cards{grid-template-columns:1fr}
  h1{font-size:25px}
 }
+
+@page{
+  size:A4 portrait;
+  margin:15mm;
+}
+
 @media print{
- body{background:white;color:black}
- header,nav,.no-print,#loginArea,footer{display:none!important}
- main{padding:0}
- .layout{display:block}
- .hero,.panel,.card,.total-box{background:white!important;color:black!important;border:1px solid #999;break-inside:avoid}
- section.panel{display:block!important}
- .muted,.stat span,.card p{color:#444!important}
- .stat strong,.total-box strong,.price{color:black!important}
+  body{
+    background:white!important;
+    color:#222!important;
+    margin:0;
+  }
+
+  body *{
+    visibility:hidden!important;
+  }
+
+  #printSheet,
+  #printSheet *{
+    visibility:visible!important;
+  }
+
+  #printSheet{
+    display:block!important;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    padding:0;
+    color:#222!important;
+    background:white!important;
+    font-family:"Noto Sans JP",Meiryo,Arial,sans-serif;
+  }
+
+  .print-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:2px solid #183b4e;
+    padding-bottom:10px;
+    margin-bottom:18px;
+  }
+
+  .print-logo{
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:2px;
+  }
+
+  .print-logo span{
+    color:#078dcc;
+  }
+
+  .print-title{
+    font-size:17px;
+    font-weight:bold;
+    text-align:right;
+  }
+
+  .print-date{
+    font-size:11px;
+    color:#555;
+    margin-top:5px;
+  }
+
+  .print-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:16px;
+    font-size:12px;
+  }
+
+  .print-table th,
+  .print-table td{
+    border:1px solid #888;
+    padding:9px 11px;
+    text-align:left;
+  }
+
+  .print-table th{
+    width:30%;
+    background:#f0f4f7!important;
+    font-weight:bold;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  .print-contract-table th{
+    background:#eaf2f6!important;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  .print-contract-table th,
+  .print-contract-table td{
+    border:1px solid #888;
+    padding:9px;
+  }
+
+  .print-total{
+    border:2px solid #183b4e;
+    padding:12px 15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:bold;
+    margin-top:12px;
+  }
+
+  .print-total strong{
+    font-size:20px;
+  }
+
+  .print-footer{
+    border-top:1px solid #aaa;
+    margin-top:25px;
+    padding-top:9px;
+    text-align:right;
+    font-size:10px;
+    color:#555;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -97,6 +215,7 @@ footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
 </div>
 
 <main id="app" style="display:none">
+
   <div class="hero">
     <div class="eyebrow">MEMBER CONTROL CENTER</div>
     <h1>マイメニュー</h1>
@@ -129,7 +248,7 @@ footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
           <div class="muted">現在の月額契約合計</div>
           <strong id="dashboardTotal">0円</strong>
           <p class="muted">契約中のオプション料金を合算した参考金額です。</p>
-          <button class="primary no-print" onclick="window.print()">契約内容・料金を印刷</button>
+          <button class="primary no-print" onclick="printContract()">契約内容・料金を印刷</button>
         </div>
         <div class="cards">
           <div class="card"><h3>アカウント情報</h3><p>登録情報を確認できます。</p><button class="secondary no-print" onclick="openPanel('profile')">確認する</button></div>
@@ -163,7 +282,7 @@ footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
           <div class="row"><span>年間換算</span><b id="contractYearly">0円</b></div>
           <p class="muted">※実際の請求・決済を行う機能ではありません。</p>
         </div>
-        <button class="primary no-print" onclick="window.print()">契約内容を印刷</button>
+        <button class="primary no-print" onclick="printContract()">契約内容を印刷</button>
       </section>
 
       <section id="history" class="panel">
@@ -197,6 +316,47 @@ footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
   </div>
   <div id="message"></div>
 </main>
+
+<!-- 印刷専用のシンプルな明細書 -->
+<div id="printSheet">
+  <div class="print-header">
+    <div class="print-logo">GATE <span>SQUARE</span></div>
+    <div>
+      <div class="print-title">契約内容・料金明細</div>
+      <div class="print-date">発行日：<span id="printDate"></span></div>
+    </div>
+  </div>
+
+  <table class="print-table">
+    <tr>
+      <th>会員氏名</th>
+      <td id="printName"></td>
+    </tr>
+    <tr>
+      <th>会員番号</th>
+      <td id="printMemberId"></td>
+    </tr>
+  </table>
+
+  <table class="print-table print-contract-table">
+    <thead>
+      <tr>
+        <th>契約プラン</th>
+        <th style="width:30%;text-align:right">月額料金</th>
+      </tr>
+    </thead>
+    <tbody id="printContracts"></tbody>
+  </table>
+
+  <div class="print-total">
+    <span>月額合計</span>
+    <strong id="printTotal"></strong>
+  </div>
+
+  <div class="print-footer">
+    GATE SQUARE
+  </div>
+</div>
 
 <footer>© GATE SQUARE | MEMBER SERVICE</footer>
 
@@ -260,6 +420,7 @@ const plans=[
 
 let currentUser=null;
 let contracts=[];
+let currentDisplayName="";
 
 const yen=n=>Number(n||0).toLocaleString("ja-JP")+"円";
 const planByCode=code=>plans.find(p=>p[0]===code);
@@ -288,9 +449,19 @@ async function login(){
   const email=document.getElementById("email").value.trim();
   const password=document.getElementById("password").value;
   const out=document.getElementById("loginMessage");
-  if(!email||!password){out.textContent="メールアドレスとパスワードを入力してください。";return;}
+
+  if(!email||!password){
+    out.textContent="メールアドレスとパスワードを入力してください。";
+    return;
+  }
+
   const {data,error}=await db.auth.signInWithPassword({email,password});
-  if(error){out.textContent="ログインできません："+error.message;return;}
+
+  if(error){
+    out.textContent="ログインできません："+error.message;
+    return;
+  }
+
   await initializeUser(data.user);
 }
 
@@ -298,6 +469,7 @@ async function logout(){
   await db.auth.signOut();
   currentUser=null;
   contracts=[];
+  currentDisplayName="";
   document.getElementById("app").style.display="none";
   document.getElementById("loginArea").style.display="block";
   document.getElementById("headerName").textContent="未ログイン";
@@ -315,6 +487,8 @@ async function initializeUser(user){
     .select("display_name").eq("id",user.id).maybeSingle();
 
   const name=profile?.display_name||user.email||"会員";
+  currentDisplayName=name;
+
   document.getElementById("headerName").textContent=name;
   document.getElementById("welcome").textContent="こんにちは！"+name+"さん";
   document.getElementById("profileName").textContent=name;
@@ -350,6 +524,7 @@ function getPrice(contract){
 
 function renderTotals(){
   const total=contracts.reduce((sum,c)=>sum+getPrice(c),0);
+
   document.getElementById("optionCount").textContent=contracts.length;
   document.getElementById("monthlyTotal").textContent=yen(total);
   document.getElementById("yearlyTotal").textContent=yen(total*12);
@@ -386,7 +561,7 @@ function renderPlans(){
     button.onclick=()=>addOption(p);
 
     card.append(title,category,price,button);
-    box.appendChild(card);
+    box.append(card);
   });
 }
 
@@ -426,9 +601,11 @@ function renderContracts(){
     const info=document.createElement("div");
     const name=document.createElement("strong");
     name.textContent=c.plan_name||c.plan_code;
+
     const price=document.createElement("div");
     price.className="price";
     price.textContent="月額 "+yen(getPrice(c));
+
     info.append(name,price);
 
     const cancel=document.createElement("button");
@@ -468,20 +645,86 @@ function renderHistory(){
   contracts.forEach(c=>{
     const row=document.createElement("div");
     row.className="row";
+
     const name=document.createElement("span");
     name.textContent=c.plan_name+"（契約中）";
+
     const date=document.createElement("span");
-    date.textContent=c.created_at?new Date(c.created_at).toLocaleDateString("ja-JP"):"";
+    date.textContent=c.created_at
+      ?new Date(c.created_at).toLocaleDateString("ja-JP")
+      :"";
+
     row.append(name,date);
     box.appendChild(row);
   });
 }
 
+/* 印刷用明細を作成 */
+function printContract(){
+  if(!currentUser){
+    alert("ログインしてください。");
+    return;
+  }
+
+  const total=contracts.reduce((sum,c)=>sum+getPrice(c),0);
+
+  document.getElementById("printName").textContent=
+    currentDisplayName||"会員";
+
+  /* 現在のアカウントIDを会員識別番号として表示 */
+  document.getElementById("printMemberId").textContent=
+    currentUser.id;
+
+  document.getElementById("printDate").textContent=
+    new Date().toLocaleDateString("ja-JP");
+
+  const body=document.getElementById("printContracts");
+  body.replaceChildren();
+
+  if(contracts.length===0){
+    const tr=document.createElement("tr");
+    const td=document.createElement("td");
+    td.colSpan=2;
+    td.textContent="契約中のプランはありません。";
+    td.style.textAlign="center";
+    tr.appendChild(td);
+    body.appendChild(tr);
+  }else{
+    contracts.forEach(c=>{
+      const tr=document.createElement("tr");
+
+      const name=document.createElement("td");
+      name.textContent=c.plan_name||c.plan_code;
+
+      const price=document.createElement("td");
+      price.textContent=yen(getPrice(c));
+      price.style.textAlign="right";
+
+      tr.append(name,price);
+      body.appendChild(tr);
+    });
+  }
+
+  document.getElementById("printTotal").textContent=yen(total);
+
+  window.print();
+}
+
 async function changePassword(){
   const password=document.getElementById("newPassword").value;
-  if(password.length<8){showMessage("パスワードは8文字以上にしてください。");return;}
+
+  if(password.length<8){
+    showMessage("パスワードは8文字以上にしてください。");
+    return;
+  }
+
   const {error}=await db.auth.updateUser({password});
-  if(error){showMessage("変更できません："+error.message);return;}
+
+  if(error){
+    showMessage("変更できません："+error.message);
+    return;
+  }
+
   document.getElementById("newPassword").value="";
   showMessage("パスワードを変更しました。");
 }
@@ -490,8 +733,11 @@ async function loadSettings(){
   const {data}=await db.from("gs_member_settings")
     .select("*").eq("user_id",currentUser.id).maybeSingle();
 
-  document.getElementById("emailNotifications").checked=data?.email_notifications??true;
-  document.getElementById("serviceNotifications").checked=data?.service_notifications??true;
+  document.getElementById("emailNotifications").checked=
+    data?.email_notifications??true;
+
+  document.getElementById("serviceNotifications").checked=
+    data?.service_notifications??true;
 }
 
 async function saveSettings(){
@@ -502,25 +748,38 @@ async function saveSettings(){
     updated_at:new Date().toISOString()
   },{onConflict:"user_id"});
 
-  if(error){showMessage("保存できません："+error.message);return;}
+  if(error){
+    showMessage("保存できません："+error.message);
+    return;
+  }
+
   showMessage("通知設定を保存しました。");
 }
 
 async function initialize(){
   const {data,error}=await db.auth.getSession();
+
   if(error){
     document.getElementById("loginMessage").textContent=error.message;
     return;
   }
-  if(data.session)await initializeUser(data.session.user);
+
+  if(data.session){
+    await initializeUser(data.session.user);
+  }
+
   db.auth.onAuthStateChange((event,session)=>{
     if(event==="SIGNED_OUT"||!session){
       currentUser=null;
+      contracts=[];
+      currentDisplayName="";
       document.getElementById("app").style.display="none";
       document.getElementById("loginArea").style.display="block";
+      document.getElementById("headerName").textContent="未ログイン";
     }
   });
 }
+
 initialize();
 </script>
 </body>
