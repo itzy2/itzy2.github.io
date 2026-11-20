@@ -3,225 +3,275 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#081426">
-<title>GATE SQUARE | Official Portal</title>
+<meta name="theme-color" content="#078dcc">
+<title>GATE SQUARE | CORPORATE PORTAL</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
-  --bg:#081426;
-  --panel:#10223c;
-  --line:#254361;
-  --cyan:#35d7ff;
-  --text:#f1f7ff;
-  --muted:#9db2ca;
+  --blue:#078dcc;
+  --green:#83c52e;
+  --cyan:#19b9ba;
+  --dark:#183b4e;
+  --text:#34444e;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
   margin:0;
-  background:var(--bg);
+  font-family:Meiryo,"Noto Sans JP",sans-serif;
   color:var(--text);
-  font-family:Arial,"Noto Sans JP",sans-serif;
+  background:#d7f5eb;
 }
-a{color:inherit;text-decoration:none}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
 
 header{
+  background:white;
+  padding:20px 4%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.logo{
+  font-size:32px;
+  font-weight:1000;
+  color:#263a43;
+}
+.logo span{color:#078dcc}
+.search{
+  display:flex;
+  width:min(550px,100%);
+}
+.search input{
+  flex:1;
+  min-width:0;
+  padding:12px;
+  border:1px solid #ccc;
+}
+.search button{
+  background:var(--blue);
+  color:white;
+  border:0;
+  padding:0 20px;
+  cursor:pointer;
+}
+nav{
+  display:flex;
+  justify-content:space-around;
+  flex-wrap:wrap;
+  background:linear-gradient(90deg,#008bce,#00a9b5,#82c52e);
   position:sticky;
   top:0;
   z-index:10;
-  background:#081426ed;
-  border-bottom:1px solid var(--line);
-  padding:18px 5%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  backdrop-filter:blur(12px);
-}
-.logo{
-  font-size:23px;
-  font-weight:900;
-  letter-spacing:2px;
-}
-.logo span{color:var(--cyan)}
-nav{
-  display:flex;
-  gap:22px;
-  flex-wrap:wrap;
 }
 nav a{
-  color:var(--muted);
+  color:white;
+  padding:15px;
+  font-weight:bold;
   font-size:13px;
-  transition:.2s;
 }
-nav a:hover{color:var(--cyan)}
+nav a:hover{background:#ffffff35}
+
+.background{
+  min-height:100vh;
+  padding:25px 15px;
+  background-color:#b5ead7;
+  background-image:
+  linear-gradient(60deg,transparent 49.5%,#ffffff30 50%,transparent 50.5%),
+  linear-gradient(120deg,transparent 49.5%,#ffffff30 50%,transparent 50.5%);
+  background-size:230px 200px;
+}
+.layout{
+  max-width:1450px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr) 220px;
+  gap:18px;
+}
+.side,.section,.right-box{
+  background:white;
+  margin-bottom:18px;
+  box-shadow:0 2px 8px #315c5018;
+}
+.side-title{
+  background:#d9f0fb;
+  color:#087eb9;
+  padding:13px;
+  font-weight:bold;
+}
+.side a{
+  display:block;
+  padding:12px;
+  border-bottom:1px solid #eee;
+  font-size:13px;
+}
+.side a:hover{color:var(--blue);background:#f3faff}
 
 .hero{
-  min-height:490px;
-  padding:100px 8%;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+.hero-card{
+  min-height:145px;
+  padding:20px;
+  color:white;
   display:flex;
   flex-direction:column;
   justify-content:center;
-  background:
-    radial-gradient(circle at 80% 20%,#16456a 0,transparent 35%),
-    linear-gradient(120deg,#102b49,#081426);
-  border-bottom:1px solid var(--line);
+  background:linear-gradient(130deg,#008cc8,#22b9c1);
 }
-.eyebrow{
-  color:var(--cyan);
-  letter-spacing:4px;
+.hero-card:nth-child(2){
+  background:linear-gradient(130deg,#e52d79,#fa709a);
+}
+.hero-card:nth-child(3){
+  background:linear-gradient(130deg,#0789ca,#78bd30);
+}
+.hero-card strong{font-size:23px}
+.hero-card p{font-size:12px}
+.hero-card a{
+  background:#ffffff30;
+  border:1px solid #ffffff80;
+  padding:8px;
+  text-align:center;
   font-size:12px;
 }
-.hero h1{
-  font-size:clamp(38px,7vw,75px);
-  margin:18px 0;
-  letter-spacing:2px;
-}
-.hero p{
-  max-width:700px;
-  color:var(--muted);
-  line-height:2;
-  white-space:pre-wrap;
-}
-.hero-links{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:25px;
-}
-.btn{
-  display:inline-block;
-  padding:13px 20px;
-  border-radius:9px;
-  background:var(--cyan);
-  color:#061526;
-  font-weight:bold;
-  transition:.2s;
-}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
-.btn.secondary{
-  background:#173652;
+.section{padding:18px}
+.heading{
+  padding:12px 15px;
+  margin-bottom:15px;
   color:white;
-  border:1px solid var(--line);
+  font-weight:bold;
+  background:linear-gradient(90deg,#078dcc,#04b5a5,#83c52e);
 }
+.heading.red{background:#df2639}
 
-main{
-  max-width:1200px;
-  margin:auto;
-  padding:55px 20px;
+.news-item{
+  display:grid;
+  grid-template-columns:100px 65px 100px minmax(0,1fr);
+  align-items:center;
+  gap:10px;
+  padding:13px 5px;
+  border-bottom:1px dotted #ccc;
+  font-size:13px;
 }
-.section{margin-bottom:75px}
-.section-head{margin-bottom:25px}
-.section-head small{
-  color:var(--cyan);
-  letter-spacing:3px;
+.news-date{color:#77848a;white-space:nowrap}
+.news-new{color:#e83c83;font-weight:bold}
+.news-category{
+  background:#b90000;
+  color:white;
+  padding:5px 8px;
+  border-radius:4px;
+  font-size:11px;
+  text-align:center;
+  white-space:nowrap;
 }
-.section-head h2{
-  font-size:30px;
-  margin:8px 0;
-}
-.section-head p{
-  color:var(--muted);
-  line-height:1.8;
-}
-.grid{
+.news-category.green{background:#83bd32}
+.news-category.blue{background:#078dcc}
+.news-text{line-height:1.6}
+
+.service-grid{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:16px;
+  gap:14px;
 }
-.card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:15px;
-  padding:22px;
-  min-width:0;
+.service{
+  border:1px solid #dce5e8;
   transition:.2s;
 }
-.card:hover{
-  border-color:var(--cyan);
+.service:hover{
   transform:translateY(-3px);
+  box-shadow:0 6px 18px #0002;
 }
-.card h3{margin:0 0 12px}
-.card p{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.8;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
+.service-top{
+  height:85px;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-size:27px;
+  font-weight:1000;
+  background:linear-gradient(120deg,#078dcc,#00b4ba);
 }
-.card .date{
-  color:var(--cyan);
-  font-size:12px;
-  margin-bottom:10px;
-}
+.service:nth-child(2) .service-top{background:linear-gradient(120deg,#2354a1,#3287ce)}
+.service:nth-child(3) .service-top{background:linear-gradient(120deg,#e8a52a,#e87936)}
+.service:nth-child(4) .service-top{background:linear-gradient(120deg,#00a88b,#78c338)}
+.service:nth-child(5) .service-top{background:linear-gradient(120deg,#7155b6,#a66ad1)}
+.service:nth-child(6) .service-top{background:linear-gradient(120deg,#344c63,#657d91)}
+.service-body{padding:13px}
+.service-body h3{font-size:15px;margin:0 0 8px}
+.service-body p{font-size:12px;color:#78858b;line-height:1.7}
 .service-link{
-  display:inline-block;
-  margin-top:12px;
-  color:var(--cyan);
-  font-size:13px;
+  padding:11px;
+  border-top:1px solid #eee;
+  color:var(--blue);
+  font-weight:bold;
+  font-size:12px;
+}
+.my-menu{
+  background:linear-gradient(135deg,#087fbb,#13b5ad);
+  color:white;
+  padding:20px;
+  margin-bottom:18px;
+}
+.my-menu h2{margin:0}
+.my-menu p{font-size:12px;line-height:1.7}
+.my-menu a{
+  display:block;
+  padding:12px;
+  background:white;
+  color:#087eaf;
+  text-align:center;
   font-weight:bold;
 }
-.service-link:hover{text-decoration:underline}
-
-.about-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+.right-box{padding:15px;font-size:13px;line-height:1.8}
+.right-title{
+  background:linear-gradient(90deg,#078dcc,#83c52e);
+  color:white;
+  padding:12px;
+  margin:-15px -15px 12px;
+  font-weight:bold;
 }
-.about-item{
-  padding:18px;
-  background:#0c1d33;
-  border:1px solid var(--line);
-  border-radius:10px;
-}
-.about-item span{
+.right-box a{
   display:block;
-  color:var(--muted);
-  font-size:12px;
-}
-.about-item strong{
-  display:block;
-  margin-top:7px;
-}
-#loadMessage{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:20px;
-}
-.empty{
-  color:var(--muted);
-  padding:20px;
-  background:#0c1d33;
-  border:1px solid var(--line);
-  border-radius:12px;
-  grid-column:1/-1;
+  padding:8px 0;
+  border-bottom:1px solid #eee;
+  color:#078dcc;
 }
 footer{
-  border-top:1px solid var(--line);
-  padding:35px 20px;
+  background:#173b4e;
+  color:white;
+  padding:30px;
   text-align:center;
-  color:var(--muted);
   font-size:12px;
-  line-height:2;
 }
 
-@media(max-width:800px){
-  header{
-    align-items:flex-start;
-    flex-direction:column;
+@media(max-width:1050px){
+  .layout{grid-template-columns:190px minmax(0,1fr)}
+  .right-column{
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
   }
-  nav{gap:13px}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media(max-width:550px){
-  .grid,.about-grid{grid-template-columns:1fr}
-  .hero{
-    padding:75px 7%;
-    min-height:400px;
-  }
-  main{padding:40px 15px}
-  .section-head h2{font-size:25px}
+@media(max-width:700px){
+  header{padding:12px}
+  .logo{font-size:25px}
+  nav{position:static;display:grid;grid-template-columns:repeat(3,1fr)}
+  nav a{text-align:center;padding:10px 3px;font-size:11px}
+  .layout{display:flex;flex-direction:column}
+  .left-column,.content,.right-column{width:100%}
+  .hero{grid-template-columns:1fr}
+  .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .right-column{display:grid;grid-template-columns:1fr 1fr}
+  .news-item{grid-template-columns:85px 55px minmax(0,1fr);gap:6px}
+  .news-text{grid-column:1/-1}
+}
+@media(max-width:420px){
+  .service-grid,.right-column{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -229,252 +279,273 @@ footer{
 <body>
 
 <header>
-  <a class="logo" href="#">GATE <span>SQUARE</span></a>
-  <nav>
-    <a href="#news">INFORMATION</a>
-    <a href="#business">BUSINESS</a>
-    <a href="#services">SERVICES</a>
-    <a href="#about">ABOUT</a>
-    <a href="mymenu.html">MY MENU</a>
-  </nav>
+  <div>
+    <div class="logo">GATE<span>SQUARE</span> ✦</div>
+    <small>CORPORATE PORTAL SITE</small>
+  </div>
+  <div class="search">
+    <input id="searchInput" placeholder="サービス・お知らせを検索">
+    <button onclick="searchSite()">検索</button>
+  </div>
 </header>
 
-<section class="hero">
-  <div class="eyebrow">GATE SQUARE OFFICIAL PORTAL</div>
-  <h1 id="heroTitle">GATE SQUARE</h1>
-  <p id="heroDescription">未来につながるサービスを提供します。</p>
-  <div class="hero-links">
-    <a class="btn" href="#services">サービスを見る</a>
-    <a class="btn secondary" href="mymenu.html">マイメニュー</a>
-  </div>
-</section>
+<nav>
+  <a href="#news">インフォメーション</a>
+  <a href="#business">事業案内</a>
+  <a href="#services">サービス</a>
+  <a href="#mymenu">マイメニュー</a>
+  <a href="#company">会社概要</a>
+  <a href="#support">サポート</a>
+  <a href="https://itzy2.github.io/gatemessage/">MESSAGE</a>
+  <a href="https://itzy2.github.io/admin.html">管理者</a>
+</nav>
 
-<main>
+<div class="background">
+<div class="layout">
+
+<aside class="left-column">
+  <div class="side">
+    <div class="side-title">システム・サービス</div>
+    <a href="https://itzy2.github.io/kabu/">KABU 株式ゲーム</a>
+    <a href="https://itzy2.github.io/test/">ORBiS TEST</a>
+    <a href="https://itzy2.github.io/tango/">TANGO 単語学習</a>
+    <a href="https://itzy2.github.io/gatesquare_Official/">予約システム</a>
+    <a href="https://itzy2.github.io/gatemessage/">GATE MESSAGE</a>
+    <a href="https://itzy2.github.io/admin.html">管理者ページ</a>
+  </div>
+
+  <div class="side">
+    <div class="side-title">ポータルメニュー</div>
+    <a href="#news">最新ニュース</a>
+    <a href="#business">事業案内</a>
+    <a href="#services">サービス一覧</a>
+    <a href="#mymenu">会員メニュー</a>
+    <a href="#company">会社概要</a>
+  </div>
+</aside>
+
+<main class="content">
+
+  <div class="hero">
+    <div class="hero-card">
+      <strong>GATE SQUARE</strong>
+      <p>企業ポータル・総合サービス</p>
+      <a href="#company">会社概要を見る</a>
+    </div>
+    <div class="hero-card">
+      <strong>MY MENU</strong>
+      <p>会員情報・契約・料金管理</p>
+      <a href="https://itzy2.github.io/mymenu.html">マイメニューへ</a>
+    </div>
+    <div class="hero-card">
+      <strong>GATE MESSAGE</strong>
+      <p>会員コミュニケーション</p>
+      <a href="https://itzy2.github.io/gatemessage/">利用する</a>
+    </div>
+  </div>
 
   <section class="section" id="news">
-    <div class="section-head">
-      <small>INFORMATION</small>
-      <h2>インフォメーション</h2>
-      <p>GATE SQUAREからのお知らせ・最新情報をご案内します。</p>
-    </div>
-    <div id="newsList" class="grid">
-      <div class="empty">お知らせを読み込んでいます。</div>
+    <div class="heading red">INFORMATION / お知らせ</div>
+    <div id="newsList">
+      <p>お知らせを読み込んでいます...</p>
     </div>
   </section>
 
   <section class="section" id="business">
-    <div class="section-head">
-      <small>BUSINESS</small>
-      <h2>事業案内</h2>
-      <p>GATE SQUAREが展開する事業をご紹介します。</p>
+    <div class="heading">BUSINESS / 事業案内</div>
+    <div id="businessList">
+      <h3>デジタルサービス事業</h3>
+      <p>オンラインサービス・会員向けシステムの企画と運営。</p>
+      <h3>学習・教育支援事業</h3>
+      <p>オルビステストなどの学習・試験システムの運営。</p>
+      <h3>会員向けサービス事業</h3>
+      <p>予約・コミュニケーション・各種会員サービスの提供。</p>
     </div>
-    <div id="businessList" class="grid"></div>
   </section>
 
   <section class="section" id="services">
-    <div class="section-head">
-      <small>SERVICES</small>
-      <h2>サービス</h2>
-      <p>各サービスのページへアクセスできます。</p>
+    <div class="heading">SERVICE / サービス一覧</div>
+    <div class="service-grid">
+
+      <a class="service" href="https://itzy2.github.io/kabu/">
+        <div class="service-top">KABU</div>
+        <div class="service-body">
+          <h3>STOCKPOINT</h3>
+          <p>株式売買・ポイント管理ゲーム</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/test/">
+        <div class="service-top">ORBiS</div>
+        <div class="service-body">
+          <h3>ORBiS TEST</h3>
+          <p>オンライン試験・成績確認</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/tango/">
+        <div class="service-top">TANGO</div>
+        <div class="service-body">
+          <h3>単語学習</h3>
+          <p>単語学習・語彙力向上サービス</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/gatesquare_Official/">
+        <div class="service-top">RESERVE</div>
+        <div class="service-body">
+          <h3>予約システム</h3>
+          <p>会員向け予約・スケジュール管理</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/gatemessage/">
+        <div class="service-top">MESSAGE</div>
+        <div class="service-body">
+          <h3>GATE MESSAGE</h3>
+          <p>会員同士のメッセージ機能</p>
+        </div>
+        <div class="service-link">サービスを開く →</div>
+      </a>
+
+      <a class="service" href="https://itzy2.github.io/admin.html">
+        <div class="service-top">ADMIN</div>
+        <div class="service-body">
+          <h3>管理者ページ</h3>
+          <p>運営・会員・ニュース管理</p>
+        </div>
+        <div class="service-link">管理者ページを開く →</div>
+      </a>
+
     </div>
-    <div id="serviceList" class="grid"></div>
   </section>
 
-  <section class="section" id="about">
-    <div class="section-head">
-      <small>ABOUT US</small>
-      <h2>会社概要</h2>
-      <p>GATE SQUAREの基本情報です。</p>
-    </div>
-
-    <div class="about-grid">
-      <div class="about-item">
-        <span>会社名・運営者</span>
-        <strong>GATE SQUARE</strong>
-      </div>
-      <div class="about-item">
-        <span>代表者</span>
-        <strong>深海</strong>
-      </div>
-      <div class="about-item">
-        <span>所在地</span>
-        <strong>岐阜県瑞浪市</strong>
-      </div>
-      <div class="about-item">
-        <span>設立年月日</span>
-        <strong>2024年11月2日</strong>
-      </div>
+  <section class="section" id="mymenu">
+    <div class="heading">MY MENU / 会員専用メニュー</div>
+    <div class="my-menu">
+      <h2>GATE SQUARE MEMBER</h2>
+      <p>会員情報・契約プラン・オプション・料金明細・印刷などを管理できます。</p>
+      <a href="https://itzy2.github.io/mymenu.html">マイメニューを開く →</a>
     </div>
   </section>
 
-  <p id="loadMessage"></p>
+  <section class="section" id="company">
+    <div class="heading">COMPANY / 会社概要</div>
+    <p><b>会社名：</b>GATE SQUARE</p>
+    <p><b>代表者：</b>深海</p>
+    <p><b>所在地：</b>岐阜県瑞浪市</p>
+    <p><b>設立：</b>2024年11月2日</p>
+  </section>
+
 </main>
 
+<aside class="right-column">
+
+  <div class="my-menu">
+    <h2>MY MENU</h2>
+    <p>会員情報・契約・料金確認</p>
+    <a href="https://itzy2.github.io/mymenu.html">マイメニュー →</a>
+  </div>
+
+  <div class="right-box">
+    <div class="right-title">INFORMATION</div>
+    <a href="#news">最新のお知らせ</a>
+    <a href="#business">事業案内</a>
+    <a href="#services">サービス一覧</a>
+  </div>
+
+  <div class="right-box" id="support">
+    <div class="right-title">SUPPORT</div>
+    <p>サービスに関するご質問や不具合の報告は運営窓口までお願いします。</p>
+    <a href="https://itzy2.github.io/gatemessage/">GATE MESSAGEから連絡 →</a>
+  </div>
+
+</aside>
+
+</div>
+</div>
+
 <footer>
-  GATE SQUARE OFFICIAL PORTAL<br>
-  © GATE SQUARE
+  <div class="logo" style="color:white">GATE<span>SQUARE</span></div>
+  <p>岐阜県瑞浪市 | 代表者 深海 | 設立 2024年11月2日</p>
+  <p>© 2026 GATE SQUARE. All Rights Reserved.</p>
 </footer>
 
 <script>
 const SUPABASE_URL="https://hxrtpftlklgwesvanlpk.supabase.co";
 const SUPABASE_KEY="sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let db=null;
 
-const defaultServices=[
-  {
-    title:"KABU",
-    description:"STOCKPOINTを利用した株式ゲームサービス。",
-    url:"https://itzy2.github.io/kabu/"
-  },
-  {
-    title:"ORBiS TEST",
-    description:"オンライン試験・CBTサービス。",
-    url:"https://itzy2.github.io/test/"
-  },
-  {
-    title:"TANGO",
-    description:"単語学習サービス。",
-    url:"https://itzy2.github.io/tango/"
-  },
-  {
-    title:"GATE SQUARE OFFICIAL",
-    description:"予約管理サービス。",
-    url:"https://itzy2.github.io/gatesquare_Official/"
-  },
-  {
-    title:"GATE MESSAGE",
-    description:"会員向けコミュニケーションサービス。",
-    url:"https://itzy2.github.io/gatemessage/"
-  },
-  {
-    title:"MY MENU",
-    description:"会員情報・契約内容を確認できます。",
-    url:"mymenu.html"
+async function initialize(){
+  try{
+    if(!window.supabase){
+      document.getElementById("newsList").textContent=
+        "データベース接続ライブラリを読み込めませんでした。";
+      return;
+    }
+    db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    await loadNews();
+  }catch(error){
+    console.error(error);
+    document.getElementById("newsList").textContent=
+      "お知らせを読み込めませんでした。";
   }
-];
-
-function safeArray(value){
-  return Array.isArray(value)?value:[];
 }
 
-function makeCard(item,showDate=false){
-  const card=document.createElement("article");
-  card.className="card";
-
-  if(showDate && item.date){
-    const date=document.createElement("div");
-    date.className="date";
-    date.textContent=item.date;
-    card.appendChild(date);
-  }
-
-  const title=document.createElement("h3");
-  title.textContent=item.title||"";
-
-  const description=document.createElement("p");
-  description.textContent=item.description||"";
-
-  card.append(title,description);
-
-  if(item.url){
-    const link=document.createElement("a");
-    link.className="service-link";
-    link.href=item.url;
-    link.textContent="詳しく見る →";
-    card.appendChild(link);
-  }
-
-  return card;
-}
-
-function showEmpty(target,message){
-  target.replaceChildren();
-  const element=document.createElement("div");
-  element.className="empty";
-  element.textContent=message;
-  target.appendChild(element);
-}
-
-async function loadPortal(){
+async function loadNews(){
+  const box=document.getElementById("newsList");
   const {data,error}=await db
-    .from("gs_portal_content")
+    .from("portal_news")
     .select("*")
-    .eq("id",1)
-    .maybeSingle();
+    .eq("is_published",true)
+    .order("created_at",{ascending:false});
 
   if(error){
-    document.getElementById("loadMessage").textContent=
-      "最新情報を読み込めませんでした。Supabaseのテーブル設定をご確認ください。";
-
-    renderDefaultServices();
-    showEmpty(
-      document.getElementById("newsList"),
-      "お知らせは現在表示できません。"
-    );
-    showEmpty(
-      document.getElementById("businessList"),
-      "事業情報は現在表示できません。"
-    );
+    console.error(error);
+    box.innerHTML="<p>現在お知らせを表示できません。管理者にお問い合わせください。</p>";
     return;
   }
 
-  if(!data){
-    renderDefaultServices();
-    showEmpty(
-      document.getElementById("newsList"),
-      "現在、お知らせはありません。"
-    );
-    showEmpty(
-      document.getElementById("businessList"),
-      "事業情報は準備中です。"
-    );
+  if(!data || data.length===0){
+    box.innerHTML="<p>現在公開中のお知らせはありません。</p>";
     return;
   }
 
-  document.getElementById("heroTitle").textContent=
-    data.hero_title||"GATE SQUARE";
-
-  document.getElementById("heroDescription").textContent=
-    data.hero_description||"未来につながるサービスを提供します。";
-
-  const news=safeArray(data.news);
-  const businesses=safeArray(data.businesses);
-  const services=safeArray(data.services);
-
-  const newsList=document.getElementById("newsList");
-  if(news.length){
-    newsList.replaceChildren();
-    news.forEach(item=>newsList.appendChild(makeCard(item,true)));
-  }else{
-    showEmpty(newsList,"現在、お知らせはありません。");
-  }
-
-  const businessList=document.getElementById("businessList");
-  if(businesses.length){
-    businessList.replaceChildren();
-    businesses.forEach(item=>businessList.appendChild(makeCard(item)));
-  }else{
-    showEmpty(businessList,"事業情報は準備中です。");
-  }
-
-  const serviceList=document.getElementById("serviceList");
-  const displayServices=services.length?services:defaultServices;
-
-  serviceList.replaceChildren();
-  displayServices.forEach(item=>
-    serviceList.appendChild(makeCard(item))
-  );
+  box.innerHTML=data.map(n=>`
+    <div class="news-item">
+      <span class="news-date">${escapeHTML(n.news_date||"")}</span>
+      <span class="news-new">${n.is_new?"NEW!":""}</span>
+      <span class="news-category ${escapeHTML(n.category_color||"")}">${escapeHTML(n.category||"お知らせ")}</span>
+      <span class="news-text">${escapeHTML(n.title||"")}</span>
+    </div>
+  `).join("");
 }
 
-function renderDefaultServices(){
-  const serviceList=document.getElementById("serviceList");
-  serviceList.replaceChildren();
-  defaultServices.forEach(item=>
-    serviceList.appendChild(makeCard(item))
-  );
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
 }
 
-loadPortal();
+function searchSite(){
+  const q=document.getElementById("searchInput").value.trim().toLowerCase();
+  if(!q)return;
+  const elements=[...document.querySelectorAll(".service,.news-item,.side a")];
+  const found=elements.find(el=>el.innerText.toLowerCase().includes(q));
+  if(found){
+    found.scrollIntoView({behavior:"smooth",block:"center"});
+    found.style.outline="3px solid #078dcc";
+    setTimeout(()=>found.style.outline="",2000);
+  }else{
+    alert("該当する情報が見つかりませんでした。");
+  }
+}
+
+initialize();
 </script>
 
 </body>
