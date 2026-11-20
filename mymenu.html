@@ -5,11 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#081426">
 <title>マイメニュー | GATE SQUARE</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root{
+:root {
   --bg:#081426;
   --panel:#10223c;
   --panel2:#142b49;
@@ -20,123 +19,279 @@
   --red:#ff647c;
   --green:#46e0a0;
 }
-*{box-sizing:border-box}
-body{
+* { box-sizing:border-box; }
+body {
   margin:0;
   background:var(--bg);
   color:var(--text);
   font-family:Arial,"Noto Sans JP",sans-serif;
 }
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-header{
-  position:sticky;top:0;z-index:20;
+button,input,textarea { font:inherit; }
+button { cursor:pointer; }
+header {
+  position:sticky;
+  top:0;
+  z-index:20;
   background:rgba(8,20,38,.96);
   border-bottom:1px solid var(--line);
   padding:15px 5%;
-  display:flex;justify-content:space-between;align-items:center;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
   backdrop-filter:blur(12px);
 }
-.logo{font-size:21px;font-weight:900;letter-spacing:2px}
-.logo span{color:var(--cyan)}
-.header-right{display:flex;gap:10px;align-items:center}
-.small-btn{
-  border:1px solid var(--line);background:var(--panel);
-  color:white;padding:9px 13px;border-radius:9px;
+.logo {
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:2px;
 }
-main{max-width:1200px;margin:auto;padding:25px 18px 70px}
-.hero{
-  padding:30px;border:1px solid var(--line);border-radius:20px;
+.logo span { color:var(--cyan); }
+.header-right {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.small-btn {
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:white;
+  padding:9px 13px;
+  border-radius:9px;
+}
+main {
+  max-width:1200px;
+  margin:auto;
+  padding:25px 18px 70px;
+}
+.hero {
+  padding:30px;
+  border:1px solid var(--line);
+  border-radius:20px;
   background:linear-gradient(130deg,#142d4d,#0b1a30);
   margin-bottom:22px;
 }
-.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:3px}
-h1{font-size:32px;margin:9px 0}
-.muted{color:var(--muted)}
-.stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:12px;margin-top:22px;
+.eyebrow {
+  color:var(--cyan);
+  font-size:12px;
+  letter-spacing:3px;
 }
-.stat{
-  background:#0a1b30;border:1px solid var(--line);
-  padding:15px;border-radius:13px;
+h1 { font-size:32px; margin:9px 0; }
+h2 { font-size:21px; margin:0 0 18px; }
+h3 { font-size:16px; margin:0 0 8px; }
+.muted { color:var(--muted); }
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:22px;
 }
-.stat strong{display:block;font-size:25px;color:var(--cyan)}
-.layout{display:grid;grid-template-columns:220px 1fr;gap:18px}
-nav{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:15px;padding:10px;height:max-content;
-  position:sticky;top:85px;
+.stat {
+  background:#0a1b30;
+  border:1px solid var(--line);
+  padding:15px;
+  border-radius:13px;
 }
-nav button{
-  display:block;width:100%;text-align:left;
-  background:transparent;color:var(--muted);
-  border:0;padding:12px;border-radius:9px;margin:2px 0;
+.stat strong {
+  display:block;
+  font-size:25px;
+  color:var(--cyan);
+  margin-top:6px;
 }
-nav button:hover,nav button.active{
-  background:#1b3858;color:var(--cyan);
+.layout {
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:18px;
 }
-section.panel{
-  display:none;background:var(--panel);
-  border:1px solid var(--line);border-radius:15px;
-  padding:22px;margin-bottom:18px;
+nav {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:10px;
+  height:max-content;
+  position:sticky;
+  top:85px;
 }
-section.panel.active{display:block}
-h2{font-size:21px;margin:0 0 18px}
-h3{font-size:16px;margin:0 0 8px}
-.cards{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+nav button {
+  display:block;
+  width:100%;
+  text-align:left;
+  background:transparent;
+  color:var(--muted);
+  border:0;
+  padding:12px;
+  border-radius:9px;
+  margin:2px 0;
+}
+nav button:hover,nav button.active {
+  background:#1b3858;
+  color:var(--cyan);
+}
+section.panel {
+  display:none;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:22px;
+  margin-bottom:18px;
+}
+section.panel.active { display:block; }
+.cards {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:12px;
 }
-.card{
-  background:#0b1b30;border:1px solid var(--line);
-  border-radius:12px;padding:16px;
+.card {
+  background:#0b1b30;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px;
+  min-width:0;
 }
-.card p{color:var(--muted);font-size:13px;line-height:1.6}
-.tag{
-  display:inline-block;background:#173b58;color:var(--cyan);
-  border-radius:20px;padding:4px 9px;font-size:11px;
+.card p {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
 }
-.primary,.secondary,.danger{
-  border:0;border-radius:9px;padding:10px 14px;
+.tag {
+  display:inline-block;
+  background:#173b58;
+  color:var(--cyan);
+  border-radius:20px;
+  padding:4px 9px;
+  font-size:11px;
+}
+.primary,.secondary,.danger {
+  border:0;
+  border-radius:9px;
+  padding:10px 14px;
   font-weight:bold;
 }
-.primary{background:var(--cyan);color:#061526}
-.secondary{background:#1c3c5c;color:white;border:1px solid #365674}
-.danger{background:#512438;color:#ffb5c1;border:1px solid #9c4059}
-.primary:disabled{opacity:.5;cursor:not-allowed}
-input,textarea{
-  width:100%;padding:12px;margin:7px 0 14px;
-  background:#071629;border:1px solid var(--line);
-  border-radius:9px;color:white;
+.primary { background:var(--cyan); color:#061526; }
+.secondary {
+  background:#1c3c5c;
+  color:white;
+  border:1px solid #365674;
 }
-label{font-size:13px;color:var(--muted)}
-.row{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;padding:13px 0;border-bottom:1px solid var(--line);
+.danger {
+  background:#512438;
+  color:#ffb5c1;
+  border:1px solid #9c4059;
 }
-.row:last-child{border:0}
-.login-box{
-  max-width:430px;margin:70px auto;background:var(--panel);
-  padding:25px;border:1px solid var(--line);border-radius:17px;
+.primary:disabled { opacity:.5; cursor:not-allowed; }
+input,textarea {
+  width:100%;
+  padding:12px;
+  margin:7px 0 14px;
+  background:#071629;
+  border:1px solid var(--line);
+  border-radius:9px;
+  color:white;
 }
-.notice{
-  padding:12px;border-radius:9px;background:#102e45;
-  color:#a9eaff;margin:12px 0;font-size:13px;
+input[type="checkbox"] {
+  width:20px;
+  margin:0;
 }
-#message{white-space:pre-wrap;margin:12px 0;color:var(--cyan)}
-.search{max-width:400px}
-footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
-@media(max-width:760px){
-  .layout{grid-template-columns:1fr}
-  nav{position:static;display:grid;grid-template-columns:repeat(2,1fr)}
-  nav button{font-size:12px;padding:10px}
-  .cards{grid-template-columns:1fr}
-  .stats{grid-template-columns:1fr}
-  h1{font-size:26px}
-  .hero{padding:22px}
-  header{padding:12px}
+label { font-size:13px; color:var(--muted); }
+.row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
 }
+.row:last-child { border:0; }
+.login-box {
+  max-width:430px;
+  margin:70px auto;
+  background:var(--panel);
+  padding:25px;
+  border:1px solid var(--line);
+  border-radius:17px;
+}
+.notice {
+  padding:12px;
+  border-radius:9px;
+  background:#102e45;
+  color:#a9eaff;
+  margin:12px 0;
+  font-size:13px;
+  line-height:1.7;
+}
+#message {
+  white-space:pre-wrap;
+  margin:12px 0;
+  color:var(--cyan);
+  overflow-wrap:anywhere;
+}
+.search { max-width:400px; }
+.total-box {
+  background:#0a1b30;
+  border:1px solid var(--cyan);
+  padding:18px;
+  border-radius:13px;
+  margin:15px 0;
+}
+.total-box strong {
+  color:var(--cyan);
+  font-size:27px;
+}
+footer {
+  text-align:center;
+  color:var(--muted);
+  padding:30px;
+  font-size:12px;
+}
+.hidden { display:none !important; }
+@media(max-width:760px) {
+  .layout { grid-template-columns:1fr; }
+  nav {
+    position:static;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+  }
+  nav button { font-size:12px; padding:10px; }
+  .cards,.stats { grid-template-columns:1fr; }
+  h1 { font-size:26px; }
+  .hero { padding:22px; }
+  header { padding:12px; }
+}
+@media print {
+  body { background:white !important; color:black !important; }
+  header,nav,footer,.no-print,#loginArea { display:none !important; }
+  main { padding:0; margin:0; max-width:none; }
+  .hero,section.panel,.card,.total-box {
+    background:white !important;
+    color:black !important;
+    border:1px solid #bbb !important;
+    box-shadow:none !important;
+  }
+  .hero { padding:15px; }
+  .muted,.card p,.notice { color:#333 !important; }
+  .stats { grid-template-columns:repeat(3,1fr); }
+  .stat { background:white !important; color:black !important; }
+  .stat strong,.total-box strong { color:black !important; }
+  section.panel { display:none !important; }
+  #printArea {
+    display:block !important;
+    color:black !important;
+    background:white !important;
+  }
+  #printArea table {
+    width:100%;
+    border-collapse:collapse;
+  }
+  #printArea th,#printArea td {
+    border:1px solid #999;
+    padding:8px;
+    text-align:left;
+    font-size:12px;
+  }
+  #printArea h2 { margin-top:22px; }
+}
+#printArea { display:none; }
 </style>
 </head>
 
@@ -153,11 +308,18 @@ footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
 <div id="loginArea" class="login-box">
   <h2>MY MENU LOGIN</h2>
   <p class="muted">GATE SQUARE会員専用ページ</p>
-  <label>メールアドレス</label>
-  <input id="email" type="email" placeholder="メールアドレス">
-  <label>パスワード</label>
-  <input id="password" type="password" placeholder="パスワード">
-  <button class="primary" style="width:100%" onclick="login()">ログイン</button>
+
+  <label for="email">メールアドレス</label>
+  <input id="email" type="email" autocomplete="username"
+    placeholder="メールアドレス">
+
+  <label for="password">パスワード</label>
+  <input id="password" type="password"
+    autocomplete="current-password" placeholder="パスワード">
+
+  <button class="primary" id="loginButton"
+    style="width:100%" onclick="login()">ログイン</button>
+
   <div id="loginMessage"></div>
 </div>
 
@@ -166,7 +328,9 @@ footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
   <div class="hero">
     <div class="eyebrow">MEMBER CONTROL CENTER</div>
     <h1>マイメニュー</h1>
-    <p class="muted">GATE SQUAREの各種サービス・契約・アカウントを管理できます。</p>
+    <p class="muted">
+      GATE SQUAREの各種サービス・契約・アカウントを管理できます。
+    </p>
 
     <h3 id="welcome">こんにちは！</h3>
 
@@ -176,18 +340,24 @@ footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
         <strong id="optionCount">0</strong>
       </div>
       <div class="stat">
-        <span class="muted">利用可能な機能</span>
-        <strong>110+</strong>
+        <span class="muted">月額参考合計</span>
+        <strong id="monthlyTotal">0円</strong>
       </div>
       <div class="stat">
-        <span class="muted">選択可能プラン</span>
-        <strong>50</strong>
+        <span class="muted">登録アカウント</span>
+        <strong>有効</strong>
       </div>
+    </div>
+
+    <div class="no-print" style="margin-top:18px">
+      <button class="primary" onclick="printMemberInfo()">
+        会員情報・契約内容を印刷
+      </button>
     </div>
   </div>
 
   <div class="layout">
-    <nav>
+    <nav class="no-print">
       <button class="active" onclick="showPanel('dashboard',this)">⌂ ダッシュボード</button>
       <button onclick="showPanel('profile',this)">♙ アカウント情報</button>
       <button onclick="showPanel('options',this)">◇ オプション契約</button>
@@ -212,7 +382,7 @@ footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
           </div>
           <div class="card">
             <h3>オプションを追加</h3>
-            <p>50種類のオプションから必要なサービスを選択できます。</p>
+            <p>オプションプランを確認して追加できます。</p>
             <button class="primary" onclick="openPanel('options')">プランを見る</button>
           </div>
           <div class="card">
@@ -230,31 +400,39 @@ footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
 
       <section id="profile" class="panel">
         <h2>アカウント情報</h2>
-        <div class="notice">登録情報を確認できます。表示名の変更はプロフィール編集機能から行えます。</div>
+        <div class="notice">
+          登録情報を確認できます。表示名はSupabaseのプロフィール情報から取得しています。
+        </div>
         <div class="row"><span>表示名</span><strong id="profileName">読み込み中</strong></div>
         <div class="row"><span>メールアドレス</span><strong id="profileEmail">読み込み中</strong></div>
         <div class="row"><span>ユーザーID</span><span id="profileId" style="font-size:11px;word-break:break-all"></span></div>
         <div class="row"><span>アカウント状態</span><span class="tag">有効</span></div>
-        <p class="muted">表示名は共用プロフィール情報から取得しています。</p>
       </section>
 
       <section id="options" class="panel">
         <h2>オプションプラン</h2>
-        <p class="muted">希望するプランを選択して契約できます。契約後は「契約中プラン」に表示されます。</p>
-        <input class="search" id="planSearch" placeholder="プラン名を検索..." oninput="renderPlans()">
+        <p class="muted">
+          希望するプランを選択できます。契約後は契約中プランに表示されます。
+        </p>
+        <input class="search" id="planSearch"
+          placeholder="プラン名を検索..." oninput="renderPlans()">
         <div id="planList" class="cards"></div>
       </section>
 
       <section id="contracts" class="panel">
         <h2>契約中プラン</h2>
-        <p class="muted">現在のオプション契約を確認・解約できます。</p>
+        <p class="muted">現在契約しているプランを確認・解約できます。</p>
+        <div id="contractTotal" class="total-box">
+          月額参考合計：<strong>0円</strong>
+        </div>
         <div id="contractList"></div>
       </section>
 
       <section id="features" class="panel">
         <h2>全機能一覧</h2>
-        <p class="muted">マイメニューで利用できる機能をカテゴリー別に掲載しています。</p>
-        <input class="search" id="featureSearch" placeholder="機能を検索..." oninput="renderFeatures()">
+        <p class="muted">マイメニューで利用できる機能を掲載しています。</p>
+        <input class="search" id="featureSearch"
+          placeholder="機能を検索..." oninput="renderFeatures()">
         <div id="featureList"></div>
       </section>
 
@@ -262,8 +440,9 @@ footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
         <h2>セキュリティ</h2>
         <div class="card">
           <h3>パスワード変更</h3>
-          <label>新しいパスワード</label>
-          <input id="newPassword" type="password" minlength="8" placeholder="8文字以上">
+          <label for="newPassword">新しいパスワード</label>
+          <input id="newPassword" type="password"
+            minlength="8" placeholder="8文字以上">
           <button class="primary" onclick="changePassword()">パスワードを変更</button>
         </div>
         <div class="card" style="margin-top:12px">
@@ -277,18 +456,21 @@ footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
         <h2>通知・設定</h2>
         <div class="row">
           <span>メール通知を受け取る</span>
-          <input style="width:22px;margin:0" type="checkbox" id="emailNotifications">
+          <input type="checkbox" id="emailNotifications">
         </div>
         <div class="row">
           <span>サービス通知を受け取る</span>
-          <input style="width:22px;margin:0" type="checkbox" id="serviceNotifications">
+          <input type="checkbox" id="serviceNotifications">
         </div>
-        <button class="primary" style="margin-top:15px" onclick="saveSettings()">設定を保存</button>
+        <button class="primary" style="margin-top:15px"
+          onclick="saveSettings()">設定を保存</button>
       </section>
 
       <section id="history" class="panel">
         <h2>利用履歴</h2>
-        <div class="notice">このページでは、オプション契約の追加・解約履歴を確認できます。</div>
+        <div class="notice">
+          オプション契約の追加・解約履歴を確認できます。
+        </div>
         <div id="historyList"></div>
       </section>
 
@@ -298,469 +480,720 @@ footer{text-align:center;color:var(--muted);padding:30px;font-size:12px}
           <h3>GATE SQUARE サポート</h3>
           <p>サービスに関する質問や不具合については、運営窓口へお問い合わせください。</p>
           <p>運営：GATE SQUARE</p>
+          <p>代表者：深海</p>
           <p>所在地：岐阜県瑞浪市</p>
           <p>お問い合わせ先は運営側で設定してください。</p>
         </div>
       </section>
 
       <section id="delete" class="panel">
-        <h2 style="color:var(--red)">アカウント削除</h2>
-        <div class="notice">削除申請を送信すると、運営側で本人確認を行います。申請を送信しただけではアカウントは削除されません。</div>
-        <label>削除理由（任意）</label>
-        <textarea id="deleteReason" rows="4" placeholder="削除を希望する理由"></textarea>
+        <h2 style="color:var(--red)">アカウント削除申請</h2>
+        <div class="notice">
+          申請を送信しただけではアカウントは削除されません。
+          運営側で本人確認を行ったうえで対応します。
+        </div>
+        <label for="deleteReason">削除理由（任意）</label>
+        <textarea id="deleteReason" rows="4"
+          placeholder="削除を希望する理由"></textarea>
         <label style="display:flex;gap:8px;align-items:center">
-          <input id="deleteConfirm" type="checkbox" style="width:18px;margin:0">
+          <input id="deleteConfirm" type="checkbox">
           アカウント削除を申請することを理解しました。
         </label>
-        <button class="danger" style="margin-top:18px" onclick="requestDeletion()">アカウント削除を申請</button>
+        <button class="danger" style="margin-top:18px"
+          onclick="requestDeletion()">アカウント削除を申請</button>
       </section>
 
     </div>
   </div>
+
+  <div id="message"></div>
+
+  <div id="printArea">
+    <h1>GATE SQUARE 会員情報・契約明細</h1>
+    <p>印刷日時：<span id="printDate"></span></p>
+
+    <h2>会員情報</h2>
+    <table>
+      <tbody>
+        <tr><th>表示名</th><td id="printName"></td></tr>
+        <tr><th>メールアドレス</th><td id="printEmail"></td></tr>
+        <tr><th>ユーザーID</th><td id="printUserId"></td></tr>
+      </tbody>
+    </table>
+
+    <h2>契約中プラン</h2>
+    <table>
+      <thead>
+        <tr><th>プランコード</th><th>プラン名</th><th>月額</th><th>状態</th></tr>
+      </thead>
+      <tbody id="printContracts"></tbody>
+    </table>
+
+    <h2>料金</h2>
+    <p>月額参考合計：<strong id="printTotal"></strong></p>
+    <p>※この書類はマイメニューに登録された契約情報を印刷したものです。正式な請求書・領収書ではありません。</p>
+    <p>GATE SQUARE</p>
+  </div>
+
 </main>
 
-<div id="message"></div>
 <footer>© GATE SQUARE | MEMBER SERVICE</footer>
 
 <script>
-const SUPABASE_URL = "https://hxrtpftlklgwesvanlpk.supabase.co";
-const SUPABASE_KEY = "sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
+"use strict";
 
-let db = null;
+const SUPABASE_URL =
+  "https://hxrtpftlklgwesvanlpk.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 let currentUser = null;
 let currentProfile = null;
 let contracts = [];
+let historyRecords = [];
 
 const plans = [
-  ["OPT001","プロフィール拡張","アカウント","無料"],
-  ["OPT002","プロフィール装飾","アカウント","月額100円"],
-  ["OPT003","追加プロフィール","アカウント","月額150円"],
-  ["OPT004","アカウント保護プラス","セキュリティ","月額300円"],
-  ["OPT005","ログイン通知プラス","セキュリティ","無料"],
-  ["OPT006","二段階認証サポート","セキュリティ","無料"],
-  ["OPT007","端末管理プラス","セキュリティ","月額200円"],
-  ["OPT008","アクセス履歴拡張","セキュリティ","月額100円"],
-  ["OPT009","プライバシー強化","セキュリティ","月額250円"],
-  ["OPT010","セキュリティ総合","セキュリティ","月額500円"],
-  ["OPT011","ストレージ追加10GB","ストレージ","月額100円"],
-  ["OPT012","ストレージ追加50GB","ストレージ","月額300円"],
-  ["OPT013","ストレージ追加100GB","ストレージ","月額500円"],
-  ["OPT014","ファイル管理プラス","ストレージ","月額200円"],
-  ["OPT015","バックアップサポート","ストレージ","月額300円"],
-  ["OPT016","データ整理アシスト","ストレージ","月額150円"],
-  ["OPT017","データ復旧相談","ストレージ","月額400円"],
-  ["OPT018","共有機能プラス","ストレージ","月額200円"],
-  ["OPT019","クラウド管理プラス","ストレージ","月額500円"],
-  ["OPT020","ストレージ総合","ストレージ","月額800円"],
-  ["OPT021","通知カスタム","通知","無料"],
-  ["OPT022","メール通知拡張","通知","月額100円"],
-  ["OPT023","重要通知優先","通知","月額150円"],
-  ["OPT024","通知履歴保存","通知","月額100円"],
-  ["OPT025","予定リマインダー","通知","月額150円"],
-  ["OPT026","サービス更新通知","通知","無料"],
-  ["OPT027","メンテナンス通知","通知","無料"],
-  ["OPT028","通知まとめ配信","通知","月額100円"],
-  ["OPT029","通知管理プラス","通知","月額250円"],
-  ["OPT030","通知総合パック","通知","月額400円"],
-  ["OPT031","予約管理プラス","サービス","月額300円"],
-  ["OPT032","予約優先サポート","サービス","月額500円"],
-  ["OPT033","利用履歴拡張","サービス","月額150円"],
-  ["OPT034","サービス連携プラス","サービス","月額300円"],
-  ["OPT035","オルビステスト定期","オルビステスト","月額1500円"],
-  ["OPT036","オルビステストスタンダード","オルビステスト","月額1000円"],
-  ["OPT037","オルビステストプレミアム","オルビステスト","月額2500円"],
-  ["OPT038","サービス管理プロ","サービス","月額700円"],
-  ["OPT039","サービスサポート","サービス","月額300円"],
-  ["OPT040","サービス総合パック","サービス","月額900円"],
-  ["OPT041","お問い合わせ優先","サポート","月額300円"],
-  ["OPT042","チャットサポート","サポート","月額500円"],
-  ["OPT043","メールサポート拡張","サポート","月額200円"],
-  ["OPT044","トラブル相談","サポート","月額300円"],
-  ["OPT045","設定代行相談","サポート","月額500円"],
-  ["OPT046","サポート履歴保存","サポート","月額100円"],
-  ["OPT047","運用相談プラス","サポート","月額700円"],
-  ["OPT048","ビジネスサポート","サポート","月額1000円"],
-  ["OPT049","プレミアムサポート","サポート","月額1200円"],
-  ["OPT050","GATE SQUARE総合プラス","総合","月額1500円"]
+  ["OPT001","プロフィール拡張","アカウント",0],
+  ["OPT002","プロフィール装飾","アカウント",100],
+  ["OPT003","追加プロフィール","アカウント",150],
+  ["OPT004","アカウント保護プラス","セキュリティ",300],
+  ["OPT005","ログイン通知プラス","セキュリティ",0],
+  ["OPT006","二段階認証サポート","セキュリティ",0],
+  ["OPT007","端末管理プラス","セキュリティ",200],
+  ["OPT008","アクセス履歴拡張","セキュリティ",100],
+  ["OPT009","プライバシー強化","セキュリティ",250],
+  ["OPT010","セキュリティ総合","セキュリティ",500],
+  ["OPT011","ストレージ追加10GB","ストレージ",100],
+  ["OPT012","ストレージ追加50GB","ストレージ",300],
+  ["OPT013","ストレージ追加100GB","ストレージ",500],
+  ["OPT014","ファイル管理プラス","ストレージ",200],
+  ["OPT015","バックアップサポート","ストレージ",300],
+  ["OPT016","データ整理アシスト","ストレージ",150],
+  ["OPT017","データ復旧相談","ストレージ",400],
+  ["OPT018","共有機能プラス","ストレージ",200],
+  ["OPT019","クラウド管理プラス","ストレージ",500],
+  ["OPT020","ストレージ総合","ストレージ",800],
+  ["OPT021","通知カスタム","通知",0],
+  ["OPT022","メール通知拡張","通知",100],
+  ["OPT023","重要通知優先","通知",150],
+  ["OPT024","通知履歴保存","通知",100],
+  ["OPT025","予定リマインダー","通知",150],
+  ["OPT026","サービス更新通知","通知",0],
+  ["OPT027","メンテナンス通知","通知",0],
+  ["OPT028","通知まとめ配信","通知",100],
+  ["OPT029","通知管理プラス","通知",250],
+  ["OPT030","通知総合パック","通知",400],
+  ["OPT031","予約管理プラス","サービス",300],
+  ["OPT032","予約優先サポート","サービス",500],
+  ["OPT033","利用履歴拡張","サービス",150],
+  ["OPT034","サービス連携プラス","サービス",300],
+  ["OPT035","オルビステスト定期","オルビステスト",1500],
+  ["OPT036","オルビステストスタンダード","オルビステスト",1000],
+  ["OPT037","オルビステストプレミアム","オルビステスト",2500],
+  ["OPT038","サービス管理プロ","サービス",700],
+  ["OPT039","サービスサポート","サービス",300],
+  ["OPT040","サービス総合パック","サービス",900],
+  ["OPT041","お問い合わせ優先","サポート",300],
+  ["OPT042","チャットサポート","サポート",500],
+  ["OPT043","メールサポート拡張","サポート",200],
+  ["OPT044","トラブル相談","サポート",300],
+  ["OPT045","設定代行相談","サポート",500],
+  ["OPT046","サポート履歴保存","サポート",100],
+  ["OPT047","運用相談プラス","サポート",700],
+  ["OPT048","ビジネスサポート","サポート",1000],
+  ["OPT049","プレミアムサポート","サポート",1200],
+  ["OPT050","GATE SQUARE総合プラス","総合",1500]
 ];
 
 const featureGroups = {
-"アカウント管理":[
-"プロフィール確認","表示名確認","メールアドレス確認","会員ID確認","登録情報確認",
-"プロフィール編集案内","アカウント状態確認","登録日確認","会員情報管理","アカウント連携"
-],
-"セキュリティ":[
-"パスワード変更","ログアウト","ログイン通知設定","二段階認証設定案内","端末管理",
-"不正利用相談","セキュリティ確認","ログイン履歴確認案内","認証情報管理","安全設定"
-],
-"契約・オプション":[
-"プラン一覧","プラン検索","オプション契約","オプション解約","契約状況確認",
-"契約履歴確認","プラン比較","契約内容確認","無料プラン確認","有料プラン確認"
-],
-"支払い・請求":[
-"料金プラン確認","月額料金確認案内","請求履歴確認案内","支払い方法設定案内","領収書確認案内",
-"請求先情報確認案内","料金に関する問い合わせ","支払い状況確認案内","返金相談","料金通知設定"
-],
-"通知管理":[
-"メール通知設定","サービス通知設定","重要通知設定","更新通知設定","メンテナンス通知",
-"通知履歴確認案内","通知頻度設定案内","通知カテゴリ管理","通知一括設定","通知停止設定"
-],
-"サービス管理":[
-"予約サービス案内","CBTサービス案内","ポータルサービス案内","サービス一覧","サービス利用状況",
-"サービス連携案内","サービス追加案内","サービス停止相談","サービス設定","サービス情報確認"
-],
-"データ管理":[
-"データ管理案内","データ保存相談","バックアップ相談","データ整理相談","ファイル管理案内",
-"データ共有案内","データ移行相談","データ削除相談","データ利用確認","保存容量確認案内"
-],
-"プライバシー":[
-"個人情報確認","個人情報変更案内","プライバシー設定","情報利用に関する問い合わせ","公開情報確認",
-"情報管理相談","アカウント削除申請","データ削除相談","個人情報保護案内","プライバシー確認"
-],
-"サポート":[
-"お問い合わせ","不具合報告","操作方法相談","契約相談","ログイン相談",
-"サービス相談","改善要望","意見送信","サポート履歴案内","よくある質問"
-],
-"その他":[
-"お知らせ確認","運営情報確認","会社概要確認","利用規約確認","プライバシーポリシー確認",
-"サービス更新情報","キャンペーン情報","会員向け案内","マイメニュー設定","ヘルプ"
-]
+  "アカウント管理":[
+    "プロフィール確認","表示名確認","メールアドレス確認","会員ID確認",
+    "登録情報確認","プロフィール編集案内","アカウント状態確認",
+    "登録日確認","会員情報管理","アカウント連携"
+  ],
+  "セキュリティ":[
+    "パスワード変更","ログアウト","ログイン通知設定",
+    "二段階認証設定案内","端末管理","不正利用相談",
+    "セキュリティ確認","ログイン履歴確認案内","認証情報管理","安全設定"
+  ],
+  "契約・オプション":[
+    "プラン一覧","プラン検索","オプション契約","オプション解約",
+    "契約状況確認","契約履歴確認","プラン比較","契約内容確認",
+    "無料プラン確認","有料プラン確認"
+  ],
+  "支払い・請求":[
+    "料金プラン確認","月額料金確認案内","請求履歴確認案内",
+    "支払い方法設定案内","領収書確認案内","請求先情報確認案内",
+    "料金に関する問い合わせ","支払い状況確認案内","返金相談","料金通知設定"
+  ],
+  "通知管理":[
+    "メール通知設定","サービス通知設定","重要通知設定",
+    "更新通知設定","メンテナンス通知","通知履歴確認案内",
+    "通知頻度設定案内","通知カテゴリ管理","通知一括設定","通知停止設定"
+  ],
+  "サービス管理":[
+    "予約サービス案内","CBTサービス案内","ポータルサービス案内",
+    "サービス一覧","サービス利用状況","サービス連携案内",
+    "サービス追加案内","サービス停止相談","サービス設定","サービス情報確認"
+  ],
+  "データ管理":[
+    "データ管理案内","データ保存相談","バックアップ相談",
+    "データ整理相談","ファイル管理案内","データ共有案内",
+    "データ移行相談","データ削除相談","データ利用確認","保存容量確認案内"
+  ],
+  "プライバシー":[
+    "個人情報確認","個人情報変更案内","プライバシー設定",
+    "情報利用に関する問い合わせ","公開情報確認","情報管理相談",
+    "アカウント削除申請","データ削除相談","個人情報保護案内","プライバシー確認"
+  ],
+  "サポート":[
+    "お問い合わせ","不具合報告","操作方法相談","契約相談",
+    "ログイン相談","サービス相談","改善要望","意見送信",
+    "サポート履歴案内","よくある質問"
+  ],
+  "その他":[
+    "お知らせ確認","運営情報確認","会社概要確認","利用規約確認",
+    "プライバシーポリシー確認","サービス更新情報","キャンペーン情報",
+    "会員向け案内","マイメニュー設定","ヘルプ"
+  ]
 };
 
-function showMessage(text){
+function yen(value) {
+  return Number(value || 0).toLocaleString("ja-JP") + "円";
+}
+
+function showMessage(text) {
   document.getElementById("message").textContent = text;
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function showPanel(id,button){
-  document.querySelectorAll("section.panel").forEach(x=>x.classList.remove("active"));
+function showPanel(id,button) {
+  document.querySelectorAll("section.panel").forEach(el =>
+    el.classList.remove("active")
+  );
+
   document.getElementById(id).classList.add("active");
-  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
-  if(button) button.classList.add("active");
-  if(id==="contracts") loadContracts();
-  if(id==="options") renderPlans();
-  if(id==="features") renderFeatures();
-  if(id==="history") renderHistory();
+
+  document.querySelectorAll("nav button").forEach(el =>
+    el.classList.remove("active")
+  );
+
+  if (button) button.classList.add("active");
+
+  if (id === "contracts") loadContracts();
+  if (id === "options") renderPlans();
+  if (id === "features") renderFeatures();
+  if (id === "history") loadHistory();
 }
 
-function openPanel(id){
-  const buttons=[...document.querySelectorAll("nav button")];
-  const button=buttons.find(x=>x.getAttribute("onclick").includes("'"+id+"'"));
+function openPanel(id) {
+  const buttons = [...document.querySelectorAll("nav button")];
+  const button = buttons.find(el =>
+    el.getAttribute("onclick").includes("'" + id + "'")
+  );
   showPanel(id,button);
 }
 
-async function login(){
-  const email=document.getElementById("email").value.trim();
-  const password=document.getElementById("password").value;
-  const out=document.getElementById("loginMessage");
+async function login() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const out = document.getElementById("loginMessage");
+  const button = document.getElementById("loginButton");
 
-  if(!email || !password){
-    out.textContent="メールアドレスとパスワードを入力してください。";
+  if (!email || !password) {
+    out.textContent = "メールアドレスとパスワードを入力してください。";
     return;
   }
 
-  out.textContent="ログイン中です...";
+  button.disabled = true;
+  button.textContent = "ログイン中...";
+  out.textContent = "";
 
-  const {data,error}=await db.auth.signInWithPassword({email,password});
-
-  if(error){
-    out.textContent="ログインできませんでした："+error.message;
-    return;
+  try {
+    const {data,error} = await db.auth.signInWithPassword({
+      email,password
+    });
+    if (error) throw error;
+    await initializeUser(data.user);
+  } catch(error) {
+    out.textContent = "ログインできませんでした："+error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = "ログイン";
   }
-  await initializeUser(data.user);
 }
 
-async function logout(){
-  if(!db)return;
+async function logout() {
   await db.auth.signOut();
-  currentUser=null;
-  document.getElementById("app").style.display="none";
-  document.getElementById("loginArea").style.display="block";
-  document.getElementById("headerName").textContent="未ログイン";
+  currentUser = null;
+  currentProfile = null;
+  contracts = [];
+  historyRecords = [];
+
+  document.getElementById("app").style.display = "none";
+  document.getElementById("loginArea").style.display = "block";
+  document.getElementById("headerName").textContent = "未ログイン";
 }
 
-async function initializeUser(user){
-  currentUser=user;
-  document.getElementById("loginArea").style.display="none";
-  document.getElementById("app").style.display="block";
-  document.getElementById("profileEmail").textContent=user.email||"未登録";
-  document.getElementById("profileId").textContent=user.id;
+async function initializeUser(user) {
+  currentUser = user;
 
-  const {data:profile}=await db.from("profiles")
-    .select("display_name")
-    .eq("id",user.id)
-    .maybeSingle();
+  document.getElementById("loginArea").style.display = "none";
+  document.getElementById("app").style.display = "block";
 
-  currentProfile=profile;
-  const name=profile?.display_name || user.email || "会員";
-  document.getElementById("headerName").textContent=name;
-  document.getElementById("welcome").textContent="こんにちは！"+name+"さん";
-  document.getElementById("profileName").textContent=name;
+  document.getElementById("profileEmail").textContent =
+    user.email || "未登録";
+  document.getElementById("profileId").textContent = user.id;
 
-  await loadContracts();
-  await loadSettings();
+  try {
+    const {data,error} = await db.from("profiles")
+      .select("display_name")
+      .eq("id",user.id)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    currentProfile = data;
+    const name = data?.display_name || user.email || "会員";
+
+    document.getElementById("headerName").textContent = name;
+    document.getElementById("welcome").textContent =
+      "こんにちは！" + name + "さん";
+    document.getElementById("profileName").textContent = name;
+
+    await loadContracts();
+    await loadSettings();
+    await loadHistory();
+
+  } catch(error) {
+    showMessage("会員情報の読み込みに失敗しました："+error.message);
+  }
 }
 
-async function loadContracts(){
-  if(!currentUser)return;
-  const {data,error}=await db.from("gs_member_options")
+function planPrice(code) {
+  const plan = plans.find(p => p[0] === code);
+  return plan ? plan[3] : 0;
+}
+
+function getPrice(contract) {
+  if (contract.monthly_price !== null &&
+      contract.monthly_price !== undefined) {
+    return Number(contract.monthly_price) || 0;
+  }
+  return planPrice(contract.plan_code);
+}
+
+function updateTotals() {
+  const total = contracts.reduce((sum,c) => sum + getPrice(c),0);
+
+  document.getElementById("optionCount").textContent = contracts.length;
+  document.getElementById("monthlyTotal").textContent = yen(total);
+
+  document.getElementById("contractTotal").innerHTML =
+    "月額参考合計：<strong>" + yen(total) + "</strong>";
+}
+
+async function loadContracts() {
+  if (!currentUser) return;
+
+  const {data,error} = await db.from("gs_member_options")
     .select("*")
     .eq("user_id",currentUser.id)
     .eq("status","active")
     .order("created_at",{ascending:false});
 
-  if(error){
+  if (error) {
     showMessage("契約情報の読み込みに失敗しました："+error.message);
     return;
   }
-  contracts=data||[];
-  document.getElementById("optionCount").textContent=contracts.length;
+
+  contracts = data || [];
+  updateTotals();
   renderContracts();
+  renderPlans();
 }
 
-function renderPlans(){
-  const q=(document.getElementById("planSearch")?.value||"").toLowerCase();
-  const list=document.getElementById("planList");
-  list.innerHTML="";
+function renderPlans() {
+  const q = (document.getElementById("planSearch")?.value || "")
+    .toLowerCase();
 
-  plans.filter(p=>p.join(" ").toLowerCase().includes(q)).forEach(p=>{
-    const active=contracts.some(c=>c.plan_code===p[0]);
-    const div=document.createElement("div");
-    div.className="card";
+  const list = document.getElementById("planList");
+  list.replaceChildren();
 
-    const title=document.createElement("h3");
-    title.textContent=p[1];
-    const tag=document.createElement("span");
-    tag.className="tag";
-    tag.textContent=p[2];
-    const price=document.createElement("p");
-    price.textContent="料金目安："+p[3];
-    const desc=document.createElement("p");
-    desc.textContent="GATE SQUAREの追加オプションです。契約内容を確認してから選択してください。";
-    const button=document.createElement("button");
-    button.className=active?"secondary":"primary";
-    button.textContent=active?"契約中":"このプランを契約";
-    button.disabled=active;
-    button.onclick=()=>addOption(p);
+  plans.filter(p => p.join(" ").toLowerCase().includes(q))
+    .forEach(plan => {
+      const active = contracts.some(c => c.plan_code === plan[0]);
 
-    div.append(title,tag,price,desc,button);
-    list.appendChild(div);
-  });
+      const div = document.createElement("div");
+      div.className = "card";
+
+      const title = document.createElement("h3");
+      title.textContent = plan[1];
+
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = plan[2];
+
+      const price = document.createElement("p");
+      price.textContent = "月額：" + yen(plan[3]);
+
+      const desc = document.createElement("p");
+      desc.textContent =
+        "GATE SQUAREの追加オプションです。内容を確認してから選択してください。";
+
+      const button = document.createElement("button");
+      button.className = active ? "secondary" : "primary";
+      button.textContent = active ? "契約中" : "このプランを契約";
+      button.disabled = active;
+      button.onclick = () => addOption(plan);
+
+      div.append(title,tag,price,desc,button);
+      list.appendChild(div);
+    });
 }
 
-async function addOption(plan){
-  if(!currentUser)return;
-  if(!confirm(plan[1]+"を契約しますか？"))return;
+async function addOption(plan) {
+  if (!currentUser) return;
 
-  const {error}=await db.from("gs_member_options").insert({
+  if (!confirm(plan[1] + "を契約しますか？")) return;
+
+  const existing = contracts.some(c => c.plan_code === plan[0]);
+  if (existing) {
+    showMessage("このプランはすでに契約中です。");
+    return;
+  }
+
+  const {error} = await db.from("gs_member_options").insert({
     user_id:currentUser.id,
     plan_code:plan[0],
     plan_name:plan[1],
+    monthly_price:plan[3],
     status:"active"
   });
 
-  if(error){
+  if (error) {
     showMessage("契約できませんでした："+error.message);
     return;
   }
 
-  showMessage(plan[1]+"を契約しました。");
+  showMessage(plan[1] + "を契約しました。");
   await loadContracts();
-  renderPlans();
 }
 
-function renderContracts(){
-  const box=document.getElementById("contractList");
-  box.innerHTML="";
+function renderContracts() {
+  const box = document.getElementById("contractList");
+  box.replaceChildren();
 
-  if(!contracts.length){
-    box.textContent="現在、契約中のオプションはありません。";
+  if (!contracts.length) {
+    box.textContent = "現在、契約中のオプションはありません。";
     return;
   }
 
-  contracts.forEach(c=>{
-    const div=document.createElement("div");
-    div.className="row";
-    const name=document.createElement("strong");
-    name.textContent=c.plan_name;
-    const button=document.createElement("button");
-    button.className="danger";
-    button.textContent="解約";
-    button.onclick=()=>cancelOption(c);
-    div.append(name,button);
+  contracts.forEach(contract => {
+    const div = document.createElement("div");
+    div.className = "row";
+
+    const info = document.createElement("div");
+
+    const name = document.createElement("strong");
+    name.textContent = contract.plan_name;
+
+    const price = document.createElement("div");
+    price.className = "muted";
+    price.textContent = "月額：" + yen(getPrice(contract));
+
+    info.append(name,price);
+
+    const button = document.createElement("button");
+    button.className = "danger";
+    button.textContent = "解約";
+    button.onclick = () => cancelOption(contract);
+
+    div.append(info,button);
     box.appendChild(div);
   });
 }
 
-async function cancelOption(c){
-  if(!confirm(c.plan_name+"を解約しますか？"))return;
+async function cancelOption(contract) {
+  if (!confirm(contract.plan_name + "を解約しますか？")) return;
 
-  const {error}=await db.from("gs_member_options")
+  const {error} = await db.from("gs_member_options")
     .delete()
-    .eq("id",c.id)
+    .eq("id",contract.id)
     .eq("user_id",currentUser.id);
 
-  if(error){
+  if (error) {
     showMessage("解約できませんでした："+error.message);
     return;
   }
 
-  showMessage(c.plan_name+"を解約しました。");
+  showMessage(contract.plan_name + "を解約しました。");
   await loadContracts();
-  renderPlans();
+  await loadHistory();
 }
 
-function renderFeatures(){
-  const q=(document.getElementById("featureSearch")?.value||"").toLowerCase();
-  const box=document.getElementById("featureList");
-  box.innerHTML="";
-  let count=0;
+function renderFeatures() {
+  const q = (document.getElementById("featureSearch")?.value || "")
+    .toLowerCase();
 
-  Object.entries(featureGroups).forEach(([category,items])=>{
-    const filtered=items.filter(x=>(category+x).toLowerCase().includes(q));
-    if(!filtered.length)return;
+  const box = document.getElementById("featureList");
+  box.replaceChildren();
 
-    const group=document.createElement("div");
-    group.className="card";
-    group.style.marginBottom="12px";
+  let count = 0;
 
-    const heading=document.createElement("h3");
-    heading.textContent=category;
+  Object.entries(featureGroups).forEach(([category,items]) => {
+    const filtered = items.filter(item =>
+      (category + item).toLowerCase().includes(q)
+    );
+
+    if (!filtered.length) return;
+
+    const group = document.createElement("div");
+    group.className = "card";
+    group.style.marginBottom = "12px";
+
+    const heading = document.createElement("h3");
+    heading.textContent = category;
     group.appendChild(heading);
 
-    filtered.forEach(item=>{
+    filtered.forEach(item => {
       count++;
-      const row=document.createElement("div");
-      row.className="row";
-      const text=document.createElement("span");
-      text.textContent=item;
-      const tag=document.createElement("span");
-      tag.className="tag";
-      tag.textContent="機能";
-      row.append(text,tag);
+
+      const row = document.createElement("div");
+      row.className = "row";
+
+      const name = document.createElement("span");
+      name.textContent = item;
+
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = "機能";
+
+      row.append(name,tag);
       group.appendChild(row);
     });
+
     box.appendChild(group);
   });
 
-  if(count===0)box.textContent="該当する機能はありません。";
+  if (!count) box.textContent = "該当する機能はありません。";
 }
 
-function renderHistory(){
-  const box=document.getElementById("historyList");
-  box.innerHTML="";
-  if(!contracts.length){
-    box.textContent="現在表示できる契約履歴はありません。";
+async function loadHistory() {
+  if (!currentUser) return;
+
+  const {data,error} = await db.from("gs_member_options")
+    .select("*")
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:false});
+
+  if (error) {
+    showMessage("履歴を取得できませんでした："+error.message);
     return;
   }
-  contracts.forEach(c=>{
-    const row=document.createElement("div");
-    row.className="row";
-    const name=document.createElement("span");
-    name.textContent=c.plan_name+"（契約中）";
-    const date=document.createElement("span");
-    date.textContent=new Date(c.created_at).toLocaleDateString("ja-JP");
-    row.append(name,date);
+
+  historyRecords = data || [];
+  renderHistory();
+}
+
+function renderHistory() {
+  const box = document.getElementById("historyList");
+  box.replaceChildren();
+
+  if (!historyRecords.length) {
+    box.textContent = "現在表示できる契約履歴はありません。";
+    return;
+  }
+
+  historyRecords.forEach(record => {
+    const row = document.createElement("div");
+    row.className = "row";
+
+    const name = document.createElement("span");
+    name.textContent = record.plan_name || record.plan_code;
+
+    const status = document.createElement("span");
+    status.className = "tag";
+    status.textContent = record.status === "active" ? "契約中" : "終了";
+
+    const date = document.createElement("span");
+    date.textContent = record.created_at
+      ? new Date(record.created_at).toLocaleDateString("ja-JP")
+      : "";
+
+    row.append(name,status,date);
     box.appendChild(row);
   });
 }
 
-async function changePassword(){
-  const password=document.getElementById("newPassword").value;
-  if(password.length<8){
+async function changePassword() {
+  const password = document.getElementById("newPassword").value;
+
+  if (password.length < 8) {
     showMessage("パスワードは8文字以上にしてください。");
     return;
   }
-  const {error}=await db.auth.updateUser({password});
-  if(error){
+
+  const {error} = await db.auth.updateUser({password});
+
+  if (error) {
     showMessage("変更できませんでした："+error.message);
     return;
   }
-  document.getElementById("newPassword").value="";
+
+  document.getElementById("newPassword").value = "";
   showMessage("パスワードを変更しました。");
 }
 
-async function loadSettings(){
-  const {data}=await db.from("gs_member_settings")
+async function loadSettings() {
+  if (!currentUser) return;
+
+  const {data,error} = await db.from("gs_member_settings")
     .select("*")
     .eq("user_id",currentUser.id)
     .maybeSingle();
 
-  document.getElementById("emailNotifications").checked=
+  if (error) {
+    showMessage("通知設定を読み込めませんでした："+error.message);
+    return;
+  }
+
+  document.getElementById("emailNotifications").checked =
     data?.email_notifications ?? true;
-  document.getElementById("serviceNotifications").checked=
+
+  document.getElementById("serviceNotifications").checked =
     data?.service_notifications ?? true;
 }
 
-async function saveSettings(){
-  const settings={
+async function saveSettings() {
+  if (!currentUser) return;
+
+  const settings = {
     user_id:currentUser.id,
-    email_notifications:document.getElementById("emailNotifications").checked,
-    service_notifications:document.getElementById("serviceNotifications").checked,
+    email_notifications:
+      document.getElementById("emailNotifications").checked,
+    service_notifications:
+      document.getElementById("serviceNotifications").checked,
     updated_at:new Date().toISOString()
   };
 
-  const {error}=await db.from("gs_member_settings")
+  const {error} = await db.from("gs_member_settings")
     .upsert(settings,{onConflict:"user_id"});
 
-  if(error){
+  if (error) {
     showMessage("設定を保存できませんでした："+error.message);
     return;
   }
+
   showMessage("通知設定を保存しました。");
 }
 
-async function requestDeletion(){
-  if(!document.getElementById("deleteConfirm").checked){
+async function requestDeletion() {
+  if (!document.getElementById("deleteConfirm").checked) {
     showMessage("確認チェックを入れてください。");
     return;
   }
 
-  if(!confirm("アカウント削除の申請を送信しますか？削除には1000円かかります"))return;
+  if (!confirm("アカウント削除の申請を送信しますか？")) return;
 
-  const reason=document.getElementById("deleteReason").value.trim();
+  const reason = document.getElementById("deleteReason").value.trim();
 
-  const {error}=await db.from("gs_account_deletion_requests").insert({
+  const {error} = await db.from("gs_account_deletion_requests").insert({
     user_id:currentUser.id,
-    reason:reason
+    reason
   });
 
-  if(error){
+  if (error) {
     showMessage("申請できませんでした："+error.message);
     return;
   }
 
   showMessage("削除申請を受け付けました。運営側で確認します。");
-  document.getElementById("deleteReason").value="";
+  document.getElementById("deleteReason").value = "";
+  document.getElementById("deleteConfirm").checked = false;
 }
 
-async function initialize(){
-  if(!window.supabase){
-    document.getElementById("loginMessage").textContent=
-      "Supabaseライブラリを読み込めませんでした。通信環境を確認してください。";
+function printMemberInfo() {
+  if (!currentUser) return;
+
+  const name = currentProfile?.display_name || currentUser.email || "会員";
+  const total = contracts.reduce((sum,c) => sum + getPrice(c),0);
+
+  document.getElementById("printDate").textContent =
+    new Date().toLocaleString("ja-JP");
+
+  document.getElementById("printName").textContent = name;
+  document.getElementById("printEmail").textContent = currentUser.email || "";
+  document.getElementById("printUserId").textContent = currentUser.id;
+  document.getElementById("printTotal").textContent = yen(total);
+
+  const tbody = document.getElementById("printContracts");
+  tbody.replaceChildren();
+
+  if (!contracts.length) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 4;
+    td.textContent = "契約中のプランはありません。";
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  } else {
+    contracts.forEach(contract => {
+      const tr = document.createElement("tr");
+
+      [
+        contract.plan_code,
+        contract.plan_name,
+        yen(getPrice(contract)),
+        "契約中"
+      ].forEach(value => {
+        const td = document.createElement("td");
+        td.textContent = String(value ?? "");
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  window.print();
+}
+
+async function initialize() {
+  if (!window.supabase) {
+    document.getElementById("loginMessage").textContent =
+      "Supabaseライブラリを読み込めませんでした。";
     return;
   }
 
-  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  const {data,error} = await db.auth.getSession();
 
-  const {data,error}=await db.auth.getSession();
-  if(error){
-    document.getElementById("loginMessage").textContent=error.message;
+  if (error) {
+    document.getElementById("loginMessage").textContent = error.message;
     return;
   }
 
-  if(data.session){
+  if (data.session) {
     await initializeUser(data.session.user);
   }
 
-  db.auth.onAuthStateChange(async(event,session)=>{
-    if(session && !currentUser){
-      await initializeUser(session.user);
+  db.auth.onAuthStateChange((event,session) => {
+    if (session && !currentUser) {
+      initializeUser(session.user);
     }
-    if(!session){
-      currentUser=null;
-      document.getElementById("app").style.display="none";
-      document.getElementById("loginArea").style.display="block";
+
+    if (!session) {
+      currentUser = null;
+      currentProfile = null;
+      document.getElementById("app").style.display = "none";
+      document.getElementById("loginArea").style.display = "block";
+      document.getElementById("headerName").textContent = "未ログイン";
     }
   });
 }
