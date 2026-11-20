@@ -4,18 +4,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10233f">
 <title>GATE SQUARE | 管理者ページ</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 :root {
   --navy:#10233f;
   --blue:#2563eb;
   --bg:#f1f5f9;
-  --white:#ffffff;
   --text:#172033;
   --muted:#64748b;
   --border:#dbe3ee;
   --red:#dc2626;
+  --green:#15803d;
 }
 * { box-sizing:border-box; }
 body {
@@ -27,37 +29,38 @@ body {
 header {
   background:var(--navy);
   color:white;
-  padding:22px;
+  padding:20px;
 }
 .header-inner {
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:15px;
+  flex-wrap:wrap;
 }
 .brand {
-  font-size:22px;
-  font-weight:800;
+  font-size:23px;
+  font-weight:900;
   letter-spacing:2px;
 }
 header small { color:#bfdbfe; }
 main {
-  max-width:1100px;
-  margin:30px auto;
+  max-width:1200px;
+  margin:28px auto;
   padding:0 16px 50px;
 }
 .panel {
   background:white;
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:24px;
-  margin-bottom:22px;
+  border-radius:15px;
+  padding:23px;
+  margin-bottom:20px;
   box-shadow:0 5px 20px #0f172a08;
 }
 h1 { font-size:25px; margin:0 0 8px; }
-h2 { font-size:19px; margin:0 0 18px; }
+h2 { font-size:19px; margin:0 0 16px; }
 .description {
   color:var(--muted);
   font-size:14px;
@@ -67,7 +70,7 @@ label {
   display:block;
   font-size:13px;
   font-weight:700;
-  margin:15px 0 7px;
+  margin:14px 0 7px;
 }
 input,select,textarea {
   width:100%;
@@ -77,11 +80,11 @@ input,select,textarea {
   font-size:15px;
   background:white;
 }
-textarea { min-height:90px; resize:vertical; }
+textarea { min-height:90px; }
 button {
   border:0;
   border-radius:9px;
-  padding:12px 18px;
+  padding:11px 16px;
   font-size:14px;
   font-weight:700;
   cursor:pointer;
@@ -90,7 +93,6 @@ button:disabled { opacity:.5; cursor:not-allowed; }
 .primary { background:var(--blue); color:white; }
 .secondary { background:#e2e8f0; color:#1e293b; }
 .danger { background:#fee2e2; color:#b91c1c; }
-button:hover { filter:brightness(.96); }
 .grid {
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -109,6 +111,7 @@ button:hover { filter:brightness(.96); }
   font-size:14px;
   display:none;
   line-height:1.6;
+  overflow-wrap:anywhere;
 }
 .status.success { display:block; background:#dcfce7; color:#166534; }
 .status.error { display:block; background:#fee2e2; color:#991b1b; }
@@ -118,16 +121,25 @@ button:hover { filter:brightness(.96); }
 table {
   width:100%;
   border-collapse:collapse;
-  min-width:650px;
+  min-width:750px;
 }
 th,td {
   text-align:left;
-  padding:13px 10px;
+  padding:12px 10px;
   border-bottom:1px solid var(--border);
   font-size:13px;
   vertical-align:top;
+  overflow-wrap:anywhere;
 }
 th { background:#f8fafc; }
+.top-actions {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
 .badge {
   display:inline-block;
   padding:5px 9px;
@@ -137,27 +149,33 @@ th { background:#f8fafc; }
   font-size:11px;
   font-weight:bold;
 }
-.top-actions {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
-}
 footer {
   text-align:center;
   color:var(--muted);
   font-size:12px;
   padding:25px;
 }
+.login-box { max-width:480px; margin:40px auto; }
 @media(max-width:650px) {
   .grid { grid-template-columns:1fr; }
-  .panel { padding:18px; }
+  .panel { padding:17px; }
   .header-inner { align-items:flex-start; flex-direction:column; }
 }
+@media print {
+  body { background:white; color:black; }
+  header,footer,.no-print,#loginPanel { display:none !important; }
+  main { max-width:none; margin:0; padding:0; }
+  .panel { box-shadow:none; border:0; padding:8px; }
+  #adminPanel { display:block !important; }
+  #accountPanel { display:block !important; }
+  table { min-width:0; width:100%; }
+  th,td { font-size:10px; padding:6px; }
+  .print-title { display:block !important; }
+}
+.print-title { display:none; }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -166,169 +184,163 @@ footer {
       <div class="brand">GATE SQUARE</div>
       <small>ADMINISTRATION SYSTEM</small>
     </div>
-    <button id="logoutButton" class="secondary hidden" onclick="logout()">
-      ログアウト
-    </button>
+    <button id="logoutButton" class="secondary hidden no-print"
+      onclick="logout()">ログアウト</button>
   </div>
 </header>
 
 <main>
 
-  <section id="loginPanel" class="panel">
-    <h1>管理者ログイン</h1>
+<section id="loginPanel" class="panel login-box">
+  <h1>管理者ログイン</h1>
+  <p class="description">
+    GATE SQUARE管理者専用ページです。
+    管理者として登録されたアカウントでログインしてください。
+  </p>
+
+  <div id="loginMessage" class="status"></div>
+
+  <label for="email">メールアドレス</label>
+  <input id="email" type="email" autocomplete="username"
+    placeholder="管理者メールアドレス">
+
+  <label for="password">パスワード</label>
+  <input id="password" type="password"
+    autocomplete="current-password" placeholder="パスワード">
+
+  <div class="actions">
+    <button class="primary" id="loginButton" onclick="login()">
+      ログイン
+    </button>
+  </div>
+</section>
+
+<section id="adminPanel" class="hidden">
+
+  <div class="panel">
+    <h1>管理者ダッシュボード</h1>
     <p class="description">
-      GATE SQUAREのアカウント管理ページです。
-      管理者として登録されたアカウントでログインしてください。
+      GATE SQUAREの登録アカウント情報を管理します。
+      PINはハッシュ化して保存されるため、登録後に読み出すことはできません。
+      編集時は新しいPINを設定してください。
+    </p>
+    <div id="adminMessage" class="status"></div>
+  </div>
+
+  <div class="panel no-print">
+    <h2>アカウント登録・更新</h2>
+
+    <div class="grid">
+      <div>
+        <label for="service">登録サービス</label>
+        <select id="service">
+          <option value="kabu">KABU</option>
+          <option value="test">オルビステスト</option>
+          <option value="admin">オルビステスト管理者</option>
+          <option value="tango">TANGO</option>
+          <option value="gatesquare_official">GATE SQUARE</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="fullName">利用者氏名</label>
+        <input id="fullName" placeholder="例：山田太郎">
+      </div>
+
+      <div>
+        <label for="pin">6桁PIN</label>
+        <input id="pin" type="password" inputmode="numeric"
+          maxlength="6" placeholder="数字6桁">
+      </div>
+
+      <div>
+        <label for="accountName">アカウント名</label>
+        <input id="accountName" placeholder="アカウント名">
+      </div>
+
+      <div>
+        <label for="userId">ユーザーID</label>
+        <input id="userId" placeholder="ユーザーID">
+      </div>
+    </div>
+
+    <label for="registrationInfo">その他の登録情報</label>
+    <textarea id="registrationInfo"
+      placeholder="補足情報を入力してください。パスワードなどの秘密情報は登録しないでください。"></textarea>
+
+    <p class="description">
+      同じサービスコード・ユーザーIDで登録すると既存情報を更新します。
     </p>
 
-    <div id="loginMessage" class="status"></div>
-
-    <label for="email">メールアドレス</label>
-    <input id="email" type="email" autocomplete="username"
-           placeholder="管理者メールアドレス">
-
-    <label for="password">パスワード</label>
-    <input id="password" type="password" autocomplete="current-password"
-           placeholder="パスワード">
-
     <div class="actions">
-      <button class="primary" onclick="login()">ログイン</button>
+      <button class="primary" id="saveButton" onclick="saveAccount()">
+        登録・更新する
+      </button>
+      <button class="secondary" onclick="clearForm()">入力をクリア</button>
     </div>
-  </section>
+  </div>
 
-  <section id="adminPanel" class="hidden">
-
-    <div class="panel">
-      <h1>管理者ダッシュボード</h1>
-      <p class="description">
-        利用者のアカウント情報と6桁PINを管理します。
-        PINは暗号化ではなく安全なハッシュ形式で保存され、
-        登録後に画面から読み出すことはできません。
-      </p>
-      <div id="adminMessage" class="status"></div>
-    </div>
-
-    <div class="panel">
-      <h2>アカウント登録・更新</h2>
-
-      <input type="hidden" id="editId">
-
-      <div class="grid">
-        <div>
-          <label for="service">登録サービス</label>
-          <select id="service">
-            <option value="kabu">KABU</option>
-            <option value="test">オルビステスト</option>
-            <option value="admin">オルビステスト管理者</option>
-            <option value="tango">TANGO</option>
-            <option value="gatesquare_official">GATE SQUARE</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="fullName">利用者氏名</label>
-          <input id="fullName" type="text" placeholder="例：山田太郎">
-        </div>
-
-        <div>
-          <label for="pin">6桁PIN</label>
-          <input id="pin" type="password" inputmode="numeric"
-                 maxlength="6" pattern="[0-9]{6}"
-                 placeholder="数字6桁">
-        </div>
-
-        <div>
-          <label for="accountName">アカウント名</label>
-          <input id="accountName" type="text" placeholder="アカウント名">
-        </div>
-
-        <div>
-          <label for="userId">ユーザーID</label>
-          <input id="userId" type="text" placeholder="ユーザーID">
-        </div>
-      </div>
-
-      <label for="registrationInfo">その他の登録情報</label>
-      <textarea id="registrationInfo"
-        placeholder="必要な補足情報を入力してください。パスワードなどの秘密情報は登録しないでください。"></textarea>
-
-      <p class="description">
-        ※同じサービスコード・ユーザーIDで登録すると、既存情報を更新します。
-        更新時は新しい6桁PINを入力してください。
-      </p>
-
-      <div class="actions">
-        <button class="primary" id="saveButton" onclick="saveAccount()">
-          登録・更新する
-        </button>
-        <button class="secondary" onclick="clearForm()">入力をクリア</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="top-actions">
-        <h2>登録済みアカウント</h2>
+  <div class="panel" id="accountPanel">
+    <div class="top-actions no-print">
+      <h2>登録済みアカウント</h2>
+      <div class="actions" style="margin:0">
         <button class="secondary" onclick="loadAccounts()">再読み込み</button>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>サービス</th>
-              <th>氏名</th>
-              <th>アカウント名</th>
-              <th>ユーザーID</th>
-              <th>登録情報</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody id="accountList">
-            <tr><td colspan="6">読み込み中...</td></tr>
-          </tbody>
-        </table>
+        <button class="primary" onclick="printAccounts()">会員情報を印刷</button>
       </div>
     </div>
 
-  </section>
+    <h2 class="print-title">GATE SQUARE 登録会員情報一覧</h2>
+    <p class="print-title">印刷日：<span id="printDate"></span></p>
 
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>サービス</th>
+            <th>氏名</th>
+            <th>アカウント名</th>
+            <th>ユーザーID</th>
+            <th>登録情報</th>
+            <th class="no-print">操作</th>
+          </tr>
+        </thead>
+        <tbody id="accountList">
+          <tr><td colspan="6">読み込み中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
 </main>
 
-<footer>
-  GATE SQUARE ADMINISTRATION SYSTEM
-</footer>
+<footer>GATE SQUARE ADMINISTRATION SYSTEM</footer>
 
 <script>
-/* =========================================
-   Supabase設定
-========================================= */
+"use strict";
 
 const SUPABASE_URL =
   "https://hxrtpftlklgwesvanlpk.supabase.co";
 
-const SUPABASE_ANON_KEY =
+const SUPABASE_KEY =
   "sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
-  
-const supabaseClient = window.supabase.createClient(
+
+const db = window.supabase.createClient(
   SUPABASE_URL,
-  SUPABASE_ANON_KEY
+  SUPABASE_KEY
 );
 
 const SERVICE_NAMES = {
-  kabu: "KABU",
-  test: "オルビステスト",
-  admin: "オルビステスト管理者",
-  tango: "TANGO",
-  gatesquare_official: "GATE SQUARE"
+  kabu:"KABU",
+  test:"オルビステスト",
+  admin:"オルビステスト管理者",
+  tango:"TANGO",
+  gatesquare_official:"GATE SQUARE"
 };
 
 let accounts = [];
 
-/* =========================================
-   メッセージ表示
-========================================= */
-
-function showMessage(id, message, type) {
+function showMessage(id,message,type) {
   const el = document.getElementById(id);
   el.textContent = message;
   el.className = "status " + type;
@@ -340,70 +352,50 @@ function clearMessage(id) {
   el.className = "status";
 }
 
-/* =========================================
-   ログイン
-========================================= */
+function showLogin() {
+  document.getElementById("loginPanel").classList.remove("hidden");
+  document.getElementById("adminPanel").classList.add("hidden");
+  document.getElementById("logoutButton").classList.add("hidden");
+}
 
 async function login() {
   clearMessage("loginMessage");
 
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
+  const button = document.getElementById("loginButton");
 
   if (!email || !password) {
-    showMessage(
-      "loginMessage",
-      "メールアドレスとパスワードを入力してください。",
-      "error"
-    );
+    showMessage("loginMessage",
+      "メールアドレスとパスワードを入力してください。","error");
     return;
   }
 
-  const { error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
+  button.disabled = true;
+  button.textContent = "ログイン中...";
 
-  if (error) {
-    showMessage(
-      "loginMessage",
-      "ログインできませんでした。入力内容を確認してください。",
-      "error"
-    );
-    return;
+  try {
+    const {error} = await db.auth.signInWithPassword({email,password});
+    if (error) throw error;
+    await checkAdmin();
+  } catch(error) {
+    showMessage("loginMessage",
+      "ログインできませんでした："+error.message,"error");
+  } finally {
+    button.disabled = false;
+    button.textContent = "ログイン";
   }
-
-  await checkAdmin();
 }
 
-/* =========================================
-   管理者確認
-========================================= */
-
 async function checkAdmin() {
-  const { data: sessionData } =
-    await supabaseClient.auth.getSession();
-
-  const session = sessionData.session;
-
-  if (!session) {
-    showLogin();
-    return;
-  }
-
-  const { data, error } = await supabaseClient.rpc(
-    "gs_admin_is_admin"
-  );
+  const {data,error} = await db.rpc("gs_admin_is_admin");
 
   if (error || data !== true) {
-    await supabaseClient.auth.signOut();
+    await db.auth.signOut();
     showLogin();
-
-    showMessage(
-      "loginMessage",
-      "このアカウントには管理者権限がありません。",
-      "error"
-    );
+    showMessage("loginMessage",
+      error ? "管理者確認に失敗しました："+error.message :
+      "このアカウントには管理者権限がありません。","error");
     return;
   }
 
@@ -414,112 +406,77 @@ async function checkAdmin() {
   await loadAccounts();
 }
 
-/* =========================================
-   画面切り替え
-========================================= */
-
-function showLogin() {
-  document.getElementById("loginPanel").classList.remove("hidden");
-  document.getElementById("adminPanel").classList.add("hidden");
-  document.getElementById("logoutButton").classList.add("hidden");
-}
-
-/* =========================================
-   ログアウト
-========================================= */
-
 async function logout() {
-  await supabaseClient.auth.signOut();
-  showLogin();
+  await db.auth.signOut();
+  accounts = [];
   clearForm();
+  showLogin();
 }
-
-/* =========================================
-   アカウント一覧
-========================================= */
 
 async function loadAccounts() {
   const tbody = document.getElementById("accountList");
-  tbody.innerHTML =
-    '<tr><td colspan="6">読み込み中...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="6">読み込み中...</td></tr>';
 
-  const { data, error } = await supabaseClient.rpc(
-    "gs_admin_list_accounts"
-  );
+  try {
+    const {data,error} = await db.rpc("gs_admin_list_accounts");
+    if (error) throw error;
 
-  if (error) {
-    tbody.innerHTML =
-      '<tr><td colspan="6">読み込みに失敗しました。</td></tr>';
+    accounts = Array.isArray(data) ? data : [];
 
-    showMessage(
-      "adminMessage",
-      "一覧を取得できませんでした: " + error.message,
-      "error"
-    );
-    return;
-  }
+    if (!accounts.length) {
+      tbody.innerHTML =
+        '<tr><td colspan="6">登録データはありません。</td></tr>';
+      return;
+    }
 
-  accounts = Array.isArray(data) ? data : [];
+    tbody.replaceChildren();
 
-  if (accounts.length === 0) {
-    tbody.innerHTML =
-      '<tr><td colspan="6">登録データはありません。</td></tr>';
-    return;
-  }
+    accounts.forEach(account => {
+      const tr = document.createElement("tr");
+      const info = account.registration_info || {};
 
-  tbody.innerHTML = "";
+      const values = [
+        SERVICE_NAMES[account.service_code] || account.service_code,
+        info.name || "未登録",
+        account.account_name || "",
+        account.user_id || "",
+        info.details || ""
+      ];
 
-  accounts.forEach(account => {
-    const tr = document.createElement("tr");
+      values.forEach(value => {
+        const td = document.createElement("td");
+        td.textContent = String(value ?? "");
+        tr.appendChild(td);
+      });
 
-    const service = SERVICE_NAMES[account.service_code] ||
-      account.service_code;
+      const action = document.createElement("td");
+      action.className = "no-print";
 
-    const info = account.registration_info || {};
-    const name = info.name || "未登録";
-    const details = info.details || "";
+      const edit = document.createElement("button");
+      edit.className = "secondary";
+      edit.textContent = "編集";
+      edit.onclick = () => editAccount(account.id);
 
-    const values = [
-      service,
-      name,
-      account.account_name || "",
-      account.user_id || "",
-      details
-    ];
+      const del = document.createElement("button");
+      del.className = "danger";
+      del.textContent = "削除";
+      del.style.marginLeft = "5px";
+      del.onclick = () => deleteAccount(account.id);
 
-    values.forEach(value => {
-      const td = document.createElement("td");
-      td.textContent = String(value);
-      tr.appendChild(td);
+      action.append(edit,del);
+      tr.appendChild(action);
+      tbody.appendChild(tr);
     });
 
-    const actionCell = document.createElement("td");
+    clearMessage("adminMessage");
 
-    const editButton = document.createElement("button");
-    editButton.className = "secondary";
-    editButton.textContent = "編集";
-    editButton.onclick = () => editAccount(account.id);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "danger";
-    deleteButton.textContent = "削除";
-    deleteButton.style.marginTop = "6px";
-    deleteButton.onclick = () => deleteAccount(account.id);
-
-    actionCell.appendChild(editButton);
-    actionCell.appendChild(document.createElement("br"));
-    actionCell.appendChild(deleteButton);
-
-    tr.appendChild(actionCell);
-    tbody.appendChild(tr);
-  });
-
-  clearMessage("adminMessage");
+  } catch(error) {
+    tbody.innerHTML =
+      '<tr><td colspan="6">一覧を取得できませんでした。</td></tr>';
+    showMessage("adminMessage",
+      "一覧の取得に失敗しました："+error.message,"error");
+  }
 }
-
-/* =========================================
-   登録・更新
-========================================= */
 
 async function saveAccount() {
   clearMessage("adminMessage");
@@ -527,28 +484,19 @@ async function saveAccount() {
   const service = document.getElementById("service").value;
   const name = document.getElementById("fullName").value.trim();
   const pin = document.getElementById("pin").value;
-  const accountName =
-    document.getElementById("accountName").value.trim();
-  const userId =
-    document.getElementById("userId").value.trim();
-  const registrationInfo =
-    document.getElementById("registrationInfo").value.trim();
+  const accountName = document.getElementById("accountName").value.trim();
+  const userId = document.getElementById("userId").value.trim();
+  const details = document.getElementById("registrationInfo").value.trim();
 
   if (!name || !accountName || !userId) {
-    showMessage(
-      "adminMessage",
-      "氏名・アカウント名・ユーザーIDを入力してください。",
-      "error"
-    );
+    showMessage("adminMessage",
+      "氏名・アカウント名・ユーザーIDを入力してください。","error");
     return;
   }
 
   if (!/^[0-9]{6}$/.test(pin)) {
-    showMessage(
-      "adminMessage",
-      "PINは数字6桁で入力してください。",
-      "error"
-    );
+    showMessage("adminMessage",
+      "PINは数字6桁で入力してください。","error");
     return;
   }
 
@@ -557,141 +505,91 @@ async function saveAccount() {
   button.textContent = "保存中...";
 
   try {
-    const { data, error } = await supabaseClient.rpc(
-      "gs_admin_save_account",
-      {
-        p_service_code: service,
-        p_name: name,
-        p_pin: pin,
-        p_account_name: accountName,
-        p_user_id: userId,
-        p_registration_info: registrationInfo
-      }
-    );
+    const {error} = await db.rpc("gs_admin_save_account",{
+      p_service_code:service,
+      p_name:name,
+      p_pin:pin,
+      p_account_name:accountName,
+      p_user_id:userId,
+      p_registration_info:details
+    });
 
     if (error) throw error;
 
-    showMessage(
-      "adminMessage",
-      "アカウント情報を保存しました。",
-      "success"
-    );
-
+    showMessage("adminMessage","アカウント情報を保存しました。","success");
     clearForm();
     await loadAccounts();
 
-  } catch (error) {
-    showMessage(
-      "adminMessage",
-      "保存に失敗しました: " + error.message,
-      "error"
-    );
+  } catch(error) {
+    showMessage("adminMessage",
+      "保存に失敗しました："+error.message,"error");
   } finally {
     button.disabled = false;
     button.textContent = "登録・更新する";
   }
 }
 
-/* =========================================
-   編集
-========================================= */
-
 function editAccount(id) {
-  const account = accounts.find(item => item.id === id);
-
+  const account = accounts.find(item => String(item.id) === String(id));
   if (!account) return;
 
   const info = account.registration_info || {};
 
-  document.getElementById("editId").value = account.id;
   document.getElementById("service").value = account.service_code;
   document.getElementById("fullName").value = info.name || "";
-  document.getElementById("accountName").value =
-    account.account_name || "";
-  document.getElementById("userId").value =
-    account.user_id || "";
-  document.getElementById("registrationInfo").value =
-    info.details || "";
-
-  // PINはハッシュから復元できないため再入力が必要
+  document.getElementById("accountName").value = account.account_name || "";
+  document.getElementById("userId").value = account.user_id || "";
+  document.getElementById("registrationInfo").value = info.details || "";
   document.getElementById("pin").value = "";
+  document.getElementById("pin").placeholder = "新しい数字6桁";
 
-  document.getElementById("pin").placeholder =
-    "変更後の6桁PINを入力";
+  document.getElementById("saveButton").textContent = "変更内容を保存する";
 
-  document.getElementById("saveButton").textContent =
-    "変更内容を保存する";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
-  showMessage(
-    "adminMessage",
-    "編集モードです。PINも新しく入力してください。",
-    "info"
-  );
+  window.scrollTo({top:0,behavior:"smooth"});
+  showMessage("adminMessage",
+    "編集モードです。新しい6桁PINを入力してください。","info");
 }
-
-/* =========================================
-   削除
-========================================= */
 
 async function deleteAccount(id) {
-  const account = accounts.find(item => item.id === id);
+  if (!confirm("このアカウント情報を削除しますか？")) return;
 
-  if (!account) return;
+  try {
+    const {error} = await db.rpc("gs_admin_delete_account",{p_id:id});
+    if (error) throw error;
 
-  const confirmed = confirm(
-    "このアカウント情報を削除しますか？\nこの操作は取り消せません。"
-  );
+    showMessage("adminMessage","アカウント情報を削除しました。","success");
+    await loadAccounts();
 
-  if (!confirmed) return;
-
-  const { error } = await supabaseClient.rpc(
-    "gs_admin_delete_account",
-    { p_id: id }
-  );
-
-  if (error) {
-    showMessage(
-      "adminMessage",
-      "削除に失敗しました: " + error.message,
-      "error"
-    );
-    return;
+  } catch(error) {
+    showMessage("adminMessage",
+      "削除に失敗しました："+error.message,"error");
   }
-
-  showMessage(
-    "adminMessage",
-    "アカウント情報を削除しました。",
-    "success"
-  );
-
-  await loadAccounts();
 }
 
-/* =========================================
-   入力クリア
-========================================= */
-
 function clearForm() {
-  document.getElementById("editId").value = "";
+  document.getElementById("service").value = "kabu";
   document.getElementById("fullName").value = "";
   document.getElementById("pin").value = "";
   document.getElementById("pin").placeholder = "数字6桁";
   document.getElementById("accountName").value = "";
   document.getElementById("userId").value = "";
   document.getElementById("registrationInfo").value = "";
-  document.getElementById("service").value = "kabu";
-  document.getElementById("saveButton").textContent =
-    "登録・更新する";
+  document.getElementById("saveButton").textContent = "登録・更新する";
 }
 
-/* =========================================
-   ページ起動時
-========================================= */
+function printAccounts() {
+  document.getElementById("printDate").textContent =
+    new Date().toLocaleString("ja-JP");
+  window.print();
+}
 
-(async function initialize() {
-  const { data } = await supabaseClient.auth.getSession();
+async function initialize() {
+  const {data,error} = await db.auth.getSession();
+
+  if (error) {
+    showMessage("loginMessage",error.message,"error");
+    return;
+  }
 
   if (data.session) {
     await checkAdmin();
@@ -699,13 +597,12 @@ function clearForm() {
     showLogin();
   }
 
-  supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_OUT" || !session) {
-      showLogin();
-    }
+  db.auth.onAuthStateChange((event,session) => {
+    if (event === "SIGNED_OUT" || !session) showLogin();
   });
-})();
-</script>
+}
 
+initialize();
+</script>
 </body>
 </html>
