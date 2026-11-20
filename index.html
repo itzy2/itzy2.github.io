@@ -3,934 +3,795 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>GATE SQUARE | Official Portal</title>
-
-<meta name="description" content="GATE SQUARE公式ポータルサイト">
-
-<meta name="theme-color" content="#080e1b">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="theme-color" content="#0789c7">
+<title>GATE SQUARE | CORPORATE PORTAL</title>
 
 <style>
-:root {
-  --bg: #080e1b;
-  --panel: #111d31;
-  --border: #293b55;
-  --text: #f8fafc;
-  --muted: #a5b4c8;
-  --blue: #2563eb;
-  --cyan: #38bdf8;
+:root{
+  --blue:#078dcc;
+  --blue2:#006eb2;
+  --green:#83c52e;
+  --cyan:#19b9ba;
+  --dark:#183b4e;
+  --text:#34444e;
+  --muted:#73828a;
+  --line:#dce5e7;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Noto Sans JP","Meiryo",Arial,sans-serif;
+  color:var(--text);
+  background:#d7f5eb;
+  font-size:15px;
+}
+button,input{font:inherit}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+.top-header{
+  background:#fff;
+  min-height:115px;
+  display:grid;
+  grid-template-columns:270px 1fr 180px;
+  align-items:center;
+  gap:25px;
+  padding:15px 28px;
+}
+.brand{display:flex;flex-direction:column;gap:8px}
+.brand-name{
+  font-size:35px;
+  font-weight:1000;
+  letter-spacing:-2px;
+  color:#263a43;
+}
+.brand-name span{color:#078dcc}
+.brand-sub{
+  font-size:11px;
+  letter-spacing:4px;
+  color:#87959b;
+}
+.member-small{
+  font-size:13px;
+  color:#47745b;
+}
+.search-area{
+  display:flex;
+  justify-content:center;
+  width:100%;
+}
+.search-area input{
+  width:min(100%,750px);
+  height:45px;
+  border:1px solid #ccc;
+  padding:0 15px;
+  outline:none;
+}
+.search-area input:focus{border-color:var(--blue)}
+.search-button{
+  height:45px;width:60px;
+  background:var(--blue);
+  color:#fff;border:0;
+  font-size:22px;
+}
+.font-control{text-align:center;font-size:12px}
+.font-control button{
+  border:1px solid #ddd;
+  background:#fff;
+  padding:8px 12px;
+}
+.font-control button.selected{
+  background:#263c4b;color:white;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* NAVIGATION */
+.main-nav{
+  display:flex;
+  background:linear-gradient(90deg,#008bce,#00a9b5,#82c52e);
+  min-height:46px;
+  justify-content:space-around;
+  align-items:stretch;
+  position:sticky;
+  top:0;
+  z-index:50;
+  box-shadow:0 2px 5px #0002;
+}
+.main-nav a{
+  display:flex;align-items:center;justify-content:center;
+  padding:12px 15px;
+  color:#fff;font-weight:bold;
+  font-size:14px;
+  transition:.2s;
+}
+.main-nav a:hover{background:#ffffff35}
+
+/* BACKGROUND */
+.page-background{
+  min-height:calc(100vh - 160px);
+  padding:28px 20px 60px;
+  background-color:#a9ead4;
+  background-image:
+    linear-gradient(60deg,transparent 49.5%,#ffffff35 50%,transparent 50.5%),
+    linear-gradient(120deg,transparent 49.5%,#ffffff38 50%,transparent 50.5%),
+    linear-gradient(0deg,transparent 49.5%,#ffffff25 50%,transparent 50.5%);
+  background-size:230px 200px;
+}
+.portal-layout{
+  max-width:1450px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:230px minmax(0,1fr) 225px;
+  gap:20px;
+  align-items:start;
 }
 
-html {
-  scroll-behavior: smooth;
+/* SIDE */
+.side-box{
+  background:#fff;
+  margin-bottom:17px;
+  box-shadow:0 2px 8px #315c5018;
+  border:1px solid #d7e5e2;
 }
-
-body {
-  font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
+.side-title{
+  padding:12px;
+  background:#e1f5d3;
+  color:#39872a;
+  font-weight:bold;
 }
-
-header {
-  min-height: 75px;
-  padding: 12px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: rgba(8,14,27,.97);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
+.side-title.blue{
+  background:#d9f0fb;
+  color:#087eb9;
 }
-
-.logo {
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  color: white;
-  text-decoration: none;
+.side-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px;
+  margin:0 10px;
+  border-bottom:1px solid #ddd;
+  font-size:13px;
+  font-weight:bold;
+  transition:.2s;
 }
-
-.logo span {
-  color: var(--cyan);
+.side-item:hover{
+  color:var(--blue);
+  background:#f2faff;
 }
-
-nav {
-  display: flex;
-  gap: 22px;
+.side-icon{
+  width:32px;height:32px;
+  flex-shrink:0;
+  display:grid;place-items:center;
+  color:white;font-size:17px;
+  font-weight:bold;
+  background:var(--blue);
+  border-radius:5px;
 }
+.side-icon.green{background:#82bd32}
+.side-icon.orange{background:#ed9a21}
+.side-icon.purple{background:#8062bb}
 
-nav a {
-  color: #cbd5e1;
-  text-decoration: none;
-  font-size: 13px;
+/* MAIN CONTENT */
+.content{min-width:0}
+.hero-banner{
+  background:#fff;
+  padding:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:15px;
+  margin-bottom:22px;
+  box-shadow:0 2px 8px #315c5018;
 }
-
-nav a:hover {
-  color: var(--cyan);
+.banner-card{
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  padding:20px;
+  color:white;
+  background:linear-gradient(130deg,#008cc8,#22b9c1);
+  position:relative;
+  overflow:hidden;
 }
-
-.hero {
-  min-height: 400px;
-  padding: 75px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background:
-    radial-gradient(ellipse at 50% 100%,#164e6370,transparent 65%),
-    linear-gradient(140deg,#152b49,#080e1b 75%);
+.banner-card:nth-child(2){
+  background:linear-gradient(130deg,#e52d79,#fa709a);
 }
-
-.hero-label {
-  color: var(--cyan);
-  font-size: 12px;
-  letter-spacing: 5px;
-  margin-bottom: 22px;
+.banner-card:nth-child(3){
+  background:linear-gradient(130deg,#0789ca,#78bd30);
 }
-
-.hero h1 {
-  font-size: clamp(40px,8vw,78px);
-  letter-spacing: 4px;
-  font-weight: 900;
+.banner-card:after{
+  content:"";
+  width:130px;height:130px;
+  border:1px solid #ffffff55;
+  transform:rotate(45deg);
+  position:absolute;right:-45px;bottom:-60px;
 }
-
-.hero h1 span {
-  color: var(--cyan);
+.banner-card strong{font-size:23px;z-index:1}
+.banner-card span{font-size:12px;margin-top:10px;z-index:1}
+.banner-card a{
+  margin-top:13px;
+  padding:7px 15px;
+  background:#ffffff2b;
+  border:1px solid #ffffff80;
+  border-radius:30px;
+  font-size:12px;
+  z-index:1;
 }
-
-.hero p {
-  color: #cbd5e1;
-  margin-top: 20px;
-  font-size: 14px;
-  line-height: 2;
+.section{
+  background:#fff;
+  margin-bottom:22px;
+  padding:18px;
+  box-shadow:0 2px 8px #315c5018;
 }
-
-.primary-button {
-  display: inline-block;
-  padding: 12px 30px;
-  margin-top: 30px;
-  background: var(--blue);
-  color: white;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: bold;
+.section-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:linear-gradient(90deg,#078dcc,#04b5a5,#83c52e);
+  color:white;
+  padding:10px 14px;
+  font-weight:bold;
+  margin-bottom:16px;
 }
-
-section {
-  max-width: 1150px;
-  margin: auto;
-  padding: 70px 25px;
+.section-heading.red{
+  background:#e60012;
 }
-
-.heading {
-  text-align: center;
-  margin-bottom: 40px;
+.section-heading a{
+  border:1px solid #ffffffaa;
+  padding:5px 13px;
+  border-radius:20px;
+  font-size:12px;
 }
-
-.heading small {
-  color: var(--cyan);
-  letter-spacing: 4px;
+.notice-row{
+  display:grid;
+  grid-template-columns:105px 95px 1fr;
+  gap:10px;
+  align-items:center;
+  padding:11px 5px;
+  border-bottom:1px dotted #d5dddd;
+  font-size:13px;
 }
-
-.heading h2 {
-  font-size: 28px;
-  margin-top: 8px;
+.notice-date{color:#77848a}
+.notice-new{color:#f03a83;font-weight:bold}
+.notice-label{
+  display:inline-block;
+  padding:4px 12px;
+  color:white;
+  background:#b90000;
+  border-radius:4px;
+  font-size:11px;
+  text-align:center;
+  width:max-content;
 }
+.notice-label.green{background:#87c83e}
+.notice-label.gray{background:#7b858b}
 
-.heading p {
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 8px;
+/* SERVICE CARDS */
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:15px;
 }
-
-.services {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 20px;
+.service-card{
+  border:1px solid #d9e5e8;
+  background:#fff;
+  transition:.2s;
+  display:flex;
+  flex-direction:column;
+  min-height:190px;
 }
-
-.service {
-  padding: 28px;
-  min-height: 245px;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(145deg,#17263e,#101a2b);
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  transition: .25s;
+.service-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 7px 20px #153b4a22;
+  border-color:#16a7cb;
 }
-
-.service:hover {
-  transform: translateY(-5px);
-  border-color: var(--cyan);
+.service-top{
+  height:85px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:30px;
+  font-weight:1000;
+  letter-spacing:2px;
+  background:linear-gradient(120deg,#078dcc,#00b4ba);
 }
-
-.service-icon {
-  font-size: 34px;
+.service-card:nth-child(2) .service-top{
+  background:linear-gradient(120deg,#2354a1,#3287ce);
 }
-
-.service h3 {
-  font-size: 22px;
-  margin-top: 12px;
+.service-card:nth-child(3) .service-top{
+  background:linear-gradient(120deg,#e8a52a,#e87936);
 }
-
-.service small {
-  color: var(--cyan);
-  letter-spacing: 2px;
-  font-size: 10px;
+.service-card:nth-child(4) .service-top{
+  background:linear-gradient(120deg,#00a88b,#78c338);
 }
-
-.service p {
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 12px;
+.service-card:nth-child(5) .service-top{
+  background:linear-gradient(120deg,#7155b6,#a66ad1);
 }
-
-.service a {
-  margin-top: auto;
-  padding-top: 20px;
-  color: #60a5fa;
-  font-size: 13px;
-  font-weight: bold;
-  text-decoration: none;
+.service-card:nth-child(6) .service-top{
+  background:linear-gradient(120deg,#344c63,#657d91);
 }
-
-.service a:hover {
-  color: white;
+.service-body{padding:13px;flex:1}
+.service-body h3{margin:0 0 7px;font-size:15px}
+.service-body p{
+  margin:0;color:#7b898e;
+  font-size:12px;line-height:1.6;
 }
-
-/* ACCOUNT RECOVERY */
-
-.recovery-section {
-  background:
-    radial-gradient(ellipse at top,#12304b,transparent 70%);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+.service-bottom{
+  padding:10px 13px;
+  border-top:1px solid #e7eeee;
+  display:flex;justify-content:space-between;
+  align-items:center;
+  color:#078dcc;
+  font-weight:bold;font-size:12px;
 }
+.service-bottom span{font-size:18px}
 
-.recovery-box {
-  max-width: 560px;
-  margin: auto;
-  padding: 30px;
-  background: #111d31;
-  border: 1px solid #34516f;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px #0004;
+/* MY MENU */
+.my-menu-card{
+  background:linear-gradient(135deg,#087fbb,#13b5ad);
+  color:white;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 3px 12px #315c5030;
 }
-
-.recovery-icon {
-  text-align: center;
-  font-size: 42px;
+.my-menu-card h2{margin:0 0 8px;font-size:22px}
+.my-menu-card p{font-size:12px;line-height:1.7}
+.my-menu-card a{
+  display:block;
+  background:#fff;
+  color:#087eaf;
+  font-weight:bold;
+  text-align:center;
+  padding:11px;
+  margin-top:15px;
 }
-
-.recovery-box h3 {
-  text-align: center;
-  font-size: 22px;
-  margin-top: 10px;
+.right-banner{
+  background:white;
+  margin-bottom:15px;
+  border:1px solid #dce5e5;
+  overflow:hidden;
 }
-
-.recovery-subtitle {
-  color: var(--muted);
-  text-align: center;
-  font-size: 12px;
-  margin: 8px 0 25px;
+.right-banner-title{
+  padding:14px;
+  font-weight:bold;
+  color:#fff;
+  background:linear-gradient(100deg,#008dc8,#82c52e);
 }
-
-.field {
-  margin-bottom: 19px;
+.right-banner-content{
+  padding:15px;
+  font-size:13px;
+  line-height:1.8;
 }
-
-.field label {
-  display: block;
-  font-size: 13px;
-  margin-bottom: 8px;
-  font-weight: bold;
+.right-banner-content a{
+  display:block;
+  color:#078dcc;
+  border-bottom:1px solid #eee;
+  padding:8px 0;
 }
-
-.field input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 9px;
-  border: 1px solid #3b4d65;
-  background: #081323;
-  color: white;
-  outline: none;
-  font-size: 16px;
+.company-box{
+  background:#fff;
+  padding:16px;
+  font-size:12px;
+  line-height:2;
+  border:1px solid #dce5e5;
 }
+.company-box strong{font-size:16px;color:#078dcc}
 
-.field input:focus {
-  border-color: var(--cyan);
+/* FOOTER */
+footer{
+  background:#173b4e;
+  color:white;
+  padding:30px 20px;
+  text-align:center;
 }
-
-.pin-input {
-  letter-spacing: 9px;
-  text-align: center;
-  font-size: 23px !important;
+.footer-links{
+  display:flex;justify-content:center;
+  flex-wrap:wrap;gap:22px;
+  margin:15px 0;
+  font-size:12px;
 }
+footer p{font-size:11px;color:#b9cbd2}
 
-.recovery-button {
-  width: 100%;
-  padding: 15px;
-  background: linear-gradient(90deg,#2563eb,#0891b2);
-  color: white;
-  border: none;
-  border-radius: 9px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.recovery-button:hover {
-  opacity: .85;
-}
-
-.recovery-button:disabled {
-  opacity: .5;
-  cursor: wait;
-}
-
-.notice {
-  margin-top: 18px;
-  font-size: 11px;
-  color: #94a3b8;
-  text-align: center;
-}
-
-#message {
-  display: none;
-  margin-top: 18px;
-  padding: 13px;
-  border-radius: 9px;
-  font-size: 13px;
-  text-align: center;
-}
-
-#message.error {
-  display: block;
-  color: #fecaca;
-  background: #7f1d1d40;
-  border: 1px solid #991b1b;
-}
-
-#message.success {
-  display: block;
-  color: #bbf7d0;
-  background: #14532d40;
-  border: 1px solid #166534;
-}
-
-/* RESULTS */
-
-#results {
-  display: none;
-  margin-top: 25px;
-}
-
-.result-heading {
-  font-size: 17px;
-  margin-bottom: 15px;
-  color: #7dd3fc;
-}
-
-.account-card {
-  background: #0a1526;
-  border: 1px solid #304966;
-  border-radius: 12px;
-  padding: 17px;
-  margin-bottom: 13px;
-  overflow-wrap: anywhere;
-}
-
-.account-service {
-  color: #38bdf8;
-  font-size: 11px;
-  letter-spacing: 2px;
-  font-weight: bold;
-}
-
-.account-card h4 {
-  font-size: 17px;
-  margin: 7px 0;
-}
-
-.account-id {
-  color: #cbd5e1;
-  font-size: 13px;
-}
-
-.account-info {
-  margin-top: 13px;
-  padding-top: 12px;
-  border-top: 1px solid #293b55;
-  color: #94a3b8;
-  font-size: 12px;
-}
-
-.account-info div {
-  margin-bottom: 5px;
-}
-
-.about {
-  text-align: center;
-  padding: 65px 20px;
-  background: #101b2d;
-}
-
-.about h2 {
-  font-size: 27px;
-  margin-bottom: 15px;
-}
-
-.about p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 2.1;
-}
-
-footer {
-  text-align: center;
-  padding: 35px 20px;
-  color: #64748b;
-  font-size: 12px;
-}
-
-footer strong {
-  color: #cbd5e1;
-  letter-spacing: 3px;
-  font-size: 18px;
-}
-
-@media(max-width:700px) {
-  header {
-    padding: 14px 17px;
-    flex-wrap: wrap;
-    gap: 10px;
+/* MOBILE */
+@media(max-width:1050px){
+  .portal-layout{
+    grid-template-columns:190px minmax(0,1fr);
   }
-
-  nav {
-    gap: 13px;
+  .right-column{
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
   }
-
-  nav a {
-    font-size: 11px;
+  .right-column>*{margin:0}
+}
+@media(max-width:700px){
+  .top-header{
+    grid-template-columns:1fr auto;
+    gap:12px;padding:12px;
   }
-
-  .services {
-    grid-template-columns: 1fr;
+  .brand-name{font-size:26px}
+  .search-area{grid-column:1/-1;grid-row:2}
+  .font-control{grid-column:2;grid-row:1}
+  .main-nav{
+    position:static;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
   }
-
-  .hero {
-    min-height: 350px;
+  .main-nav a{font-size:11px;padding:11px 4px}
+  .page-background{padding:12px 10px}
+  .portal-layout{display:flex;flex-direction:column}
+  .left-column,.content,.right-column{width:100%}
+  .left-column{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
   }
-
-  section {
-    padding: 55px 17px;
+  .side-box{margin:0}
+  .hero-banner{grid-template-columns:1fr}
+  .banner-card{min-height:115px}
+  .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .right-column{display:grid;grid-template-columns:1fr 1fr}
+  .notice-row{
+    grid-template-columns:85px 1fr;
+    gap:5px;
   }
-
-  .recovery-box {
-    padding: 22px 17px;
-  }
+  .notice-row .notice-label{grid-column:2}
+}
+@media(max-width:420px){
+  .service-grid{grid-template-columns:1fr}
+  .left-column{grid-template-columns:1fr}
+  .right-column{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <a href="#home" class="logo">
-    GATE <span>SQUARE</span>
-  </a>
+<!-- HEADER -->
+<header class="top-header">
+  <div class="brand">
+    <div class="brand-name">GATE<span>SQUARE</span>✦</div>
+    <div class="brand-sub">CORPORATE PORTAL SITE</div>
+    <div class="member-small">● GATE SQUARE MEMBER</div>
+  </div>
 
-  <nav>
-    <a href="#home">HOME</a>
-    <a href="#services">SERVICES</a>
-    <a href="#recovery">ACCOUNT</a>
-    <a href="#about">ABOUT</a>
-  </nav>
+  <div class="search-area">
+    <input id="searchInput" type="search"
+      placeholder="サイト・サービス・お知らせを検索..."
+      onkeydown="if(event.key==='Enter')searchSite()">
+    <button class="search-button" onclick="searchSite()">⌕</button>
+  </div>
+
+  <div class="font-control">
+    <div>文字サイズ</div>
+    <button onclick="setFont('small',this)">小</button>
+    <button class="selected" onclick="setFont('normal',this)">中</button>
+    <button onclick="setFont('large',this)">大</button>
+  </div>
 </header>
 
-<main>
+<!-- NAVIGATION -->
+<nav class="main-nav">
+  <a href="#news">お知らせ</a>
+  <a href="#services">サービス一覧</a>
+  <a href="#mymenu">マイメニュー</a>
+  <a href="#company">会社概要</a>
+  <a href="#support">サポート</a>
+  <a href="https://itzy2.github.io/gatemessage/">コミュニケーション</a>
+  <a href="https://itzy2.github.io/gatesquare_Official/">予約</a>
+  <a href="https://itzy2.github.io/admin.html">管理者ページ</a>
+</nav>
 
-<!-- HERO -->
+<div class="page-background">
+<div class="portal-layout">
 
-<div class="hero" id="home">
+<!-- LEFT COLUMN -->
+<aside class="left-column">
 
-  <div class="hero-label">
-    GATE SQUARE OFFICIAL PORTAL
+  <div class="side-box">
+    <div class="side-title blue">⚙ システムツール</div>
+
+    <a class="side-item" href="https://itzy2.github.io/kabu/">
+      <span class="side-icon">K</span>KABU 株式ゲーム
+    </a>
+    <a class="side-item" href="https://itzy2.github.io/test/">
+      <span class="side-icon">O</span>ORBiS TEST
+    </a>
+    <a class="side-item" href="https://itzy2.github.io/tango/">
+      <span class="side-icon orange">T</span>TANGO 単語学習
+    </a>
+    <a class="side-item" href="https://itzy2.github.io/gatesquare_Official/">
+      <span class="side-icon green">R</span>予約システム
+    </a>
+    <a class="side-item" href="https://itzy2.github.io/gatemessage/">
+      <span class="side-icon purple">G</span>GATE MESSAGE
+    </a>
+    <a class="side-item" href="https://itzy2.github.io/admin.html">
+      <span class="side-icon">A</span>管理者ページ
+    </a>
   </div>
 
-  <h1>GATE <span>SQUARE</span></h1>
-
-  <p>
-    その先に、新しい体験を。<br>
-    多彩なサービスを、ひとつの場所から。
-  </p>
-
-  <a href="#services" class="primary-button">
-    サービス一覧を見る →
-  </a>
-
-</div>
-
-
-<!-- SERVICES -->
-
-<section id="services">
-
-  　<a href="mymenu.html">マイメニュー</a>
-  
-  <div class="heading">
-    <small>OUR SERVICES</small>
-    <h2>サービス一覧</h2>
-    <p>GATE SQUAREの各種サービス</p>
+  <div class="side-box">
+    <div class="side-title">GATE SQUARE サービス</div>
+    <a class="side-item" href="#services">サービス一覧</a>
+    <a class="side-item" href="#mymenu">会員専用メニュー</a>
+    <a class="side-item" href="#news">最新のお知らせ</a>
+    <a class="side-item" href="#company">会社概要</a>
+    <a class="side-item" href="#support">お問い合わせ</a>
   </div>
 
-  <div class="services">
+</aside>
 
-    <article class="service">
-      <div class="service-icon">📈</div>
-      <h3>KABU</h3>
-      <small>STOCKPOINT</small>
-      <p>株式投資をゲーム感覚で楽しむ株のゲームサービス。</p>
-      <a href="https://itzy2.github.io/kabu/">KABUを利用する →</a>
-    </article>
+<!-- CENTER COLUMN -->
+<main class="content">
 
-    <article class="service">
-      <div class="service-icon">🎓</div>
-      <h3>ORBIS TEST</h3>
-      <small>ONLINE CBT EXAMINATION</small>
-      <p>オルビステストの公式オンライン試験システム。</p>
-      <a href="https://itzy2.github.io/test/">試験を受ける →</a>
-    </article>
+  <!-- BANNERS -->
+  <div class="hero-banner">
+    <div class="banner-card">
+      <strong>GATE SQUARE</strong>
+      <span>企業ポータル・総合サービス</span>
+      <a href="#company">会社概要を見る</a>
+    </div>
 
-    <article class="service">
-      <div class="service-icon">🔐</div>
-      <h3>ADMIN</h3>
-      <small>ADMINISTRATION SYSTEM</small>
-      <p>オルビステストの管理者専用ページ。</p>
-      <a href="https://itzy2.github.io/admin.html">管理者ページへ →</a>
-    </article>
+    <div class="banner-card">
+      <strong>MY MENU</strong>
+      <span>会員情報・契約・オプション管理</span>
+      <a href="https://itzy2.github.io/mymenu.html">マイメニューへ</a>
+    </div>
 
-    <article class="service">
-      <div class="service-icon">📚</div>
-      <h3>TANGO</h3>
-      <small>VOCABULARY LEARNING</small>
-      <p>単語学習に特化した学習サービス。</p>
-      <a href="https://itzy2.github.io/tango/">TANGOを利用する →</a>
-    </article>
-
-    <article class="service">
-      <div class="service-icon">📅</div>
-      <h3>GATE SQUARE OFFICIAL</h3>
-      <small>RESERVATION SYSTEM</small>
-      <p>ゲートスクエア公式予約システム。</p>
-      <a href="https://itzy2.github.io/gatesquare_Official/">予約システムへ →</a>
-    </article>
-
-      <article class="service">
-      <div class="service-icon">📅</div>
-      <h3>GATE SQUARE OFFICIAL</h3>
-      <small>TALK SYSTEM</small>
-      <p>会話システム。</p>
-      <a href="https://itzy2.github.io/gatemessage/">楽しい会話へ →</a>
-    </article>
-
-  </div>
-</section>
-
-
-<!-- ACCOUNT RECOVERY -->
-
-<section class="recovery-section" id="recovery">
-
-  <div class="heading">
-    <small>ACCOUNT SUPPORT</small>
-    <h2>アカウント確認・照会</h2>
-    <p>アカウント名やユーザーIDを忘れた場合はこちら</p>
+    <div class="banner-card">
+      <strong>GATE MESSAGE</strong>
+      <span>会員同士のコミュニケーション</span>
+      <a href="https://itzy2.github.io/gatemessage/">利用する</a>
+    </div>
   </div>
 
-  <div class="recovery-box">
+  <!-- NEWS -->
+  <section class="section" id="news">
+    <div class="section-heading red">
+      <span>特別インフォメーション</span>
+      <a href="#newsList">一覧へ →</a>
+    </div>
 
-    <div class="recovery-icon">🔎</div>
-
-    <h3>アカウントを確認する</h3>
-
-    <p class="recovery-subtitle">
-      登録した氏名と6桁の暗証番号を入力してください。
-    </p>
-
-    <form id="recoveryForm">
-
-      <div class="field">
-        <label for="accountName">登録した氏名</label>
-
-        <input
-          type="text"
-          id="accountName"
-          placeholder="登録時の氏名を入力"
-          maxlength="100"
-          autocomplete="name"
-          required
-        >
+    <div id="newsList">
+      <div class="notice-row">
+        <span class="notice-date">2026.11.20</span>
+        <span class="notice-new">NEW!</span>
+        <span class="notice-label">重要連絡</span>
+        <span>GATE SQUAREポータルサイトをリニューアルしました。</span>
       </div>
-
-      <div class="field">
-        <label for="accountPin">6桁の暗証番号</label>
-
-        <input
-          type="password"
-          id="accountPin"
-          class="pin-input"
-          placeholder="000000"
-          inputmode="numeric"
-          pattern="[0-9]{6}"
-          maxlength="6"
-          autocomplete="off"
-          required
-        >
+      <div class="notice-row">
+        <span class="notice-date">2026.11.19</span>
+        <span class="notice-new">NEW!</span>
+        <span class="notice-label green">サービス</span>
+        <span>マイメニューの提供を開始しました。</span>
       </div>
+      <div class="notice-row">
+        <span class="notice-date">2026.11.19</span>
+        <span></span>
+        <span class="notice-label">お知らせ</span>
+        <span>GATE MESSAGEを公開しました。</span>
+      </div>
+    </div>
+  </section>
 
-      <button
-        type="submit"
-        class="recovery-button"
-        id="searchButton"
-      >
-        アカウントを確認する →
-      </button>
+  <!-- SERVICE LIST -->
+  <section class="section" id="services">
+    <div class="section-heading">
+      <span>GATE SQUARE サービス一覧</span>
+      <a href="#services">6サイト →</a>
+    </div>
 
-    </form>
+    <div class="service-grid">
 
-    <div id="message" role="status" aria-live="polite"></div>
+      <a class="service-card" href="https://itzy2.github.io/kabu/">
+        <div class="service-top">KABU</div>
+        <div class="service-body">
+          <h3>STOCKPOINT 株式ゲーム</h3>
+          <p>株式の売買やポイント管理を楽しめるシミュレーションサービス。</p>
+        </div>
+        <div class="service-bottom">サービスを開く <span>›</span></div>
+      </a>
 
-    <div id="results"></div>
+      <a class="service-card" href="https://itzy2.github.io/test/">
+        <div class="service-top">ORBiS</div>
+        <div class="service-body">
+          <h3>ORBiS TEST</h3>
+          <p>オルビステストの受験・学習・成績確認を行うCBTシステム。</p>
+        </div>
+        <div class="service-bottom">サービスを開く <span>›</span></div>
+      </a>
 
-    <p class="notice">
-      ※本人確認に成功した場合のみ登録情報が表示されます。<br>
-      ※パスワードや暗証番号は表示されません。
-    </p>
+      <a class="service-card" href="https://itzy2.github.io/tango/">
+        <div class="service-top">TANGO</div>
+        <div class="service-body">
+          <h3>単語学習システム</h3>
+          <p>単語の学習や語彙力の向上を支援する学習サービス。</p>
+        </div>
+        <div class="service-bottom">サービスを開く <span>›</span></div>
+      </a>
 
-  </div>
+      <a class="service-card" href="https://itzy2.github.io/gatesquare_Official/">
+        <div class="service-top">RESERVE</div>
+        <div class="service-body">
+          <h3>GATE SQUARE OFFICIAL</h3>
+          <p>会員向け予約・スケジュール管理システム。</p>
+        </div>
+        <div class="service-bottom">サービスを開く <span>›</span></div>
+      </a>
 
-</section>
+      <a class="service-card" href="https://itzy2.github.io/gatemessage/">
+        <div class="service-top">MESSAGE</div>
+        <div class="service-body">
+          <h3>GATE MESSAGE</h3>
+          <p>会員同士でメッセージを送受信できるコミュニケーションサービス。</p>
+        </div>
+        <div class="service-bottom">サービスを開く <span>›</span></div>
+      </a>
 
+      <a class="service-card" href="https://itzy2.github.io/admin.html">
+        <div class="service-top">ADMIN</div>
+        <div class="service-body">
+          <h3>管理者専用ページ</h3>
+          <p>運営・会員管理などの管理者向け機能。管理者のみ利用してください。</p>
+        </div>
+        <div class="service-bottom">管理ページを開く <span>›</span></div>
+      </a>
 
-<!-- ABOUT -->
+    </div>
+  </section>
 
-<div class="about" id="about">
+  <!-- MY MENU -->
+  <section class="section" id="mymenu">
+    <div class="section-heading">
+      <span>会員専用 MY MENU</span>
+      <a href="https://itzy2.github.io/mymenu.html">開く →</a>
+    </div>
 
-  <h2>ABOUT GATE SQUARE</h2>
+    <div class="my-menu-card">
+      <h2>GATE SQUARE マイメニュー</h2>
+      <p>
+        会員情報、オプション契約、サービス設定、セキュリティ、
+        通知設定などをまとめて管理できます。
+      </p>
+      <a href="https://itzy2.github.io/mymenu.html">
+        マイメニューへ進む　→
+      </a>
+    </div>
+  </section>
 
-  <p>
-    GATE SQUAREは、複数のサービスを展開する<br>
-    総合サービスブランドです。<br><br>
-    ゲーム・教育・学習・予約システムなど、<br>
-    多彩な分野のサービスを提供します。
-  </p>
-
-</div>
+  <!-- COMPANY -->
+  <section class="section" id="company">
+    <div class="section-heading">
+      <span>GATE SQUARE 会社概要</span>
+    </div>
+    <div class="notice-row">
+      <span>会社名</span><strong>GATE SQUARE</strong>
+    </div>
+    <div class="notice-row">
+      <span>代表者</span><strong>深海</strong>
+    </div>
+    <div class="notice-row">
+      <span>所在地</span><strong>岐阜県瑞浪市</strong>
+    </div>
+    <div class="notice-row">
+      <span>設立年月日</span><strong>2024年11月2日</strong>
+    </div>
+    <div class="notice-row">
+      <span>事業・サービス</span><strong>デジタルサービス・会員システム運営</strong>
+    </div>
+  </section>
 
 </main>
 
+<!-- RIGHT COLUMN -->
+<aside class="right-column">
+
+  <div class="my-menu-card">
+    <h2>MY MENU</h2>
+    <p>会員情報やオプション契約を管理できます。</p>
+    <a href="https://itzy2.github.io/mymenu.html">会員ページへ →</a>
+  </div>
+
+  <div class="right-banner">
+    <div class="right-banner-title">GATE SQUARE INFORMATION</div>
+    <div class="right-banner-content">
+      <strong>最新情報</strong>
+      <p>各サービスの最新情報はこちらからご確認ください。</p>
+      <a href="#news">お知らせ一覧 →</a>
+      <a href="#services">サービス一覧 →</a>
+    </div>
+  </div>
+
+  <div class="right-banner">
+    <div class="right-banner-title">COMMUNICATION</div>
+    <div class="right-banner-content">
+      <strong>GATE MESSAGE</strong>
+      <p>会員同士のコミュニケーションに利用できます。</p>
+      <a href="https://itzy2.github.io/gatemessage/">チャットを開く →</a>
+    </div>
+  </div>
+
+  <div class="right-banner">
+    <div class="right-banner-title">MEMBER SERVICE</div>
+    <div class="right-banner-content">
+      <a href="https://itzy2.github.io/kabu/">KABU 株式ゲーム</a>
+      <a href="https://itzy2.github.io/test/">ORBiS TEST</a>
+      <a href="https://itzy2.github.io/tango/">TANGO</a>
+      <a href="https://itzy2.github.io/gatesquare_Official/">予約システム</a>
+    </div>
+  </div>
+
+  <div class="right-banner" id="support">
+    <div class="right-banner-title">SUPPORT CENTER</div>
+    <div class="right-banner-content">
+      <strong>お問い合わせ・サポート</strong>
+      <p>サービスに関するご質問や不具合の報告は、運営窓口までお願いします。</p>
+      <a href="mailto:">お問い合わせメールを設定する →</a>
+    </div>
+  </div>
+
+  <div class="company-box">
+    <strong>GATE SQUARE</strong><br>
+    代表者：深海<br>
+    岐阜県瑞浪市<br>
+    設立：2024年11月2日
+  </div>
+
+</aside>
+</div>
+</div>
 
 <footer>
-
-  <strong>GATE SQUARE</strong>
-
-  <p style="margin-top:12px;">
-    © 2026 GATE SQUARE. All Rights Reserved.
-  </p>
-
-  <p style="margin-top:5px;">
-    OFFICIAL PORTAL
-  </p>
-
+  <div class="brand-name" style="color:white">GATE<span>SQUARE</span></div>
+  <div class="footer-links">
+    <a href="#company">会社概要</a>
+    <a href="#services">サービス一覧</a>
+    <a href="https://itzy2.github.io/mymenu.html">マイメニュー</a>
+    <a href="#support">お問い合わせ</a>
+  </div>
+  <p>© 2026 GATE SQUARE. All Rights Reserved.</p>
+  <p>GATE SQUARE CORPORATE PORTAL</p>
 </footer>
 
-
 <script>
+function searchSite(){
+  const q=document.getElementById("searchInput").value.trim().toLowerCase();
+  if(!q)return;
 
-// ========================================
-// SUPABASE 設定
-// ========================================
+  const links=[...document.querySelectorAll(".service-card,.side-item,.notice-row,.right-banner a")];
 
-const SUPABASE_URL =
-  "https://hxrtpftlklgwesvanlpk.supabase.co";
+  let found=null;
+  for(const item of links){
+    if(item.innerText.toLowerCase().includes(q)){
+      found=item;
+      break;
+    }
+  }
 
-// SupabaseのPublishable keyを設定
-const SUPABASE_KEY =
-  "sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
-
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-// ========================================
-// サービス名
-// ========================================
-
-const serviceNames = {
-  kabu: "KABU / STOCKPOINT",
-  test: "ORBIS TEST / CBT",
-  admin: "ADMIN / 管理者",
-  tango: "TANGO / 単語学習",
-  gatesquare_official: "GATE SQUARE OFFICIAL / 予約システム"
-};
-
-
-// ========================================
-// メッセージ表示
-// ========================================
-
-function showMessage(message, type) {
-
-  const element = document.getElementById("message");
-
-  element.textContent = message;
-  element.className = type;
-
+  if(found){
+    found.scrollIntoView({behavior:"smooth",block:"center"});
+    found.style.outline="3px solid #078dcc";
+    setTimeout(()=>found.style.outline="",2000);
+  }else{
+    alert("該当するサービスや情報が見つかりませんでした。");
+  }
 }
 
+function setFont(size,button){
+  const body=document.body;
+  if(size==="small")body.style.fontSize="13px";
+  if(size==="normal")body.style.fontSize="15px";
+  if(size==="large")body.style.fontSize="18px";
 
-// ========================================
-// 結果表示
-// ========================================
-
-function showAccounts(accounts) {
-
-  const results = document.getElementById("results");
-
-  results.replaceChildren();
-
-  const heading = document.createElement("h3");
-
-  heading.className = "result-heading";
-  heading.textContent =
-    "確認されたアカウント：" + accounts.length + "件";
-
-  results.appendChild(heading);
-
-  accounts.forEach(account => {
-
-    const card = document.createElement("div");
-
-    card.className = "account-card";
-
-    const service = document.createElement("div");
-
-    service.className = "account-service";
-
-    service.textContent =
-      serviceNames[account.service_code] || "登録サービス";
-
-    const name = document.createElement("h4");
-
-    name.textContent = account.account_name;
-
-    const userId = document.createElement("div");
-
-    userId.className = "account-id";
-
-    userId.textContent = "ユーザーID：" + account.user_id;
-
-    const info = document.createElement("div");
-
-    info.className = "account-info";
-
-    const infoTitle = document.createElement("div");
-
-    infoTitle.textContent = "登録情報";
-
-    infoTitle.style.fontWeight = "bold";
-
-    info.appendChild(infoTitle);
-
-    const registration =
-      account.registration_info || {};
-
-    Object.entries(registration).forEach(([key, value]) => {
-
-      const row = document.createElement("div");
-
-      row.textContent =
-        key + "：" +
-        (typeof value === "object"
-          ? JSON.stringify(value)
-          : String(value));
-
-      info.appendChild(row);
-
-    });
-
-    card.appendChild(service);
-    card.appendChild(name);
-    card.appendChild(userId);
-    card.appendChild(info);
-
-    results.appendChild(card);
-
-  });
-
-  results.style.display = "block";
-
+  document.querySelectorAll(".font-control button")
+    .forEach(b=>b.classList.remove("selected"));
+  button.classList.add("selected");
 }
-
-
-// ========================================
-// アカウント照会
-// ========================================
-
-document.getElementById("recoveryForm")
-.addEventListener("submit", async function(event) {
-
-  event.preventDefault();
-
-  const button =
-    document.getElementById("searchButton");
-
-  const results =
-    document.getElementById("results");
-
-  const name =
-    document.getElementById("accountName")
-    .value.trim();
-
-  const pin =
-    document.getElementById("accountPin")
-    .value;
-
-  results.replaceChildren();
-  results.style.display = "none";
-
-  if (!name) {
-
-    showMessage(
-      "氏名を入力してください。",
-      "error"
-    );
-
-    return;
-
-  }
-
-  if (!/^[0-9]{6}$/.test(pin)) {
-
-    showMessage(
-      "暗証番号は6桁の数字で入力してください。",
-      "error"
-    );
-
-    return;
-
-  }
-
-  button.disabled = true;
-  button.textContent = "確認しています...";
-
-  showMessage(
-    "本人確認を行っています。",
-    "success"
-  );
-
-  try {
-
-    const { data, error } =
-      await supabaseClient.rpc(
-        "lookup_all_accounts",
-        {
-          p_name: name,
-          p_pin: pin
-        }
-      );
-
-    if (error) {
-
-      throw error;
-
-    }
-
-    if (!data || data.ok !== true) {
-
-      showMessage(
-        data?.message ||
-        "照会できませんでした。入力内容を確認してください。",
-        "error"
-      );
-
-      return;
-
-    }
-
-    if (!data.accounts || data.accounts.length === 0) {
-
-      showMessage(
-        "登録アカウントが見つかりませんでした。",
-        "error"
-      );
-
-      return;
-
-    }
-
-    showMessage(
-      "本人確認が完了しました。",
-      "success"
-    );
-
-    showAccounts(data.accounts);
-
-  } catch (error) {
-
-    console.error("Account lookup error:", error);
-
-    showMessage(
-      "照会処理に失敗しました。時間をおいて再度お試しください。",
-      "error"
-    );
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent =
-      "アカウントを確認する →";
-
-    document.getElementById("accountPin").value = "";
-
-  }
-
-});
-
-
-// ========================================
-// 暗証番号の数字入力制限
-// ========================================
-
-document.getElementById("accountPin")
-.addEventListener("input", function() {
-
-  this.value = this.value
-    .replace(/[^0-9]/g, "")
-    .slice(0, 6);
-
-});
-
 </script>
 
 </body>
