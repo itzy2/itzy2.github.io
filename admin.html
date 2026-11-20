@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>解約管理 | GATE SQUARE</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#081426;color:#eaf4ff;font-family:Arial,"Noto Sans JP",sans-serif}
+header{padding:20px;background:#10233d;border-bottom:1px solid #294665;display:flex;justify-content:space-between;align-items:center}
+main{max-width:1100px;margin:25px auto;padding:15px}
+.panel{background:#10233d;border:1px solid #294665;border-radius:14px;padding:20px;margin-bottom:18px}
+h1,h2{margin-top:0}
+input,textarea{width:100%;padding:12px;margin:7px 0 14px;border-radius:8px;border:1px solid #42617e;background:#081426;color:white}
+button{padding:11px 17px;border:0;border-radius:8px;background:#24c8ee;color:#061626;font-weight:bold;cursor:pointer;margin:4px}
+button.danger{background:#e65b68;color:white}
+button.secondary{background:#294665;color:white}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{padding:12px;border-bottom:1px solid #294665;text-align:left}
+th{color:#62dafa}
+.table-wrap{overflow-x:auto}
+.muted{color:#9db3ca;font-size:13px}
+.hidden{display:none}
+#message{padding:12px;color:#71e5a5}
+#result{white-space:pre-wrap;overflow-wrap:anywhere}
+#printSheet{display:none}
+@media print{
+ @page{size:A4;margin:15mm}
+ body{background:white!important;color:#111!important}
+ body *{visibility:hidden!important}
+ #printSheet,#printSheet *{visibility:visible!important}
+ #printSheet{
+  display:block!important;position:absolute;left:0;top:0;width:100%;
+  border:2px solid #222;padding:22px;background:white;color:#111;
+  font-family:Arial,"Noto Sans JP",sans-serif
+ }
+ #printSheet h1{text-align:center;border-bottom:2px solid #222;padding-bottom:12px}
+ #printSheet table{width:100%;border-collapse:collapse;min-width:0}
+ #printSheet th,#printSheet td{border:1px solid #777;padding:10px;color:#111}
+ #printSheet th{width:28%;background:#eee!important}
+ #printSheet .thanks{text-align:center;margin-top:35px;font-weight:bold}
+}
+</style>
+</head>
+<body>
+<header>
+ <div><b>GATE SQUARE</b><div class="muted">解約管理システム</div></div>
+ <button class="secondary" onclick="logout()">ログアウト</button>
+</header>
+
+<main>
+<section id="loginArea" class="panel">
+ <h2>管理者ログイン</h2>
+ <label>メールアドレス</label>
+ <input id="email" type="email">
+ <label>パスワード</label>
+ <input id="password" type="password">
+ <button onclick="login()">ログイン</button>
+</section>
+
+<section id="adminArea" class="hidden">
+ <div class="panel">
+  <h2>登録者一覧</h2>
+  <button onclick="loadUsers()">一覧を更新</button>
+  <div class="table-wrap">
+   <table>
+    <thead><tr><th>会員名</th><th>メール</th><th>オプション</th><th>操作</th></tr></thead>
+    <tbody id="users"></tbody>
+   </table>
+  </div>
+ </div>
+
+ <div class="panel">
+  <h2>解約処理</h2>
+  <div id="selected">対象者が選択されていません。</div>
+  <label>解約内容・備考</label>
+  <textarea id="content" rows="4" placeholder="解約内容を入力してください"></textarea>
+  <button class="danger" onclick="cancelMember()">この会員を解約する</button>
+  <div id="result"></div>
+ </div>
+
+ <div class="panel">
+  <h2>解約履歴</h2>
+  <button onclick="loadHistory()">履歴を更新</button>
+  <div class="table-wrap">
+   <table>
+    <thead><tr><th>解約者</th><th>解約日</th><th>操作</th></tr></thead>
+    <tbody id="history"></tbody>
+   </table>
+  </div>
+ </div>
+</section>
+<div id="message"></div>
+</main>
+
+<div id="printSheet">
+ <h1>GATE SQUARE<br>解約完了証明書</h1>
+ <table>
+  <tr><th>解約者名</th><td id="pName"></td></tr>
+  <tr><th>解約日</th><td id="pDate"></td></tr>
+  <tr><th>管理者</th><td>管理者</td></tr>
+  <tr><th>解約内容</th><td id="pContent"></td></tr>
+  <tr><th>契約オプション</th><td id="pOptions"></td></tr>
+  <tr><th>解約金</th><td>なし</td></tr>
+  <tr><th>費用負担</th><td>GATE SQUARE負担</td></tr>
+ </table>
+ <div class="thanks">ご利用ありがとうございました。</div>
+ <p style="text-align:right;margin-top:25px">GATE SQUARE</p>
+</div>
+
+<script>
+const SUPABASE_URL="https://hxrtpftlklgwesvanlpk.supabase.co";
+const SUPABASE_KEY="sb_publishable_b1T9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+let selectedUser=null;
+let currentToken=null;
+
+function el(id){return document.getElementById(id)}
+function safe(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+function message(t){el("message").textContent=t}
+
+async function login(){
+ const {data,error}=await db.auth.signInWithPassword({
+  email:el("email").value,
+  password:el("password").value
+ });
+ if(error){message(error.message);return}
+ currentToken=data.session.access_token;
+ el("loginArea").classList.add("hidden");
+ el("adminArea").classList.remove("hidden");
+ await loadUsers();
+ await loadHistory();
+}
+
+async function logout(){
+ await db.auth.signOut();
+ location.reload();
+}
+
+async function callApi(action,extra={}){
+ const {data:{session}}=await db.auth.getSession();
+ if(!session)throw new Error("ログインしてください。");
+ const {data,error}=await db.functions.invoke("gs-cancellation",{
+  body:{action,...extra}
+ });
+ if(error)throw error;
+ if(data?.error)throw new Error(data.error);
+ return data;
+}
+
+async function loadUsers(){
+ try{
+  const data=await callApi("list");
+  el("users").innerHTML="";
+  data.users.forEach(u=>{
+   const opts=(u.options||[])
+    .filter(o=>o.status==="active")
+    .map(o=>o.plan_name||o.plan_code||"オプション")
+    .join("、")||"なし";
+   const tr=document.createElement("tr");
+   tr.innerHTML=`
+    <td>${safe(u.name)}</td>
+    <td>${safe(u.email)}</td>
+    <td>${safe(opts)}</td>
+    <td><button onclick="selectUser('${safe(u.id)}')">選択</button></td>`;
+   el("users").appendChild(tr);
+  });
+  message("登録者一覧を更新しました。");
+ }catch(e){message(e.message)}
+}
+
+async function selectUser(id){
+ try{
+  const data=await callApi("list");
+  selectedUser=data.users.find(u=>u.id===id);
+  if(!selectedUser)return;
+  el("selected").textContent=
+   "選択中："+selectedUser.name+" / "+selectedUser.email;
+  el("result").textContent="";
+ }catch(e){message(e.message)}
+}
+
+async function cancelMember(){
+ if(!selectedUser){message("対象者を選択してください。");return}
+ if(!confirm(selectedUser.name+" さんを解約します。よろしいですか？"))return;
+
+ try{
+  const data=await callApi("cancel",{
+   user_id:selectedUser.id,
+   content:el("content").value
+  });
+
+  el("result").textContent=
+   "解約処理が完了しました。\n"+
+   "再利用用アカウント名："+data.temporary_name+
+   "\n仮パスワード："+data.temporary_password+
+   "\nこの仮パスワードは必ず安全な場所に保管してください。";
+
+  preparePrint({
+   name:selectedUser.name,
+   date:new Date().toLocaleDateString("ja-JP"),
+   content:el("content").value||"解約手続き",
+   options:(selectedUser.options||[])
+    .filter(o=>o.status==="active")
+    .map(o=>o.plan_name||o.plan_code||"オプション")
+  });
+
+  window.print();
+  selectedUser=null;
+  el("selected").textContent="対象者が選択されていません。";
+  el("content").value="";
+  await loadUsers();
+  await loadHistory();
+  message("解約処理と書類作成が完了しました。");
+ }catch(e){message("解約エラー："+e.message)}
+}
+
+function preparePrint(item){
+ el("pName").textContent=item.name;
+ el("pDate").textContent=item.date;
+ el("pContent").textContent=item.content;
+ el("pOptions").textContent=item.options.length
+  ? item.options.join("、")
+  : "なし";
+}
+
+async function loadHistory(){
+ try{
+  const data=await callApi("history");
+  el("history").innerHTML="";
+  data.history.forEach(h=>{
+   const tr=document.createElement("tr");
+   const date=new Date(h.cancelled_at).toLocaleString("ja-JP");
+   tr.innerHTML=`
+    <td>${safe(h.cancelled_member_name)}</td>
+    <td>${safe(date)}</td>
+    <td><button class="secondary" onclick="printHistory('${safe(h.id)}')">書類印刷</button></td>`;
+   el("history").appendChild(tr);
+  });
+ }catch(e){message(e.message)}
+}
+
+async function printHistory(id){
+ try{
+  const data=await callApi("history");
+  const h=data.history.find(x=>x.id===id);
+  if(!h)return;
+  preparePrint({
+   name:h.cancelled_member_name,
+   date:new Date(h.cancelled_at).toLocaleDateString("ja-JP"),
+   content:h.cancellation_content||"解約手続き",
+   options:(h.options_snapshot||[]).map(o=>o.plan_name||"オプション")
+  });
+  window.print();
+ }catch(e){message(e.message)}
+}
+
+db.auth.getSession().then(async ({data})=>{
+ if(data.session){
+  el("loginArea").classList.add("hidden");
+  el("adminArea").classList.remove("hidden");
+  await loadUsers();
+  await loadHistory();
+ }
+});
+</script>
+</body>
+</html>
