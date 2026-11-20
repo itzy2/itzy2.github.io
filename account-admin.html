@@ -1,401 +1,239 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#10233f">
 <title>GATE SQUARE | 管理者ページ</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root {
-  --navy:#10233f;
-  --blue:#2563eb;
-  --bg:#f1f5f9;
-  --text:#172033;
-  --muted:#64748b;
-  --border:#dbe3ee;
-  --red:#dc2626;
-  --green:#15803d;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,"Noto Sans JP",sans-serif;
-}
-header {
-  background:var(--navy);
-  color:white;
-  padding:20px;
-}
-.header-inner {
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
-}
-.brand {
-  font-size:23px;
-  font-weight:900;
-  letter-spacing:2px;
-}
-header small { color:#bfdbfe; }
-main {
-  max-width:1200px;
-  margin:28px auto;
-  padding:0 16px 50px;
-}
-.panel {
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:23px;
-  margin-bottom:20px;
-  box-shadow:0 5px 20px #0f172a08;
-}
-h1 { font-size:25px; margin:0 0 8px; }
-h2 { font-size:19px; margin:0 0 16px; }
-.description {
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.8;
-}
-label {
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin:14px 0 7px;
-}
-input,select,textarea {
-  width:100%;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:9px;
-  font-size:15px;
-  background:white;
-}
-textarea { min-height:90px; }
-button {
-  border:0;
-  border-radius:9px;
-  padding:11px 16px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-}
-button:disabled { opacity:.5; cursor:not-allowed; }
-.primary { background:var(--blue); color:white; }
-.secondary { background:#e2e8f0; color:#1e293b; }
-.danger { background:#fee2e2; color:#b91c1c; }
-.grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-.actions {
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-  margin-top:18px;
-}
-.status {
-  padding:12px 14px;
-  border-radius:9px;
-  margin:15px 0;
-  font-size:14px;
-  display:none;
-  line-height:1.6;
-  overflow-wrap:anywhere;
-}
-.status.success { display:block; background:#dcfce7; color:#166534; }
-.status.error { display:block; background:#fee2e2; color:#991b1b; }
-.status.info { display:block; background:#dbeafe; color:#1e40af; }
-.hidden { display:none !important; }
-.table-wrap { overflow-x:auto; }
-table {
-  width:100%;
-  border-collapse:collapse;
-  min-width:750px;
-}
-th,td {
-  text-align:left;
-  padding:12px 10px;
-  border-bottom:1px solid var(--border);
-  font-size:13px;
-  vertical-align:top;
-  overflow-wrap:anywhere;
-}
-th { background:#f8fafc; }
-.top-actions {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
-}
-.badge {
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#dbeafe;
-  color:#1d4ed8;
-  font-size:11px;
-  font-weight:bold;
-}
-footer {
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
-  padding:25px;
-}
-.login-box { max-width:480px; margin:40px auto; }
-@media(max-width:650px) {
-  .grid { grid-template-columns:1fr; }
-  .panel { padding:17px; }
-  .header-inner { align-items:flex-start; flex-direction:column; }
-}
-@media print {
-  body { background:white; color:black; }
-  header,footer,.no-print,#loginPanel { display:none !important; }
-  main { max-width:none; margin:0; padding:0; }
-  .panel { box-shadow:none; border:0; padding:8px; }
-  #adminPanel { display:block !important; }
-  #accountPanel { display:block !important; }
-  table { min-width:0; width:100%; }
-  th,td { font-size:10px; padding:6px; }
-  .print-title { display:block !important; }
-}
-.print-title { display:none; }
+*{box-sizing:border-box}
+body{margin:0;background:#f1f5f9;color:#172033;font-family:Arial,"Noto Sans JP",sans-serif}
+header{background:#10233f;color:white;padding:20px}
+.header-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+main{max-width:1200px;margin:25px auto;padding:0 15px 60px}
+.panel{background:white;border:1px solid #dbe3ee;border-radius:14px;padding:22px;margin-bottom:18px}
+h1{font-size:25px;margin:0 0 8px}
+h2{font-size:19px;margin:0 0 16px}
+h3{font-size:16px}
+label{display:block;font-size:13px;font-weight:bold;margin:13px 0 6px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}
+textarea{min-height:90px;resize:vertical}
+button{border:0;border-radius:8px;padding:11px 16px;font-weight:bold;cursor:pointer}
+.primary{background:#2563eb;color:white}
+.secondary{background:#e2e8f0;color:#172033}
+.danger{background:#fee2e2;color:#b91c1c}
+.hidden{display:none!important}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tabs button.active{background:#10233f;color:white}
+.tab{display:none}
+.tab.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.status{padding:12px;border-radius:8px;margin:12px 0;white-space:pre-wrap}
+.status.error{background:#fee2e2;color:#991b1b}
+.status.success{background:#dcfce7;color:#166534}
+.status.info{background:#dbeafe;color:#1e40af}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{text-align:left;padding:11px;border-bottom:1px solid #e2e8f0;font-size:13px;vertical-align:top}
+th{background:#f8fafc}
+.editor-item{border:1px solid #dbe3ee;border-radius:10px;padding:15px;margin:12px 0}
+.item-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:16px}.header-inner{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
-
 <body>
-
 <header>
   <div class="header-inner">
     <div>
-      <div class="brand">GATE SQUARE</div>
-      <small>ADMINISTRATION SYSTEM</small>
+      <strong style="font-size:22px;letter-spacing:2px">GATE SQUARE</strong>
+      <div>ADMINISTRATION SYSTEM</div>
     </div>
-    <button id="logoutButton" class="secondary hidden no-print"
-      onclick="logout()">ログアウト</button>
+    <button id="logoutButton" class="secondary hidden" onclick="logout()">ログアウト</button>
   </div>
 </header>
 
 <main>
-
-<section id="loginPanel" class="panel login-box">
+<section id="loginPanel" class="panel">
   <h1>管理者ログイン</h1>
-  <p class="description">
-    GATE SQUARE管理者専用ページです。
-    管理者として登録されたアカウントでログインしてください。
-  </p>
-
-  <div id="loginMessage" class="status"></div>
-
-  <label for="email">メールアドレス</label>
-  <input id="email" type="email" autocomplete="username"
-    placeholder="管理者メールアドレス">
-
-  <label for="password">パスワード</label>
-  <input id="password" type="password"
-    autocomplete="current-password" placeholder="パスワード">
-
+  <p>管理者アカウントでログインしてください。</p>
+  <label>メールアドレス</label>
+  <input id="email" type="email" autocomplete="username">
+  <label>パスワード</label>
+  <input id="password" type="password" autocomplete="current-password">
   <div class="actions">
-    <button class="primary" id="loginButton" onclick="login()">
-      ログイン
-    </button>
+    <button class="primary" onclick="login()">ログイン</button>
   </div>
+  <div id="loginMessage"></div>
 </section>
 
 <section id="adminPanel" class="hidden">
-
   <div class="panel">
     <h1>管理者ダッシュボード</h1>
-    <p class="description">
-      GATE SQUAREの登録アカウント情報を管理します。
-      PINはハッシュ化して保存されるため、登録後に読み出すことはできません。
-      編集時は新しいPINを設定してください。
-    </p>
-    <div id="adminMessage" class="status"></div>
+    <p>アカウント管理とポータルサイトの編集を行えます。</p>
+    <div id="adminMessage"></div>
   </div>
 
-  <div class="panel no-print">
-    <h2>アカウント登録・更新</h2>
+  <div class="tabs">
+    <button class="secondary active" onclick="showTab('portal',this)">ポータル編集</button>
+    <button class="secondary" onclick="showTab('accounts',this)">アカウント管理</button>
+  </div>
 
-    <div class="grid">
-      <div>
-        <label for="service">登録サービス</label>
-        <select id="service">
-          <option value="kabu">KABU</option>
-          <option value="test">オルビステスト</option>
-          <option value="admin">オルビステスト管理者</option>
-          <option value="tango">TANGO</option>
-          <option value="gatesquare_official">GATE SQUARE</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="fullName">利用者氏名</label>
-        <input id="fullName" placeholder="例：山田太郎">
-      </div>
-
-      <div>
-        <label for="pin">6桁PIN</label>
-        <input id="pin" type="password" inputmode="numeric"
-          maxlength="6" placeholder="数字6桁">
-      </div>
-
-      <div>
-        <label for="accountName">アカウント名</label>
-        <input id="accountName" placeholder="アカウント名">
-      </div>
-
-      <div>
-        <label for="userId">ユーザーID</label>
-        <input id="userId" placeholder="ユーザーID">
+  <section id="portal" class="tab active">
+    <div class="panel">
+      <h2>トップページ編集</h2>
+      <label>トップタイトル</label>
+      <input id="heroTitle">
+      <label>トップ説明文</label>
+      <textarea id="heroDescription"></textarea>
+      <div class="actions">
+        <button class="primary" onclick="savePortal()">トップページを保存</button>
+        <a href="index.html" target="_blank">ポータルを確認</a>
       </div>
     </div>
 
-    <label for="registrationInfo">その他の登録情報</label>
-    <textarea id="registrationInfo"
-      placeholder="補足情報を入力してください。パスワードなどの秘密情報は登録しないでください。"></textarea>
-
-    <p class="description">
-      同じサービスコード・ユーザーIDで登録すると既存情報を更新します。
-    </p>
-
-    <div class="actions">
-      <button class="primary" id="saveButton" onclick="saveAccount()">
-        登録・更新する
-      </button>
-      <button class="secondary" onclick="clearForm()">入力をクリア</button>
+    <div class="panel">
+      <h2>ニュース・お知らせ編集</h2>
+      <div id="newsEditor"></div>
+      <button class="secondary" onclick="addItem('news')">＋ お知らせを追加</button>
     </div>
-  </div>
 
-  <div class="panel" id="accountPanel">
-    <div class="top-actions no-print">
-      <h2>登録済みアカウント</h2>
-      <div class="actions" style="margin:0">
+    <div class="panel">
+      <h2>事業案内編集</h2>
+      <div id="businessEditor"></div>
+      <button class="secondary" onclick="addItem('businesses')">＋ 事業を追加</button>
+    </div>
+
+    <div class="panel">
+      <h2>サービス編集</h2>
+      <div id="serviceEditor"></div>
+      <button class="secondary" onclick="addItem('services')">＋ サービスを追加</button>
+    </div>
+
+    <div class="panel">
+      <button class="primary" onclick="savePortal()">すべての変更を保存</button>
+    </div>
+  </section>
+
+  <section id="accounts" class="tab">
+    <div class="panel">
+      <h2>アカウント登録・更新</h2>
+      <div class="grid">
+        <div>
+          <label>登録サービス</label>
+          <select id="service">
+            <option value="kabu">KABU</option>
+            <option value="test">オルビステスト</option>
+            <option value="admin">オルビステスト管理者</option>
+            <option value="tango">TANGO</option>
+            <option value="gatesquare_official">GATE SQUARE</option>
+          </select>
+        </div>
+        <div>
+          <label>利用者氏名</label>
+          <input id="fullName">
+        </div>
+        <div>
+          <label>6桁PIN</label>
+          <input id="pin" type="password" inputmode="numeric" maxlength="6">
+        </div>
+        <div>
+          <label>アカウント名</label>
+          <input id="accountName">
+        </div>
+        <div>
+          <label>ユーザーID</label>
+          <input id="userId">
+        </div>
+      </div>
+      <label>その他の登録情報</label>
+      <textarea id="registrationInfo"></textarea>
+      <div class="actions">
+        <button class="primary" onclick="saveAccount()">登録・更新</button>
+        <button class="secondary" onclick="clearAccountForm()">クリア</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <h2>登録済みアカウント</h2>
         <button class="secondary" onclick="loadAccounts()">再読み込み</button>
-        <button class="primary" onclick="printAccounts()">会員情報を印刷</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>サービス</th><th>氏名</th><th>アカウント名</th>
+              <th>ユーザーID</th><th>登録情報</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="accountList"></tbody>
+        </table>
       </div>
     </div>
-
-    <h2 class="print-title">GATE SQUARE 登録会員情報一覧</h2>
-    <p class="print-title">印刷日：<span id="printDate"></span></p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>サービス</th>
-            <th>氏名</th>
-            <th>アカウント名</th>
-            <th>ユーザーID</th>
-            <th>登録情報</th>
-            <th class="no-print">操作</th>
-          </tr>
-        </thead>
-        <tbody id="accountList">
-          <tr><td colspan="6">読み込み中...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
+  </section>
 </section>
 </main>
 
-<footer>GATE SQUARE ADMINISTRATION SYSTEM</footer>
-
 <script>
-"use strict";
+const SUPABASE_URL="https://hxrtpftlklgwesvanlpk.supabase.co";
+const SUPABASE_KEY="sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const SUPABASE_URL =
-  "https://hxrtpftlklgwesvanlpk.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_b1tG9o1bXMzZBXGHBJZhZA_Ak-KYmnZ";
-
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-const SERVICE_NAMES = {
-  kabu:"KABU",
-  test:"オルビステスト",
-  admin:"オルビステスト管理者",
-  tango:"TANGO",
-  gatesquare_official:"GATE SQUARE"
+let portalData={
+  hero_title:"GATE SQUARE",
+  hero_description:"未来につながるサービスを提供します。",
+  news:[],
+  businesses:[],
+  services:[
+    {title:"KABU",description:"STOCKPOINT株式ゲーム",url:"https://itzy2.github.io/kabu/"},
+    {title:"ORBiS TEST",description:"オンライン試験・CBT",url:"https://itzy2.github.io/test/"},
+    {title:"TANGO",description:"単語学習サービス",url:"https://itzy2.github.io/tango/"},
+    {title:"GATE SQUARE OFFICIAL",description:"予約管理サービス",url:"https://itzy2.github.io/gatesquare_Official/"},
+    {title:"GATE MESSAGE",description:"会員向けコミュニケーション",url:"https://itzy2.github.io/gatemessage/"},
+    {title:"MY MENU",description:"会員情報・契約内容",url:"mymenu.html"}
+  ]
 };
 
-let accounts = [];
+let accounts=[];
 
-function showMessage(id,message,type) {
-  const el = document.getElementById(id);
-  el.textContent = message;
-  el.className = "status " + type;
+function message(id,text,type="info"){
+  const el=document.getElementById(id);
+  el.className="status "+type;
+  el.textContent=text;
 }
 
-function clearMessage(id) {
-  const el = document.getElementById(id);
-  el.textContent = "";
-  el.className = "status";
+function showTab(id,button){
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+  button.classList.add("active");
 }
 
-function showLogin() {
-  document.getElementById("loginPanel").classList.remove("hidden");
-  document.getElementById("adminPanel").classList.add("hidden");
-  document.getElementById("logoutButton").classList.add("hidden");
-}
-
-async function login() {
-  clearMessage("loginMessage");
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const button = document.getElementById("loginButton");
-
-  if (!email || !password) {
-    showMessage("loginMessage",
-      "メールアドレスとパスワードを入力してください。","error");
+async function login(){
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  if(!email||!password){
+    message("loginMessage","メールアドレスとパスワードを入力してください。","error");
     return;
   }
-
-  button.disabled = true;
-  button.textContent = "ログイン中...";
-
-  try {
-    const {error} = await db.auth.signInWithPassword({email,password});
-    if (error) throw error;
-    await checkAdmin();
-  } catch(error) {
-    showMessage("loginMessage",
-      "ログインできませんでした："+error.message,"error");
-  } finally {
-    button.disabled = false;
-    button.textContent = "ログイン";
+  const {error}=await db.auth.signInWithPassword({email,password});
+  if(error){
+    message("loginMessage","ログインできません："+error.message,"error");
+    return;
   }
+  await checkAdmin();
 }
 
-async function checkAdmin() {
-  const {data,error} = await db.rpc("gs_admin_is_admin");
+async function checkAdmin(){
+  const {data:sessionData}=await db.auth.getSession();
+  if(!sessionData.session){showLogin();return;}
 
-  if (error || data !== true) {
+  const {data,error}=await db.rpc("gs_admin_is_admin");
+  if(error||data!==true){
     await db.auth.signOut();
     showLogin();
-    showMessage("loginMessage",
-      error ? "管理者確認に失敗しました："+error.message :
-      "このアカウントには管理者権限がありません。","error");
+    message("loginMessage","管理者権限がありません。","error");
     return;
   }
 
@@ -403,205 +241,296 @@ async function checkAdmin() {
   document.getElementById("adminPanel").classList.remove("hidden");
   document.getElementById("logoutButton").classList.remove("hidden");
 
+  await loadPortal();
   await loadAccounts();
 }
 
-async function logout() {
+function showLogin(){
+  document.getElementById("loginPanel").classList.remove("hidden");
+  document.getElementById("adminPanel").classList.add("hidden");
+  document.getElementById("logoutButton").classList.add("hidden");
+}
+
+async function logout(){
   await db.auth.signOut();
-  accounts = [];
-  clearForm();
   showLogin();
 }
 
-async function loadAccounts() {
-  const tbody = document.getElementById("accountList");
-  tbody.innerHTML = '<tr><td colspan="6">読み込み中...</td></tr>';
-
-  try {
-    const {data,error} = await db.rpc("gs_admin_list_accounts");
-    if (error) throw error;
-
-    accounts = Array.isArray(data) ? data : [];
-
-    if (!accounts.length) {
-      tbody.innerHTML =
-        '<tr><td colspan="6">登録データはありません。</td></tr>';
-      return;
-    }
-
-    tbody.replaceChildren();
-
-    accounts.forEach(account => {
-      const tr = document.createElement("tr");
-      const info = account.registration_info || {};
-
-      const values = [
-        SERVICE_NAMES[account.service_code] || account.service_code,
-        info.name || "未登録",
-        account.account_name || "",
-        account.user_id || "",
-        info.details || ""
-      ];
-
-      values.forEach(value => {
-        const td = document.createElement("td");
-        td.textContent = String(value ?? "");
-        tr.appendChild(td);
-      });
-
-      const action = document.createElement("td");
-      action.className = "no-print";
-
-      const edit = document.createElement("button");
-      edit.className = "secondary";
-      edit.textContent = "編集";
-      edit.onclick = () => editAccount(account.id);
-
-      const del = document.createElement("button");
-      del.className = "danger";
-      del.textContent = "削除";
-      del.style.marginLeft = "5px";
-      del.onclick = () => deleteAccount(account.id);
-
-      action.append(edit,del);
-      tr.appendChild(action);
-      tbody.appendChild(tr);
-    });
-
-    clearMessage("adminMessage");
-
-  } catch(error) {
-    tbody.innerHTML =
-      '<tr><td colspan="6">一覧を取得できませんでした。</td></tr>';
-    showMessage("adminMessage",
-      "一覧の取得に失敗しました："+error.message,"error");
-  }
+function normalizeItems(value){
+  return Array.isArray(value)?value:[];
 }
 
-async function saveAccount() {
-  clearMessage("adminMessage");
+function renderEditor(type,containerId){
+  const box=document.getElementById(containerId);
+  box.replaceChildren();
 
-  const service = document.getElementById("service").value;
-  const name = document.getElementById("fullName").value.trim();
-  const pin = document.getElementById("pin").value;
-  const accountName = document.getElementById("accountName").value.trim();
-  const userId = document.getElementById("userId").value.trim();
-  const details = document.getElementById("registrationInfo").value.trim();
+  const items=normalizeItems(portalData[type]);
 
-  if (!name || !accountName || !userId) {
-    showMessage("adminMessage",
-      "氏名・アカウント名・ユーザーIDを入力してください。","error");
-    return;
-  }
+  items.forEach((item,index)=>{
+    const div=document.createElement("div");
+    div.className="editor-item";
 
-  if (!/^[0-9]{6}$/.test(pin)) {
-    showMessage("adminMessage",
-      "PINは数字6桁で入力してください。","error");
-    return;
-  }
+    const title=document.createElement("input");
+    title.placeholder="タイトル";
+    title.value=item.title||"";
 
-  const button = document.getElementById("saveButton");
-  button.disabled = true;
-  button.textContent = "保存中...";
+    const description=document.createElement("textarea");
+    description.placeholder="説明文";
+    description.value=item.description||"";
 
-  try {
-    const {error} = await db.rpc("gs_admin_save_account",{
-      p_service_code:service,
-      p_name:name,
-      p_pin:pin,
-      p_account_name:accountName,
-      p_user_id:userId,
-      p_registration_info:details
-    });
+    const url=document.createElement("input");
+    url.placeholder="リンクURL（任意）";
+    url.value=item.url||"";
 
-    if (error) throw error;
+    const date=document.createElement("input");
+    date.placeholder="日付（ニュース用）";
+    date.value=item.date||"";
+    if(type!=="news")date.classList.add("hidden");
 
-    showMessage("adminMessage","アカウント情報を保存しました。","success");
-    clearForm();
-    await loadAccounts();
+    title.dataset.field="title";
+    description.dataset.field="description";
+    url.dataset.field="url";
+    date.dataset.field="date";
 
-  } catch(error) {
-    showMessage("adminMessage",
-      "保存に失敗しました："+error.message,"error");
-  } finally {
-    button.disabled = false;
-    button.textContent = "登録・更新する";
-  }
-}
+    const buttons=document.createElement("div");
+    buttons.className="item-actions";
 
-function editAccount(id) {
-  const account = accounts.find(item => String(item.id) === String(id));
-  if (!account) return;
+    const up=document.createElement("button");
+    up.className="secondary";
+    up.textContent="上へ";
+    up.onclick=()=>moveItem(type,index,-1);
 
-  const info = account.registration_info || {};
+    const down=document.createElement("button");
+    down.className="secondary";
+    down.textContent="下へ";
+    down.onclick=()=>moveItem(type,index,1);
 
-  document.getElementById("service").value = account.service_code;
-  document.getElementById("fullName").value = info.name || "";
-  document.getElementById("accountName").value = account.account_name || "";
-  document.getElementById("userId").value = account.user_id || "";
-  document.getElementById("registrationInfo").value = info.details || "";
-  document.getElementById("pin").value = "";
-  document.getElementById("pin").placeholder = "新しい数字6桁";
+    const remove=document.createElement("button");
+    remove.className="danger";
+    remove.textContent="削除";
+    remove.onclick=()=>removeItem(type,index);
 
-  document.getElementById("saveButton").textContent = "変更内容を保存する";
-
-  window.scrollTo({top:0,behavior:"smooth"});
-  showMessage("adminMessage",
-    "編集モードです。新しい6桁PINを入力してください。","info");
-}
-
-async function deleteAccount(id) {
-  if (!confirm("このアカウント情報を削除しますか？")) return;
-
-  try {
-    const {error} = await db.rpc("gs_admin_delete_account",{p_id:id});
-    if (error) throw error;
-
-    showMessage("adminMessage","アカウント情報を削除しました。","success");
-    await loadAccounts();
-
-  } catch(error) {
-    showMessage("adminMessage",
-      "削除に失敗しました："+error.message,"error");
-  }
-}
-
-function clearForm() {
-  document.getElementById("service").value = "kabu";
-  document.getElementById("fullName").value = "";
-  document.getElementById("pin").value = "";
-  document.getElementById("pin").placeholder = "数字6桁";
-  document.getElementById("accountName").value = "";
-  document.getElementById("userId").value = "";
-  document.getElementById("registrationInfo").value = "";
-  document.getElementById("saveButton").textContent = "登録・更新する";
-}
-
-function printAccounts() {
-  document.getElementById("printDate").textContent =
-    new Date().toLocaleString("ja-JP");
-  window.print();
-}
-
-async function initialize() {
-  const {data,error} = await db.auth.getSession();
-
-  if (error) {
-    showMessage("loginMessage",error.message,"error");
-    return;
-  }
-
-  if (data.session) {
-    await checkAdmin();
-  } else {
-    showLogin();
-  }
-
-  db.auth.onAuthStateChange((event,session) => {
-    if (event === "SIGNED_OUT" || !session) showLogin();
+    buttons.append(up,down,remove);
+    div.append(title,description,url);
+    if(type==="news")div.append(date);
+    div.append(buttons);
+    box.appendChild(div);
   });
 }
 
+function readEditor(type,containerId){
+  return [...document.getElementById(containerId).children].map(div=>{
+    const item={};
+    div.querySelectorAll("[data-field]").forEach(el=>{
+      item[el.dataset.field]=el.value.trim();
+    });
+    return item;
+  });
+}
+
+function addItem(type){
+  portalData[type]=normalizeItems(portalData[type]);
+  portalData[type].push({title:"",description:"",url:"",date:""});
+  renderAllEditors();
+}
+
+function removeItem(type,index){
+  if(!confirm("この項目を削除しますか？"))return;
+  portalData[type].splice(index,1);
+  renderAllEditors();
+}
+
+function moveItem(type,index,direction){
+  const next=index+direction;
+  if(next<0||next>=portalData[type].length)return;
+  const list=portalData[type];
+  [list[index],list[next]]=[list[next],list[index]];
+  renderAllEditors();
+}
+
+function renderAllEditors(){
+  renderEditor("news","newsEditor");
+  renderEditor("businesses","businessEditor");
+  renderEditor("services","serviceEditor");
+}
+
+async function loadPortal(){
+  const {data,error}=await db.from("gs_portal_content")
+    .select("*").eq("id",1).maybeSingle();
+
+  if(error){
+    message("adminMessage","ポータル情報を読み込めません："+error.message,"error");
+    return;
+  }
+
+  if(data){
+    portalData={
+      hero_title:data.hero_title||"",
+      hero_description:data.hero_description||"",
+      news:normalizeItems(data.news),
+      businesses:normalizeItems(data.businesses),
+      services:normalizeItems(data.services)
+    };
+  }
+
+  document.getElementById("heroTitle").value=portalData.hero_title;
+  document.getElementById("heroDescription").value=portalData.hero_description;
+  renderAllEditors();
+}
+
+async function savePortal(){
+  portalData.hero_title=document.getElementById("heroTitle").value.trim();
+  portalData.hero_description=document.getElementById("heroDescription").value.trim();
+  portalData.news=readEditor("news","newsEditor");
+  portalData.businesses=readEditor("businesses","businessEditor");
+  portalData.services=readEditor("services","serviceEditor");
+
+  const payload={
+    id:1,
+    hero_title:portalData.hero_title,
+    hero_description:portalData.hero_description,
+    news:portalData.news,
+    businesses:portalData.businesses,
+    services:portalData.services,
+    updated_at:new Date().toISOString()
+  };
+
+  const {error}=await db.from("gs_portal_content").upsert(payload,{onConflict:"id"});
+  if(error){
+    message("adminMessage","保存できません："+error.message,"error");
+    return;
+  }
+  message("adminMessage","ポータルサイトの内容を保存しました。公開ページを再読み込みすると反映されます。","success");
+}
+
+const SERVICE_NAMES={
+  kabu:"KABU",test:"オルビステスト",admin:"オルビステスト管理者",
+  tango:"TANGO",gatesquare_official:"GATE SQUARE"
+};
+
+async function loadAccounts(){
+  const tbody=document.getElementById("accountList");
+  tbody.innerHTML="<tr><td colspan='6'>読み込み中...</td></tr>";
+
+  const {data,error}=await db.rpc("gs_admin_list_accounts");
+  if(error){
+    tbody.innerHTML="<tr><td colspan='6'>読み込みに失敗しました。</td></tr>";
+    message("adminMessage","アカウント一覧の取得に失敗："+error.message,"error");
+    return;
+  }
+
+  accounts=Array.isArray(data)?data:[];
+  tbody.replaceChildren();
+
+  accounts.forEach(account=>{
+    const tr=document.createElement("tr");
+    const info=account.registration_info||{};
+    const values=[
+      SERVICE_NAMES[account.service_code]||account.service_code,
+      info.name||"未登録",
+      account.account_name||"",
+      account.user_id||"",
+      info.details||""
+    ];
+
+    values.forEach(value=>{
+      const td=document.createElement("td");
+      td.textContent=String(value??"");
+      tr.appendChild(td);
+    });
+
+    const td=document.createElement("td");
+    const edit=document.createElement("button");
+    edit.className="secondary";
+    edit.textContent="編集";
+    edit.onclick=()=>editAccount(account.id);
+
+    const del=document.createElement("button");
+    del.className="danger";
+    del.textContent="削除";
+    del.onclick=()=>deleteAccount(account.id);
+
+    td.append(edit,document.createTextNode(" "),del);
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  });
+}
+
+function editAccount(id){
+  const a=accounts.find(x=>x.id===id);
+  if(!a)return;
+  const info=a.registration_info||{};
+  document.getElementById("service").value=a.service_code;
+  document.getElementById("fullName").value=info.name||"";
+  document.getElementById("accountName").value=a.account_name||"";
+  document.getElementById("userId").value=a.user_id||"";
+  document.getElementById("registrationInfo").value=info.details||"";
+  document.getElementById("pin").value="";
+  showTab("accounts",document.querySelectorAll(".tabs button")[1]);
+  message("adminMessage","編集する情報を入力欄に表示しました。PINは再入力してください。","info");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function saveAccount(){
+  const service=document.getElementById("service").value;
+  const name=document.getElementById("fullName").value.trim();
+  const pin=document.getElementById("pin").value;
+  const accountName=document.getElementById("accountName").value.trim();
+  const userId=document.getElementById("userId").value.trim();
+  const registrationInfo=document.getElementById("registrationInfo").value.trim();
+
+  if(!name||!accountName||!userId){
+    message("adminMessage","氏名・アカウント名・ユーザーIDを入力してください。","error");
+    return;
+  }
+  if(!/^[0-9]{6}$/.test(pin)){
+    message("adminMessage","PINは数字6桁で入力してください。","error");
+    return;
+  }
+
+  const {error}=await db.rpc("gs_admin_save_account",{
+    p_service_code:service,
+    p_name:name,
+    p_pin:pin,
+    p_account_name:accountName,
+    p_user_id:userId,
+    p_registration_info:registrationInfo
+  });
+
+  if(error){
+    message("adminMessage","保存に失敗しました："+error.message,"error");
+    return;
+  }
+  clearAccountForm();
+  await loadAccounts();
+  message("adminMessage","アカウント情報を保存しました。","success");
+}
+
+async function deleteAccount(id){
+  if(!confirm("このアカウント情報を削除しますか？"))return;
+  const {error}=await db.rpc("gs_admin_delete_account",{p_id:id});
+  if(error){
+    message("adminMessage","削除できません："+error.message,"error");
+    return;
+  }
+  await loadAccounts();
+  message("adminMessage","削除しました。","success");
+}
+
+function clearAccountForm(){
+  ["fullName","pin","accountName","userId","registrationInfo"].forEach(id=>{
+    document.getElementById(id).value="";
+  });
+  document.getElementById("service").value="kabu";
+}
+
+async function initialize(){
+  const {data}=await db.auth.getSession();
+  if(data.session)await checkAdmin();
+  db.auth.onAuthStateChange((event,session)=>{
+    if(event==="SIGNED_OUT"||!session)showLogin();
+  });
+}
 initialize();
 </script>
 </body>
