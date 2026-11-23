@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071321">
+<title>GATE RAILWAY | 運行管理・案内システム</title>
+<style>
+:root{--bg:#071321;--panel:#102238;--panel2:#162d45;--line:#2b4762;--cyan:#00c6e8;--gold:#ffd45b;--muted:#9db2c8;--text:#edf6ff;--green:#20d6a0;--red:#ff6477}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Meiryo",sans-serif}
+header{padding:16px 22px;background:#0d1d30;border-bottom:2px solid var(--cyan);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-size:23px;font-weight:800;letter-spacing:2px}.brand b{color:var(--cyan)}.sub{font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px}
+#clock{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+nav{display:flex;gap:7px;padding:10px 14px;background:#0a1929;overflow-x:auto;position:sticky;top:0;z-index:5}
+button,.tab{border:1px solid #3b5874;background:#1a3049;color:var(--text);padding:10px 14px;border-radius:6px;cursor:pointer;font-weight:600}
+button:hover{filter:brightness(1.18)}button.primary{background:#007f9e;border-color:#00c6e8}button.gold{background:#80621b;border-color:#d6ae43}button.danger{background:#702c3b;border-color:#a94b5b}button.small{padding:6px 9px;font-size:12px}
+nav button.active{background:#007f9e;border-color:var(--cyan)}
+main{max-width:1500px;margin:auto;padding:18px}.page{display:none}.page.active{display:block}
+h2{font-size:21px;margin:5px 0 16px}h3{font-size:16px;color:#8eeaff;margin:4px 0 13px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}label{font-size:12px;color:#b7cadd}
+input,select,textarea{width:100%;padding:10px;background:#071626;color:white;border:1px solid #45617c;border-radius:5px;font:inherit}
+textarea{min-height:75px;resize:vertical}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.muted,.hint{font-size:12px;color:var(--muted);line-height:1.6}.hint{background:#132e46;border-left:3px solid var(--cyan);padding:10px;margin:10px 0}
+.board{background:#02080d;border:3px solid #3d536b;border-radius:8px;padding:13px;overflow-x:auto}
+.boardhead{display:flex;justify-content:space-between;gap:10px;color:var(--gold);margin-bottom:10px;font-size:13px}
+.trainrow{display:grid;grid-template-columns:76px 105px 112px minmax(130px,1fr) 82px 90px;gap:8px;align-items:center;min-width:680px;padding:14px 5px;border-top:1px solid #283844}
+.time{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}.kind{color:var(--gold);font-weight:bold}.line{font-size:12px;color:#9eb4ca}.dest{font-size:18px}.plat{text-align:right;color:#7deaff}.status{text-align:right;font-size:12px;color:var(--green)}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{padding:10px;text-align:center;border-bottom:1px solid #344b61;white-space:nowrap}th{background:#1a3651;color:#8feaff;position:sticky;top:0}td:first-child,th:first-child{text-align:left}
+.pill{display:inline-block;border-radius:4px;padding:4px 8px;background:#16435a;color:#8eeaff;font-size:11px}.mutedpill{background:#293b4e;color:#c2d1df}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.stat{background:#0b1b2c;border:1px solid var(--line);border-radius:8px;padding:14px}.stat strong{font-size:23px;display:block;margin-top:7px}
+.monitor{background:#02080d;border:5px solid #3c536b;border-radius:10px;overflow:hidden}
+.mtop{background:#0d2a41;padding:12px 16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.mcenter{text-align:center;padding:24px 12px}.mnext{font-size:13px;color:#a9bed1}.mstation{font-size:clamp(34px,7vw,60px);font-weight:800;margin:10px}.men{color:#78e4ff;font-size:16px}.mroute{display:flex;overflow-x:auto;padding:20px 10px;gap:0}.stop{position:relative;min-width:105px;text-align:center;font-size:12px;color:#a5b7c9}.stop:before{content:"";display:block;width:13px;height:13px;background:#6d8298;border-radius:50%;margin:0 auto 9px;position:relative;z-index:2}.stop:after{content:"";height:3px;background:#647b91;position:absolute;left:50%;right:-50px;top:5px}.stop:last-child:after{display:none}.stop.passed:before{background:var(--green)}.stop.current{color:var(--gold);font-weight:bold}.stop.current:before{width:19px;height:19px;background:var(--gold);margin-bottom:6px;box-shadow:0 0 12px var(--gold)}.mbottom{background:#102941;padding:11px 15px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:#d1e1ef}
+.listitem{background:#0a1b2c;border:1px solid #314a63;padding:12px;border-radius:7px;margin:9px 0}.listhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.checklist{display:flex;flex-wrap:wrap;gap:8px}.check{display:flex;align-items:center;gap:6px;background:#1a344d;padding:8px;border-radius:5px}.check input{width:auto}
+.badge{font-size:11px;color:#a9c0d5}.empty{text-align:center;padding:25px;color:var(--muted)}
+footer{text-align:center;padding:24px;color:#71869c;font-size:11px}
+@media(max-width:700px){main{padding:10px}.grid,.grid3{grid-template-columns:1fr}.trainrow{grid-template-columns:60px 90px 95px minmax(110px,1fr) 65px 75px}.time{font-size:19px}.dest{font-size:15px}}
+@media print{nav,.no-print,footer{display:none!important}body{background:white;color:#111}.panel{background:white;color:#111;border:1px solid #aaa}.board{background:#fff;color:#111;border-color:#555}.trainrow{color:#111}}
+</style>
+</head>
+<body>
+<header>
+ <div><div class="brand"><b>GATE</b> RAILWAY</div><div class="sub">RAILWAY INFORMATION & OPERATION SYSTEM / 24T2 SERIES</div></div>
+ <div><div id="clock">--:--:--</div><div class="sub" style="text-align:right">運行案内システム</div></div>
+</header>
+<nav class="no-print">
+ <button class="active" data-page="board">駅電光掲示板</button>
+ <button data-page="timetable">路線別時刻表</button>
+ <button data-page="monitor">24T2系 車内モニター</button>
+ <button data-page="manage">列車・ダイヤ編集</button>
+ <button data-page="settings">駅・路線設定</button>
+</nav>
+<main>
+<section id="board" class="page active">
+ <h2>駅電光掲示板 <span class="pill">DEPARTURES</span></h2>
+ <div class="panel">
+  <div class="boardhead"><strong>発車案内 / DEPARTURE INFORMATION</strong><span id="boarddate"></span></div>
+  <div class="board" id="boardlist"></div>
+ </div>
+ <div class="panel no-print">
+  <h3>表示設定</h3>
+  <div class="grid3">
+   <div class="field"><label>表示する行数</label><select id="boardrows"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+   <div class="field"><label>表示路線</label><select id="boardline"><option value="all">全路線</option><option>白沢線</option><option>白坂線</option><option>キッチン線</option></select></div>
+   <div class="field"><label>表示駅</label><select id="boardstation"><option value="all">全駅・発車一覧</option></select></div>
+  </div>
+  <div class="hint">中央線の独立時刻表は設けません。キッチン線は中央線の玄関発車ダイヤを基準に、リビング駅2番線で接続する設定です。</div>
+ </div>
+</section>
+
+<section id="timetable" class="page">
+ <h2>路線別時刻表 <span class="pill">TIMETABLE</span></h2>
+ <div class="panel no-print">
+  <div class="grid3">
+   <div class="field"><label>路線</label><select id="ttline"><option>白沢線</option><option>白坂線</option><option>キッチン線</option></select></div>
+   <div class="field"><label>時間帯</label><select id="tthour"></select></div>
+   <div class="field"><label>種別</label><select id="tttype"><option value="all">全種別</option><option>区間快速</option><option>快速</option><option>特急</option></select></div>
+  </div>
+  <div class="actions"><button class="primary" id="printtt">時刻表を印刷</button></div>
+ </div>
+ <div class="panel"><h3 id="tttitle">白沢線 時刻表</h3><div id="ttnote" class="hint"></div><div class="tablewrap" id="ttcontent"></div></div>
+</section>
+
+<section id="monitor" class="page">
+ <h2>24T2系 車内案内モニター</h2>
+ <div class="monitor">
+  <div class="mtop"><strong>24T2 SERIES</strong><strong id="mtypeview">区間快速</strong><strong id="mclock">--:--</strong></div>
+  <div class="mcenter"><div class="mnext">NEXT STATION / 次は</div><div class="mstation" id="mnext">北玄関</div><div class="men" id="men">KITA GENKAN</div><p id="mdest">終点：台所</p></div>
+  <div class="mroute" id="mroute"></div>
+  <div class="mbottom"><span id="mlineview">中央線</span><span id="mcurrentview">現在駅：玄関</span><span>24T2系</span></div>
+ </div>
+ <div class="panel no-print">
+  <h3>車内表示の操作</h3>
+  <div class="grid">
+   <div class="field"><label>路線</label><select id="mline"><option>中央線</option><option>白沢線</option><option>白坂線</option><option>キッチン線</option></select></div>
+   <div class="field"><label>種別</label><select id="mtype"><option>区間快速</option><option>快速</option><option>特急</option></select></div>
+   <div class="field"><label>現在位置</label><select id="mcurrent"></select></div>
+   <div class="field"><label>行先</label><select id="mdestination"></select></div>
+  </div>
+  <div class="actions"><button class="primary" id="prevstop">◀ 前の駅</button><button class="primary" id="nextstop">次の駅 ▶</button><button id="refreshmonitor">表示更新</button></div>
+ </div>
+</section>
+
+<section id="manage" class="page">
+ <h2>列車・ダイヤ編集</h2>
+ <div class="panel">
+  <h3>列車を追加・編集</h3>
+  <input type="hidden" id="editid">
+  <div class="grid3">
+   <div class="field"><label>路線</label><select id="fline"><option>白沢線</option><option>白坂線</option><option>キッチン線</option><option>中央線</option></select></div>
+   <div class="field"><label>種別</label><select id="ftype"><option>区間快速</option><option>快速</option><option>特急</option></select></div>
+   <div class="field"><label>発車時刻</label><input type="time" id="ftime" value="12:05"></div>
+   <div class="field"><label>行先</label><select id="fdest"></select></div>
+   <div class="field"><label>発車番線</label><select id="fplatform"><option>1番線</option><option>2番線</option><option>3番線</option><option>4番線</option></select></div>
+   <div class="field"><label>列車名・番号</label><input id="fname" placeholder="例：24T2 第101列車"></div>
+  </div>
+  <h3 style="margin-top:18px">停車駅（快速・特急は編集可能）</h3>
+  <div id="fstoplist" class="checklist"></div>
+  <div class="actions"><button class="primary" id="saveTrain">列車を登録</button><button id="cancelEdit">入力をクリア</button></div>
+  <div class="hint">区間快速は各駅停車として全駅に停車します。リビング駅のキッチン線ホームは2番線に固定されます。</div>
+ </div>
+ <div class="panel"><h3>登録した列車</h3><div id="customtrains"></div></div>
+ <div class="panel">
+  <h3>基本ダイヤ（毎時の発車分）</h3>
+  <div class="grid">
+   <div class="field"><label>中央線 玄関駅（キッチン線接続の基準）</label><input id="pcentral" value="01,16,31,46"></div>
+   <div class="field"><label>白沢線 白沢駅</label><input id="pwhite" value="05,20,35,50"></div>
+   <div class="field"><label>白坂線 白坂駅</label><input id="pslope" value="00,15,30,45"></div>
+  </div>
+  <div class="actions"><button class="primary" id="savePatterns">基本ダイヤを保存</button><button id="defaultPatterns">初期値に戻す</button></div>
+ </div>
+</section>
+
+<section id="settings" class="page">
+ <h2>駅・路線設定</h2>
+ <div class="panel">
+  <h3>登録路線と駅順</h3>
+  <div id="routecards"></div>
+ </div>
+ <div class="panel">
+  <h3>共通ホーム設定</h3>
+  <div class="hint">
+   <strong>リビング駅 2番線：</strong>中央線とキッチン線の共通ホームとして扱います。キッチン線の列車は中央線の玄関発車時刻から3分後にリビング駅を発車する初期設定です。
+  </div>
+  <p class="muted">この初期版では駅順・基本駅名は固定です。列車の時刻、種別、行先、番線、停車駅は「列車・ダイヤ編集」から変更できます。</p>
+ </div>
+ <div class="panel">
+  <h3>データのバックアップ・復元</h3>
+  <p class="muted">設定はこのブラウザに保存されます。別の端末やブラウザに移す場合はバックアップを利用してください。</p>
+  <div class="actions"><button class="primary" id="export">JSONバックアップを保存</button><button id="importbtn">バックアップを読み込む</button><input type="file" id="importfile" accept=".json" hidden><button class="danger" id="reset">保存データを初期化</button></div>
+ </div>
+</section>
+</main>
+<footer>GATE RAILWAY INFORMATION SYSTEM · 24T2 SERIES · LOCAL EDITION</footer>
+
+<script>
+"use strict";
+const ROUTES={
+ "中央線":["玄関","北玄関","納戸ゲートウェイ","リビング","テレビ前","台所"],
+ "白沢線":["白沢","パワードーム前","北玄関","廊下","白坂"],
+ "白坂線":["白坂","錆","納戸","リビング"],
+ "キッチン線":["リビング","キッチン","台所"]
+};
+const EN={"玄関":"GENKAN","北玄関":"KITA GENKAN","納戸ゲートウェイ":"NANDO GATEWAY","リビング":"LIVING","テレビ前":"TV MAE","台所":"DAIDOKORO","白沢":"SHIRASAWA","パワードーム前":"POWER DOME MAE","廊下":"ROUKA","白坂":"SHIRASAKA","錆":"SABI","納戸":"NANDO","キッチン":"KITCHEN"};
+const DEFAULT={central:[1,16,31,46],white:[5,20,35,50],slope:[0,15,30,45]};
+let state={trains:[],patterns:structuredClone(DEFAULT),nextId:1};
+const $=id=>document.getElementById(id);
+function persist(){localStorage.setItem("gateRailwayPro",JSON.stringify(state));}
+function load(){try{const x=JSON.parse(localStorage.getItem("gateRailwayPro"));if(x&&Array.isArray(x.trains)&&x.patterns){state={...state,...x};state.patterns={...DEFAULT,...x.patterns};state.nextId=Math.max(1,Number(state.nextId)||1,...state.trains.map(t=>Number(t.id)+1));}}catch(e){console.warn("保存データを読み込めません",e);}}
+function mins(t){const [h,m]=t.split(":").map(Number);return h*60+m;}
+function fmt(n){n=((n%1440)+1440)%1440;return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0");}
+function pattern(line){return line==="中央線"?state.patterns.central:line==="白沢線"?state.patterns.white:line==="白坂線"?state.patterns.slope:[];}
+function platform(line,station){if(station==="リビング"&&(line==="中央線"||line==="キッチン線"))return "2番線";if(line==="キッチン線")return "2番線";return line==="中央線"?"1番線":"1番線";}
+function generated(line,hour){
+ let p=line==="キッチン線"?state.patterns.central:pattern(line);
+ return p.map(m=>{
+  let base=hour*60+m+(line==="キッチン線"?3:0);
+  return {id:"auto-"+line+"-"+base,line,type:"区間快速",time:fmt(base),destination:ROUTES[line].at(-1),platform:line==="キッチン線"?"2番線":"1番線",stops:ROUTES[line],base,auto:true};
+ });
+}
+function allServices(){
+ let out=[],now=new Date();
+ for(let off=0;off<=1;off++){let d=new Date(now);d.setHours(d.getHours()+off,0,0,0);["白沢線","白坂線","キッチン線"].forEach(l=>generated(l,d.getHours()).forEach(t=>out.push({...t,day:off})));}
+ state.trains.forEach(t=>out.push({...t,custom:true,day:0}));
+ return out;
+}
+function setPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));if(id==="board")renderBoard();if(id==="timetable")renderTT();if(id==="monitor")setupMonitor();if(id==="manage")renderCustom();if(id==="settings")renderRoutes();}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>setPage(b.dataset.page)));
+function tick(){let d=new Date(),s=d.toLocaleTimeString("ja-JP",{hour12:false});$("clock").textContent=s;$("mclock").textContent=s;$("boarddate").textContent=d.toLocaleDateString("ja-JP",{weekday:"short",year:"numeric",month:"2-digit",day:"2-digit"});}
+setInterval(tick,1000);tick();
+
+function renderBoard(){
+ let filter=$("boardline").value,station=$("boardstation").value,count=+$("boardrows").value;
+ let list=allServices().filter(t=>(filter==="all"||t.line===filter)&&(station==="all"||t.stops[0]===station||t.line==="キッチン線"&&station==="リビング"));
+ list.sort((a,b)=>(a.day*1440+mins(a.time))-(b.day*1440+mins(b.time)));
+ list=list.slice(0,count);
+ $("boardlist").innerHTML=list.length?list.map(t=>`<div class="trainrow"><div class="time">${t.time}</div><div class="kind">${esc(t.type)}</div><div class="line">${esc(t.line)}</div><div class="dest">${esc(t.destination)} 行</div><div class="plat">${esc(t.platform)}</div><div class="status">${t.auto?"定期列車":"臨時設定"}</div></div>`).join(""):'<div class="empty">該当する発車案内はありません。</div>';
+}
+function fillStationFilter(){let s=[...new Set(Object.values(ROUTES).flat())];$("boardstation").innerHTML='<option value="all">全駅・発車一覧</option>'+s.map(x=>`<option>${esc(x)}</option>`).join("");}
+["boardrows","boardline","boardstation"].forEach(id=>$(id).addEventListener("change",renderBoard));
+
+function renderTT(){
+ let line=$("ttline").value,h=+$("tthour").value,type=$("tttype").value;
+ let p=line==="キッチン線"?state.patterns.central:pattern(line);
+ let services=p.map(m=>({base:h*60+m+(line==="キッチン線"?3:0),time:fmt(h*60+m+(line==="キッチン線"?3:0)),type:"区間快速"}));
+ state.trains.filter(t=>t.line===line&&Math.floor(mins(t.time)/60)===h).forEach(t=>services.push({base:mins(t.time),time:t.time,type:t.type,stops:t.stops,destination:t.destination,custom:true}));
+ if(type!=="all")services=services.filter(s=>s.type===type);
+ services.sort((a,b)=>a.base-b.base);
+ $("tttitle").textContent=line+" 時刻表";
+ $("ttnote").textContent=line==="キッチン線"?"中央線の玄関駅発車ダイヤに連動。リビング駅2番線を共通ホームとして使用します。発車時刻は中央線玄関発車の3分後です。":line==="白沢線"?"白沢駅発車：毎時05・20・35・50分（初期ダイヤ）。":"白坂駅発車：毎時00・15・30・45分（初期ダイヤ）。";
+ if(!services.length){$("ttcontent").innerHTML='<div class="empty">この時間帯に列車はありません。</div>';return;}
+ let html="<table><thead><tr><th>停車駅</th>"+services.map(s=>`<th>${s.time}<br><span class="badge">${s.type}</span></th>`).join("")+"</tr></thead><tbody>";
+ ROUTES[line].forEach((st,i)=>{html+=`<tr><td>${esc(st)}<br><span class="badge">${platform(line,st)}</span></td>`;services.forEach(s=>{let stops=s.stops||ROUTES[line];let idx=stops.indexOf(st);if(idx<0){html+="<td>―</td>";return;}let t=fmt(s.base+idx);let label=idx===0?"発":idx===stops.length-1?"着":"着・発";html+=`<td>${t}<br><span class="badge">${label}</span></td>`;});html+="</tr>";});
+ $("ttcontent").innerHTML=html+"</tbody></table>";
+}
+["ttline","tthour","tttype"].forEach(id=>$(id).addEventListener("change",renderTT));
+$("printtt").addEventListener("click",()=>window.print());
+
+function setupMonitor(){
+ let line=$("mline").value,route=ROUTES[line],old=$("mcurrent").value;
+ $("mcurrent").innerHTML=route.map(s=>`<option>${esc(s)}</option>`).join("");
+ $("mdestination").innerHTML=route.map(s=>`<option>${esc(s)}</option>`).join("");
+ $("mcurrent").value=route.includes(old)?old:route[0];$("mdestination").value=route.at(-1);updateMonitor();
+}
+function updateMonitor(){
+ let line=$("mline").value,route=ROUTES[line],cur=$("mcurrent").value,dest=$("mdestination").value;
+ let i=route.indexOf(cur),end=route.indexOf(dest);if(end<i){end=route.length-1;$("mdestination").value=route[end];}
+ let next=i<end?route[i+1]:null;
+ $("mtypeview").textContent=$("mtype").value;$("mlineview").textContent=line;$("mcurrentview").textContent="現在駅："+cur;
+ $("mdest").textContent="行先："+dest;$("mnext").textContent=next||"終点に到着しました";$("men").textContent=next?(EN[next]||""):"TERMINAL";
+ $("mroute").innerHTML=route.slice(0,end+1).map((s,j)=>`<div class="stop ${j<i?"passed":j===i?"current":""}">${esc(s)}</div>`).join("");
+}
+$("mline").addEventListener("change",setupMonitor);["mcurrent","mdestination","mtype"].forEach(id=>$(id).addEventListener("change",updateMonitor));
+$("refreshmonitor").addEventListener("click",updateMonitor);
+$("prevstop").addEventListener("click",()=>stepMonitor(-1));$("nextstop").addEventListener("click",()=>stepMonitor(1));
+function stepMonitor(n){let r=ROUTES[$("mline").value],i=r.indexOf($("mcurrent").value),e=r.indexOf($("mdestination").value);$("mcurrent").value=r[Math.max(0,Math.min(e,i+n))];updateMonitor();}
+
+function fillFormStations(){
+ let line=$("fline").value,route=ROUTES[line];
+ $("fdest").innerHTML=route.map(s=>`<option>${esc(s)}</option>`).join("");
+ let type=$("ftype").value;
+ $("fstoplist").innerHTML=route.map((s,i)=>`<label class="check"><input type="checkbox" value="${esc(s)}" ${type==="区間快速"?"checked disabled":"checked"}>${i+1}. ${esc(s)}</label>`).join("");
+ $("fplatform").value=line==="キッチン線"?"2番線":"1番線";
+}
+$("fline").addEventListener("change",fillFormStations);$("ftype").addEventListener("change",fillFormStations);
+function clearForm(){$("editid").value="";$("ftime").value="12:05";$("fname").value="";$("ftype").value="区間快速";fillFormStations();$("saveTrain").textContent="列車を登録";}
+$("cancelEdit").addEventListener("click",clearForm);
+$("saveTrain").addEventListener("click",()=>{
+ let id=$("editid").value,line=$("fline").value,type=$("ftype").value,time=$("ftime").value,destination=$("fdest").value;
+ if(!time){alert("発車時刻を入力してください");return;}
+ let stops=type==="区間快速"?[...ROUTES[line]]:[...document.querySelectorAll("#fstoplist input:checked")].map(x=>x.value);
+ if(!stops.length||!stops.includes(destination)){alert("停車駅に行先を含めてください");return;}
+ let obj={id:id?Number(id):state.nextId++,line,type,time,destination,platform:line==="キッチン線"?"2番線":$("fplatform").value,name:$("fname").value.trim(),stops};
+ if(id){state.trains=state.trains.map(t=>t.id===Number(id)?obj:t);}else state.trains.push(obj);
+ persist();clearForm();renderCustom();renderBoard();alert("列車情報を保存しました。");
+});
+function renderCustom(){
+ $("customtrains").innerHTML=state.trains.length?state.trains.slice().sort((a,b)=>a.time.localeCompare(b.time)).map(t=>`<div class="listitem"><div class="listhead"><strong>${t.time}　${esc(t.type)}　${esc(t.destination)}行</strong><div><button class="small" onclick="editTrain(${t.id})">編集</button> <button class="small danger" onclick="deleteTrain(${t.id})">削除</button></div></div><div class="muted">${esc(t.line)} / ${esc(t.platform)} / ${esc(t.name||"24T2系")}</div><div class="muted">停車駅：${t.stops.map(esc).join(" → ")}</div></div>`).join(""):'<div class="empty">追加登録された列車はありません。</div>';
+}
+window.editTrain=id=>{let t=state.trains.find(x=>x.id===id);if(!t)return;$("editid").value=t.id;$("fline").value=t.line;$("ftype").value=t.type;fillFormStations();$("ftime").value=t.time;$("fdest").value=t.destination;$("fplatform").value=t.platform;$("fname").value=t.name||"";document.querySelectorAll("#fstoplist input").forEach(x=>x.checked=t.stops.includes(x.value));$("saveTrain").textContent="変更を保存";window.scrollTo({top:0,behavior:"smooth"});};
+window.deleteTrain=id=>{if(!confirm("この列車を削除しますか？"))return;state.trains=state.trains.filter(t=>t.id!==id);persist();renderCustom();renderBoard();};
+
+function parsePattern(id){let a=$(id).value.split(",").map(x=>x.trim()).filter(Boolean).map(Number);if(!a.length||a.some(x=>!Number.isInteger(x)||x<0||x>59))throw Error("0～59の数字をカンマ区切りで入力してください");return [...new Set(a)].sort((x,y)=>x-y);}
+$("savePatterns").addEventListener("click",()=>{try{state.patterns={central:parsePattern("pcentral"),white:parsePattern("pwhite"),slope:parsePattern("pslope")};persist();renderBoard();renderTT();alert("基本ダイヤを保存しました。");}catch(e){alert(e.message);}});
+$("defaultPatterns").addEventListener("click",()=>{state.patterns=structuredClone(DEFAULT);setPatternInputs();persist();renderBoard();renderTT();});
+function setPatternInputs(){$("pcentral").value=state.patterns.central.map(x=>String(x).padStart(2,"0")).join(",");$("pwhite").value=state.patterns.white.map(x=>String(x).padStart(2,"0")).join(",");$("pslope").value=state.patterns.slope.map(x=>String(x).padStart(2,"0")).join(",");}
+function renderRoutes(){$("routecards").innerHTML=Object.entries(ROUTES).map(([l,s])=>`<div class="listitem"><strong>${l}</strong><p class="muted">${s.map(esc).join(" → ")}</p><span class="badge">駅数：${s.length} / 車両：24T2系</span></div>`).join("");}
+$("export").addEventListener("click",()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="gate-railway-backup.json";a.click();URL.revokeObjectURL(url);});
+$("importbtn").addEventListener("click",()=>$("importfile").click());
+$("importfile").addEventListener("change",e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!Array.isArray(x.trains)||!x.patterns)throw Error();state={...state,...x};state.patterns={...DEFAULT,...x.patterns};state.nextId=Math.max(1,...state.trains.map(t=>Number(t.id)+1));persist();renderAll();alert("バックアップを復元しました。");}catch(err){alert("バックアップファイルを読み込めませんでした。");}};r.readAsText(f);});
+$("reset").addEventListener("click",()=>{if(!confirm("このブラウザに保存した列車・ダイヤ設定をすべて初期化しますか？"))return;state={trains:[],patterns:structuredClone(DEFAULT),nextId:1};persist();setPatternInputs();renderAll();});
+function renderAll(){renderBoard();renderTT();renderCustom();renderRoutes();setupMonitor();}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+for(let h=0;h<24;h++){let v=String(h).padStart(2,"0");$("tthour").insertAdjacentHTML("beforeend",`<option value="${h}">${v}時台</option>`);}
+load();fillStationFilter();setPatternInputs();fillFormStations();renderAll();
+setInterval(renderBoard,30000);
+</script>
+</body>
+</html>
