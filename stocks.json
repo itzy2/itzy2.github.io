@@ -2,43 +2,43 @@
   {
     "id": "ST001",
     "name": "ネクストテクノロジー",
-    "price": 857,
-    "previousPrice": 816,
-    "updatedAt": "2026-11-23T20:59:10.377084+00:00"
+    "price": 837,
+    "previousPrice": 857,
+    "updatedAt": "2026-11-24T05:15:46.000280+00:00"
   },
   {
     "id": "ST002",
     "name": "グリーンエナジー",
-    "price": 935,
-    "previousPrice": 942,
-    "updatedAt": "2026-11-23T20:59:10.377084+00:00"
+    "price": 948,
+    "previousPrice": 935,
+    "updatedAt": "2026-11-24T05:15:46.000280+00:00"
   },
   {
     "id": "ST003",
     "name": "フューチャーAI",
-    "price": 1458,
-    "previousPrice": 1326,
-    "updatedAt": "2026-11-23T20:59:10.377084+00:00"
+    "price": 1327,
+    "previousPrice": 1458,
+    "updatedAt": "2026-11-24T05:15:46.000280+00:00"
   },
   {
     "id": "ST004",
     "name": "セントラル交通",
-    "price": 101,
-    "previousPrice": 110,
-    "updatedAt": "2026-11-23T20:59:10.377084+00:00"
+    "price": 105,
+    "previousPrice": 101,
+    "updatedAt": "2026-11-24T05:15:46.000280+00:00"
   },
   {
     "id": "ST005",
     "name": "ライフサポート",
-    "price": 373,
-    "previousPrice": 344,
-    "updatedAt": "2026-11-23T20:59:10.377084+00:00"
+    "price": 396,
+    "previousPrice": 373,
+    "updatedAt": "2026-11-24T05:15:46.000280+00:00"
   },
   {
     "id": "ST006",
     "name": "クリエイトメディア",
-    "price": 2088,
-    "previousPrice": 1998,
-    "updatedAt": "2026-11-23T20:59:10.377084+00:00"
+    "price": 2188,
+    "previousPrice": 2088,
+    "updatedAt": "2026-11-24T05:15:46.000280+00:00"
   }
 ]
