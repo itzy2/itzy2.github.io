@@ -1,0 +1,1110 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10182c">
+<title>Friend is Best?</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --bg:#0b1120;
+  --panel:#151f33;
+  --panel2:#1c2940;
+  --text:#f4f7ff;
+  --muted:#9eacc2;
+  --blue:#548cff;
+  --green:#32c48d;
+  --red:#ef6262;
+  --border:#2b3b56;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+button,input,textarea,select {font:inherit}
+button {cursor:pointer}
+header {
+  padding:20px;
+  background:linear-gradient(120deg,#172b50,#10182c);
+  border-bottom:1px solid var(--border);
+}
+.header-inner {
+  max-width:1150px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.logo {
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+.logo span {color:#6b9dff}
+nav {display:flex;gap:8px;flex-wrap:wrap}
+nav button,.btn {
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:white;
+  border-radius:10px;
+  padding:10px 14px;
+}
+nav button:hover,.btn:hover {filter:brightness(1.2)}
+.primary {background:var(--blue);border-color:var(--blue)}
+.danger {background:#762e3a;border-color:#a94756}
+main {max-width:1150px;margin:auto;padding:22px 16px 55px}
+section {margin-bottom:22px}
+.hero {
+  border:1px solid var(--border);
+  background:linear-gradient(135deg,#1a2c4b,#121b2d);
+  padding:25px;
+  border-radius:22px;
+  position:relative;
+  overflow:hidden;
+}
+.eyebrow {
+  color:#86adff;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+h1 {font-size:clamp(27px,5vw,43px);margin:9px 0}
+h2 {font-size:19px;margin:0 0 17px}
+p {line-height:1.7}
+.muted {color:var(--muted)}
+.small {font-size:12px;color:var(--muted)}
+.probability-area {
+  margin-top:22px;
+  background:#0d1729;
+  border:1px solid #33496c;
+  padding:22px;
+  border-radius:18px;
+}
+.probability {
+  font-size:clamp(58px,12vw,94px);
+  font-weight:900;
+  letter-spacing:-5px;
+  line-height:1.15;
+}
+.probability-label {font-size:14px;color:var(--muted)}
+.status {
+  display:inline-block;
+  border-radius:30px;
+  padding:8px 14px;
+  font-weight:bold;
+  font-size:13px;
+  background:#293951;
+  margin-top:12px;
+}
+.status.red {background:#672c37;color:#ffb7bc}
+.status.orange {background:#664321;color:#ffcf8b}
+.status.yellow {background:#625b25;color:#fff0a3}
+.status.green {background:#164c3c;color:#9cf4cf}
+.status.blue {background:#173c70;color:#b4d3ff}
+.status.gray {background:#293951;color:#d3dbea}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px;
+}
+.card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:19px;
+  min-width:0;
+}
+.stat-number {font-size:30px;font-weight:850;margin-top:7px}
+.stat-label {font-size:13px;color:var(--muted)}
+.wide {grid-column:1/-1}
+.progress {
+  height:12px;
+  border-radius:20px;
+  background:#29374c;
+  overflow:hidden;
+  margin-top:17px;
+}
+.progress div {
+  height:100%;
+  border-radius:20px;
+  background:linear-gradient(90deg,#4b83ff,#42d3a0);
+  transition:width .5s;
+}
+.bands {display:grid;gap:9px}
+.band {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border-radius:11px;
+  background:var(--panel2);
+  font-size:13px;
+}
+.band-color {width:9px;height:31px;border-radius:8px}
+.band strong {margin-left:auto}
+table {width:100%;border-collapse:collapse;font-size:13px}
+th,td {
+  padding:12px 9px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+}
+th {color:#9fb1cc;font-weight:600}
+.table-wrap {overflow-x:auto}
+canvas {width:100%;height:230px;display:block}
+.calendar {
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:5px;
+}
+.day {
+  min-height:65px;
+  border-radius:9px;
+  background:var(--panel2);
+  padding:6px;
+  font-size:11px;
+  text-align:center;
+}
+.day .number {font-weight:bold;font-size:13px}
+.day .value {font-size:12px;margin-top:7px}
+.day.today {outline:2px solid var(--blue)}
+.day.red-bg {background:#512d39}
+.day.orange-bg {background:#574027}
+.day.yellow-bg {background:#554e2a}
+.day.green-bg {background:#174839}
+.day.blue-bg {background:#193d6d}
+.day.gray-bg {background:#293951}
+.form-group {margin-bottom:15px}
+label {display:block;margin-bottom:7px;font-size:13px;color:#c3cee0}
+input,textarea,select {
+  width:100%;
+  background:#0b1424;
+  color:white;
+  border:1px solid #394c69;
+  padding:12px;
+  border-radius:9px;
+  outline:none;
+}
+input:focus,textarea:focus,select:focus {border-color:var(--blue)}
+textarea {min-height:90px;resize:vertical}
+.actions {display:flex;gap:9px;flex-wrap:wrap}
+.hidden {display:none!important}
+.notice {
+  border:1px solid #725c2a;
+  background:#302918;
+  color:#f8dfa2;
+  padding:13px;
+  border-radius:11px;
+  font-size:13px;
+}
+footer {
+  text-align:center;
+  padding:25px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+}
+#toast {
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#243b5d;
+  padding:13px 20px;
+  border-radius:12px;
+  display:none;
+  z-index:100;
+  box-shadow:0 5px 25px #0008;
+  max-width:90%;
+}
+@media(max-width:650px) {
+  .grid {grid-template-columns:1fr}
+  .wide {grid-column:auto}
+  .header-inner {align-items:flex-start;flex-direction:column}
+  nav {width:100%}
+  nav button {flex:1}
+  main {padding:14px 11px 40px}
+  .hero {padding:19px}
+  .card {padding:15px}
+  .day {min-height:56px;padding:4px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="header-inner">
+  <div class="logo">Friend <span>is</span> Best?</div>
+  <nav>
+    <button onclick="go('home')">ホーム</button>
+    <button onclick="go('history')">履歴</button>
+    <button onclick="go('calendar')">カレンダー</button>
+    <button onclick="go('analysis')">分析</button>
+    <button onclick="go('admin')">管理者</button>
+  </nav>
+</div>
+</header>
+
+<main>
+
+<!-- ホーム -->
+<div id="page-home">
+
+<section class="hero">
+  <div class="eyebrow">FRIEND ATTENDANCE PROJECT</div>
+  <h1>Friend is Best?</h1>
+  <p class="muted">友達は12月20日までに来られるのか？<br>毎日の確率と状況を記録・分析します。</p>
+
+  <div class="probability-area">
+    <div class="probability-label">現在の参加できる確率</div>
+    <div class="probability" id="mainProbability">--%</div>
+    <div id="mainStatus" class="status gray">まだ未設定</div>
+    <div class="progress">
+      <div id="mainProgress" style="width:0%"></div>
+    </div>
+    <p class="small" id="updatedText">更新情報を取得しています...</p>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="card">
+    <div class="stat-label">期限まで残り</div>
+    <div class="stat-number" id="countdown">--日</div>
+    <div class="small">2026年12月20日まで</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">現在の参加状況</div>
+    <div class="stat-number" id="currentStatus" style="font-size:23px">未確定</div>
+    <div class="small">管理者による記録</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">過去最高確率</div>
+    <div class="stat-number" id="highest">--%</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">過去最低確率</div>
+    <div class="stat-number" id="lowest">--%</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">全期間の平均</div>
+    <div class="stat-number" id="average">--%</div>
+  </div>
+  <div class="card">
+    <div class="stat-label">更新回数</div>
+    <div class="stat-number" id="updateCount">0回</div>
+  </div>
+</section>
+
+<section class="card">
+<h2>5段階の確率判定</h2>
+<div class="bands">
+  <div class="band"><div class="band-color" style="background:#ef6262"></div>絶対いけない <strong>0〜20%</strong></div>
+  <div class="band"><div class="band-color" style="background:#e99a35"></div>行けるか分からない <strong>21〜35%</strong></div>
+  <div class="band"><div class="band-color" style="background:#d9bd42"></div>行けるはず <strong>36〜50%</strong></div>
+  <div class="band"><div class="band-color" style="background:#32c48d"></div>行ける確率UP <strong>51〜89%</strong></div>
+  <div class="band"><div class="band-color" style="background:#548cff"></div>絶対行ける <strong>90〜100%</strong></div>
+</div>
+</section>
+
+<section class="card">
+<h2>最新の管理者コメント</h2>
+<p id="mainComment" class="muted">まだコメントはありません。</p>
+<div class="small" id="mainReason"></div>
+</section>
+
+<section class="card">
+<h2>確率の推移</h2>
+<canvas id="mainChart"></canvas>
+<div class="small">記録された確率の推移（0〜100%）</div>
+</section>
+
+<section class="card">
+<h2>直近の更新履歴</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>日付</th><th>確率</th><th>判定</th></tr></thead>
+<tbody id="recentHistory">
+<tr><td colspan="3">読み込み中...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+</div>
+
+<!-- 履歴 -->
+<div id="page-history" class="hidden">
+<section class="card">
+<h2>確率更新履歴</h2>
+<p class="muted">これまでに記録されたすべての更新です。</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>更新日</th><th>確率</th><th>判定</th><th>状況</th><th>コメント</th></tr></thead>
+<tbody id="allHistory"></tbody>
+</table>
+</div>
+</section>
+</div>
+
+<!-- カレンダー -->
+<div id="page-calendar" class="hidden">
+<section class="card">
+<h2>更新カレンダー</h2>
+<p class="muted">記録がある日は確率と色で表示されます。</p>
+<div class="actions" style="margin-bottom:15px">
+<button class="btn" onclick="changeMonth(-1)">前月</button>
+<strong id="calendarTitle"></strong>
+<button class="btn" onclick="changeMonth(1)">翌月</button>
+</div>
+<div class="calendar" id="calendarGrid"></div>
+</section>
+</div>
+
+<!-- 分析 -->
+<div id="page-analysis" class="hidden">
+<section class="grid">
+<div class="card">
+<div class="stat-label">直近7回の平均確率</div>
+<div class="stat-number" id="weeklyAverage">--%</div>
+</div>
+<div class="card">
+<div class="stat-label">前回からの変化</div>
+<div class="stat-number" id="changeValue">--</div>
+</div>
+<div class="card">
+<div class="stat-label">最高確率の日</div>
+<div class="stat-number" id="highestDate" style="font-size:18px">--</div>
+</div>
+<div class="card">
+<div class="stat-label">最新の傾向</div>
+<div class="stat-number" id="trend" style="font-size:21px">--</div>
+</div>
+</section>
+<section class="card">
+<h2>確率分析</h2>
+<p id="analysisText" class="muted">データを取得しています。</p>
+</section>
+<section class="card">
+<h2>全期間グラフ</h2>
+<canvas id="analysisChart"></canvas>
+</section>
+</div>
+
+<!-- 管理者 -->
+<div id="page-admin" class="hidden">
+
+<section class="card" id="loginPanel">
+<h2>管理者ログイン</h2>
+<p class="muted">管理者専用ページです。登録済みのメールアドレスとパスワードを使用してください。</p>
+<div class="form-group">
+<label>メールアドレス</label>
+<input id="loginEmail" type="email" autocomplete="username" placeholder="admin@example.com">
+</div>
+<div class="form-group">
+<label>パスワード</label>
+<input id="loginPassword" type="password" autocomplete="current-password" placeholder="パスワード">
+</div>
+<button class="btn primary" style="width:100%" onclick="login()">ログイン</button>
+</section>
+
+<section class="hidden" id="adminPanel">
+
+<div class="card" style="margin-bottom:15px">
+<h2>管理者ダッシュボード</h2>
+<p class="muted">Friend is Best? の公開情報を管理できます。</p>
+<div class="actions">
+<badge color="success">管理者認証済み</badge>
+<button class="btn danger" onclick="logout()">ログアウト</button>
+</div>
+</div>
+
+<div class="card">
+<h2>確率の更新</h2>
+
+<div class="notice" style="margin-bottom:15px">
+毎日の確率をここから手動で入力してください。同じ日付の再更新は、その日の履歴を上書きします。
+</div>
+
+<div class="form-group">
+<label>更新日</label>
+<input type="date" id="editDate">
+</div>
+
+<div class="form-group">
+<label>参加できる確率（0〜100）</label>
+<input type="number" id="editProbability" min="0" max="100" placeholder="例：65">
+</div>
+
+<div class="form-group">
+<label>参加状況</label>
+<select id="editStatus">
+<option>未確定</option>
+<option>参加できる見込み</option>
+<option>参加できない可能性</option>
+<option>参加確定</option>
+<option>参加不可確定</option>
+<option>返事待ち</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>今日のコメント</label>
+<textarea id="editComment" placeholder="今日の状況やコメントを入力"></textarea>
+</div>
+
+<div class="form-group">
+<label>確率が変化した理由</label>
+<textarea id="editReason" placeholder="例：予定の調整が進んだため"></textarea>
+</div>
+
+<button class="btn primary" style="width:100%" onclick="saveUpdate()">確率を保存・公開する</button>
+</div>
+
+<div class="card" style="margin-top:15px">
+<h2>サイト設定</h2>
+<div class="form-group">
+<label>友達の表示名</label>
+<input id="editFriendName" value="友達">
+</div>
+<div class="form-group">
+<label>判定期限</label>
+<input id="editDeadline" type="date" value="2026-12-20">
+</div>
+<button class="btn primary" style="width:100%" onclick="saveSettings()">設定を保存する</button>
+</div>
+
+<div class="card" style="margin-top:15px">
+<h2>履歴管理</h2>
+<p class="muted">間違った更新履歴を削除できます。</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>日付</th><th>確率</th><th>操作</th></tr></thead>
+<tbody id="adminHistory"></tbody>
+</table>
+</div>
+</div>
+
+</section>
+</div>
+
+</main>
+
+<footer>
+Friend is Best? | FRIEND ATTENDANCE PROBABILITY SYSTEM
+<br>Public Information Portal
+</footer>
+
+<div id="toast"></div>
+
+<script>
+// ==========================================
+// Supabase接続設定
+// ==========================================
+
+const SUPABASE_URL = "ここにSupabaseのProject URL";
+const SUPABASE_ANON_KEY = "ここにSupabaseのanon public key";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+let settings = null;
+let updates = [];
+let currentUser = null;
+let calendarDate = new Date(2026,10,1);
+
+// ==========================================
+// 共通処理
+// ==========================================
+
+function toast(message) {
+  const el = document.getElementById("toast");
+  el.textContent = message;
+  el.style.display = "block";
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(() => {
+    el.style.display = "none";
+  }, 3000);
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[c]);
+}
+
+function classify(p) {
+  if (p === null || p === undefined) {
+    return {label:"未設定",cls:"gray"};
+  }
+  if (p <= 20) return {label:"絶対いけない",cls:"red"};
+  if (p <= 35) return {label:"行けるか分からない",cls:"orange"};
+  if (p <= 50) return {label:"行けるはず",cls:"yellow"};
+  if (p < 90) return {label:"行ける確率UP",cls:"green"};
+  return {label:"絶対行ける",cls:"blue"};
+}
+
+function go(page) {
+  document.querySelectorAll('[id^="page-"]').forEach(el => {
+    el.classList.add("hidden");
+  });
+  document.getElementById("page-" + page).classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if (page === "calendar") renderCalendar();
+  if (page === "admin") checkAdmin();
+}
+
+function getDateString(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth()+1).padStart(2,"0");
+  const d = String(date.getDate()).padStart(2,"0");
+  return `${y}-${m}-${d}`;
+}
+
+function average(list) {
+  if (!list.length) return null;
+  return Math.round(
+    list.reduce((sum,x) => sum + Number(x.probability),0) / list.length
+  );
+}
+
+function formatDate(date) {
+  if (!date) return "-";
+  return date.replaceAll("-","/");
+}
+
+// ==========================================
+// データ読み込み
+// ==========================================
+
+async function loadData() {
+  try {
+    const [s,h] = await Promise.all([
+      db.from("friend_best_settings")
+        .select("*")
+        .eq("id",1)
+        .single(),
+      db.from("friend_best_updates")
+        .select("*")
+        .order("update_date",{ascending:true})
+    ]);
+
+    if (s.error) throw s.error;
+    if (h.error) throw h.error;
+
+    settings = s.data;
+    updates = h.data || [];
+
+    renderAll();
+  } catch(error) {
+    console.error(error);
+    toast("データ取得エラー：" + error.message);
+  }
+}
+
+// ==========================================
+// ホーム表示
+// ==========================================
+
+function renderAll() {
+  if (!settings) return;
+
+  const p = settings.probability;
+  const judge = classify(p);
+
+  document.getElementById("mainProbability").textContent =
+    p === null ? "--%" : p + "%";
+
+  const status = document.getElementById("mainStatus");
+  status.textContent = judge.label;
+  status.className = "status " + judge.cls;
+
+  document.getElementById("mainProgress").style.width =
+    (p === null ? 0 : p) + "%";
+
+  document.getElementById("currentStatus").textContent =
+    settings.status || "未確定";
+
+  document.getElementById("updatedText").textContent =
+    settings.updated_at
+      ? "最終更新：" + new Date(settings.updated_at).toLocaleString("ja-JP")
+      : "まだ更新されていません";
+
+  document.getElementById("mainComment").textContent =
+    settings.comment || "まだコメントはありません。";
+
+  document.getElementById("mainReason").textContent =
+    settings.reason ? "変動理由：" + settings.reason : "";
+
+  const deadline = new Date(settings.deadline + "T23:59:59");
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const days = Math.ceil((deadline - today) / 86400000);
+
+  document.getElementById("countdown").textContent =
+    days < 0 ? "期限終了" : days + "日";
+
+  const values = updates.map(x => Number(x.probability));
+  const max = values.length ? Math.max(...values) : null;
+  const min = values.length ? Math.min(...values) : null;
+
+  document.getElementById("highest").textContent =
+    max === null ? "--%" : max + "%";
+
+  document.getElementById("lowest").textContent =
+    min === null ? "--%" : min + "%";
+
+  document.getElementById("average").textContent =
+    average(updates) === null ? "--%" : average(updates) + "%";
+
+  document.getElementById("updateCount").textContent =
+    updates.length + "回";
+
+  renderRecent();
+  renderHistory();
+  renderAnalysis();
+  renderChart("mainChart");
+  renderChart("analysisChart");
+}
+
+function renderRecent() {
+  const list = [...updates].reverse().slice(0,5);
+  document.getElementById("recentHistory").innerHTML =
+    list.length ? list.map(x => {
+      const j = classify(Number(x.probability));
+      return `<tr>
+        <td>${formatDate(x.update_date)}</td>
+        <td><strong>${x.probability}%</strong></td>
+        <td><span class="status ${j.cls}">${j.label}</span></td>
+      </tr>`;
+    }).join("") :
+    '<tr><td colspan="3">まだ更新されていません。</td></tr>';
+}
+
+function renderHistory() {
+  document.getElementById("allHistory").innerHTML =
+    [...updates].reverse().map(x => {
+      const j = classify(Number(x.probability));
+      return `<tr>
+        <td>${formatDate(x.update_date)}</td>
+        <td>${x.probability}%</td>
+        <td><span class="status ${j.cls}">${j.label}</span></td>
+        <td>${escapeHTML(x.status)}</td>
+        <td>${escapeHTML(x.comment)}</td>
+      </tr>`;
+    }).join("") ||
+    '<tr><td colspan="5">履歴はありません。</td></tr>';
+}
+
+// ==========================================
+// グラフ描画
+// ==========================================
+
+function renderChart(id) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const width = Math.max(280,rect.width);
+  const height = 230;
+  const ratio = window.devicePixelRatio || 1;
+
+  canvas.width = width * ratio;
+  canvas.height = height * ratio;
+
+  const ctx = canvas.getContext("2d");
+  ctx.scale(ratio,ratio);
+  ctx.clearRect(0,0,width,height);
+
+  const left = 37;
+  const right = 12;
+  const top = 15;
+  const bottom = 32;
+  const graphW = width-left-right;
+  const graphH = height-top-bottom;
+
+  ctx.font = "11px sans-serif";
+  ctx.textAlign = "right";
+
+  [0,20,40,60,80,100].forEach(v => {
+    const y = top + graphH*(1-v/100);
+    ctx.strokeStyle = "#30415b";
+    ctx.beginPath();
+    ctx.moveTo(left,y);
+    ctx.lineTo(width-right,y);
+    ctx.stroke();
+    ctx.fillStyle = "#9eacc2";
+    ctx.fillText(v+"%",left-7,y+4);
+  });
+
+  if (!updates.length) {
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#9eacc2";
+    ctx.fillText("確率データがまだありません",width/2,height/2);
+    return;
+  }
+
+  const list = updates.slice(-30);
+  const points = list.map((x,i) => ({
+    x:left + (list.length === 1 ? graphW/2 : graphW*i/(list.length-1)),
+    y:top + graphH*(1-Number(x.probability)/100),
+    value:Number(x.probability)
+  }));
+
+  ctx.beginPath();
+  points.forEach((p,i) => {
+    if (i===0) ctx.moveTo(p.x,p.y);
+    else ctx.lineTo(p.x,p.y);
+  });
+  ctx.strokeStyle = "#6497ff";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  points.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,4,0,Math.PI*2);
+    ctx.fillStyle = "#55d5ad";
+    ctx.fill();
+  });
+
+  ctx.fillStyle = "#9eacc2";
+  ctx.textAlign = "center";
+  if (list.length > 0) {
+    ctx.fillText(list[0].update_date.slice(5),left,height-9);
+    ctx.fillText(list[list.length-1].update_date.slice(5),width-right,height-9);
+  }
+}
+
+// ==========================================
+// カレンダー
+// ==========================================
+
+function changeMonth(amount) {
+  calendarDate.setMonth(calendarDate.getMonth()+amount);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+  document.getElementById("calendarTitle").textContent =
+    `${year}年${month+1}月`;
+
+  const first = new Date(year,month,1).getDay();
+  const last = new Date(year,month+1,0).getDate();
+  const map = Object.fromEntries(
+    updates.map(x => [x.update_date,x])
+  );
+
+  let html = ["日","月","火","水","木","金","土"]
+    .map(x => `<div class="small" style="text-align:center">${x}</div>`)
+    .join("");
+
+  for(let i=0;i<first;i++) html += "<div></div>";
+
+  for(let d=1;d<=last;d++) {
+    const key = `${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const item = map[key];
+    const cls = item ? classify(Number(item.probability)).cls+"-bg" : "";
+    const today = key===getDateString() ? "today" : "";
+    html += `<div class="day ${cls} ${today}">
+      <div class="number">${d}</div>
+      <div class="value">${item ? item.probability+"%" : "-"}</div>
+    </div>`;
+  }
+  document.getElementById("calendarGrid").innerHTML = html;
+}
+
+// ==========================================
+// 分析
+// ==========================================
+
+function renderAnalysis() {
+  const last7 = updates.slice(-7);
+  document.getElementById("weeklyAverage").textContent =
+    average(last7) === null ? "--%" : average(last7)+"%";
+
+  if (updates.length >= 2) {
+    const diff = Number(updates.at(-1).probability) -
+      Number(updates.at(-2).probability);
+    document.getElementById("changeValue").textContent =
+      (diff > 0 ? "+" : "") + diff + "ポイント";
+    document.getElementById("trend").textContent =
+      diff > 0 ? "上昇傾向" : diff < 0 ? "下降傾向" : "変化なし";
+  } else {
+    document.getElementById("changeValue").textContent = "--";
+    document.getElementById("trend").textContent = "データ不足";
+  }
+
+  const best = updates.reduce((a,b) =>
+    !a || Number(b.probability)>Number(a.probability) ? b : a, null
+  );
+
+  document.getElementById("highestDate").textContent =
+    best ? formatDate(best.update_date) : "--";
+
+  const vals = updates.map(x=>Number(x.probability));
+  const text = vals.length
+    ? `記録数は${vals.length}回です。全期間の平均は${average(updates)}%。最高は${Math.max(...vals)}%、最低は${Math.min(...vals)}%です。直近の数値は過去の記録との比較として表示しています。`
+    : "まだデータがありません。管理者が確率を登録すると分析が始まります。";
+
+  document.getElementById("analysisText").textContent = text;
+}
+
+// ==========================================
+// 管理者認証
+// ==========================================
+
+async function checkAdmin() {
+  const {data} = await db.auth.getSession();
+  currentUser = data.session?.user || null;
+
+  if (!currentUser) {
+    document.getElementById("loginPanel").classList.remove("hidden");
+    document.getElementById("adminPanel").classList.add("hidden");
+    return;
+  }
+
+  const {data:admin,error} = await db
+    .from("friend_best_admins")
+    .select("user_id")
+    .eq("user_id",currentUser.id)
+    .maybeSingle();
+
+  if (error || !admin) {
+    document.getElementById("loginPanel").classList.remove("hidden");
+    document.getElementById("adminPanel").classList.add("hidden");
+    await db.auth.signOut();
+    currentUser = null;
+    toast("このアカウントには管理者権限がありません。");
+    return;
+  }
+
+  document.getElementById("loginPanel").classList.add("hidden");
+  document.getElementById("adminPanel").classList.remove("hidden");
+
+  document.getElementById("editFriendName").value =
+    settings?.friend_name || "友達";
+  document.getElementById("editDeadline").value =
+    settings?.deadline || "2026-12-20";
+
+  renderAdminHistory();
+}
+
+async function login() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  if (!email || !password) {
+    toast("メールアドレスとパスワードを入力してください。");
+    return;
+  }
+
+  const {error} = await db.auth.signInWithPassword({
+    email,password
+  });
+
+  if (error) {
+    toast("ログインできません：" + error.message);
+    return;
+  }
+
+  await checkAdmin();
+  if (currentUser) toast("管理者としてログインしました。");
+}
+
+async function logout() {
+  await db.auth.signOut();
+  currentUser = null;
+  checkAdmin();
+  toast("ログアウトしました。");
+}
+
+// ==========================================
+// 確率更新
+// ==========================================
+
+async function saveUpdate() {
+  if (!currentUser) return;
+
+  const date = document.getElementById("editDate").value;
+  const probability = Number(
+    document.getElementById("editProbability").value
+  );
+  const status = document.getElementById("editStatus").value;
+  const comment = document.getElementById("editComment").value.trim();
+  const reason = document.getElementById("editReason").value.trim();
+
+  if (!date) return toast("更新日を入力してください。");
+
+  if (
+    document.getElementById("editProbability").value === "" ||
+    !Number.isInteger(probability) ||
+    probability < 0 ||
+    probability > 100
+  ) {
+    return toast("確率は0〜100の整数で入力してください。");
+  }
+
+  const payload = {
+    update_date:date,
+    probability,
+    status,
+    comment,
+    reason,
+    updated_at:new Date().toISOString(),
+    updated_by:currentUser.id
+  };
+
+  const {error:historyError} = await db
+    .from("friend_best_updates")
+    .upsert(payload,{onConflict:"update_date"});
+
+  if (historyError) {
+    toast("履歴保存エラー：" + historyError.message);
+    return;
+  }
+
+  const {error:settingsError} = await db
+    .from("friend_best_settings")
+    .update({
+      probability,
+      status,
+      comment,
+      reason,
+      updated_at:new Date().toISOString(),
+      updated_by:currentUser.id
+    })
+    .eq("id",1);
+
+  if (settingsError) {
+    toast("現在の確率の更新に失敗：" + settingsError.message);
+    await loadData();
+    return;
+  }
+
+  toast("確率を保存しました。公開ページに反映します。");
+  await loadData();
+  renderAdminHistory();
+}
+
+// ==========================================
+// サイト設定
+// ==========================================
+
+async function saveSettings() {
+  if (!currentUser) return;
+
+  const friendName = document.getElementById("editFriendName").value.trim();
+  const deadline = document.getElementById("editDeadline").value;
+
+  if (!friendName || !deadline) {
+    toast("表示名と期限を入力してください。");
+    return;
+  }
+
+  const {error} = await db
+    .from("friend_best_settings")
+    .update({
+      friend_name:friendName,
+      deadline
+    })
+    .eq("id",1);
+
+  if (error) {
+    toast("設定保存エラー：" + error.message);
+    return;
+  }
+
+  toast("設定を保存しました。");
+  await loadData();
+}
+
+// ==========================================
+// 履歴削除
+// ==========================================
+
+function renderAdminHistory() {
+  document.getElementById("adminHistory").innerHTML =
+    [...updates].reverse().map(x => `
+      <tr>
+        <td>${formatDate(x.update_date)}</td>
+        <td>${x.probability}%</td>
+        <td>
+          <button class="btn danger"
+            onclick="deleteUpdate('${x.id}')">削除</button>
+        </td>
+      </tr>
+    `).join("") ||
+    '<tr><td colspan="3">履歴なし</td></tr>';
+}
+
+async function deleteUpdate(id) {
+  if (!currentUser) return;
+  if (!confirm("この履歴を削除しますか？")) return;
+
+  const {error} = await db
+    .from("friend_best_updates")
+    .delete()
+    .eq("id",id);
+
+  if (error) {
+    toast("削除エラー：" + error.message);
+    return;
+  }
+
+  toast("履歴を削除しました。");
+  await loadData();
+  renderAdminHistory();
+}
+
+// ==========================================
+// 初期化
+// ==========================================
+
+async function init() {
+  document.getElementById("editDate").value = getDateString();
+
+  const {data} = await db.auth.getSession();
+  currentUser = data.session?.user || null;
+
+  db.auth.onAuthStateChange(() => {
+    setTimeout(checkAdmin,0);
+  });
+
+  await loadData();
+
+  if (settings) {
+    calendarDate = new Date(
+      Number(settings.deadline.slice(0,4)),
+      Number(settings.deadline.slice(5,7))-1,
+      1
+    );
+  }
+
+  await checkAdmin();
+}
+
+window.addEventListener("resize",() => {
+  renderChart("mainChart");
+  renderChart("analysisChart");
+});
+
+init();
+</script>
+
+</body>
+</html>
