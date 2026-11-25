@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -7,555 +6,154 @@
 <meta name="theme-color" content="#c90024">
 <title>Friend is Best? | 友達との予定情報</title>
 <meta name="description" content="友達と会える確率や最新情報を確認できるFriend is Best?">
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root{
-  --red:#c90024;
-  --red-dark:#a8001d;
-  --navy:#172638;
-  --text:#202936;
-  --muted:#697586;
-  --line:#e1e5e9;
-  --bg:#f3f5f7;
-  --white:#fff;
-  --green:#14845b;
-  --shadow:0 5px 20px rgba(20,35,55,.08);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:"Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
-  color:var(--text);
-  background:var(--bg);
-  line-height:1.7;
-}
-a{color:inherit;text-decoration:none}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.container{width:min(1180px,94%);margin:auto}
-.topbar{
-  background:#202936;color:white;font-size:12px;
-}
-.topbar-inner{
-  display:flex;justify-content:space-between;align-items:center;
-  min-height:34px;gap:10px;
-}
-.topbar a{color:white}
-.header{
-  background:white;
-  border-bottom:1px solid var(--line);
-  position:relative;
-  z-index:20;
-}
-.header-main{
-  min-height:82px;display:flex;align-items:center;
-  justify-content:space-between;gap:20px;
-}
-.brand{display:flex;align-items:center;gap:13px;min-width:0}
-.brand-mark{
-  width:48px;height:48px;background:var(--red);
-  color:white;display:grid;place-items:center;
-  font-size:23px;font-weight:900;
-  border-radius:8px;
-}
-.brand-name{font-size:23px;font-weight:900;letter-spacing:.3px}
-.brand-sub{font-size:11px;color:var(--muted);display:block}
-.header-actions{display:flex;align-items:center;gap:10px}
-.header-actions a{
-  border:1px solid var(--line);padding:9px 15px;
-  border-radius:4px;font-size:13px;font-weight:700;
-}
-.header-actions .admin-link{
-  background:var(--red);color:white;border-color:var(--red);
-}
-.nav-wrap{border-top:1px solid #f0f1f2}
-.nav{
-  display:flex;align-items:stretch;overflow-x:auto;
-  scrollbar-width:thin;
-}
-.nav a{
-  flex:1;min-width:110px;text-align:center;
-  padding:15px 12px;font-size:13px;font-weight:700;
-  border-bottom:3px solid transparent;white-space:nowrap;
-}
-.nav a:hover,.nav a.active{
-  color:var(--red);border-bottom-color:var(--red);
-  background:#fff8f9;
-}
-.hero{
-  background:linear-gradient(110deg,#9e001c,#d00028 60%,#ed354e);
-  color:white;position:relative;overflow:hidden;
-}
-.hero:after{
-  content:"";position:absolute;width:430px;height:430px;
-  border:1px solid rgba(255,255,255,.16);
-  border-radius:50%;right:-100px;top:-170px;
-  box-shadow:0 0 0 45px rgba(255,255,255,.04),
-             0 0 0 90px rgba(255,255,255,.03);
-}
-.hero-inner{
-  min-height:320px;display:grid;
-  grid-template-columns:1.1fr .9fr;
-  align-items:center;gap:35px;padding:45px 0;
-  position:relative;z-index:1;
-}
-.hero-label{font-size:12px;letter-spacing:2px;font-weight:700;opacity:.85}
-.hero h1{font-size:clamp(29px,5vw,48px);line-height:1.3;margin:12px 0}
-.hero p{margin:0;opacity:.9;font-size:14px}
-.hero-number{
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:12px;padding:25px;text-align:center;
-  backdrop-filter:blur(5px);
-}
-.hero-number .number{
-  font-size:clamp(58px,9vw,88px);font-weight:900;
-  line-height:1.15;letter-spacing:-3px;
-}
-.hero-number .unit{font-size:24px;font-weight:700}
-.hero-number .status{
-  display:inline-block;margin-top:12px;padding:7px 18px;
-  border-radius:30px;background:white;color:var(--red);
-  font-size:14px;font-weight:900;
-}
-.hero-number .updated{font-size:11px;opacity:.8;margin-top:12px}
-.breadcrumb{
-  font-size:12px;color:var(--muted);padding:15px 0;
-}
-.breadcrumb span{margin:0 8px;color:#aab0b8}
-.section{padding:38px 0}
-.section-heading{
-  display:flex;justify-content:space-between;
-  align-items:end;gap:15px;margin-bottom:20px;
-}
-.section-heading h2{font-size:23px;margin:0;font-weight:900}
-.section-heading p{font-size:12px;color:var(--muted);margin:3px 0 0}
-.heading-mark{width:5px;height:27px;background:var(--red);margin-right:12px}
-.heading-title{display:flex;align-items:center}
-.card{
-  background:white;border:1px solid var(--line);
-  border-radius:8px;box-shadow:var(--shadow);
-}
-.card-pad{padding:22px}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.stat-card{padding:19px}
-.stat-label{font-size:12px;color:var(--muted);font-weight:700}
-.stat-value{font-size:29px;font-weight:900;margin-top:5px}
-.stat-note{font-size:11px;color:var(--muted)}
-.status-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.scale-item{
-  border:1px solid var(--line);border-radius:7px;
-  padding:13px 8px;text-align:center;background:white;
-}
-.scale-item strong{display:block;font-size:13px}
-.scale-item span{font-size:11px;color:var(--muted)}
-.scale-item.current{border:2px solid var(--red);background:#fff5f6}
-.scale-item.current strong{color:var(--red)}
-.scale-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px}
-.chart-wrap{height:270px;position:relative}
-#probabilityChart{width:100%;height:100%;display:block}
-.news-list{display:flex;flex-direction:column}
-.news-item{
-  display:grid;grid-template-columns:100px 90px 1fr;
-  gap:12px;padding:14px 0;border-bottom:1px solid var(--line);
-  align-items:center;font-size:13px;
-}
-.news-item:last-child{border-bottom:0}
-.news-date{color:var(--muted);font-size:12px}
-.news-tag{
-  display:inline-block;background:#fce9ec;color:var(--red);
-  border-radius:3px;padding:3px 8px;font-size:11px;font-weight:700;
-  text-align:center;
-}
-.news-title{font-weight:700}
-.info-banner{
-  padding:20px;background:#fff8f0;
-  border-left:4px solid #e28a21;border-radius:5px;
-  font-size:13px;
-}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:580px}
-th,td{padding:12px 13px;text-align:left;border-bottom:1px solid var(--line)}
-th{background:#f5f6f8;color:#526071;font-size:12px}
-td{background:white}
-.prob-pill{
-  display:inline-block;padding:3px 10px;border-radius:20px;
-  background:#fce9ec;color:var(--red);font-weight:800;
-}
-.calendar{
-  display:grid;grid-template-columns:repeat(7,1fr);
-  gap:5px;
-}
-.calendar-head{
-  text-align:center;font-size:12px;font-weight:800;
-  padding:8px 2px;color:var(--muted);
-}
-.calendar-day{
-  min-height:76px;background:white;border:1px solid var(--line);
-  border-radius:5px;padding:7px;font-size:12px;
-}
-.calendar-day.empty{background:transparent;border:0}
-.calendar-day.today{border:2px solid var(--red)}
-.calendar-day .day-number{font-weight:800}
-.calendar-day .day-prob{display:block;color:var(--red);font-weight:900;margin-top:6px}
-.calendar-controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-.calendar-controls button{
-  border:1px solid var(--line);background:white;
-  border-radius:4px;padding:7px 14px;font-weight:700;
-}
-.comment-box{
-  padding:20px;background:#f7f8fa;border-radius:7px;
-  border-left:4px solid var(--red);font-size:14px;
-  white-space:pre-wrap;
-}
-.footer{background:#202936;color:white;margin-top:40px;padding:35px 0}
-.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.footer small{color:#c0c8d2}
-.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:12px}
-.page{display:none}
-.page.active{display:block}
-.admin-hero{background:var(--navy);color:white;padding:35px 0}
-.admin-hero h1{margin:0;font-size:29px}
-.admin-hero p{margin:5px 0 0;color:#d0d8e2;font-size:13px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.form-field{display:flex;flex-direction:column;gap:6px}
-.form-field.full{grid-column:1/-1}
-.form-field label{font-size:12px;font-weight:800}
-.form-field input,.form-field textarea,.form-field select{
-  width:100%;padding:12px;border:1px solid #cfd5dc;
-  border-radius:5px;background:white;color:var(--text);
-}
-.form-field textarea{min-height:95px;resize:vertical}
-.btn{
-  border:0;border-radius:5px;padding:12px 20px;
-  font-weight:800;font-size:13px;display:inline-flex;
-  align-items:center;justify-content:center;gap:7px;
-}
-.btn-red{background:var(--red);color:white}
-.btn-red:hover{background:var(--red-dark)}
-.btn-light{background:#edf0f3;color:var(--text)}
-.btn-outline{background:white;border:1px solid var(--line);color:var(--text)}
-.btn-danger{background:#fff0f1;color:#b40020;border:1px solid #f1c5cd}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.button-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.message{padding:12px 15px;border-radius:5px;margin:12px 0;font-size:13px;display:none}
-.message.show{display:block}
-.message.error{background:#fff0f1;color:#a40020}
-.message.success{background:#e9f7f0;color:#126b48}
-.login-box{max-width:470px;margin:35px auto}
-.login-box h2{margin-top:0}
-.admin-panel{display:none}
-.admin-panel.show{display:block}
-.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.admin-tabs button{border:1px solid var(--line);background:white;padding:10px 16px;border-radius:5px;font-weight:700}
-.admin-tabs button.active{background:var(--red);color:white;border-color:var(--red)}
-.admin-section{display:none}
-.admin-section.active{display:block}
-.muted{color:var(--muted)}
-.small{font-size:11px}
-.loading{padding:25px;text-align:center;color:var(--muted)}
-.empty{padding:25px;text-align:center;color:var(--muted);font-size:13px}
-hr{border:0;border-top:1px solid var(--line);margin:20px 0}
-.hidden{display:none!important}
-@media(max-width:760px){
-  .header-main{min-height:68px}
-  .brand-name{font-size:18px}
-  .brand-mark{width:40px;height:40px}
-  .header-actions a{padding:8px 10px;font-size:11px}
-  .hero-inner{grid-template-columns:1fr;gap:20px;padding:35px 0}
-  .hero-number{padding:18px}
-  .grid-2,.grid-3{grid-template-columns:1fr}
-  .grid-4{grid-template-columns:1fr 1fr}
-  .status-scale{grid-template-columns:1fr 1fr}
-  .scale-item:last-child{grid-column:1/-1}
-  .section{padding:27px 0}
-  .section-heading h2{font-size:20px}
-  .news-item{grid-template-columns:85px 72px 1fr;gap:7px;font-size:12px}
-  .calendar-day{min-height:60px;padding:5px 3px}
-  .calendar-day .day-prob{font-size:10px}
-  .form-grid{grid-template-columns:1fr}
-  .form-field.full{grid-column:auto}
-  .footer-inner{display:block}
-  .footer-links{margin-top:20px}
-}
-@media(max-width:390px){
-  .brand-sub{font-size:9px}
-  .header-actions a{padding:7px}
-  .grid-4{grid-template-columns:1fr 1fr}
-  .calendar-day{min-height:51px}
-}
+:root{--red:#c90024;--red-dark:#a8001d;--navy:#172638;--text:#202936;--muted:#697586;--line:#e1e5e9;--bg:#f3f5f7;--white:#fff;--green:#14845b;--shadow:0 5px 20px rgba(20,35,55,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Noto Sans JP","Yu Gothic",Meiryo,sans-serif;color:var(--text);background:var(--bg);line-height:1.7}a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}button{cursor:pointer}.container{width:min(1180px,94%);margin:auto}
+.topbar{background:#202936;color:white;font-size:12px}.topbar-inner{display:flex;justify-content:space-between;align-items:center;min-height:34px;gap:10px}.topbar a{color:white}
+.header{background:white;border-bottom:1px solid var(--line);position:relative;z-index:20}.header-main{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:13px;min-width:0}.brand-mark{width:48px;height:48px;background:var(--red);color:white;display:grid;place-items:center;font-size:23px;font-weight:900;border-radius:8px}.brand-name{font-size:23px;font-weight:900;letter-spacing:.3px}.brand-sub{font-size:11px;color:var(--muted);display:block}.header-actions{display:flex;align-items:center;gap:10px}.header-actions a{border:1px solid var(--line);padding:9px 15px;border-radius:4px;font-size:13px;font-weight:700}.header-actions .admin-link{background:var(--red);color:white;border-color:var(--red)}
+.nav-wrap{border-top:1px solid #f0f1f2}.nav{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:thin}.nav a{flex:1;min-width:110px;text-align:center;padding:15px 12px;font-size:13px;font-weight:700;border-bottom:3px solid transparent;white-space:nowrap}.nav a:hover,.nav a.active{color:var(--red);border-bottom-color:var(--red);background:#fff8f9}
+.hero{background:linear-gradient(110deg,#9e001c,#d00028 60%,#ed354e);color:white;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:430px;height:430px;border:1px solid rgba(255,255,255,.16);border-radius:50%;right:-100px;top:-170px;box-shadow:0 0 0 45px rgba(255,255,255,.04),0 0 0 90px rgba(255,255,255,.03)}.hero-inner{min-height:320px;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:35px;padding:45px 0;position:relative;z-index:1}.hero-label{font-size:12px;letter-spacing:2px;font-weight:700;opacity:.85}.hero h1{font-size:clamp(29px,5vw,48px);line-height:1.3;margin:12px 0}.hero p{margin:0;opacity:.9;font-size:14px}.hero-number{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:25px;text-align:center;backdrop-filter:blur(5px)}.hero-number .number{font-size:clamp(58px,9vw,88px);font-weight:900;line-height:1.15;letter-spacing:-3px}.hero-number .unit{font-size:24px;font-weight:700}.hero-number .status{display:inline-block;margin-top:12px;padding:7px 18px;border-radius:30px;background:white;color:var(--red);font-size:14px;font-weight:900}.hero-number .updated{font-size:11px;opacity:.8;margin-top:12px}
+.breadcrumb{font-size:12px;color:var(--muted);padding:15px 0}.breadcrumb span{margin:0 8px;color:#aab0b8}.section{padding:38px 0}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:20px}.section-heading h2{font-size:23px;margin:0;font-weight:900}.section-heading p{font-size:12px;color:var(--muted);margin:3px 0 0}.heading-mark{width:5px;height:27px;background:var(--red);margin-right:12px}.heading-title{display:flex;align-items:center}.card{background:white;border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}.card-pad{padding:22px}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat-card{padding:19px}.stat-label{font-size:12px;color:var(--muted);font-weight:700}.stat-value{font-size:29px;font-weight:900;margin-top:5px}.stat-note{font-size:11px;color:var(--muted)}
+.status-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.scale-item{border:1px solid var(--line);border-radius:7px;padding:13px 8px;text-align:center;background:white}.scale-item strong{display:block;font-size:13px}.scale-item span{font-size:11px;color:var(--muted)}.scale-item.current{border:2px solid var(--red);background:#fff5f6}.scale-item.current strong{color:var(--red)}
+.chart-wrap{height:270px;position:relative}#probabilityChart{width:100%;height:100%;display:block}.news-list{display:flex;flex-direction:column}.news-item{display:grid;grid-template-columns:100px 90px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);align-items:center;font-size:13px}.news-item:last-child{border-bottom:0}.news-date{color:var(--muted);font-size:12px}.news-tag{display:inline-block;background:#fce9ec;color:var(--red);border-radius:3px;padding:3px 8px;font-size:11px;font-weight:700;text-align:center}.news-title{font-weight:700}.info-banner{padding:20px;background:#fff8f0;border-left:4px solid #e28a21;border-radius:5px;font-size:13px}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:580px}th,td{padding:12px 13px;text-align:left;border-bottom:1px solid var(--line)}th{background:#f5f6f8;color:#526071;font-size:12px}td{background:white}.prob-pill{display:inline-block;padding:3px 10px;border-radius:20px;background:#fce9ec;color:var(--red);font-weight:800}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.calendar-head{text-align:center;font-size:12px;font-weight:800;padding:8px 2px;color:var(--muted)}.calendar-day{min-height:76px;background:white;border:1px solid var(--line);border-radius:5px;padding:7px;font-size:12px}.calendar-day.empty{background:transparent;border:0}.calendar-day.today{border:2px solid var(--red)}.calendar-day .day-number{font-weight:800}.calendar-day .day-prob{display:block;color:var(--red);font-weight:900;margin-top:6px}.calendar-controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.calendar-controls button{border:1px solid var(--line);background:white;border-radius:4px;padding:7px 14px;font-weight:700}.comment-box{padding:20px;background:#f7f8fa;border-radius:7px;border-left:4px solid var(--red);font-size:14px;white-space:pre-wrap}
+.footer{background:#202936;color:white;margin-top:40px;padding:35px 0}.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer small{color:#c0c8d2}.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:12px}.page{display:none}.page.active{display:block}.admin-hero{background:var(--navy);color:white;padding:35px 0}.admin-hero h1{margin:0;font-size:29px}.admin-hero p{margin:5px 0 0;color:#d0d8e2;font-size:13px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.form-field{display:flex;flex-direction:column;gap:6px}.form-field.full{grid-column:1/-1}.form-field label{font-size:12px;font-weight:800}.form-field input,.form-field textarea,.form-field select{width:100%;padding:12px;border:1px solid #cfd5dc;border-radius:5px;background:white;color:var(--text)}.form-field textarea{min-height:95px;resize:vertical}.btn{border:0;border-radius:5px;padding:12px 20px;font-weight:800;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn-red{background:var(--red);color:white}.btn-red:hover{background:var(--red-dark)}.btn-light{background:#edf0f3;color:var(--text)}.btn-outline{background:white;border:1px solid var(--line);color:var(--text)}.btn-danger{background:#fff0f1;color:#b40020;border:1px solid #f1c5cd}.btn:disabled{opacity:.5;cursor:not-allowed}.button-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.message{padding:12px 15px;border-radius:5px;margin:12px 0;font-size:13px;display:none}.message.show{display:block}.message.error{background:#fff0f1;color:#a40020}.message.success{background:#e9f7f0;color:#126b48}.login-box{max-width:470px;margin:35px auto}.login-box h2{margin-top:0}.admin-panel{display:none}.admin-panel.show{display:block}.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.admin-tabs button{border:1px solid var(--line);background:white;padding:10px 16px;border-radius:5px;font-weight:700}.admin-tabs button.active{background:var(--red);color:white;border-color:var(--red)}.admin-section{display:none}.admin-section.active{display:block}.muted{color:var(--muted)}.small{font-size:11px}.loading{padding:25px;text-align:center;color:var(--muted)}.empty{padding:25px;text-align:center;color:var(--muted);font-size:13px}.hidden{display:none!important}
+@media(max-width:760px){.header-main{min-height:68px}.brand-name{font-size:18px}.brand-mark{width:40px;height:40px}.header-actions a{padding:8px 10px;font-size:11px}.hero-inner{grid-template-columns:1fr;gap:20px;padding:35px 0}.hero-number{padding:18px}.grid-2,.grid-3{grid-template-columns:1fr}.grid-4{grid-template-columns:1fr 1fr}.status-scale{grid-template-columns:1fr 1fr}.scale-item:last-child{grid-column:1/-1}.section{padding:27px 0}.section-heading h2{font-size:20px}.news-item{grid-template-columns:85px 72px 1fr;gap:7px;font-size:12px}.calendar-day{min-height:60px;padding:5px 3px}.calendar-day .day-prob{font-size:10px}.form-grid{grid-template-columns:1fr}.form-field.full{grid-column:auto}.footer-inner{display:block}.footer-links{margin-top:20px}}
+@media(max-width:390px){.brand-sub{font-size:9px}.header-actions a{padding:7px}.grid-4{grid-template-columns:1fr 1fr}.calendar-day{min-height:51px}}
 </style>
 </head>
-
 <body>
-
-<div class="topbar">
-  <div class="container topbar-inner">
-    <span>Friend is Best? 公式情報サイト</span>
-    <span id="topDate">TODAY</span>
-  </div>
-</div>
-
+<div class="topbar"><div class="container topbar-inner"><span>Friend is Best? 公式情報サイト</span><span id="topDate">TODAY</span></div></div>
 <header class="header">
   <div class="container header-main">
-    <a class="brand" href="#home" aria-label="ホーム">
-      <div class="brand-mark">F</div>
-      <div>
-        <div class="brand-name">Friend is Best?</div>
-        <span class="brand-sub">友達との予定情報・確率案内</span>
-      </div>
-    </a>
-    <div class="header-actions">
-      <a href="#history">更新履歴</a>
-      <a href="#admin" class="admin-link">管理者ログイン</a>
-    </div>
+    <a class="brand" href="#home" aria-label="ホーム"><div class="brand-mark">F</div><div><div class="brand-name">Friend is Best?</div><span class="brand-sub">友達との予定情報・確率案内</span></div></a>
+    <div class="header-actions"><a href="#history">更新履歴</a><a href="#admin" class="admin-link">管理者ログイン</a></div>
   </div>
-  <div class="nav-wrap">
-    <nav class="container nav">
-      <a href="#home" data-nav="home">ホーム</a>
-      <a href="#data" data-nav="data">確率・データ</a>
-      <a href="#history" data-nav="history">更新履歴</a>
-      <a href="#calendar" data-nav="calendar">カレンダー</a>
-      <a href="#about" data-nav="about">ご利用案内</a>
-      <a href="#admin" data-nav="admin">管理者</a>
-    </nav>
-  </div>
+  <div class="nav-wrap"><nav class="container nav">
+    <a href="#home" data-nav="home">ホーム</a><a href="#data" data-nav="data">確率・データ</a><a href="#history" data-nav="history">更新履歴</a><a href="#calendar" data-nav="calendar">カレンダー</a><a href="#about" data-nav="about">ご利用案内</a><a href="#admin" data-nav="admin">管理者</a>
+  </nav></div>
 </header>
 
-<!-- HOME -->
 <main id="page-home" class="page active">
-  <section class="hero">
-    <div class="container hero-inner">
-      <div>
-        <div class="hero-label">FRIEND IS BEST? / INFORMATION</div>
-        <h1>友達と会える確率を、<br>リアルタイムに確認。</h1>
-        <p>最新の更新情報や過去の推移を確認できます。</p>
-      </div>
-      <div class="hero-number">
-        <div class="small">現在の友達と会える確率</div>
-        <div><span class="number" id="heroProbability">--</span><span class="unit">%</span></div>
-        <div class="status" id="heroStatus">データを読み込み中</div>
-        <div class="updated" id="heroUpdated">最終更新：確認中</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="breadcrumb">ホーム <span>›</span> トップページ</div>
-
-    <section class="section">
-      <div class="section-heading">
-        <div>
-          <div class="heading-title"><span class="heading-mark"></span><h2>現在の状況</h2></div>
-          <p>管理者が登録した最新の情報です。</p>
-        </div>
-        <span class="muted small" id="homeUpdateDate">更新日：--</span>
-      </div>
+  <section class="hero"><div class="container hero-inner">
+    <div><div class="hero-label">FRIEND IS BEST? / INFORMATION</div><h1>友達と会える確率を、<br>リアルタイムに確認。</h1><p>最新の更新情報や過去の推移を確認できます。</p></div>
+    <div class="hero-number"><div class="small">現在の友達と会える確率</div><div><span class="number" id="heroProbability">--</span><span class="unit">%</span></div><div class="status" id="heroStatus">データを読み込み中</div><div class="updated" id="heroUpdated">最終更新：確認中</div></div>
+  </div></section>
+  <div class="container"><div class="breadcrumb">ホーム <span>›</span> トップページ</div>
+    <section class="section"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>現在の状況</h2></div><p>管理者が登録した最新の情報です。</p></div><span class="muted small" id="homeUpdateDate">更新日：--</span></div>
       <div class="grid-4">
-        <div class="card stat-card">
-          <div class="stat-label">現在の確率</div>
-          <div class="stat-value" id="statProbability">--%</div>
-          <div class="stat-note">最新登録値</div>
-        </div>
-        <div class="card stat-card">
-          <div class="stat-label">過去最高</div>
-          <div class="stat-value" id="statMax">--%</div>
-          <div class="stat-note">記録された最高値</div>
-        </div>
-        <div class="card stat-card">
-          <div class="stat-label">過去最低</div>
-          <div class="stat-value" id="statMin">--%</div>
-          <div class="stat-note">記録された最低値</div>
-        </div>
-        <div class="card stat-card">
-          <div class="stat-label">更新回数</div>
-          <div class="stat-value" id="statCount">0回</div>
-          <div class="stat-note">登録済みの更新件数</div>
-        </div>
+        <div class="card stat-card"><div class="stat-label">現在の確率</div><div class="stat-value" id="statProbability">--%</div><div class="stat-note">最新登録値</div></div>
+        <div class="card stat-card"><div class="stat-label">過去最高</div><div class="stat-value" id="statMax">--%</div><div class="stat-note">記録された最高値</div></div>
+        <div class="card stat-card"><div class="stat-label">過去最低</div><div class="stat-value" id="statMin">--%</div><div class="stat-note">記録された最低値</div></div>
+        <div class="card stat-card"><div class="stat-label">更新回数</div><div class="stat-value" id="statCount">0回</div><div class="stat-note">登録済みの更新件数</div></div>
       </div>
     </section>
-
-    <section class="section" style="padding-top:0">
-      <div class="section-heading">
-        <div>
-          <div class="heading-title"><span class="heading-mark"></span><h2>5段階の判定基準</h2></div>
-          <p>現在の確率がどの段階にあるか確認できます。</p>
-        </div>
-      </div>
+    <section class="section" style="padding-top:0"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>5段階の判定基準</h2></div><p>現在の確率がどの段階にあるか確認できます。</p></div></div>
       <div class="status-scale" id="statusScale">
-        <div class="scale-item"><strong>絶対いけない</strong><span>0～20%</span></div>
-        <div class="scale-item"><strong>行けるか分からない</strong><span>21～35%</span></div>
-        <div class="scale-item"><strong>行けるはず</strong><span>36～50%</span></div>
-        <div class="scale-item"><strong>行ける確率UP</strong><span>51～89%</span></div>
-        <div class="scale-item"><strong>絶対行ける</strong><span>90～100%</span></div>
+        <div class="scale-item"><strong>絶対いけない</strong><span>0～20%</span></div><div class="scale-item"><strong>行けるか分からない</strong><span>21～35%</span></div><div class="scale-item"><strong>行けるはず</strong><span>36～50%</span></div><div class="scale-item"><strong>行ける確率UP</strong><span>51～89%</span></div><div class="scale-item"><strong>絶対行ける</strong><span>90～100%</span></div>
       </div>
     </section>
+    <section class="section"><div class="grid-2">
+      <div class="card card-pad"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>最新のお知らせ</h2></div><p>直近の更新内容</p></div></div><div id="homeNews" class="news-list"><div class="loading">情報を読み込んでいます。</div></div></div>
+      <div class="card card-pad"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>管理者コメント</h2></div><p>現在の状況について</p></div></div><div class="comment-box" id="homeComment">コメントはまだ登録されていません。</div><hr><div class="stat-label">確率が変化した理由</div><p id="homeReason" class="muted" style="font-size:13px">理由はまだ登録されていません。</p></div>
+    </div></section>
+    <section class="section"><div class="info-banner"><strong>ご案内</strong><br>このサイトに掲載されている確率は、管理者が手動で更新する参考情報です。実際の予定や結果を保証するものではありません。</div></section>
+  </div>
+</main>
 
-    <section class="section">
-      <div class="grid-2">
-        <div class="card card-pad">
-          <div class="section-heading">
-            <div>
-              <div class="heading-title"><span class="heading-mark"></span><h2>最新のお知らせ</h2></div>
-              <p>直近の更新内容</p>
-            </div>
-          </div>
-          <div id="homeNews" class="news-list">
-            <div class="loading">情報を読み込んでいます。</div>
-          </div>
-        </div>
-        <div class="card card-pad">
-          <div class="section-heading">
-            <div>
-              <div class="heading-title"><span class="heading-mark"></span><h2>管理者コメント</h2></div>
-              <p>現在の状況について</p>
-            </div>
-          </div>
-          <div class="comment-box" id="homeComment">コメントはまだ登録されていません。</div>
-          <hr>
-          <div class="stat-label">確率が変化した理由</div>
-          <p id="homeReason" class="muted" style="font-size:13px">理由はまだ登録されていません。</p>
-        </div>
-      </div>
+<main id="page-data" class="page"><div class="container"><div class="breadcrumb">ホーム <span>›</span> 確率・データ</div>
+  <section class="section"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>確率・データ分析</h2></div><p>これまでに登録されたデータを分析します。</p></div></div>
+    <div class="grid-4"><div class="card stat-card"><div class="stat-label">現在の確率</div><div class="stat-value" id="dataCurrent">--%</div></div><div class="card stat-card"><div class="stat-label">全期間平均</div><div class="stat-value" id="dataAverage">--%</div></div><div class="card stat-card"><div class="stat-label">直近7日平均</div><div class="stat-value" id="dataWeekly">--%</div></div><div class="card stat-card"><div class="stat-label">前回からの変化</div><div class="stat-value" id="dataChange">--</div></div></div>
+  </section>
+  <section class="section"><div class="card card-pad"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>確率の推移</h2></div><p>更新履歴をもとにした折れ線グラフ</p></div></div><div class="chart-wrap"><canvas id="probabilityChart"></canvas></div></div></section>
+  <section class="section"><div class="grid-2"><div class="card card-pad"><h3>データ分析</h3><p id="analysisText" class="muted">データを読み込んでいます。</p></div><div class="card card-pad"><h3>現在の判定</h3><div class="stat-value" id="dataStatus">--</div><p class="muted small">登録された最新確率に基づく判定です。</p><hr><div class="stat-label">最終更新日時</div><p id="dataUpdated">--</p></div></div></section>
+</div></main>
+
+<main id="page-history" class="page"><div class="container"><div class="breadcrumb">ホーム <span>›</span> 更新履歴</div><section class="section"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>更新履歴</h2></div><p>これまでの確率更新を確認できます。</p></div></div><div class="card card-pad"><div class="table-wrap"><table><thead><tr><th>更新日</th><th>確率</th><th>判定</th><th>コメント</th><th>更新日時</th></tr></thead><tbody id="historyTable"><tr><td colspan="5" class="empty">履歴を読み込んでいます。</td></tr></tbody></table></div></div></section></div></main>
+
+<main id="page-calendar" class="page"><div class="container"><div class="breadcrumb">ホーム <span>›</span> カレンダー</div><section class="section"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>更新カレンダー</h2></div><p>日ごとの確率更新を確認できます。</p></div></div><div class="card card-pad"><div class="calendar-controls"><button type="button" id="prevMonth">‹ 前月</button><strong id="calendarTitle">----</strong><button type="button" id="nextMonth">次月 ›</button></div><div class="calendar" id="calendarGrid"></div></div></section></div></main>
+
+<main id="page-about" class="page"><div class="container"><div class="breadcrumb">ホーム <span>›</span> ご利用案内</div><section class="section"><div class="section-heading"><div><div class="heading-title"><span class="heading-mark"></span><h2>Friend is Best? について</h2></div><p>サイトの目的と利用方法をご案内します。</p></div></div><div class="card card-pad">
+  <h3>このサイトについて</h3><p>Friend is Best? は、友達と会える可能性について、管理者が更新する確率やコメントを確認するための情報サイトです。</p>
+  <h3>確率の更新について</h3><p>確率は管理者が手動で入力します。自動で計算・変更されるものではありません。</p>
+  <h3>判定基準</h3><div class="status-scale"><div class="scale-item"><strong>絶対いけない</strong><span>0～20%</span></div><div class="scale-item"><strong>行けるか分からない</strong><span>21～35%</span></div><div class="scale-item"><strong>行けるはず</strong><span>36～50%</span></div><div class="scale-item"><strong>行ける確率UP</strong><span>51～89%</span></div><div class="scale-item"><strong>絶対行ける</strong><span>90～100%</span></div></div>
+  <hr><h3>注意事項</h3><p>表示される数値は参考情報です。実際の予定や相手の意思を保証するものではありません。</p>
+</div></section></div></main>
+
+<main id="page-admin" class="page">
+  <section class="admin-hero"><div class="container"><div class="small">FRIEND IS BEST? / MANAGEMENT</div><h1>管理者ページ</h1><p>確率・更新履歴・サイト情報を管理します。</p></div></section>
+  <div class="container"><div class="breadcrumb">ホーム <span>›</span> 管理者ページ</div>
+    <section id="loginArea" class="login-box card card-pad"><h2>管理者ログイン</h2><p class="muted small">管理者として登録されたアカウントでログインしてください。</p>
+      <form id="loginForm"><div class="form-field"><label for="loginEmail">メールアドレス</label><input id="loginEmail" type="email" autocomplete="username" required></div><div class="form-field" style="margin-top:14px"><label for="loginPassword">パスワード</label><input id="loginPassword" type="password" autocomplete="current-password" required></div><div class="button-row"><button class="btn btn-red" type="submit" id="loginButton">ログイン</button></div></form>
+      <div id="loginMessage" class="message"></div><p class="small muted">ログインできるのは、Supabaseの管理者登録テーブルに登録されたユーザーのみです。</p>
     </section>
-
-    <section class="section">
-      <div class="info-banner">
-        <strong>ご案内</strong><br>
-        このサイトに掲載されている確率は、管理者が手動で更新する参考情報です。実際の予定や結果を保証するものではありません。
-      </div>
+    <section id="adminPanel" class="admin-panel section">
+      <div class="card card-pad" style="margin-bottom:20px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><strong>管理者としてログイン中</strong><div class="small muted" id="adminEmail"></div></div><button type="button" class="btn btn-outline" id="logoutButton">ログアウト</button></div></div>
+      <div class="admin-tabs"><button type="button" class="active" data-admin-tab="update">確率の更新</button><button type="button" data-admin-tab="settings">サイト設定</button><button type="button" data-admin-tab="manage">履歴管理</button></div>
+      <div class="admin-section active" id="admin-update"><div class="card card-pad"><h2>確率を更新</h2><p class="muted small">入力した内容を保存すると、トップページと更新履歴に反映されます。</p>
+        <form id="updateForm"><div class="form-grid">
+          <div class="form-field"><label for="updateDate">更新日</label><input type="date" id="updateDate" required></div>
+          <div class="form-field"><label for="updateProbability">確率（0～100）</label><input type="number" id="updateProbability" min="0" max="100" required placeholder="例：75"></div>
+          <div class="form-field full"><label>判定</label><input id="updateStatus" readonly placeholder="確率を入力すると自動判定します"></div>
+          <div class="form-field full"><label for="updateComment">コメント</label><textarea id="updateComment" placeholder="現在の状況や管理者からのお知らせ"></textarea></div>
+          <div class="form-field full"><label for="updateReason">確率が変化した理由</label><textarea id="updateReason" placeholder="確率を変更した理由"></textarea></div>
+        </div><div class="button-row"><button type="submit" class="btn btn-red" id="saveUpdateButton">確率を保存・公開</button><button type="reset" class="btn btn-light" id="resetUpdateButton">入力をリセット</button></div></form>
+        <div id="updateMessage" class="message"></div>
+      </div></div>
+      <div class="admin-section" id="admin-settings"><div class="card card-pad"><h2>サイト設定</h2><form id="settingsForm"><div class="form-grid">
+        <div class="form-field"><label for="settingSiteName">サイト名</label><input id="settingSiteName" type="text"></div>
+        <div class="form-field"><label for="settingFriendName">対象の表示名</label><input id="settingFriendName" type="text"></div>
+        <div class="form-field"><label for="settingDeadline">期限</label><input id="settingDeadline" type="date"></div>
+      </div><div class="button-row"><button type="submit" class="btn btn-red">設定を保存</button></div></form><div id="settingsMessage" class="message"></div></div></div>
+      <div class="admin-section" id="admin-manage"><div class="card card-pad"><h2>更新履歴の管理</h2><p class="muted small">日付を指定して履歴を削除できます。削除した履歴は元に戻せません。</p><div class="form-field"><label for="deleteDate">削除する更新日</label><input type="date" id="deleteDate"></div><div class="button-row"><button type="button" class="btn btn-danger" id="deleteHistoryButton">指定日の履歴を削除</button></div><div id="manageMessage" class="message"></div><hr><h3>登録済みの履歴</h3><div class="table-wrap"><table><thead><tr><th>更新日</th><th>確率</th><th>判定</th></tr></thead><tbody id="adminHistoryTable"></tbody></table></div></div></div>
     </section>
   </div>
 </main>
 
-<!-- DATA -->
-<main id="page-data" class="page">
-  <div class="container">
-    <div class="breadcrumb">ホーム <span>›</span> 確率・データ</div>
-    <section class="section">
-      <div class="section-heading">
-        <div>
-          <div class="heading-title"><span class="heading-mark"></span><h2>確率・データ分析</h2></div>
-          <p>これまでに登録されたデータを分析します。</p>
-        </div>
-      </div>
-      <div class="grid-4">
-        <div class="card stat-card"><div class="stat-label">現在の確率</div><div class="stat-value" id="dataCurrent">--%</div></div>
-        <div class="card stat-card"><div class="stat-label">全期間平均</div><div class="stat-value" id="dataAverage">--%</div></div>
-        <div class="card stat-card"><div class="stat-label">直近7日平均</div><div class="stat-value" id="dataWeekly">--%</div></div>
-        <div class="card stat-card"><div class="stat-label">前回からの変化</div><div class="stat-value" id="dataChange">--</div></div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="card card-pad">
-        <div class="section-heading">
-          <div>
-            <div class="heading-title"><span class="heading-mark"></span><h2>確率の推移</h2></div>
-            <p>更新履歴をもとにした折れ線グラフ</p>
-          </div>
-        </div>
-        <div class="chart-wrap"><canvas id="probabilityChart"></canvas></div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="grid-2">
-        <div class="card card-pad">
-          <h3>データ分析</h3>
-          <p id="analysisText" class="muted">データを読み込んでいます。</p>
-        </div>
-        <div class="card card-pad">
-          <h3>現在の判定</h3>
-          <div class="stat-value" id="dataStatus">--</div>
-          <p class="muted small">登録された最新確率に基づく判定です。</p>
-          <hr>
-          <div class="stat-label">最終更新日時</div>
-          <p id="dataUpdated">--</p>
-        </div>
-      </div>
-    </section>
-  </div>
-</main>
+<footer class="footer"><div class="container footer-inner"><div><div style="font-size:20px;font-weight:900">Friend is Best?</div><small>友達との予定情報・確率案内サイト</small><p><small>掲載情報は管理者による参考情報です。</small></p></div><div class="footer-links"><a href="#home">ホーム</a><a href="#data">確率・データ</a><a href="#history">更新履歴</a><a href="#about">ご利用案内</a><a href="#admin">管理者</a></div></div></footer>
 
-<!-- HISTORY -->
-<main id="page-history" class="page">
-  <div class="container">
-    <div class="breadcrumb">ホーム <span>›</span> 更新履歴</div>
-    <section class="section">
-      <div class="section-heading">
-        <div>
-          <div class="heading-title"><span class="heading-mark"></span><h2>更新履歴</h2></div>
-          <p>これまでの確率更新を確認できます。</p>
-        </div>
-      </div>
-      <div class="card card-pad">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>更新日</th><th>確率</th><th>判定</th><th>コメント</th><th>更新日時</th></tr></thead>
-            <tbody id="historyTable">
-              <tr><td colspan="5" class="empty">履歴を読み込んでいます。</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  </div>
-</main>
+<script>
+/* Supabase接続設定：必ずご自身の値に置き換えてください */
+const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
-<!-- CALENDAR -->
-<main id="page-calendar" class="page">
-  <div class="container">
-    <div class="breadcrumb">ホーム <span>›</span> カレンダー</div>
-    <section class="section">
-      <div class="section-heading">
-        <div>
-          <div class="heading-title"><span class="heading-mark"></span><h2>更新カレンダー</h2></div>
-          <p>日ごとの確率更新を確認できます。</p>
-        </div>
-      </div>
-      <div class="card card-pad">
-        <div class="calendar-controls">
-          <button type="button" id="prevMonth">‹ 前月</button>
-          <strong id="calendarTitle">----</strong>
-          <button type="button" id="nextMonth">次月 ›</button>
-        </div>
-        <div class="calendar" id="calendarGrid"></div>
-      </div>
-    </section>
-  </div>
-</main>
-
-<!-- ABOUT -->
-<main id="page-about" class="page">
-  <div class="container">
-    <div class="breadcrumb">ホーム <span>›</span> ご利用案内</div>
-    <section class="section">
-      <div class="section-heading">
-        <div>
-          <div class="heading-title"><span class="heading-mark"></span><h2>Friend is Best? について</h2></div>
-          <p>サイトの目的と利用方法をご案内します。</p>
-        </div>
-      </div>
-      <div class="card card-pad">
-        <h3>このサイトについて</h3>
-        <p>Friend is Best? は、友達と会える可能性について、管理者が更新する確率やコメントを確認するための情報サイトです。</p>
-        <h3>確率の更新について</h3>
-        <p>確率は管理者が手動で入力します。自動で計算・変更されるものではありません。</p>
-        <h3>判定基準</h3>
-        <div class="status-scale">
-          <div class="scale-item"><strong>絶対いけない</strong><span>0～20%</span></div>
-          <div class="scale-item"><strong>行けるか分からない</strong><span>21～35%</span></div>
-          <div class="scale-item"><strong>行けるはず</strong><span>36～50%</span></div>
-          <div class="scale-item"><strong>行ける確率UP</strong><span>51～89%</span></div>
-          <div class="scale-item"><strong>絶対行ける</strong><span>90～100%</span></div>
-        </div>
-        <hr>
-        <h3>注意事項</h3>
-        <p>表示される数値は参考情報です。実際の予定や相手の意思を保証するものではありません。</p>
-      </div>
-    </section>
-  </
+let db=null,currentUser=null,isAdmin=false,settingsData=null,updatesData=[],calendarMonth=new Date();
+const $=id=>document.getElementById(id);
+function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+function localDateString(date=new Date()){const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,"0"),d=String(date.getDate()).padStart(2,"0");return `${y}-${m}-${d}`;}
+function formatDate(value){if(!value)return "--";const p=String(value).slice(0,10).split("-");return p.length===3?`${p[0]}年${Number(p[1])}月${Number(p[2])}日`:value;}
+function formatDateTime(value){if(!value)return "--";const d=new Date(value);return Number.isNaN(d.getTime())?"--":d.toLocaleString("ja-JP");}
+function getStatus(p){p=Number(p);if(!Number.isFinite(p))return "未設定";if(p<=20)return "絶対いけない";if(p<=35)return "行けるか分からない";if(p<=50)return "行けるはず";if(p<=89)return "行ける確率UP";return "絶対行ける";}
+function statusIndex(p){if(p===null||p===undefined||!Number.isFinite(Number(p)))return -1;p=Number(p);if(p<=20)return 0;if(p<=35)return 1;if(p<=50)return 2;if(p<=89)return 3;return 4;}
+function showMessage(id,text,type="success"){const e=$(id);if(e){e.textContent=text;e.className=`message show ${type}`;}}
+function hideMessage(id){const e=$(id);if(e)e.className="message";}
+function setPage(){const requested=location.hash.replace("#","")||"home",valid=["home","data","history","calendar","about","admin"],page=valid.includes(requested)?requested:"home";document.querySelectorAll(".page").forEach(e=>e.classList.remove("active"));$("page-"+page)?.classList.add("active");document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("active",a.dataset.nav===page));if(page==="admin")checkAdmin();window.scrollTo({top:0,behavior:"auto"});}
+function setCurrentDate(){$("topDate").textContent=new Date().toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"short"});$("updateDate").value=localDateString();}
+async function loadData(){if(!db)return;const s=await db.from("friend_best_settings").select("*").eq("id",1).maybeSingle();if(s.error){console.error(s.error);return;}settingsData=s.data;const h=await db.from("friend_best_updates").select("*").order("update_date",{ascending:true});if(h.error){console.error(h.error);return;}updatesData=h.data||[];renderAll();}
+function getLatest(){if(updatesData.length)return updatesData[updatesData.length-1];if(settingsData&&settingsData.probability!==null)return{probability:settingsData.probability,status:settingsData.status,comment:settingsData.comment,reason:settingsData.reason,update_date:null,updated_at:settingsData.updated_at};return null;}
+function renderAll(){renderHome();renderData();renderHistory();renderCalendar();renderAdminHistory();renderSettings();drawChart();}
+function renderHome(){const latest=getLatest(),p=latest?Number(latest.probability):null,status=latest?getStatus(p):"未設定";$("heroProbability").textContent=p===null?"--":p;$("heroStatus").textContent=status;$("heroUpdated").textContent="最終更新："+(latest?formatDateTime(latest.updated_at||settingsData?.updated_at):"未登録");$("statProbability").textContent=p===null?"--%":p+"%";$("statCount").textContent=updatesData.length+"回";$("homeUpdateDate").textContent="更新日："+(latest?.update_date?formatDate(latest.update_date):"--");if(updatesData.length){const v=updatesData.map(x=>Number(x.probability)).filter(Number.isFinite);$("statMax").textContent=Math.max(...v)+"%";$("statMin").textContent=Math.min(...v)+"%";}else{$("statMax").textContent="--%";$("statMin").textContent="--%";}$("homeComment").textContent=latest?.comment||"コメントはまだ登録されていません。";$("homeReason").textContent=latest?.reason||"理由はまだ登録されていません。";document.querySelectorAll("#statusScale .scale-item").forEach((e,i)=>e.classList.toggle("current",statusIndex(p)===i));const news=updatesData.slice().reverse().slice(0,5);$("homeNews").innerHTML=news.length?news.map(x=>`<div class="news-item"><span class="news-date">${escapeHTML(formatDate(x.update_date))}</span><span class="news-tag">確率更新</span><span class="news-title">${escapeHTML(x.probability)}% ／ ${escapeHTML(getStatus(x.probability))}</span></div>`).join(""):'<div class="empty">更新履歴はまだありません。</div>';}
+function renderData(){const latest=getLatest(),p=latest?Number(latest.probability):null;$("dataCurrent").textContent=p===null?"--%":p+"%";$("dataStatus").textContent=latest?getStatus(p):"未設定";$("dataUpdated").textContent=latest?formatDateTime(latest.updated_at):"--";const values=updatesData.map(x=>Number(x.probability)).filter(Number.isFinite);$("dataAverage").textContent=values.length?(values.reduce((a,b)=>a+b,0)/values.length).toFixed(1)+"%":"--%";const start=new Date();start.setDate(start.getDate()-6);start.setHours(0,0,0,0);const week=updatesData.filter(x=>new Date(x.update_date+"T00:00:00")>=start).map(x=>Number(x.probability)).filter(Number.isFinite);$("dataWeekly").textContent=week.length?(week.reduce((a,b)=>a+b,0)/week.length).toFixed(1)+"%":"--%";if(values.length>=2){const change=values[values.length-1]-values[values.length-2];$("dataChange").textContent=(change>0?"+":"")+change+"pt";$("dataChange").style.color=change>0?"var(--green)":change<0?"var(--red)":"var(--text)";}else $("dataChange").textContent="--";if(values.length>=2){const first=values[0],last=values[values.length-1];let trend="大きな変化はありません。";if(last>first)trend="初回の記録と比べて、現在の確率は上昇しています。";if(last<first)trend="初回の記録と比べて、現在の確率は低下しています。";$("analysisText").textContent=`登録データは${values.length}件です。初回は${first}%、最新は${last}%です。${trend}`;}else $("analysisText").textContent="分析には2件以上の更新履歴が必要です。";}
+function renderHistory(){const rows=updatesData.slice().reverse();$("historyTable").innerHTML=rows.length?rows.map(x=>`<tr><td>${escapeHTML(formatDate(x.update_date))}</td><td><span class="prob-pill">${escapeHTML(x.probability)}%</span></td><td>${escapeHTML(getStatus(x.probability))}</td><td>${escapeHTML(x.comment||"—")}</td><td>${escapeHTML(formatDateTime(x.updated_at||x.created_at))}</td></tr>`).join(""):'<tr><td colspan="5" class="empty">更新履歴はまだありません。</td></tr>';}
+function renderAdminHistory(){const rows=updatesData.slice().reverse();$("adminHistoryTable").innerHTML=rows.length?rows.map(x=>`<tr><td>${escapeHTML(formatDate(x.update_date))}</td><td>${escapeHTML(x.probability)}%</td><td>${escapeHTML(getStatus(x.probability))}</td></tr>`).join(""):'<tr><td colspan="3" class="empty">履歴はありません。</td></tr>';}
+function renderSettings(){if(!settingsData)return;$("settingSiteName").value=settingsData.site_name||"Friend is Best?";$("settingFriendName").value=settingsData.friend_name||"友達";$("settingDeadline").value=settingsData.deadline||"2026-12-20";}
+function drawChart(){const c=$("probabilityChart");if(!c)return;const r=c.getBoundingClientRect();if(!r.width)return;const ratio=window.devicePixelRatio||1;c.width=r.width*ratio;c.height=r.height*ratio;const ctx=c.getContext("2d");ctx.scale(ratio,ratio);const w=r.width,h=r.height,left=38,right=15,top=15,bottom=35,cw=w-left-right,ch=h-top-bottom;ctx.clearRect(0,0,w,h);ctx.font="11px sans-serif";ctx.fillStyle="#697586";ctx.strokeStyle="#e6e9ed";for(let i=0;i<=5;i++){const val=i*20,y=top+ch-(val/100)*ch;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();ctx.fillText(val+"%",3,y+4);}const data=updatesData.slice(-30);if(!data.length){ctx.textAlign="center";ctx.fillText("更新データがありません",w/2,h/2);ctx.textAlign="left";return;}const points=data.map((item,i)=>({x:data.length===1?left+cw/2:left+i/(data.length-1)*cw,y:top+ch-Number(item.probability)/100*ch,item}));if(points.length>1){ctx.beginPath();ctx.moveTo(points[0].x,top+ch);points.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(points[points.length-1].x,top+ch);ctx.closePath();ctx.fillStyle="rgba(201,0,36,.09)";ctx.fill();}ctx.beginPath();points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle="#c90024";ctx.lineWidth=3;ctx.stroke();points.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fillStyle="#c90024";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();});ctx.fillStyle="#697586";ctx.font="10px sans-serif";ctx.textAlign="center";[points[0],points[points.length-1]].forEach(p=>ctx.fillText(String(p.item.update_date||"").slice(5),p.x,h-9));ctx.textAlign="left";}
+function renderCalendar(){const year=calendarMonth.getFullYear(),month=calendarMonth.getMonth(),first=new Date(year,month,1),last=new Date(year,month+1,0),start=first.getDay(),total=last.getDate(),map={};$("calendarTitle").textContent=`${year}年${month+1}月`;updatesData.forEach(x=>map[x.update_date]=x.probability);let html=["日","月","火","水","木","金","土"].map(d=>`<div class="calendar-head">${d}</div>`).join("");for(let i=0;i<start;i++)html+='<div class="calendar-day empty"></div>';for(let day=1;day<=total;day++){const key=`${year}-${String(month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`,today=key===localDateString(),has=Object.prototype.hasOwnProperty.call(map,key);html+=`<div class="calendar-day ${today?"today":""}"><span class="day-number">${day}</span>${has?`<span class="day-prob">${escapeHTML(map[key])}%</span>`:""}</div>`;}$("calendarGrid").innerHTML=html;}
+async function checkAdmin(){if(!db){showAdminLogin("SupabaseのURLとAnon Keyを設定してください。");return;}const result=await db.auth.getSession(),session=result.data?.session;currentUser=session?.user||null;if(!currentUser){showAdminLogin();return;}const a=await db.from("friend_best_admins").select("user_id").eq("user_id",currentUser.id).maybeSingle();if(a.error){console.error(a.error);showAdminLogin("管理者情報を確認できません。SQLのRLS設定を確認してください。");return;}if(!a.data){isAdmin=false;showAdminLogin("このアカウントは管理者として登録されていません。");return;}isAdmin=true;$("loginArea").style.display="none";$("adminPanel").classList.add("show");$("adminEmail").textContent=currentUser.email||"";}
+function showAdminLogin(message=""){isAdmin=false;$("loginArea").style.display="block";$("adminPanel").classList.remove("show");if(message)showLoginMessage(message,"error");}
+function showLoginMessage(message,type="error"){showMessage("loginMessage",message,type);}
+async function login(event){event.preventDefault();if(!db){showLoginMessage("SupabaseのURLとAnon Keyを設定してください。");return;}const button=$("loginButton");button.disabled=true;button.textContent="ログイン中…";hideMessage("loginMessage");try{const result=await db.auth.signInWithPassword({email:$("loginEmail").value.trim(),password:$("loginPassword").value});if(result.error)throw result.error;currentUser=result.data.user;await checkAdmin();if(!isAdmin){await db.auth.signOut();showAdminLogin("このユーザーは管理者登録されていません。");}else showLoginMessage("ログインしました。","success");}catch(error){showLoginMessage(error.message||"ログインに失敗しました。");}finally{button.disabled=false;button.textContent="ログイン";}}
+async function logout(){if(!db)return;await db.auth.signOut();currentUser=null;isAdmin=false;showAdminLogin();}
+function updateStatusPreview(){const value=$("updateProbability").value;if(value===""){$("updateStatus").value="";return;}const p=Number(value);$("updateStatus").value=(!Number.isFinite(p)||p<0||p>100)?"0～100の範囲で入力してください":getStatus(p);}
+async function saveUpdate(event){event.preventDefault();if(!isAdmin||!currentUser){showMessage("updateMessage","管理者ログインが必要です。","error");return;}const date=$("updateDate").value,probability=Number($("updateProbability").value);if(!date||!Number.isInteger(probability)||probability<0||probability>100){showMessage("updateMessage","更新日と0～100の整数の確率を入力してください。","error");return;}const button=$("saveUpdateButton");button.disabled=true;button.textContent="保存中…";hideMessage("updateMessage");const now=new Date().toISOString(),status=getStatus(probability),comment=$("updateComment").value.trim(),reason=$("updateReason").value.trim();try{const h=await db.from("friend_best_updates").upsert({update_date:date,probability,status,comment,reason,updated_at:now,updated_by:currentUser.id},{onConflict:"update_date"});if(h.error)throw h.error;const s=await db.from("friend_best_settings").update({probability,status,comment,reason,updated_at:now,updated_by:currentUser.id}).eq("id",1);if(s.error)throw s.error;showMessage("updateMessage","確率を保存しました。公開ページに反映します。","success");await loadData();}catch(error){console.error(error);showMessage("updateMessage","保存に失敗しました："+error.message,"error");}finally{button.disabled=false;button.textContent="確率を保存・公開";}}
+async function saveSettings(event){event.preventDefault();if(!isAdmin||!currentUser)return;const values={site_name:$("settingSiteName").value.trim()||"Friend is Best?",friend_name:$("settingFriendName").value.trim()||"友達",deadline:$("settingDeadline").value||null};const result=await db.from("friend_best_settings").update(values).eq("id",1);if(result.error){showMessage("settingsMessage","設定の保存に失敗しました："+result.error.message,"error");return;}showMessage("settingsMessage","サイト設定を保存しました。","success");await loadData();}
+async function deleteHistory(){if(!isAdmin||!currentUser)return;const date=$("deleteDate").value;if(!date){showMessage("manageMessage","削除する日付を選択してください。","error");return;}if(!confirm(`${date} の更新履歴を削除します。よろしいですか？`))return;const result=await db.from("friend_best_updates").delete().eq("update_date",date);if(result.error){showMessage("manageMessage","削除に失敗しました："+result.error.message,"error");return;}showMessage("manageMessage","指定日の履歴を削除しました。","success");await loadData();}
+function switchAdminTab(name){document.querySelectorAll("[data-admin-tab]").forEach(b=>b.classList.toggle("active",b.dataset.adminTab===name));document.querySelectorAll(".admin-section").forEach(s=>s.classList.remove("active"));$("admin-"+name)?.classList.add("active");}
+function initializeSupabase(){const invalid=SUPABASE_URL.includes("YOUR_PROJECT_ID")||SUPABASE_ANON_KEY.includes("YOUR_SUPABASE_ANON_KEY");if(invalid){console.warn("Supabaseの接続情報が未設定です。");return;}if(!window.supabase){console.error("Supabaseライブラリを読み込めませんでした。");return;}db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);db.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;if(location.hash==="#admin")checkAdmin();});loadData().catch(console.error);}
+function bindEvents(){window.addEventListener("hashchange",setPage);window.addEventListener("resize",drawChart);$("loginForm").addEventListener("submit",login);$("logoutButton").addEventListener("click",logout);$("updateForm").addEventListener("submit",saveUpdate);$("settingsForm").addEventListener("submit",saveSettings);$("deleteHistoryButton").addEventListener("click",deleteHistory);$("updateProbability").addEventListener("input",updateStatusPreview);$("prevMonth").addEventListener("click",()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);renderCalendar();});$("nextMonth").addEventListener("click",()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);renderCalendar();});document.querySelectorAll("[data-admin-tab]").forEach(b=>b.addEventListener("click",()=>switchAdminTab(b.dataset.adminTab)));$("resetUpdateButton").addEventListener("click",()=>setTimeout(()=>{$("updateDate").value=localDateString();$("updateStatus").value="";},0));}
+document.addEventListener("DOMContentLoaded",()=>{setCurrentDate();bindEvents();setPage();initializeSupabase();});
+</script>
+</body>
+</html>
